@@ -1,0 +1,22 @@
+{
+        "name": "typescriptcss",
+        "author": "tseijp",
+        "version": "0.1.0",
+        "license": "MIT",
+        "private": false,
+        "sideEffects": false,
+        "scripts": {
+                "dev": "cd examples/docs && npm run dev",
+                "build": "cd examples/docs && npm run build",
+                "start": "cd examples/docs && npm run start",
+                "deploy": "cd examples/docs && npm run deploy",
+                "preview": "cd examples/docs && npm run preview",
+                "tsup": "cd packages/typescriptcss && npm run build",
+                "pub": "cd packages/typescriptcss && npm publish",
+                "ls": "cd packages/typescriptcss && npm publish --dry-run"
+        },
+        "workspaces": [
+                "examples/**/*",
+                "packages/**/*"
+        ]
+}

@@ -1,0 +1,53 @@
+type CSS = Partial<Record<Exclude<keyof CSSStyleDeclaration, 'cssText'> & string, any>>
+type Scale = { [value: number]: Chain }
+type Screen = Scale & { full: Chain; screen: Chain; dvh: Chain }
+type Color = { [value: `#${string}` | `oklch(${string})`]: Chain; black: Chain; transparent: Chain; white: Chain }
+type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: { [value: string]: Chain } } // need to define
+export type Utility = {
+        bg: Color
+        block: Chain
+        border: Chain & Color & { b: Chain; collapse: Chain; l: Chain; r: Chain; t: Chain; x: Chain; y: Chain }
+        dark: Chain
+        flex: Chain & Scale & { col: Chain; nowrap: Chain; row: Chain; wrap: Chain }
+        font: Scale & { bold: Chain; medium: Chain; normal: Chain; sans: Chain; semibold: Chain }
+        gap: Scale
+        grid: Chain
+        h: Screen
+        hidden: Chain
+        inline: Chain
+        inlineBlock: Chain
+        items: { center: Chain; end: Chain; start: Chain; stretch: Chain }
+        justify: { between: Chain; center: Chain; end: Chain; start: Chain }
+        leading: Scale
+        m: Scale
+        max: { h: Screen; w: Screen }
+        mb: Scale
+        md: Chain
+        min: { h: Screen; w: Screen }
+        ml: Scale
+        mr: Scale
+        mt: Scale
+        mx: Scale & { auto: Chain }
+        my: Scale & { auto: Chain }
+        overflow: { auto: Chain; hidden: Chain; scroll: Chain; visible: Chain }
+        p: Scale
+        pb: Scale
+        pl: Scale
+        pr: Scale
+        pt: Scale
+        px: Scale
+        py: Scale
+        rounded: Chain & Scale & { full: Chain }
+        size: Screen
+        sm: Chain
+        table: Chain & { auto: Chain; fixed: Chain }
+        text: Scale & Color & { base: Chain; center: Chain; left: Chain; right: Chain; sm: Chain; xs: Chain }
+        tracking: { tight: Chain }
+        w: Screen
+}
+type Func = (...styles: Argument[]) => CSS
+export type RuntimeStyle = Record<string, any>
+export type Argument = RuntimeStyle | null | undefined | false
+export type Rule = (state: State, key: string) => State
+export type State = { css: RuntimeStyle; dark?: boolean; greedy?: boolean; media?: string; scope?: string; read?: (key: string) => State | undefined }
+export type Chain = Func & RuntimeStyle & Utility & Native
