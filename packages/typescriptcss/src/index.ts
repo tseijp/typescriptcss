@@ -1,4 +1,4 @@
-import { color, isNum, length, merge, numeric, px as px_, read, scope, set, side, space, token, withScope, x4 } from './style'
+import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, side, space, token, withScope, x4 } from './style'
 import { RuntimeStyle, Chain, Utility } from './types'
 scope('flex', { col: set({ flexDirection: 'column' }), nowrap: set({ flexWrap: 'nowrap' }), row: set({ flexDirection: 'row' }), wrap: set({ flexWrap: 'wrap' }) })
 scope('items', { center: set({ alignItems: 'center' }), end: set({ alignItems: 'flex-end' }), start: set({ alignItems: 'flex-start' }), stretch: set({ alignItems: 'stretch' }) })
@@ -11,7 +11,7 @@ scope('overflow', { auto: set({ overflow: 'auto' }), hidden: set({ overflow: 'hi
 scope('table', { auto: set({ tableLayout: 'auto' }), fixed: set({ tableLayout: 'fixed' }) })
 scope('text', { base: set({ fontSize: '16px', lineHeight: '24px' }), center: set({ textAlign: 'center' }), left: set({ textAlign: 'left' }), right: set({ textAlign: 'right' }), sm: set({ fontSize: '14px', lineHeight: '20px' }), xs: set({ fontSize: '12px', lineHeight: '16px' }) })
 scope('tracking', { tight: set({ letterSpacing: '-0.025em' }) })
-scope('font', { bold: set({ fontWeight: 700 }), medium: set({ fontWeight: 500 }), normal: set({ fontWeight: 400 }), semibold: set({ fontWeight: 600 }) })
+scope('font', { bold: set({ fontWeight: 700 }), medium: set({ fontWeight: 500 }), normal: set({ fontWeight: 400 }), sans: set({ fontFamily: 'Arial, Helvetica, sans-serif' }), semibold: set({ fontWeight: 600 }) })
 scope('border', { b: side('borderBottom'), collapse: set({ borderCollapse: 'collapse' }), l: side('borderLeft'), r: side('borderRight'), t: side('borderTop'), x: side('borderLeft', 'borderRight'), y: side('borderBottom', 'borderTop') })
 scope('rounded', { full: set({ borderRadius: '9999px' }) })
 export const bg = token<Utility['bg']>('bg', color('background'))
@@ -20,7 +20,11 @@ export const border = token<Utility['border']>('border', (state) => {
         const next = merge(state, { borderStyle: 'solid', borderWidth: '1px' }, 'border')
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
-export const flex = token<Utility['flex']>('flex', set({ display: 'flex' }, 'flex'))
+export const dark = token<Utility['dark']>('dark', dark_)
+export const flex = token<Utility['flex']>('flex', (state) => {
+        const next = merge(state, { display: 'flex' }, 'flex')
+        return { ...next, read: (key) => (isNum(key) ? merge(next, { flex: Number(key) }, 'flex') : undefined) }
+})
 export const font = token<Utility['font']>(
         'font',
         withScope(
@@ -59,8 +63,10 @@ export const size = token<Utility['size']>(
         'size',
         read((key) => (isNum(key) || key === 'full' || key === 'screen' || key === 'dvh' ? { height: px_(key), width: px_(key) } : undefined)),
 )
+export const sm = token<Utility['sm']>('sm', media('640px'))
 export const table = token<Utility['table']>('table', set({ display: 'table' }, 'table'))
-export const text = token<Utility['text']>('text', (state) => ({ css: state.css, greedy: true, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: key })) }))
+export const text = token<Utility['text']>('text', (state) => ({ css: state.css, dark: state.dark, greedy: true, media: state.media, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: state.dark ? `light-dark(${state.css.color ?? 'initial'}, ${key})` : key })) }))
 export const tracking = token<Utility['tracking']>('tracking', set({}, 'tracking'))
 export const w = token<Utility['w']>('w', length('width'))
+export const md = token<Utility['md']>('md', media('768px'))
 export const define = <T = Chain>(name: string, css: RuntimeStyle, scopeName?: string): T => token<T>(name, set(css, scopeName))
