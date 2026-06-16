@@ -1,21 +1,17 @@
-type CSS = Partial<
-        Record<
-                Exclude<
-                        {
-                                [K in keyof CSSStyleDeclaration]: CSSStyleDeclaration[K] extends string ? K : never
-                        }[keyof CSSStyleDeclaration],
-                        'cssText'
-                > &
-                        string,
-                string | number
-        >
->
-type Scale = { [value: number]: Chain }
-type Value = { [value: string]: Chain }
+type StyleKey = Exclude<
+        {
+                [K in keyof CSSStyleDeclaration]: CSSStyleDeclaration[K] extends string ? K : never
+        }[keyof CSSStyleDeclaration],
+        'cssText'
+> &
+        string
+type CSS = Partial<Record<StyleKey, any>>
+type Scale<T = Chain> = { [value: number]: T }
+type Value<T = Chain> = { [value: string]: T }
 type Screen = Scale & { full: Chain; screen: Chain; dvh: Chain }
 type Color = { [value: `#${string}` | `oklch(${string})`]: Chain; black: Chain; transparent: Chain; white: Chain }
-type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: { [value: string]: Chain } }
-type Flex = Chain & Scale & Value & { auto: Chain; col: Chain; initial: Chain; none: Chain; nowrap: Chain; row: Chain; wrap: Chain }
+type Native = { [K in Exclude<StyleKey, keyof Utility>]: { [value: string]: Chain } }
+type Flex = Chain & Scale<Flex> & Value<Flex> & { auto: Chain; col: Chain; initial: Chain; none: Chain; nowrap: Chain; row: Chain; wrap: Chain }
 type Border = Chain & Color & { b: Chain; collapse: Chain; l: Chain; r: Chain; t: Chain; x: Chain; y: Chain }
 export type Utility = {
         bg: Color
@@ -63,7 +59,7 @@ export type Utility = {
         xs: Chain
         xxl: Chain
 }
-type Func = (...styles: Argument[]) => Partial<CSS>
+type Func = (...styles: Argument[]) => CSS
 export type RuntimeStyle = Record<string, string | number | undefined>
 export type Argument = Partial<CSS> | RuntimeStyle | null | undefined | false
 export type Media = { name: string; query: string }
