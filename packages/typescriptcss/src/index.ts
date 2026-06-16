@@ -64,9 +64,3 @@ export const text = token<Utility['text']>('text', (state) => ({ css: state.css,
 export const tracking = token<Utility['tracking']>('tracking', set({}, 'tracking'))
 export const w = token<Utility['w']>('w', length('width'))
 export const define = <T = Chain>(name: string, css: RuntimeStyle, scopeName?: string): T => token<T>(name, set(css, scopeName))
-export const xs = {}
-export const sm = {}
-export const md = {}
-export const lg = {}
-export const xl = {}
-export const dark = {}
