@@ -1,3 +1,4 @@
+import { applyMedia, compose } from './media'
 import { Rule, RuntimeStyle, State, Argument, Chain } from './types'
 const root: State = { css: {} }
 const rules: Record<string, Rule> = Object.create(null)
@@ -5,7 +6,7 @@ const scoped: Record<string, Record<string, Rule>> = Object.create(null)
 export const x4 = (key: string) => `${Number(key) * 4}px`
 export const px = (key: string) => (key === 'full' ? '100%' : key === 'screen' ? '100vw' : key === 'dvh' ? '100dvh' : x4(key))
 export const isNum = (key: string) => Number.isFinite(Number(key))
-export const merge = (state: State, css: RuntimeStyle, scope?: string): State => ({ css: Object.assign({}, state.css, css), scope })
+export const merge = (state: State, css: RuntimeStyle, scope?: string): State => applyMedia(state, css, scope)
 export const set =
         (css: RuntimeStyle, scope?: string): Rule =>
         (state) =>
@@ -15,6 +16,7 @@ export const read =
         (state) => ({
                 css: state.css,
                 greedy,
+                media: state.media,
                 read: (key) => {
                         const css = fn(key)
                         if (!css) return undefined
@@ -22,8 +24,8 @@ export const read =
                 },
         })
 const chain = (state: State): Chain =>
-        new Proxy((...styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])), {
-                apply: (_target, _this, styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])),
+        new Proxy((...styles: Argument[]) => compose(state.css, styles), {
+                apply: (_target, _this, styles: Argument[]) => compose(state.css, styles),
                 get: (_target, prop) => resolve(state, prop),
         }) as Chain
 const resolve = (state: State, prop: string | symbol) => {
@@ -53,7 +55,7 @@ export const color = (prop: string): Rule => read((key) => ({ [prop]: key }), tr
 export const space = (...props: string[]): Rule => numeric((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
 export const withScope =
         (scopeName: string, rule: Rule): Rule =>
-        (state) => ({ ...rule(state, scopeName), scope: scopeName })
+        (state) => ({ ...rule(state, scopeName), media: state.media, scope: scopeName })
 export const side = (...props: string[]): Rule =>
         set(
                 Object.fromEntries(

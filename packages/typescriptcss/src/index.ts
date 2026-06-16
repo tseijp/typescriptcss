@@ -1,6 +1,7 @@
 import { color, isNum, length, merge, numeric, px as px_, read, scope, set, side, space, token, withScope, x4 } from './style'
+import { variant } from './media'
 import { RuntimeStyle, Chain, Utility } from './types'
-scope('flex', { col: set({ flexDirection: 'column' }), nowrap: set({ flexWrap: 'nowrap' }), row: set({ flexDirection: 'row' }), wrap: set({ flexWrap: 'wrap' }) })
+scope('flex', { auto: set({ flex: 'auto' }), col: set({ flexDirection: 'column' }), initial: set({ flex: '0 auto' }), none: set({ flex: 'none' }), nowrap: set({ flexWrap: 'nowrap' }), row: set({ flexDirection: 'row' }), wrap: set({ flexWrap: 'wrap' }) })
 scope('items', { center: set({ alignItems: 'center' }), end: set({ alignItems: 'flex-end' }), start: set({ alignItems: 'flex-start' }), stretch: set({ alignItems: 'stretch' }) })
 scope('justify', { between: set({ justifyContent: 'space-between' }), center: set({ justifyContent: 'center' }), end: set({ justifyContent: 'flex-end' }), start: set({ justifyContent: 'flex-start' }) })
 scope('max', { h: length('maxHeight'), w: length('maxWidth') })
@@ -20,7 +21,12 @@ export const border = token<Utility['border']>('border', (state) => {
         const next = merge(state, { borderStyle: 'solid', borderWidth: '1px' }, 'border')
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
-export const flex = token<Utility['flex']>('flex', set({ display: 'flex' }, 'flex'))
+export const dark = token<Utility['dark']>('dark', variant({ name: 'dark', query: '(prefers-color-scheme: dark)' }))
+const flexValue = (key: string) => (isNum(key) ? Number(key) : /^\d+(\.\d+)?\/\d+(\.\d+)?$/.test(key) ? `calc(${key} * 100%)` : key.startsWith('--') ? `var(${key})` : key)
+export const flex = token<Utility['flex']>('flex', (state) => {
+        const next = merge(state, { display: 'flex' }, 'flex')
+        return { ...next, read: (key) => merge(next, { flex: flexValue(key) }, 'flex') }
+})
 export const font = token<Utility['font']>(
         'font',
         withScope(
@@ -37,8 +43,10 @@ export const inlineBlock = token<Utility['inlineBlock']>('inlineBlock', set({ di
 export const items = token<Utility['items']>('items', set({}, 'items'))
 export const justify = token<Utility['justify']>('justify', set({}, 'justify'))
 export const leading = token<Utility['leading']>('leading', space('lineHeight'))
+export const lg = token<Utility['lg']>('lg', variant({ name: 'lg', query: '(min-width: 1024px)' }))
 export const m = token<Utility['m']>('m', space('margin'))
 export const max = token<Utility['max']>('max', set({}, 'max'))
+export const md = token<Utility['md']>('md', variant({ name: 'md', query: '(min-width: 768px)' }))
 export const mb = token<Utility['mb']>('mb', space('marginBottom'))
 export const min = token<Utility['min']>('min', set({}, 'min'))
 export const ml = token<Utility['ml']>('ml', space('marginLeft'))
@@ -54,13 +62,17 @@ export const pr = token<Utility['pr']>('pr', space('paddingRight'))
 export const pt = token<Utility['pt']>('pt', space('paddingTop'))
 export const px = token<Utility['px']>('px', space('paddingLeft', 'paddingRight'))
 export const py = token<Utility['py']>('py', space('paddingBottom', 'paddingTop'))
-export const rounded = token<Utility['rounded']>('rounded', (state) => ({ css: Object.assign({}, state.css, { borderRadius: '4px' }), scope: 'rounded', read: (key) => (isNum(key) ? merge(state, { borderRadius: x4(key) }, 'rounded') : undefined) }))
+export const rounded = token<Utility['rounded']>('rounded', (state) => ({ ...merge(state, { borderRadius: '4px' }, 'rounded'), read: (key) => (isNum(key) ? merge(state, { borderRadius: x4(key) }, 'rounded') : undefined) }))
 export const size = token<Utility['size']>(
         'size',
         read((key) => (isNum(key) || key === 'full' || key === 'screen' || key === 'dvh' ? { height: px_(key), width: px_(key) } : undefined)),
 )
+export const sm = token<Utility['sm']>('sm', variant({ name: 'sm', query: '(min-width: 640px)' }))
 export const table = token<Utility['table']>('table', set({ display: 'table' }, 'table'))
-export const text = token<Utility['text']>('text', (state) => ({ css: state.css, greedy: true, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: key })) }))
+export const text = token<Utility['text']>('text', (state) => ({ css: state.css, greedy: true, media: state.media, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: key })) }))
 export const tracking = token<Utility['tracking']>('tracking', set({}, 'tracking'))
 export const w = token<Utility['w']>('w', length('width'))
+export const xl = token<Utility['xl']>('xl', variant({ name: 'xl', query: '(min-width: 1280px)' }))
+export const xs = token<Utility['xs']>('xs', variant({ name: 'xs', query: '(min-width: 475px)' }))
+export const xxl = token<Utility['xxl']>('xxl', variant({ name: 'xxl', query: '(min-width: 1536px)' }))
 export const define = <T = Chain>(name: string, css: RuntimeStyle, scopeName?: string): T => token<T>(name, set(css, scopeName))

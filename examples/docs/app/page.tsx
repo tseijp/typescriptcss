@@ -1,29 +1,29 @@
 'use client'
-import { flex, font, max } from '@/../../packages/typescriptcss/src'
+import { dark, flex, font, max, md, sm } from '@/../../packages/typescriptcss/src'
 
 export default function Home() {
         return (
-                <div style={flex.col.items.center.justify.center.bg['oklch(98.5% 0 0)'].font['sans'](/* flex-1 */)}>
-                        <main style={flex.w.full.max.w[192].flex.col.items.center.justify.between.py[32].px[16].bg['#fff'](/* dark:bg-black sm:items-start flex-1 */)}>
-                                <div style={flex.col.items.center.gap[6].text.center(/* sm:items-start sm:text-left */)}>
-                                        <h1 style={max.w[80].text[7.5].font.semibold.leading[10].tracking.tight.text['#000'](/* dark:text-zinc-50 */)}>To get started, edit the page.tsx file.</h1>
-                                        <p style={max.w[112].text[4.5].leading[8].text['#52525b'](/* dark:text-zinc-400 */)}>
+                <div style={flex[1].col.items.center.justify.center.bg['oklch(98.5% 0 0)'].font['sans'](dark.bg['#000']())}>
+                        <main style={flex[1].w.full.max.w[192].flex.col.items.center.justify.between.py[32].px[16].bg['#fff'](dark.bg['#000'](), sm.items.start())}>
+                                <div style={flex.col.items.center.gap[6].text.center(sm.items.start(), sm.text.left())}>
+                                        <h1 style={max.w[80].text[7.5].font.semibold.leading[10].tracking.tight.text['#000'](dark.text['#fafafa']())}>To get started, edit the page.tsx file.</h1>
+                                        <p style={max.w[112].text[4.5].leading[8].text['#52525b'](dark.text['#a1a1aa']())}>
                                                 Looking for a starting point or more instructions? Head over to{' '}
-                                                <a style={font.medium.text['#09090b'](/* dark:text-zinc-50 */)} href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
+                                                <a style={font.medium.text['#09090b'](dark.text['#fafafa']())} href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
                                                         Templates
                                                 </a>{' '}
                                                 or the{' '}
-                                                <a style={font.medium.text['#09090b'](/* dark:text-zinc-50 */)} href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
+                                                <a style={font.medium.text['#09090b'](dark.text['#fafafa']())} href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
                                                         Learning
                                                 </a>{' '}
                                                 center.
                                         </p>
                                 </div>
-                                <div style={flex.col.gap[4].text.base.font.medium(/* sm:flex-row */)}>
-                                        <a style={flex.h[12].w.full.items.center.justify.center.gap[2].rounded.full.bg['#ededed'].px[5].text['#0a0a0a'](/* transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] */)} href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
+                                <div style={flex.col.gap[4].text.base.font.medium(sm.flex.row())}>
+                                        <a style={flex.h[12].w.full.items.center.justify.center.gap[2].rounded.full.bg['#ededed'].px[5].text['#0a0a0a'](dark.bg['#ccc'](), md.w[39.5]())} href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
                                                 Deploy Now
                                         </a>
-                                        <a style={flex.h[12].w.full.items.center.justify.center.rounded.full.px[5](/* border border-solid border-black/[.08] transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px] */)} href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
+                                        <a style={flex.h[12].w.full.items.center.justify.center.rounded.full.px[5](dark.bg['#1a1a1a'](), md.w[39.5]())} href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
                                                 Documentation
                                         </a>
                                 </div>
