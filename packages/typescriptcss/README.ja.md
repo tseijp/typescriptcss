@@ -1,0 +1,132 @@
+# typescriptcss
+
+[English](./README.md) | 日本語
+
+Tailwind 風の utility を TypeScript の inline style chain として記述し、build 時に実際の stylesheet へ集約する。
+
+```tsx
+<div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black()}>
+  <h2 style={text['#fff'].font.semibold()}>Zero runtime</h2>
+</div>
+```
+
+property access の chain を組み立てて呼び出す。呼び出しは plain な style object を返すため、server 上では runtime なしの inline style として描画される。build 時には bundler plugin が各 chain を読み取り、評価し、結果を hash 化して class にし、重複を除いた 1 枚の stylesheet を出力する。
+
+## なぜ typescriptcss か
+
+- **保守する CSS ファイルがない。** style は chain として markup の隣に存在する。build がそれらを集約するため、component と同期させ続ける stylesheet が存在しない。
+- **型付きで補完が効く。** すべての utility は editor が補完し compiler が検証する property。型検査を通らない style は出荷されない。
+- **単位は 1 つ、palette なし。** scale は 4px 単位（`gap[4]` は 16px）、色は素の hex か `oklch()` 文字列なので、設定するものも purge するものもない。
+- **Zero runtime。** chain は server 上で style object に描画され、build 時に class へ畳まれる。browser で余分に走るものはない。
+
+## インストール
+
+```bash
+npm install typescriptcss
+```
+
+その後、chain が build 時に集約されるよう、使っている bundler 向けの plugin を追加する。
+
+## スタイルの記述
+
+必要な utility を import して組み合わせる。property を読むと style が絞り込まれ、chain を呼び出すと確定する。
+
+```tsx
+import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
+
+<aside style={flex.col.gap[3].max.w[72].p[6].rounded[4].bg['#0b1120']()}>
+  {/* ... */}
+</aside>
+```
+
+数値は要素アクセス（`gap[3]`、`p[6]`、`rounded[4]`）、色は文字列で渡す（`bg['#0b1120']`、`text['oklch(98.5% 0 0)']`）。まだ utility のない property を設定するには、呼び出しに plain な object を渡すと chain の上に merge される。
+
+```tsx
+<div style={flex.col.gap[3]({ position: 'sticky', top: 0 })}>{/* ... */}</div>
+```
+
+### レスポンシブ
+
+breakpoint の segment（`sm`、`md`、`lg`、`xl`）を挿入すると、その後ろの utility はその幅以上で適用される。
+
+```tsx
+<div style={flex.col.sm.flex.row.gap[4]()}>{/* スマホでは縦積み、sm から横並び */}</div>
+```
+
+### ダークモード
+
+`dark` を挿入すると、その後ろの色 utility は 2 つ目の値をとる。この組は 1 つの `light-dark()` 宣言に compile される。
+
+```tsx
+<div style={bg['#fff'].dark.bg['#0b1120'].text['#111'].dark.text['#f8fafc']()}>{/* ... */}</div>
+```
+
+### インタラクティブな状態
+
+`hover`、`focus`、`active`、`first`、`disabled`、`checked`、`group`、`peer` などの状態 segment を挿入する。segment は breakpoint や `dark` と重ねられる。
+
+```tsx
+<button style={bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>Save changes</button>
+```
+
+## bundler のセットアップ
+
+### Vite
+
+```ts
+import { defineConfig } from 'vite'
+import { typescriptcss } from '@typescriptcss/plugin-vite'
+
+export default defineConfig({
+  plugins: [typescriptcss()],
+})
+```
+
+### Rollup / tsdown
+
+```ts
+import { typescriptcss } from '@typescriptcss/plugin-rollup'
+
+export default {
+  plugins: [typescriptcss()],
+}
+```
+
+### Next.js
+
+```ts
+import { typescriptcss } from '@typescriptcss/plugin-next'
+
+const withTypescriptcss = typescriptcss()
+
+export default withTypescriptcss({
+  // your next config
+})
+```
+
+## 出力モード
+
+集約した style の行き先を、plugin の `output` option で選ぶ。
+
+- `inline` — 元の inline style をそのまま残す。何も集約しない。
+- `head` — rule をドキュメント head の 1 つの `<style>` タグにまとめる。
+- `file` — CSS ファイルを build の asset として出力する。
+- `auto` — bundler の target に応じて任せる。
+
+境界を chain の内側に引くこともできる。先頭の `css` は chain 全体をファイル出力の対象にし、途中の `css` は先頭部分を inline か head に残しつつ、その後ろをすべてファイルへ送る。
+
+```tsx
+<div style={flex.col.css.bg['#0b1120']()}>{/* flex.col は inline のまま、bg はファイルへ */}</div>
+```
+
+## パッケージ
+
+- `typescriptcss` — runtime の chain library。
+- `@typescriptcss/plugin-core` — 以下の adapter が使う、bundler 非依存の collector。
+- `@typescriptcss/plugin-vite` — Vite plugin。
+- `@typescriptcss/plugin-rollup` — Rollup および tsdown plugin。
+- `@typescriptcss/plugin-next` — Next.js の config adapter。
+
+## ライセンス
+
+MIT

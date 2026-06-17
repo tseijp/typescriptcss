@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import { bg, flex, m, min, p, text } from 'typescriptcss/src'
+import { flex, m } from 'typescriptcss/src'
 import { color, fontSans } from '@/src/styles/tokens'
 import { diagonal } from '@/src/styles/patterns'
 import { TopNav } from '@/src/components/docs/top-nav'
 import { DocsFooter } from '@/src/components/docs/footer'
 import { primaryNav } from '@/src/data/docs-nav'
 import { footerGroups } from '@/src/data/footer-links'
-import './tcss.css'
 
 export const metadata: Metadata = {
         title: 'typescriptcss',

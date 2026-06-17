@@ -94,12 +94,6 @@ importers:
         specifier: workspace:*
         version: link:../plugin-core
 
-  packages/@typescriptcss/plugin-webpack:
-    dependencies:
-      '@typescriptcss/plugin-core':
-        specifier: workspace:*
-        version: link:../plugin-core
-
   packages/typescriptcss: {}
 
 packages:
