@@ -18,6 +18,11 @@ export const load = async (runtime: string): Promise<Loaded> => {
         const flat = Object.assign({}, mod && mod.default, mod)
         const names = Object.keys(flat).filter((name) => ident.test(name) && !reserved.has(name))
         const values = names.map((name) => flat[name])
-        const run = (expr: string) => split(new Function(...names, `return (${expr})`)(...values))
+        const run = (expr: string) => {
+                const fn = new Function(...names, `try { return (${expr}) } catch (e) { return null }`)
+                const css = fn(...values)
+                if (!css) return undefined
+                return split(css)
+        }
         return { run }
 }

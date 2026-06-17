@@ -9,8 +9,9 @@ import type { Edit, Loaded, Options, Resolved, Sheet, Span } from './types'
 export type { Options } from './types'
 const defaults: Resolved = { target: 'head', minify: true, root: cwd(), runtime: 'typescriptcss', out: 'app/tcss.css', include: /\.[mc]?tsx?$/, exclude: /node_modules/ }
 const resolve = (options: Options): Resolved => Object.assign({}, defaults, options)
-const names = (sheet: Sheet, loaded: Loaded, span: Span): string => {
+const names = (sheet: Sheet, loaded: Loaded, span: Span): string | undefined => {
         const split = loaded.run(span.expr)
+        if (!split) return undefined
         sheet.add({ span, head: split.head, file: split.file, klass: '' })
         const head = Object.keys(split.head).length ? klass(split.head) : ''
         const file = Object.keys(split.file).length ? klass(split.file) : ''
@@ -18,6 +19,7 @@ const names = (sheet: Sheet, loaded: Loaded, span: Span): string => {
 }
 const edits = (sheet: Sheet, loaded: Loaded, span: Span): Edit[] => {
         const cls = names(sheet, loaded, span)
+        if (cls === undefined) return []
         if (span.cls === undefined) return [{ start: span.start, end: span.end, text: `className={'${cls}'}` }]
         return [
                 { start: span.start, end: span.end, text: '' },
