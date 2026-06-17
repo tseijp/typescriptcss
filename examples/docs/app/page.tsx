@@ -1,8 +1,8 @@
 'use client'
-import { flex, font, max } from '@/../../packages/typescriptcss/src'
+import { flex, font, max } from 'typescriptcss/src'
 export default function Home() {
         return (
-                <div style={flex[1].col.items.center.justify.center.bg['oklch(98.5% 0 0)'].dark.bg.black.font.sans()}>
+                <div style={flex[1].flex.col.items.center.justify.center.bg['oklch(98.5% 0 0)'].dark.bg.black.font.sans()}>
                         <main style={flex[1].w.full.max.w[192].flex.col.items.center.justify.between.py[32].px[16].bg['#fff'].dark.bg.black.sm.items.start()}>
                                 <div style={flex.col.items.center.gap[6].text.center.sm.items.start.sm.text.left()}>
                                         <h1 style={max.w[80].text[7.5].font.semibold.leading[10].tracking.tight.text['#000'].dark.text['#fafafa']()}>To get started, edit the page.tsx file.</h1>

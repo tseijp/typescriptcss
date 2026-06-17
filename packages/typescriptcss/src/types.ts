@@ -2,11 +2,12 @@ type CSS = Partial<Record<Exclude<keyof CSSStyleDeclaration, 'cssText'> & string
 type Scale = { [value: number]: Chain }
 type Screen = Scale & { full: Chain; screen: Chain; dvh: Chain }
 type Color = { [value: `#${string}` | `oklch(${string})`]: Chain; black: Chain; transparent: Chain; white: Chain }
-type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: { [value: string]: Chain } } // need to define
+type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: { [value: string]: Chain } }
 export type Utility = {
         bg: Color
         block: Chain
         border: Chain & Color & { b: Chain; collapse: Chain; l: Chain; r: Chain; t: Chain; x: Chain; y: Chain }
+        css: Chain
         dark: Chain
         flex: Chain & Scale & { col: Chain; nowrap: Chain; row: Chain; wrap: Chain }
         font: Scale & { bold: Chain; medium: Chain; normal: Chain; sans: Chain; semibold: Chain }
@@ -50,4 +51,4 @@ export type RuntimeStyle = Record<string, any>
 export type Argument = RuntimeStyle | null | undefined | false
 export type Rule = (state: State, key: string) => State
 export type State = { css: RuntimeStyle; dark?: boolean; greedy?: boolean; media?: string; scope?: string; read?: (key: string) => State | undefined }
-export type Chain = Func & RuntimeStyle & Utility & Native
+export type Chain = Func & Utility & Native

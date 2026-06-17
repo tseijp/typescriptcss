@@ -1,5 +1,5 @@
 {
-        "name": "typescriptcss",
+        "name": "@typescriptcss/plugin-core",
         "version": "0.1.0",
         "author": "tseijp",
         "license": "MIT",
@@ -60,7 +60,7 @@
                 }
         },
         "scripts": {
-                "build": "tsdown --config ../../tsdown.config.ts"
+                "build": "tsdown --config ../../../tsdown.config.ts"
         },
         "files": [
                 "dist/**/*.js",
@@ -70,5 +70,11 @@
                 "package.json",
                 "README.md",
                 "LICENSE"
-        ]
+        ],
+        "dependencies": {
+                "@emotion/hash": "0.9.2",
+                "lightningcss": "^1.32.0",
+                "ts-morph": "^27.0.2",
+                "unplugin": "3.0.0"
+        }
 }

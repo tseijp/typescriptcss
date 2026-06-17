@@ -35,7 +35,6 @@ const chain = (state: State): Chain =>
 const resolve = (state: State, prop: string | symbol) => {
         const key = typeof prop === 'symbol' ? '' : prop
         if (!key || key === 'then') return undefined
-        if (key === 'css') return state.css
         const local = state.scope ? scoped[state.scope]?.[key] : undefined
         if (local) return chain(local(state, key))
         const greedy = state.greedy ? state.read?.(key) : undefined
@@ -53,6 +52,8 @@ export const token = <T>(name: string, rule: Rule): T => {
 export const scope = (name: string, entries: Record<string, Rule>) => {
         scoped[name] = Object.assign(scoped[name] ?? Object.create(null), entries)
 }
+export const passthrough: Rule = (state) => state
+export const splitter: Rule = (state) => merge(state, { '--tcss-split': Object.keys(state.css).join(',') || ' ' })
 export const numeric = (fn: (key: string) => RuntimeStyle): Rule => read((key) => (isNum(key) ? fn(key) : undefined))
 export const length = (prop: string): Rule => read((key) => (isNum(key) || key === 'full' || key === 'screen' || key === 'dvh' ? { [prop]: px(key) } : undefined))
 export const color = (prop: string): Rule => read((key, state) => (state.dark ? { colorScheme: 'light dark', [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${key})` } : { [prop]: key }), true)

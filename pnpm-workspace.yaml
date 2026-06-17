@@ -1,3 +1,6 @@
 packages:
-        - 'examples/**/*'
-        - 'packages/**/*'
+  - 'examples/*'
+  - 'packages/*'
+  - 'packages/@typescriptcss/*'
+allowBuilds:
+  sharp: set this to true or false
