@@ -16,7 +16,13 @@
                 "ls": "cd packages/typescriptcss && npm publish --dry-run"
         },
         "workspaces": [
-                "examples/**/*",
-                "packages/**/*"
-        ]
+                "examples/*",
+                "packages/*",
+                "packages/@typescriptcss/*"
+        ],
+        "devDependencies": {
+                "@types/node": "^20",
+                "tsdown": "0.22.2",
+                "typescript": "^5"
+        }
 }

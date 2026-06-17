@@ -1,4 +1,4 @@
-import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, side, space, token, withScope, x4 } from './style'
+import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, side, space, splitter, token, withScope, x4 } from './utils'
 import { RuntimeStyle, Chain, Utility } from './types'
 scope('flex', { col: set({ flexDirection: 'column' }), nowrap: set({ flexWrap: 'nowrap' }), row: set({ flexDirection: 'row' }), wrap: set({ flexWrap: 'wrap' }) })
 scope('items', { center: set({ alignItems: 'center' }), end: set({ alignItems: 'flex-end' }), start: set({ alignItems: 'flex-start' }), stretch: set({ alignItems: 'stretch' }) })
@@ -20,6 +20,7 @@ export const border = token<Utility['border']>('border', (state) => {
         const next = merge(state, { borderStyle: 'solid', borderWidth: '1px' }, 'border')
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
+export const css = token<Utility['css']>('css', splitter)
 export const dark = token<Utility['dark']>('dark', dark_)
 export const flex = token<Utility['flex']>('flex', (state) => {
         const next = merge(state, { display: 'flex' }, 'flex')

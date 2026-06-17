@@ -1,63 +1,54 @@
-'use client'
-import { flex, font, max } from '@/../../packages/typescriptcss/src'
+import Link from 'next/link'
+import { flex, text, bg, px, py, gap, rounded, max, w, p, border, font, leading } from 'typescriptcss/src'
+import { color, fontMono } from '@/src/styles/tokens'
+import { glow, diagonal, cardSheen } from '@/src/styles/patterns'
+import { HeroCode } from '@/src/components/site/hero-code'
+const Pill = ({ children }: any) => (
+        <span style={flex.items.center.gap[2].px[3].py[1].rounded.full({ borderWidth: '1px', borderStyle: 'solid', borderColor: color.border, fontFamily: fontMono, fontSize: '12px', color: color.cyan })}>{children}</span>
+)
+const Cta = ({ href, primary, children }: any) => (
+        <Link href={href} style={flex.items.center.justify.center.px[5].py[3].rounded[2]({ textDecoration: 'none', fontWeight: 600, fontSize: '14px', color: primary ? color.bg : color.text, background: primary ? color.cyan : 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: primary ? color.cyan : color.border })}>{children}</Link>
+)
+const Preview = () => (
+        <div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black({ borderWidth: '1px', borderStyle: 'solid', borderColor: color.border })}>
+                <div style={bg[color.cyan].rounded.full({ width: '48px', height: '48px' })} />
+                <div style={text['#fff'].font.semibold({ fontSize: '18px' })}>Zero runtime</div>
+                <div style={text[color.muted]({ fontSize: '14px', textAlign: 'center' })}>Rendered from the chain on the left. No CSS file, no class names.</div>
+        </div>
+)
+const Bento = ({ title, body }: any) => (
+        <div style={flex.col.gap[3].p[6].rounded[4].bg[color.panel](cardSheen, { borderWidth: '1px', borderStyle: 'solid', borderColor: color.border })}>
+                <div style={text[color.text].font.semibold({ fontSize: '16px' })}>{title}</div>
+                <div style={text[color.muted].leading[7]({ fontSize: '14px' })}>{body}</div>
+        </div>
+)
 export default function Home() {
         return (
-                <div style={flex[1].col.items.center.justify.center.bg['oklch(98.5% 0 0)'].dark.bg.black.font.sans()}>
-                        <main style={flex[1].w.full.max.w[192].flex.col.items.center.justify.between.py[32].px[16].bg['#fff'].dark.bg.black.sm.items.start()}>
-                                <div style={flex.col.items.center.gap[6].text.center.sm.items.start.sm.text.left()}>
-                                        <h1 style={max.w[80].text[7.5].font.semibold.leading[10].tracking.tight.text['#000'].dark.text['#fafafa']()}>To get started, edit the page.tsx file.</h1>
-                                        <p style={max.w[112].text[4.5].leading[8].text['#52525b'].dark.text['#a1a1aa']()}>
-                                                Looking for a starting point or more instructions? Head over to{' '}
-                                                <a style={font.medium.text['#09090b'].dark.text['#fafafa']()} href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
-                                                        Templates
-                                                </a>{' '}
-                                                or the{' '}
-                                                <a style={font.medium.text['#09090b'].dark.text['#fafafa']()} href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app">
-                                                        Learning
-                                                </a>{' '}
-                                                center.
-                                        </p>
+                <div style={flex.col.items.center({ width: '100%' })}>
+                        <section style={flex.col.items.center.gap[6].px[6].py[20].max.w[240]({ width: '100%', position: 'relative', ...glow })}>
+                                <Pill>v0.1 — TypeScript-authored styles</Pill>
+                                <h1 style={text[color.text].font.semibold.max.w[208]({ fontSize: '56px', lineHeight: '1.05', letterSpacing: '-0.03em', textAlign: 'center' })}>Write your styles in TypeScript. Ship them as CSS.</h1>
+                                <p style={text[color.muted].max.w[160].leading[8]({ fontSize: '19px', textAlign: 'center' })}>typescriptcss turns Tailwind-like utility chains into a real stylesheet at build time — type-checked, deduplicated, and rendered on the server with no runtime.</p>
+                                <div style={flex.gap[3].py[2]()}>
+                                        <Cta href="/docs" primary>Get started</Cta>
+                                        <Cta href="/docs/styling-with-utility-classes">Read the docs</Cta>
                                 </div>
-                                <div style={flex.col.gap[4].text.base.font.medium.sm.flex.row()}>
-                                        <a style={flex.h[12].w.full.items.center.justify.center.gap[2].rounded.full.bg['#ededed'].px[5].text['#0a0a0a'].md.w[39.5]()} href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
-                                                Deploy Now
-                                        </a>
-                                        <a style={flex.h[12].w.full.items.center.justify.center.rounded.full.px[5].md.w[39.5]()} href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
-                                                Documentation
-                                        </a>
+                        </section>
+                        <section style={flex.gap[6].px[6].max.w[240].py[6]({ width: '100%', alignItems: 'stretch' })}>
+                                <div style={flex.col({ flex: 2, minWidth: '0px' })}><HeroCode /></div>
+                                <div style={flex.col.justify.center({ flex: 1, minWidth: '0px' })}><Preview /></div>
+                        </section>
+                        <section style={flex.col.gap[8].px[6].py[20].max.w[240]({ width: '100%' })}>
+                                <div style={flex.col.gap[3]()}>
+                                        <span style={text[color.cyan].font.semibold({ fontFamily: fontMono, fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase' })}>Why typescriptcss</span>
+                                        <h2 style={text[color.text].font.semibold.max.w[176]({ fontSize: '34px', letterSpacing: '-0.02em' })}>The ergonomics of utilities, without the stylesheet to maintain.</h2>
                                 </div>
-                        </main>
+                                <div style={flex.gap[4]({ flexWrap: 'wrap' })}>
+                                        <div style={flex.col({ flex: 1, minWidth: '260px' })}><Bento title="No CSS files" body="Author styles inline as chains. The build step collects them into one stylesheet — there is no file to keep in sync with your components." /></div>
+                                        <div style={flex.col({ flex: 1, minWidth: '260px' })}><Bento title="Typed and completed" body="Every utility is a property your editor completes and the compiler validates. Invalid styles fail to type-check before they ship." /></div>
+                                        <div style={flex.col({ flex: 1, minWidth: '260px' })}><Bento title="Zero runtime" body="Chains render to plain style objects on the server and collapse to classes at build. Nothing extra runs in the browser." /></div>
+                                </div>
+                        </section>
                 </div>
         )
 }
-
-// export default function Home() {
-//         return (
-//                 <div className="flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-//                         <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-//                                 <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-//                                         <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">To get started, edit the page.tsx file.</h1>
-//                                         <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-//                                                 Looking for a starting point or more instructions? Head over to{' '}
-//                                                 <a href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" className="font-medium text-zinc-950 dark:text-zinc-50">
-//                                                         Templates
-//                                                 </a>{' '}
-//                                                 or the{' '}
-//                                                 <a href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" className="font-medium text-zinc-950 dark:text-zinc-50">
-//                                                         Learning
-//                                                 </a>{' '}
-//                                                 center.
-//                                         </p>
-//                                 </div>
-//                                 <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-//                                         <a className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]" href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
-//                                                 Deploy Now
-//                                         </a>
-//                                         <a className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]" href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" target="_blank" rel="noopener noreferrer">
-//                                                 Documentation
-//                                         </a>
-//                                 </div>
-//                         </main>
-//                 </div>
-//         )
-// }
