@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { flex, text, bg, px, py, gap, rounded, max, w, p, border, font, leading } from 'typescriptcss/src'
+import { flex, text, bg,  } from 'typescriptcss/src'
 import { color, fontMono } from '@/src/styles/tokens'
-import { glow, diagonal, cardSheen } from '@/src/styles/patterns'
+import { glow, cardSheen } from '@/src/styles/patterns'
 import { HeroCode } from '@/src/components/site/hero-code'
 const Pill = ({ children }: any) => (
         <span style={flex.items.center.gap[2].px[3].py[1].rounded.full({ borderWidth: '1px', borderStyle: 'solid', borderColor: color.border, fontFamily: fontMono, fontSize: '12px', color: color.cyan })}>{children}</span>

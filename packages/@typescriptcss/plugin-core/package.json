@@ -76,5 +76,8 @@
                 "lightningcss": "^1.32.0",
                 "ts-morph": "^27.0.2",
                 "unplugin": "3.0.0"
+        },
+        "devDependencies": {
+                "@types/node": "25.9.3"
         }
 }
