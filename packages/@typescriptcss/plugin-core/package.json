@@ -75,6 +75,7 @@
                 "@emotion/hash": "0.9.2",
                 "lightningcss": "^1.32.0",
                 "ts-morph": "^27.0.2",
+                "typescriptcss": "workspace:*",
                 "unplugin": "3.0.0"
         },
         "devDependencies": {

@@ -1,5 +1,5 @@
-import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, side, space, splitter, token, withScope, x4 } from './utils'
-import { RuntimeStyle, Chain, Utility } from './types'
+import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, side, space, splitter, token, withScope, x4 } from './utils.ts'
+import type { RuntimeStyle, Chain, Utility } from './types.ts'
 scope('flex', { col: set({ flexDirection: 'column' }), nowrap: set({ flexWrap: 'nowrap' }), row: set({ flexDirection: 'row' }), wrap: set({ flexWrap: 'wrap' }) })
 scope('items', { center: set({ alignItems: 'center' }), end: set({ alignItems: 'flex-end' }), start: set({ alignItems: 'flex-start' }), stretch: set({ alignItems: 'stretch' }) })
 scope('justify', { between: set({ justifyContent: 'space-between' }), center: set({ justifyContent: 'center' }), end: set({ justifyContent: 'flex-end' }), start: set({ justifyContent: 'flex-start' }) })

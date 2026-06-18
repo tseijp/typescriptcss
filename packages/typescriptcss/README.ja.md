@@ -1,7 +1,5 @@
 # typescriptcss
 
-[English](./README.md) | 日本語
-
 Tailwind 風の utility を TypeScript の inline style chain として記述し、build 時に実際の stylesheet へ集約する。
 
 ```tsx

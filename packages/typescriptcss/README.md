@@ -1,7 +1,5 @@
 # typescriptcss
 
-English | [日本語](./README.ja.md)
-
 Tailwind-like utilities, authored as inline style chains in TypeScript and collected into a real stylesheet at build time.
 
 ```tsx
