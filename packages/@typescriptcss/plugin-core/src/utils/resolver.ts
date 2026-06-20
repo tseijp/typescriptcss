@@ -10,8 +10,9 @@ export const createValueResolver = (rootDir: string) => {
         const runtimeImport = (specifier: string, file = '') => specifier.includes('typescriptcss') || /packages\/typescriptcss\/src/.test(file)
         const find = (specifier: string, from: string) => {
                 if (!specifier.startsWith('.') && !specifier.startsWith('@/')) return ''
-                const base = specifier.startsWith('@/') ? resolve(rootDir, specifier.slice(2)) : resolve(dirname(from), specifier)
-                return ext.map((suffix) => `${base}${suffix}`).find((file) => existsSync(file)) ?? ''
+                const path = specifier.slice(2)
+                const bases = specifier.startsWith('@/') ? [resolve(rootDir, 'src', path), resolve(rootDir, path)] : [resolve(dirname(from), specifier)]
+                return bases.flatMap((base) => ext.map((suffix) => `${base}${suffix}`)).find((file) => existsSync(file)) ?? ''
         }
         const value = (node: Node | undefined, env: Env): any => {
                 if (!node) return undefined
@@ -19,10 +20,21 @@ export const createValueResolver = (rootDir: string) => {
                 if (Node.isNumericLiteral(node)) return Number(node.getText())
                 if (node.getKind() === SyntaxKind.TrueKeyword) return true
                 if (node.getKind() === SyntaxKind.FalseKeyword) return false
-                if (Node.isIdentifier(node)) return env[node.getText()]
+                if (Node.isIdentifier(node)) {
+                        const known = env[node.getText()]
+                        if (known !== undefined) return known
+                        const declaration = node.getSymbol()?.getDeclarations().find(Node.isVariableDeclaration)
+                        return value(declaration?.getInitializer(), env)
+                }
                 if (Node.isAsExpression(node) || Node.isParenthesizedExpression(node)) return value(node.getExpression(), env)
                 if (Node.isPropertyAccessExpression(node)) return value(node.getExpression(), env)?.[node.getName()]
                 if (Node.isElementAccessExpression(node)) return value(node.getExpression(), env)?.[String(value(node.getArgumentExpression(), env))]
+                if (Node.isCallExpression(node)) {
+                        const fn = value(node.getExpression(), env)
+                        const args = node.getArguments().map((arg) => value(arg, env))
+                        if (typeof fn !== 'function' || args.some((arg) => arg === undefined)) return undefined
+                        return fn(...args)
+                }
                 if (Node.isTemplateExpression(node)) return `${node.getHead().getLiteralText()}${node.getTemplateSpans().map((span) => `${value(span.getExpression(), env)}${span.getLiteral().getLiteralText()}`).join('')}`
                 if (!Node.isObjectLiteralExpression(node)) return undefined
                 return Object.fromEntries(node.getProperties().flatMap((prop) => {
@@ -34,6 +46,15 @@ export const createValueResolver = (rootDir: string) => {
                         return [[key, value(prop.getInitializer(), env)]]
                 }))
         }
+        const assignVariables = (ast: any, env: Env) => {
+                const declarations = ast.getVariableStatements().flatMap((statement: any) => statement.getDeclarations())
+                for (const declaration of declarations) {
+                        const name = declaration.getNameNode()
+                        if (!Node.isIdentifier(name)) continue
+                        const item = value(declaration.getInitializer(), env)
+                        if (item !== undefined) env[name.getText()] = item
+                }
+        }
         const exported = (file: string): Env => {
                 if (!file) return {}
                 if (cache.has(file)) return cache.get(file) ?? {}
@@ -42,29 +63,32 @@ export const createValueResolver = (rootDir: string) => {
                 const ast = source(file, readFileSync(file, 'utf8'))
                 const env = imports(ast, file)
                 for (const statement of ast.getVariableStatements()) {
+                        if (!statement.hasExportKeyword()) continue
                         for (const declaration of statement.getDeclarations()) {
                                 const name = declaration.getNameNode()
-                                if (!Node.isIdentifier(name)) continue
-                                const item = value(declaration.getInitializer(), env)
-                                if (item === undefined) continue
-                                env[name.getText()] = item
-                                if (statement.hasExportKeyword()) out[name.getText()] = item
+                                if (Node.isIdentifier(name) && env[name.getText()] !== undefined) out[name.getText()] = env[name.getText()]
                         }
                 }
                 return out
+        }
+        const assignNamed = (env: Env, item: any, values: Env) => {
+                for (const name of item.getNamedImports()) {
+                        const imported = name.getNameNode().getText()
+                        const local = name.getAliasNode()?.getText() ?? imported
+                        env[local] = values[imported]
+                }
         }
         const imports = (ast: any, file: string) => {
                 const env: Env = {}
                 for (const item of ast.getImportDeclarations()) {
                         const specifier = item.getModuleSpecifierValue()
                         const found = find(specifier, file)
-                        const values = (runtimeImport(specifier, found) ? runtime : exported(found)) as Env
-                        for (const name of item.getNamedImports()) {
-                                const imported = name.getNameNode().getText()
-                                const local = name.getAliasNode()?.getText() ?? imported
-                                env[local] = values[imported]
-                        }
+                        const isRuntime = runtimeImport(specifier, found)
+                        const values = (isRuntime ? runtime : exported(found)) as Env
+                        if (isRuntime) Object.assign(env, runtime)
+                        assignNamed(env, item, values)
                 }
+                assignVariables(ast, env)
                 return env
         }
         return { imports, source, value }

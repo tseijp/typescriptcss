@@ -9,18 +9,16 @@ export const createStyleTools = () => {
                 return `{${entries.map(([key, item]) => `${JSON.stringify(key)}:${stable(item)}`).join(',')}}`
         }
         const body = (style: RuntimeStyle) => Object.entries(clean(style)).map(([key, value]) => `${kebab(key)}:${String(value)}`).join(';')
+        const assign = (out: CssBlock, key: string, value: any) => {
+                const found = typeof value === 'string' ? mediaValue.exec(value) : null
+                if (!found) return out.base[key] = value
+                const [, query, next, prev] = found
+                if (prev !== 'unset') out.base[key] = prev
+                out.media[query] = { ...(out.media[query] ?? {}), [key]: next }
+        }
         const block = (style: RuntimeStyle): CssBlock => {
                 const out: CssBlock = { base: {}, media: {} }
-                for (const [key, value] of Object.entries(clean(style))) {
-                        const found = typeof value === 'string' ? mediaValue.exec(value) : null
-                        if (!found) {
-                                out.base[key] = value
-                                continue
-                        }
-                        const [, query, next, prev] = found
-                        if (prev !== 'unset') out.base[key] = prev
-                        out.media[query] = { ...(out.media[query] ?? {}), [key]: next }
-                }
+                for (const [key, value] of Object.entries(clean(style))) assign(out, key, value)
                 return out
         }
         const empty = (value: CssBlock) => !body(value.base) && !Object.values(value.media).some((style) => !!body(style))

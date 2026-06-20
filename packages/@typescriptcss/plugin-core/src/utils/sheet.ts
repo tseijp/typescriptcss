@@ -27,5 +27,6 @@ export const createSheet = (options: TypescriptcssOptions = {}) => {
                 head.clear()
                 file.clear()
         }
-        return { emitClass, head: () => render(head), file: asset, css: () => compact(`${raw(head)}${raw(file)}`), clear }
+        const rules = () => [...new Map([...head, ...file]).entries()].map(([name, block]) => compact(tools.rule(name, block)))
+        return { emitClass, head: () => render(head), file: asset, css: () => compact(`${raw(head)}${raw(file)}`), rules, clear }
 }
