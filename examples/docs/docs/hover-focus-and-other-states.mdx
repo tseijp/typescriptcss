@@ -1,0 +1,152 @@
+export const title = 'Hover, focus, and other states'
+export const description = 'Styling elements on hover, focus, active, and every other interactive state directly inside a chain.'
+
+## Overview
+
+Every utility in a typescriptcss chain can be applied conditionally by inserting a state segment before it. To change the background on hover, write `hover` and then the utilities that should apply while the pointer is over the element.
+
+```tsx
+<button style={px[5].py[2].rounded.full.bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>
+  Save changes
+</button>
+```
+
+Everything before `hover` is the resting style, and everything after it applies only while the condition holds. A state segment reads exactly like a breakpoint segment, so once you know one you know them all. The resting and active styles sit side by side in the same expression, which means you can see both at a glance and never hunt through a stylesheet to find where a hover style was defined.
+
+State segments can also be stacked to target a precise situation — a different background in dark mode, at the medium breakpoint, on hover:
+
+```tsx
+<button style={bg['#0b1120'].dark.md.hover.bg['#c026d3']()}>Save changes</button>
+```
+
+This guide walks through every state available: pseudo-classes, structural and form states, parent and sibling states, negation, and pseudo-elements.
+
+## Pseudo-classes
+
+### hover, focus, and active
+
+Style elements as the user interacts with them using `hover`, `focus`, and `active`. Stack them in one chain to describe all three at once.
+
+```tsx
+<button
+  style={px[5].py[2].rounded.full.text['#fff']
+    .bg['#7c3aed']
+    .hover.bg['#6d28d9']
+    .focus.outline['#7c3aed']
+    .active.bg['#5b21b6']()}
+>
+  Save changes
+</button>
+```
+
+`visited`, `focusWithin`, and `focusVisible` are available too, which is what you reach for when refining keyboard navigation and link styling.
+
+### first, last, odd, and even
+
+Style an element by its position among its siblings. Use `first` and `last` to trim the ends of a list, and `odd` and `even` for zebra striping — the browser decides which is which, so the markup is identical for every row.
+
+```tsx
+<li style={flex.py[4].first.pt[0].last.pb[0]()}>{/* ... */}</li>
+```
+
+```tsx
+<tr style={odd.bg['#ffffff'].even.bg['#f8fafc']()}>{/* ... */}</tr>
+```
+
+For finer control, `nth` targets children by position, so you can style every third item or any pattern you need without computing the index yourself.
+
+### required, invalid, disabled, and checked
+
+Form controls expose their own states. React to what a field is doing with `required`, `invalid`, `disabled`, `checked`, and `readOnly` instead of branching in your component.
+
+```tsx
+<input
+  style={rounded.md.border['#d1d5db'].px[3].py[2]
+    .invalid.border['#ec4899'].invalid.text['#db2777']
+    .focus.border['#0ea5e9']
+    .disabled.bg['#f9fafb'].disabled.text['#9ca3af']()}
+/>
+```
+
+The same chain covers every state the input can be in, which removes a whole layer of conditional class logic from your templates.
+
+### has
+
+Style an element from the state or content of its descendants with `has`. A label can highlight itself when the radio inside it is checked:
+
+```tsx
+<label style={flex.items.center.gap[3].rounded.lg.p[4]
+  .has.checked.bg['#eef2ff'].has.checked.text['#3730a3']()}>
+  <input type="radio" name="plan" />
+  Google Pay
+</label>
+```
+
+`has` reacts to descendants of any depth, so a container can respond to a control buried several levels inside it.
+
+## Styling based on parent state
+
+Mark a parent with `group` and read its state from a child with a `group` segment. Hovering the card changes the nested text even though the pointer is over the parent.
+
+```tsx
+<a style={group.block.rounded.lg.p[8].bg['#0b1120']()}>
+  <div style={text['#f8fafc'].group.hover.text['#22d3ee']()}>New project</div>
+  <p style={text['#64748b'].group.hover.text['#94a3b8']()}>
+    Create a new project from a template.
+  </p>
+</a>
+```
+
+This works with every pseudo-class — `group.focus`, `group.active`, and the rest — so an entire card or row can coordinate its interactive styling from one parent. When you nest groups, name them with `group['item']` and read a specific one with `group['item'].hover` so the right ancestor drives the style.
+
+## Styling based on sibling state
+
+Mark a sibling with `peer` and react to it from a later element using a `peer` segment. A checkbox can strike through its own label and hide the adjacent delete button when checked:
+
+```tsx
+<label style={peer.flex.items.center.gap[3]()}>
+  <input type="checkbox" />
+  <span style={text['#334155'].peer.checked.text['#94a3b8']()}>Create a to-do list</span>
+</label>
+<button style={peer.hasChecked.hidden()}>{/* delete */}</button>
+```
+
+`peer` and `peerHas` cover the cases where the element you want to style comes after the one whose state matters.
+
+## Negation
+
+Use `not` to apply utilities only when a condition is false. It is most useful combined with another state — for example, applying a hover style only while the element is not focused:
+
+```tsx
+<button style={bg['#4f46e5'].hover.not.focus.bg['#4338ca']()}>Save changes</button>
+```
+
+## Pseudo-elements
+
+Reach the generated pieces of an element with `before`, `after`, `placeholder`, and `selection`.
+
+```tsx
+<input style={placeholder.text['#94a3b8'].selection.bg['#22d3ee']()} placeholder="you@example.com" />
+```
+
+`before` and `after` let you add decorative content, `placeholder` styles the hint text of an input, and `selection` styles highlighted text — all without a separate rule.
+
+## State reference
+
+| Segment        | Applies when                                  |
+| -------------- | --------------------------------------------- |
+| `hover`        | the pointer is over the element               |
+| `focus`        | the element is focused                        |
+| `active`       | the element is being pressed                  |
+| `focusVisible` | the element is focused via keyboard           |
+| `first` `last` | the element is the first or last child        |
+| `odd` `even`   | the element is an odd or even child           |
+| `disabled`     | a form control is disabled                    |
+| `invalid`      | a form control fails validation               |
+| `checked`      | a checkbox or radio is checked                |
+| `has`          | a descendant matches the following condition  |
+| `group`        | a `group` ancestor matches the condition      |
+| `peer`         | a `peer` sibling matches the condition        |
+| `not`          | the following condition is false              |
+
+Every segment in the table reads the same way and stacks with breakpoints and `dark`, so you compose them freely without learning a separate syntax for each combination.
