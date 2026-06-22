@@ -1,35 +1,35 @@
 import Link from 'next/link'
-import { bg, flex, gap, inline, max, min, ml, p, px, py, text, w } from 'typescriptcss/src'
+import { bg, flex, gap, inline, leading, max, min, ml, p, px, py, text, w } from 'typescriptcss/src'
 import { cardSheen, color, fontMono } from '@/styles'
 
 const Cta = ({ href, primary, children }: any) => {
         if (primary)
                 return (
-                        <Link href={href} style={px[5].py[3].text[3.5].text[color.bg].flex.items.center.justify.center.font[600].bg[color.cyan].rounded[2].border[color.cyan].textDecoration.none()}>
+                        <Link href={href} style={px[5].py[3].font[600].text[3.5].text[color.bg].flex.items.center.justify.center.bg[color.cyan].rounded[2].border[color.cyan].textDecoration.none()}>
                                 {children}
                         </Link>
                 )
         return (
-                <Link href={href} style={px[5].py[3].text[3.5].text[color.text].flex.items.center.justify.center.font[600].bg.transparent.rounded[2].border[color.border].textDecoration.none()}>
+                <Link href={href} style={px[5].py[3].font[600].text[3.5].text[color.text].flex.items.center.justify.center.bg.transparent.rounded[2].border[color.border].textDecoration.none()}>
                         {children}
                 </Link>
         )
 }
 const Bento = ({ title, body }: any) => (
-        <div style={p[6].gap[3].flex.col.bg[color.panel].rounded[4].border[color.border].backgroundImage[cardSheen.backgroundImage]()}>
+        <div style={p[6].gap[3].flex.col.bg[color.panel].backgroundImage[cardSheen.backgroundImage].rounded[4].border[color.border]()}>
                 <div style={text[4].text[color.text].font.semibold()}>{title}</div>
-                <div style={text[3.5].text[color.muted].leading[7]()}>{body}</div>
+                <div style={leading[7].text[3.5].text[color.muted]()}>{body}</div>
         </div>
 )
-const dot = (color: '#f87171' | '#fbbf24' | '#34d399') => <span style={bg[color].rounded.full.width['11px'].height['11px']()} />
+const dot = (color: '#f87171' | '#fbbf24' | '#34d399') => <span style={bg[color].width['11px'].height['11px'].rounded.full()} />
 
 export default function Home() {
         return (
                 <div style={w.full.flex.col.items.center()}>
-                        <section style={px[6].py[20].w.full.max.w[240].gap[6].flex.col.items.center.backgroundImage['radial-gradient(60% 50% at 50% 0%, rgba(34,211,238,0.12) 0%, transparent 70%)'].position.relative()}>
-                                <span style={px[3].py[1].text[3].text[color.cyan].gap[2].flex.items.center.rounded.full.border[color.border].fontFamily[fontMono]()}>v0.1 — TypeScript-authored styles</span>
-                                <h1 style={max.w[208].text[14].text[color.text].font.semibold.text.center.lineHeight['1.05'].letterSpacing['-0.03em']()}>Write your styles in TypeScript. Ship them as CSS.</h1>
-                                <p style={max.w[160].fontSize['19px'].text[color.muted].leading[8].text.center()}>typescriptcss turns Tailwind-like utility chains into a real stylesheet at build time — type-checked, deduplicated, and rendered on the server with no runtime.</p>
+                        <section style={px[6].position.relative.py[20].w.full.max.w[240].gap[6].flex.col.items.center.backgroundImage['radial-gradient(60% 50% at 50% 0%, rgba(34,211,238,0.12) 0%, transparent 70%)']()}>
+                                <span style={px[3].py[1].text[3].text[color.cyan].gap[2].flex.items.center.fontFamily[fontMono].rounded.full.border[color.border]()}>v0.1 — TypeScript-authored styles</span>
+                                <h1 style={max.w[208].lineHeight['1.05'].letterSpacing['-0.03em'].text[14].text[color.text].font.semibold.text.center()}>Write your styles in TypeScript. Ship them as CSS.</h1>
+                                <p style={max.w[160].leading[8].fontSize['19px'].text[color.muted].text.center()}>typescriptcss turns Tailwind-like utility chains into a real stylesheet at build time — type-checked, deduplicated, and rendered on the server with no runtime.</p>
                                 <div style={py[2].gap[3].flex()}>
                                         <Cta href="/docs" primary>
                                                 Get started
@@ -39,8 +39,8 @@ export default function Home() {
                         </section>
                         <section style={px[6].py[6].w.full.max.w[240].gap[6].flex.items.stretch()}>
                                 <div style={min.w[0].flex[2].col()}>
-                                        <div style={flex.col.fontSize['13px'].lineHeight['22px'].bg[color.panel].rounded[3].border[color.border].overflow.hidden.fontFamily[fontMono].boxShadow['0 20px 60px -20px rgba(0,0,0,0.6)']()}>
-                                                <div style={px[4].py[3].gap[2].flex.items.center.bg[color.panelHi].border.b.borderBottomColor[color.border]()}>
+                                        <div style={flex.col.lineHeight['22px'].fontSize['13px'].fontFamily[fontMono].boxShadow['0 20px 60px -20px rgba(0,0,0,0.6)'].bg[color.panel].rounded[3].border[color.border].overflow.hidden()}>
+                                                <div style={px[4].py[3].gap[2].flex.items.center.bg[color.panelHi]()}>
                                                         {dot('#f87171')}
                                                         {dot('#fbbf24')}
                                                         {dot('#34d399')}
@@ -48,7 +48,7 @@ export default function Home() {
                                                 </div>
                                                 <div style={py[4].flex.col()}>
                                                         {[[{ t: 'kw', v: 'export default' }, { v: ' ' }, { t: 'kw', v: 'function' }, { v: ' ' }, { t: 'fn', v: 'Card' }, { v: '() {' }], [{ v: '  ' }, { t: 'kw', v: 'return' }, { v: ' (' }], [{ v: '    <' }, { t: 'fn', v: 'div' }, { v: ' style={' }, { t: 'fn', v: 'p' }, { v: '[' }, { t: 'str', v: '6' }, { v: ']' }, { t: 'mut', v: '.gap' }, { v: '[' }, { t: 'str', v: '4' }, { v: ']' }], [{ v: '      ' }, { t: 'mut', v: '.flex.col.items.center' }], [{ v: '      ' }, { t: 'mut', v: '.bg' }, { v: '[' }, { t: 'str', v: "'#0b1120'" }, { v: ']' }, { t: 'mut', v: '.rounded' }, { v: '[' }, { t: 'str', v: '4' }, { v: ']' }, { t: 'mut', v: '.dark.bg.black' }, { v: '()}>' }], [{ v: '      <' }, { t: 'fn', v: 'h2' }, { v: ' style={' }, { t: 'fn', v: 'text' }, { v: '[' }, { t: 'str', v: "'#fff'" }, { v: ']' }, { t: 'mut', v: '.font.semibold' }, { v: '()}>' }], [{ v: '        Zero runtime' }], [{ v: '      </' }, { t: 'fn', v: 'h2' }, { v: '>' }], [{ v: '    </' }, { t: 'fn', v: 'div' }, { v: '>' }], [{ v: '  )' }], [{ v: '}' }]].map((segments: any[], lineIndex: number) => (
-                                                                <div key={lineIndex} style={px[5].flex.items.center.minHeight['22px']()}>
+                                                                <div key={lineIndex} style={px[5].minHeight['22px'].flex.items.center()}>
                                                                         <span style={text[color.faint].width['30px'].flexShrink[0].userSelect.none()}>{lineIndex + 1}</span>
                                                                         <span style={inline.whiteSpace.pre()}>
                                                                                 {segments.map((segment: any, segmentIndex: number) => {
@@ -98,8 +98,8 @@ export default function Home() {
                         </section>
                         <section style={px[6].py[20].w.full.max.w[240].gap[8].flex.col()}>
                                 <div style={gap[3].flex.col()}>
-                                        <span style={text[3].text[color.cyan].font.semibold.fontFamily[fontMono].letterSpacing['0.12em'].textTransform.uppercase()}>Why typescriptcss</span>
-                                        <h2 style={max.w[176].fontSize['34px'].text[color.text].font.semibold.letterSpacing['-0.02em']()}>The ergonomics of utilities, without the stylesheet to maintain.</h2>
+                                        <span style={text[3].letterSpacing['0.12em'].text[color.cyan].font.semibold.fontFamily[fontMono].textTransform.uppercase()}>Why typescriptcss</span>
+                                        <h2 style={max.w[176].letterSpacing['-0.02em'].fontSize['34px'].text[color.text].font.semibold()}>The ergonomics of utilities, without the stylesheet to maintain.</h2>
                                 </div>
                                 <div style={gap[4].flex.wrap()}>
                                         <div style={flex[1].col.minWidth['260px']()}>

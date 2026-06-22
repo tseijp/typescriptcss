@@ -1,5 +1,5 @@
 import { Highlight } from 'prism-react-renderer'
-import { gap, px, py, text, w } from 'typescriptcss/src'
+import { gap, min, px, py, text, w } from 'typescriptcss/src'
 import { color, token, fontMono } from '@/styles'
 
 export type CodeWindowProps = {
@@ -10,7 +10,7 @@ export type CodeWindowProps = {
 
 export const CodeWindow = ({ title, language, lines }: CodeWindowProps) => {
         return (
-                <div style={w.full.max.w.full.min.w[0].fontSize['13px'].flex.col.overflow.hidden.fontFamily[fontMono].lineHeight['22px'].bg[color.panel].rounded[2].border[color.border]()}>
+                <div style={min.w[0].lineHeight['22px'].fontSize['13px'].flex.col.w.full.max.w.full.overflow.hidden.fontFamily[fontMono].bg[color.panel].rounded[2].border[color.border]()}>
                         <div style={px[4].py[2].flex.items.center.justify.between.bg[color.panelHi].border.b.border[color.border]()}>
                                 <div style={gap[2].flex.items.center()}>
                                         <span style={{ width: '10px', height: '10px', borderRadius: '9999px', backgroundColor: '#475569', flexShrink: 0 }} />
@@ -35,11 +35,11 @@ export const CodeWindow = ({ title, language, lines }: CodeWindowProps) => {
                                 language={language === 'Terminal' || title === 'Terminal' ? 'bash' : 'tsx'}
                         >
                                 {({ tokens, getLineProps, getTokenProps }) => (
-                                        <div style={py[3].w.full.max.w.full.min.w[0].flex.col.overflowX.auto()}>
+                                        <div style={py[3].min.w[0].flex.col.w.full.max.w.full.overflowX.auto()}>
                                                 {tokens.map((line, i) => {
                                                         return (
                                                                 <div key={i} style={px[4].flex({ ...getLineProps({ line }).style, backgroundColor: 'transparent', minHeight: '22px', alignItems: 'center' })}>
-                                                                        <span style={w[7].text[color.faint].userSelect.none.flexShrink[0]()}>{i + 1}</span>
+                                                                        <span style={w[7].flexShrink[0].text[color.faint].userSelect.none()}>{i + 1}</span>
                                                                         <span style={{ whiteSpace: 'pre' }}>
                                                                                 {line.map((tk, key) => {
                                                                                         const tokenProps = getTokenProps({ token: tk })

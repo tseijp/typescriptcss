@@ -7,7 +7,7 @@ export type Utility = {
         bg: Color
         block: Chain
         border: Chain & Color & { b: Chain; collapse: Chain; l: Chain; r: Chain; t: Chain; x: Chain; y: Chain }
-        col: Scale & { full: Chain }
+        col: Chain & Scale & { full: Chain }
         cols: Scale & { subgrid: Chain; [value: string]: Chain }
         colStart: Scale & { [value: string]: Chain }
         css: Chain

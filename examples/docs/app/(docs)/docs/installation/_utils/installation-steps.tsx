@@ -51,7 +51,7 @@ export const InstallationSteps = ({ guide }: InstallationStepsProps) => {
                                         <span style={px[2].py[1].flexShrink[0].text[3].text[color.faint].fontFamily[fontMono].rounded[2].border[color.border]()}>[{String(index + 1).padStart(2, '0')}]</span>
                                         <div style={gap[2].min.w[0].flex[1].col()}>
                                                 <h3 style={m[0].text[4.5].text[color.text].font.semibold()}>{step.title}</h3>
-                                                <p style={m[0].text[3.5].text[color.muted].leading[6]()}>{step.body}</p>
+                                                <p style={m[0].leading[6].text[3.5].text[color.muted]()}>{step.body}</p>
                                         </div>
                                         <div style={w.full.min.w[0].flex[1]()}>
                                                 <CodeWindow title={step.code.title} language={step.code.language} lines={step.code.lines} />

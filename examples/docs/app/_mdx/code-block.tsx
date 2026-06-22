@@ -14,13 +14,13 @@ export const CodeBlock = ({ children }: { children?: any }) => {
         const source = typeof code === 'string' ? code.replace(/\n$/, '') : ''
 
         return (
-                <div style={w.full.max.w.full.min.w[0].margin['20px 0'].flex.col.fontFamily[fontMono].fontSize['13px'].lineHeight['22px'].bg[color.panel].rounded[2].border.border[color.border].overflow.hidden()}>
+                <div style={w.full.margin['20px 0'].max.w.full.min.w[0].lineHeight['22px'].fontSize['13px'].flex.col.fontFamily[fontMono].bg[color.panel].rounded[2].border.border[color.border].overflow.hidden()}>
                         <Highlight theme={prismTheme} code={source} language={language}>
                                 {({ tokens, getLineProps, getTokenProps }) => (
                                         <div style={py[3].w.full.max.w.full.min.w[0].flex.col.overflowX.auto()}>
                                                 {tokens.map((line, i) => (
                                                         <div key={i} style={px[4].flex({ ...getLineProps({ line }).style, backgroundColor: 'transparent', minHeight: '22px', alignItems: 'center' })}>
-                                                                <span style={text[color.faint].width['28px'].userSelect.none.flexShrink[0]()}>{i + 1}</span>
+                                                                <span style={text[color.faint].width['28px'].flexShrink[0].userSelect.none()}>{i + 1}</span>
                                                                 <span style={{ whiteSpace: 'pre' }}>
                                                                         {line.map((tk, key) => {
                                                                                 const tokenProps = getTokenProps({ token: tk })

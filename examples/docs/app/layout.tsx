@@ -17,9 +17,9 @@ const themeSegment = (label: string, active: boolean) => (
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en" style={m[0].p[0].min.h.full()}>
-			<body style={m[0].p[0].min.h.full.text[color.text].fontFamily['Inter, system-ui, -apple-system, Segoe UI, sans-serif'].flex.col.bg[color.bg].colorScheme.dark()}>
+			<body style={m[0].p[0].min.h.full.text[color.text].flex.col.fontFamily['Inter, system-ui, -apple-system, Segoe UI, sans-serif'].bg[color.bg].colorScheme.dark()}>
 				<div style={min.h.full.position.relative.flex.col.backgroundImage[`repeating-linear-gradient(-45deg, ${color.line}1a 0px, ${color.line}1a 1px, transparent 1px, transparent 9px)`]()}>
-					<header style={px[6].h[16].zIndex[30].top[0].position.sticky.flex.items.center.justify.between.bg[color.bg].border.b.border[color.border]()}>
+					<header style={px[6].position.sticky.zIndex[30].h[16].top[0].flex.items.center.justify.between.bg[color.bg].border.b.border[color.border]()}>
 						<div style={gap[3].flex.items.center()}>
 							<span style={bg[color.cyan].width['18px'].height['18px'].rounded[2]()} />
 							<span style={text[4].text[color.text].font.semibold.fontFamily['ui-monospace, SFMono-Regular, Menlo, Consolas, monospace']()}>typescriptcss</span>
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 							))}
 						</nav>
 						<div style={gap[3].flex.items.center()}>
-							<div style={px[3].py[1].text[3].text[color.muted].gap[2].fontFamily['ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'].flex.items.center.bg[color.panel].rounded[3].border.border[color.border]()}>
+							<div style={px[3].py[1].text[3].text[color.muted].gap[2].flex.items.center.fontFamily['ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'].bg[color.panel].rounded[3].border.border[color.border]()}>
 								<span>Search</span>
 								<span style={text[color.faint]()}>⌘K</span>
 							</div>
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 							</a>
 						</div>
 					</header>
-					<div style={flex[1].col.min.w[0]()}>{children}</div>
+					<div style={min.w[0].flex[1].col()}>{children}</div>
 					<footer style={flex.col.bg[color.bg].border.t.border[color.border]()}>
 						<div style={px[6].py[12].grid.cols[4]()}>
 							{[

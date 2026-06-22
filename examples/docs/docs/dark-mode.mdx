@@ -7,7 +7,7 @@ typescriptcss includes a `dark` segment that lets you give a utility a second va
 
 {/* prettier-ignore */}
 ```tsx
-<div style={bg['#fff'].dark.bg['#1e293b'].text['#0f172a'].dark.text['#f8fafc'].p[6].rounded[4]()}>
+<div style={p[6].text['#0f172a'].bg['#fff'].rounded[4].dark.text['#f8fafc'].dark.bg['#1e293b']()}>
   <h3>Writes upside-down</h3>
   <p>The Zero Gravity Pen works in any orientation. It even works in space.</p>
 </div>
@@ -21,9 +21,9 @@ A single element carries all of its dark-mode colors inline. There is no second 
 
 {/* prettier-ignore */}
 ```tsx
-<span style={bg['#6366f1'].rounded.md.p[2]
-  .text['#fff']
-  .border['#e2e8f0'].dark.border['#334155']()}>
+<span style={text['#fff'].bg['#6366f1'].rounded.md.p[2]
+  .border['#e2e8f0']
+  .dark.border['#334155']()}>
   Badge
 </span>
 ```
@@ -50,8 +50,8 @@ Because dark-mode colors are written next to their light counterparts, the relat
 
 {/* prettier-ignore */}
 ```tsx
-<div style={bg[color.panelLight].dark.bg[color.panelDark]
-  .text[color.inkLight].dark.text[color.inkDark]()}>
+<div style={text[color.inkLight].bg[color.panelLight]
+  .dark.text[color.inkDark].dark.bg[color.panelDark]()}>
   {/* ... */}
 </div>
 ```

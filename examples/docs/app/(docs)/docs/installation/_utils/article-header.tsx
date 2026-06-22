@@ -8,7 +8,7 @@ export type ArticleHeaderProps = {
 
 export const ArticleHeader = ({ eyebrow, title }: ArticleHeaderProps) => (
         <>
-                <span style={text[3].text[color.cyan].letterSpacing['0.1em'].textTransform.uppercase.font.semibold()}>{eyebrow}</span>
-                <h1 style={m[0].text[8].text[color.text].leading[10].font.semibold.tracking.tight()}>{title}</h1>
+                <span style={text[3].letterSpacing['0.1em'].text[color.cyan].font.semibold.textTransform.uppercase()}>{eyebrow}</span>
+                <h1 style={m[0].leading[10].text[8].text[color.text].font.semibold.tracking.tight()}>{title}</h1>
         </>
 )
