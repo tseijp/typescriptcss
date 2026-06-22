@@ -1,7 +1,7 @@
 import { text } from 'typescriptcss/src'
 import { color } from '@/styles/tokens'
-import { Article } from '@/components/docs/article'
-import { CodeWindow } from '@/components/docs/code-window'
+import { ArticleHeader } from '../../_utils/article-header'
+import { CodeWindow } from '../../_utils/code-window'
 export const dynamicParams = true
 const guides: any = {
         vite: { name: 'Vite', pkg: '@typescriptcss/plugin-vite', file: 'vite.config.ts', lines: ["import { defineConfig } from 'vite'", "import typescriptcss from '@typescriptcss/plugin-vite'", '', 'export default defineConfig({', '        plugins: [typescriptcss()],', '})'] },
@@ -10,18 +10,18 @@ const guides: any = {
         tsdown: { name: 'tsdown', pkg: '@typescriptcss/plugin-rollup', file: 'tsdown.config.ts', lines: ["import { defineConfig } from 'tsdown'", "import typescriptcss from '@typescriptcss/plugin-rollup'", '', 'export default defineConfig({', '        plugins: [typescriptcss()],', '})'] },
         webpack: { name: 'webpack', pkg: '@typescriptcss/plugin-webpack', file: 'webpack.config.js', lines: ["const typescriptcss = require('@typescriptcss/plugin-webpack')", '', 'module.exports = {', '        plugins: [typescriptcss()],', '}'] },
 }
-const fallback = (key: string) => ({ name: key || 'your bundler', pkg: '@typescriptcss/plugin-core', file: 'build config', lines: ["import typescriptcss from '@typescriptcss/plugin-core'", '', '// register typescriptcss() in your build pipeline'] })
 export const generateStaticParams = () => Object.keys(guides).map((key) => ({ slug: [key] }))
 export default async function FrameworkGuide({ params }: any) {
         const { slug } = await params
         const key = Array.isArray(slug) ? slug[0] : slug
-        const guide = guides[key] || fallback(key)
+        const guide = guides[key] || { name: key || 'your bundler', pkg: '@typescriptcss/plugin-core', file: 'build config', lines: ["import typescriptcss from '@typescriptcss/plugin-core'", '', '// register typescriptcss() in your build pipeline'] }
         return (
-                <Article eyebrow="FRAMEWORK GUIDES" title={`Install typescriptcss in ${guide.name}`}>
+                <>
+                        <ArticleHeader eyebrow="FRAMEWORK GUIDES" title={`Install typescriptcss in ${guide.name}`} />
                         <p style={text[4.5].text[color.muted].leading[8]({ margin: 0, maxWidth: '720px' })}>Install the runtime and the {guide.name} adapter, then register the plugin in your build configuration. The adapter shares the same core collector, so the authoring experience is identical across bundlers.</p>
                         <CodeWindow title="Terminal" language="Terminal" lines={[`npm install typescriptcss`, `npm install -D ${guide.pkg}`]} />
                         <CodeWindow title={guide.file} language={guide.file} lines={guide.lines} />
                         <p style={text[3.5].text[color.muted].leading[6]({ margin: 0, maxWidth: '720px' })}>With the plugin registered, write your styles as inline chains anywhere in your components. The build step collects them into a single stylesheet and rewrites the markup to reference hashed class names.</p>
-                </Article>
+                </>
         )
 }

@@ -5,6 +5,7 @@ export const description = 'Styling elements on hover, focus, active, and every 
 
 Every utility in a typescriptcss chain can be applied conditionally by inserting a state segment before it. To change the background on hover, write `hover` and then the utilities that should apply while the pointer is over the element.
 
+{/* prettier-ignore */}
 ```tsx
 <button style={px[5].py[2].rounded.full.bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>
   Save changes
@@ -15,6 +16,7 @@ Everything before `hover` is the resting style, and everything after it applies 
 
 State segments can also be stacked to target a precise situation — a different background in dark mode, at the medium breakpoint, on hover:
 
+{/* prettier-ignore */}
 ```tsx
 <button style={bg['#0b1120'].dark.md.hover.bg['#c026d3']()}>Save changes</button>
 ```
@@ -27,6 +29,7 @@ This guide walks through every state available: pseudo-classes, structural and f
 
 Style elements as the user interacts with them using `hover`, `focus`, and `active`. Stack them in one chain to describe all three at once.
 
+{/* prettier-ignore */}
 ```tsx
 <button
   style={px[5].py[2].rounded.full.text['#fff']
@@ -45,10 +48,12 @@ Style elements as the user interacts with them using `hover`, `focus`, and `acti
 
 Style an element by its position among its siblings. Use `first` and `last` to trim the ends of a list, and `odd` and `even` for zebra striping — the browser decides which is which, so the markup is identical for every row.
 
+{/* prettier-ignore */}
 ```tsx
 <li style={flex.py[4].first.pt[0].last.pb[0]()}>{/* ... */}</li>
 ```
 
+{/* prettier-ignore */}
 ```tsx
 <tr style={odd.bg['#ffffff'].even.bg['#f8fafc']()}>{/* ... */}</tr>
 ```
@@ -59,6 +64,7 @@ For finer control, `nth` targets children by position, so you can style every th
 
 Form controls expose their own states. React to what a field is doing with `required`, `invalid`, `disabled`, `checked`, and `readOnly` instead of branching in your component.
 
+{/* prettier-ignore */}
 ```tsx
 <input
   style={rounded.md.border['#d1d5db'].px[3].py[2]
@@ -74,6 +80,7 @@ The same chain covers every state the input can be in, which removes a whole lay
 
 Style an element from the state or content of its descendants with `has`. A label can highlight itself when the radio inside it is checked:
 
+{/* prettier-ignore */}
 ```tsx
 <label style={flex.items.center.gap[3].rounded.lg.p[4]
   .has.checked.bg['#eef2ff'].has.checked.text['#3730a3']()}>
@@ -88,6 +95,7 @@ Style an element from the state or content of its descendants with `has`. A labe
 
 Mark a parent with `group` and read its state from a child with a `group` segment. Hovering the card changes the nested text even though the pointer is over the parent.
 
+{/* prettier-ignore */}
 ```tsx
 <a style={group.block.rounded.lg.p[8].bg['#0b1120']()}>
   <div style={text['#f8fafc'].group.hover.text['#22d3ee']()}>New project</div>
@@ -103,6 +111,7 @@ This works with every pseudo-class — `group.focus`, `group.active`, and the re
 
 Mark a sibling with `peer` and react to it from a later element using a `peer` segment. A checkbox can strike through its own label and hide the adjacent delete button when checked:
 
+{/* prettier-ignore */}
 ```tsx
 <label style={peer.flex.items.center.gap[3]()}>
   <input type="checkbox" />
@@ -117,6 +126,7 @@ Mark a sibling with `peer` and react to it from a later element using a `peer` s
 
 Use `not` to apply utilities only when a condition is false. It is most useful combined with another state — for example, applying a hover style only while the element is not focused:
 
+{/* prettier-ignore */}
 ```tsx
 <button style={bg['#4f46e5'].hover.not.focus.bg['#4338ca']()}>Save changes</button>
 ```
@@ -125,6 +135,7 @@ Use `not` to apply utilities only when a condition is false. It is most useful c
 
 Reach the generated pieces of an element with `before`, `after`, `placeholder`, and `selection`.
 
+{/* prettier-ignore */}
 ```tsx
 <input style={placeholder.text['#94a3b8'].selection.bg['#22d3ee']()} placeholder="you@example.com" />
 ```
@@ -133,20 +144,20 @@ Reach the generated pieces of an element with `before`, `after`, `placeholder`, 
 
 ## State reference
 
-| Segment        | Applies when                                  |
-| -------------- | --------------------------------------------- |
-| `hover`        | the pointer is over the element               |
-| `focus`        | the element is focused                        |
-| `active`       | the element is being pressed                  |
-| `focusVisible` | the element is focused via keyboard           |
-| `first` `last` | the element is the first or last child        |
-| `odd` `even`   | the element is an odd or even child           |
-| `disabled`     | a form control is disabled                    |
-| `invalid`      | a form control fails validation               |
-| `checked`      | a checkbox or radio is checked                |
-| `has`          | a descendant matches the following condition  |
-| `group`        | a `group` ancestor matches the condition      |
-| `peer`         | a `peer` sibling matches the condition        |
-| `not`          | the following condition is false              |
+| Segment        | Applies when                                 |
+| -------------- | -------------------------------------------- |
+| `hover`        | the pointer is over the element              |
+| `focus`        | the element is focused                       |
+| `active`       | the element is being pressed                 |
+| `focusVisible` | the element is focused via keyboard          |
+| `first` `last` | the element is the first or last child       |
+| `odd` `even`   | the element is an odd or even child          |
+| `disabled`     | a form control is disabled                   |
+| `invalid`      | a form control fails validation              |
+| `checked`      | a checkbox or radio is checked               |
+| `has`          | a descendant matches the following condition |
+| `group`        | a `group` ancestor matches the condition     |
+| `peer`         | a `peer` sibling matches the condition       |
+| `not`          | the following condition is false             |
 
 Every segment in the table reads the same way and stacks with breakpoints and `dark`, so you compose them freely without learning a separate syntax for each combination.

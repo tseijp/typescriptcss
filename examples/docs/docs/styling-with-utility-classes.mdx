@@ -5,6 +5,7 @@ export const description = 'Building complex components from a constrained set o
 
 You style things with typescriptcss by combining many single-purpose utilities directly in your markup. Instead of writing class strings, you build a chain of property accesses that resolves to a style object. A chain like `flex.col.items.center.gap[4]` reads like a sentence and produces exactly the declarations it names.
 
+{/* prettier-ignore */}
 ```tsx
 <div style={flex.items.center.gap[4].max.w[96].p[6].rounded[4].bg['#fff']()}>
   <Logo />
@@ -28,8 +29,9 @@ Styling this way has real advantages once you try it:
 
 A chain is an ordinary expression. Reading a property narrows the style; calling the chain at the end finalizes it into a plain style object that you hand to `style`.
 
+{/* prettier-ignore */}
 ```tsx
-const base = flex.col.gap[3]      // a chain, not yet finalized
+const base = flex.col.gap[3]       // a chain, not yet finalized
 <div style={base.p[6]()}>...</div> // call () to produce the style object
 ```
 
@@ -41,6 +43,7 @@ Scales use element access, where one unit equals four pixels. So `gap[4]` is 16p
 
 Colors and other arbitrary values are passed as strings, so any hex or `oklch()` value works without adding it to a palette first.
 
+{/* prettier-ignore */}
 ```tsx
 <button style={bg['#316ff6'].text['#fff'].px[5].py[2].rounded[2]()}>
   Sign in
@@ -53,6 +56,7 @@ There is no color palette to learn, no theme file you are required to extend, an
 
 A handful of CSS properties do not have a dedicated utility — things like `position`, `transition`, or a custom `gridTemplateColumns`. Pass a plain object to the call and it merges on top of the chain, so the common case stays terse while anything unusual is still one line away.
 
+{/* prettier-ignore */}
 ```tsx
 <aside style={flex.col.gap[3].bg['#0b1120']({ position: 'sticky', top: 0 })}>
   {/* ... */}
@@ -67,6 +71,7 @@ When you build whole screens from utilities, the same combination naturally show
 
 Most repeated UI is rendered in a loop, so the chain is authored once even though it appears many times on screen. When a pattern needs to be reused across files, lift it into a component and pass the data in as props — the styling lives in one place and updates everywhere at once.
 
+{/* prettier-ignore */}
 ```tsx
 export function VacationCard({ img, title, price }: any) {
   return (
@@ -85,6 +90,7 @@ Because the component is the single source of truth for both the markup and the 
 
 A finalized chain is itself a style object, so it composes naturally with values that are only known at runtime — a color from an API, a width from a measurement. Spread the chain and add the dynamic property alongside it.
 
+{/* prettier-ignore */}
 ```tsx
 <div style={{ ...rounded.lg.p[4](), backgroundColor: brandColor }}>
   {/* ... */}

@@ -5,6 +5,7 @@ export const description = 'Designing a light and dark version of your interface
 
 typescriptcss includes a `dark` segment that lets you give a utility a second value for dark mode. Insert `dark` into a chain and the color utilities that follow take their dark-mode value. The light and dark styles travel together in one expression.
 
+{/* prettier-ignore */}
 ```tsx
 <div style={bg['#fff'].dark.bg['#1e293b'].text['#0f172a'].dark.text['#f8fafc'].p[6].rounded[4]()}>
   <h3>Writes upside-down</h3>
@@ -18,6 +19,7 @@ The card is white with dark text by default and dark with light text once dark m
 
 A single element carries all of its dark-mode colors inline. There is no second class list to remember and no risk of styling the light theme in one file and forgetting the dark theme in another.
 
+{/* prettier-ignore */}
 ```tsx
 <span style={bg['#6366f1'].rounded.md.p[2]
   .text['#fff']
@@ -32,6 +34,7 @@ Each `dark` segment applies to the color utilities that follow it, so you can mi
 
 `dark` composes with breakpoints and interactive states. Order the segments the way you would say the condition out loud, and the utilities after the final segment apply only when every condition holds.
 
+{/* prettier-ignore */}
 ```tsx
 // Lighter on hover, only in dark mode, from the medium breakpoint up
 <a style={text['#94a3b8'].dark.md.hover.text['#ffffff']()}>
@@ -45,6 +48,7 @@ This makes dark mode a first-class part of the same system as everything else â€
 
 Because dark-mode colors are written next to their light counterparts, the relationship between the two is always visible while you work. Pull both values from your theme object so the pairings stay consistent across the whole interface.
 
+{/* prettier-ignore */}
 ```tsx
 <div style={bg[color.panelLight].dark.bg[color.panelDark]
   .text[color.inkLight].dark.text[color.inkDark]()}>
