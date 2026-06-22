@@ -1,5 +1,5 @@
 import { flex, text } from 'typescriptcss/src'
-import { color, fontMono } from '@/styles/tokens'
+import { color, fontMono } from '@/styles'
 import { ArticleHeader } from './_utils/article-header'
 import { CodeWindow } from './_utils/code-window'
 

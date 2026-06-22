@@ -1,5 +1,5 @@
 import { text } from 'typescriptcss/src'
-import { color } from '@/styles/tokens'
+import { color } from '@/styles'
 import { ArticleHeader } from '../../_utils/article-header'
 import { CodeWindow } from '../../_utils/code-window'
 export const dynamicParams = true

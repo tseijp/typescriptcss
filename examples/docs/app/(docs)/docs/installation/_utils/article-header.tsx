@@ -1,5 +1,5 @@
 import { text } from 'typescriptcss/src'
-import { color } from '@/styles/tokens'
+import { color } from '@/styles'
 
 export type ArticleHeaderProps = {
         eyebrow: string

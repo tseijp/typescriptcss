@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { bg, border, flex, font, gap, grid, leading, max, p, px, py, rounded, text, tracking } from 'typescriptcss/src'
-import { color, fontMono } from '@/src/styles/tokens'
-import { cardSheen } from '@/src/styles/patterns'
-import { sections } from '@/src/data/docs-nav'
+import { cardSheen, color, fontMono } from '@/styles'
+import { sections } from '@/const'
 export default function DocsIndex() {
         return (
                 <div style={flex.col.gap[10].max.w[224].py[12].px[8]({ marginInline: 'auto', width: '100%' })}>

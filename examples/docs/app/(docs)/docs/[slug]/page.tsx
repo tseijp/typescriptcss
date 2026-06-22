@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { flex } from 'typescriptcss/src'
-import { color } from '@/src/styles/tokens'
+import { color } from '@/styles'
 const slugs = ['styling-with-utility-classes', 'responsive-design', 'hover-focus-and-other-states', 'dark-mode', 'theme']
 export const generateStaticParams = () => slugs.map((slug) => ({ slug }))
 export default async function DocPage({ params }: any) {

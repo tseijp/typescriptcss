@@ -1,6 +1,6 @@
 import { Highlight } from 'prism-react-renderer'
 import { flex, text } from 'typescriptcss/src'
-import { color, token, fontMono } from '@/styles/tokens'
+import { color, token, fontMono } from '@/styles'
 
 export type CodeWindowProps = {
         title: string
@@ -10,7 +10,7 @@ export type CodeWindowProps = {
 
 export const CodeWindow = ({ title, language, lines }: CodeWindowProps) => {
         return (
-                <div style={flex.col.bg[color.panel].border.border[color.border]({ borderWidth: '1px', borderRadius: '8px', overflow: 'hidden', fontFamily: fontMono, fontSize: '13px', lineHeight: '22px' })}>
+                <div style={flex.col.bg[color.panel].border.border[color.border]({ borderWidth: '1px', borderRadius: '8px', overflow: 'hidden', fontFamily: fontMono, fontSize: '13px', lineHeight: '22px', width: '100%', maxWidth: '100%', minWidth: 0 })}>
                         <div style={flex.items.center.justify.between.px[4].py[2].bg[color.panelHi].border.b.border[color.border]({ borderBottomWidth: '1px' })}>
                                 <div style={flex.items.center.gap[2]()}>
                                         <span style={{ width: '10px', height: '10px', borderRadius: '9999px', backgroundColor: '#475569', flexShrink: 0 }} />
@@ -35,7 +35,7 @@ export const CodeWindow = ({ title, language, lines }: CodeWindowProps) => {
                                 language={language === 'Terminal' || title === 'Terminal' ? 'bash' : 'tsx'}
                         >
                                 {({ tokens, getLineProps, getTokenProps }) => (
-                                        <div style={flex.col.py[3]()}>
+                                        <div style={flex.col.py[3]({ width: '100%', maxWidth: '100%', minWidth: 0, overflowX: 'auto' })}>
                                                 {tokens.map((line, i) => {
                                                         return (
                                                                 <div key={i} style={flex.px[4]({ ...getLineProps({ line }).style, backgroundColor: 'transparent', minHeight: '22px', alignItems: 'center' })}>

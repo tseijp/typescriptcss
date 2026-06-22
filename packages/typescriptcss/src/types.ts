@@ -7,11 +7,14 @@ export type Utility = {
         bg: Color
         block: Chain
         border: Chain & Color & { b: Chain; collapse: Chain; l: Chain; r: Chain; t: Chain; x: Chain; y: Chain }
+        col: Scale & { full: Chain }
+        cols: Scale & { subgrid: Chain; [value: string]: Chain }
+        colStart: Scale & { [value: string]: Chain }
         css: Chain
         dark: Chain
         flex: Chain & Scale & { col: Chain; nowrap: Chain; row: Chain; wrap: Chain }
         font: Scale & { bold: Chain; medium: Chain; normal: Chain; sans: Chain; semibold: Chain }
-        gap: Scale
+        gap: Scale & { x: Scale; y: Scale }
         grid: Chain
         h: Screen
         hidden: Chain

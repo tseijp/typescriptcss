@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { bg, flex, m, text } from 'typescriptcss/src'
-import { color } from '@/src/styles/tokens'
-import { primaryNav } from '@/src/data/docs-nav'
+import { color } from '@/styles'
+import { primaryNav } from '@/const'
 
 export const metadata: Metadata = {
         title: 'typescriptcss',

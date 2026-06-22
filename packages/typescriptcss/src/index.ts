@@ -20,6 +20,11 @@ export const border = token<Utility['border']>('border', (state) => {
         const next = merge(state, { borderStyle: 'solid', borderWidth: '1px' }, 'border')
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
+scope('cols', { subgrid: set({ gridTemplateColumns: 'subgrid' }) })
+export const cols = token<Utility['cols']>('cols', withScope('cols', read((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))))
+scope('col', { full: set({ gridColumn: '1 / -1' }) })
+export const col = token<Utility['col']>('col', withScope('col', numeric((key) => ({ gridColumn: `span ${key} / span ${key}` }))))
+export const colStart = token<Utility['colStart']>('colStart', numeric((key) => ({ gridColumnStart: Number(key) })))
 export const css = token<Utility['css']>('css', splitter)
 export const dark = token<Utility['dark']>('dark', dark_)
 export const flex = token<Utility['flex']>('flex', (state) => {
@@ -33,7 +38,8 @@ export const font = token<Utility['font']>(
                 numeric((key) => ({ fontWeight: Number(key) })),
         ),
 )
-export const gap = token<Utility['gap']>('gap', space('gap'))
+scope('gap', { x: space('columnGap'), y: space('rowGap') })
+export const gap = token<Utility['gap']>('gap', withScope('gap', space('gap')))
 export const grid = token<Utility['grid']>('grid', set({ display: 'grid' }))
 export const h = token<Utility['h']>('h', length('height'))
 export const hidden = token<Utility['hidden']>('hidden', set({ display: 'none' }))

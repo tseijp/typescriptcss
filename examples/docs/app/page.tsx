@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { bg, flex, inline, text } from 'typescriptcss/src'
-import { color, fontMono } from '@/src/styles/tokens'
-import { cardSheen } from '@/src/styles/patterns'
+import { cardSheen, color, fontMono } from '@/styles'
 
 const Cta = ({ href, primary, children }: any) => {
         if (primary) return <Link href={href} style={flex.items.center.justify.center.px[5].py[3].rounded[2]({ textDecoration: 'none', fontWeight: 600, fontSize: '14px', color: color.bg, background: color.cyan, borderWidth: '1px', borderStyle: 'solid', borderColor: color.cyan })}>{children}</Link>

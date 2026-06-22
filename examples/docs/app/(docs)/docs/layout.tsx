@@ -1,6 +1,6 @@
 import { bg, flex, text } from 'typescriptcss/src'
-import { color } from '@/styles/tokens'
-import { primaryNav, sections } from '@/data/docs-nav'
+import { color } from '@/styles'
+import { primaryNav, sections } from '@/const'
 
 export default function DocsLayout({ children }: Readonly<{ children: React.ReactNode }>) {
         return (
