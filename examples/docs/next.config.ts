@@ -1,10 +1,11 @@
 import createMDX from '@next/mdx'
-import withTCSS from "@typescriptcss/plugin-next/src";
+import createCSS from '@typescriptcss/plugin-next/src'
 
 const withMDX = createMDX()
+const withCSS = createCSS({ output: 'inline' })
 const config = {
         pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
         transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core'],
 }
 
-export default withTCSS()(withMDX(config));
+export default withCSS(withMDX(config))
