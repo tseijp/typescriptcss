@@ -1,0 +1,55 @@
+export const title = 'Dark mode'
+export const description = 'Designing a light and dark version of your interface from a single chain.'
+
+## Overview
+
+typescriptcss includes a `dark` segment that lets you give a utility a second value for dark mode. Insert `dark` into a chain and the color utilities that follow take their dark-mode value. The light and dark styles travel together in one expression.
+
+```tsx
+<div style={bg['#fff'].dark.bg['#1e293b'].text['#0f172a'].dark.text['#f8fafc'].p[6].rounded[4]()}>
+  <h3>Writes upside-down</h3>
+  <p>The Zero Gravity Pen works in any orientation. It even works in space.</p>
+</div>
+```
+
+The card is white with dark text by default and dark with light text once dark mode is active. Read the chain as pairs: a base color, then its `dark` counterpart. You describe both themes in the place where you describe the element, so there is never a separate dark stylesheet to keep aligned with the light one.
+
+## One element, both themes
+
+A single element carries all of its dark-mode colors inline. There is no second class list to remember and no risk of styling the light theme in one file and forgetting the dark theme in another.
+
+```tsx
+<span style={bg['#6366f1'].rounded.md.p[2]
+  .text['#fff']
+  .border['#e2e8f0'].dark.border['#334155']()}>
+  Badge
+</span>
+```
+
+Each `dark` segment applies to the color utilities that follow it, so you can mix base-only colors (which stay the same in both themes) with paired colors (which switch) in any order that reads clearly.
+
+## Combining with other states
+
+`dark` composes with breakpoints and interactive states. Order the segments the way you would say the condition out loud, and the utilities after the final segment apply only when every condition holds.
+
+```tsx
+// Lighter on hover, only in dark mode, from the medium breakpoint up
+<a style={text['#94a3b8'].dark.md.hover.text['#ffffff']()}>
+  Documentation
+</a>
+```
+
+This makes dark mode a first-class part of the same system as everything else — you are not learning a separate mechanism, just adding one more segment.
+
+## A consistent dark palette
+
+Because dark-mode colors are written next to their light counterparts, the relationship between the two is always visible while you work. Pull both values from your theme object so the pairings stay consistent across the whole interface.
+
+```tsx
+<div style={bg[color.panelLight].dark.bg[color.panelDark]
+  .text[color.inkLight].dark.text[color.inkDark]()}>
+  {/* ... */}
+</div>
+```
+
+Tuning the dark theme then means editing the dark tokens in one object, and every paired chain updates with them — no second set of files, and nothing to regenerate.

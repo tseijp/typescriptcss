@@ -6,11 +6,11 @@ export type TypescriptcssOptions = {
         classPrefix?: string
         fileName?: string
         minify?: boolean
+        root?: string
 }
 export type RuntimeStyle = Record<string, any>
 export type CssBlock = { base: RuntimeStyle; media: Record<string, RuntimeStyle> }
 export type CssTarget = 'file' | 'head' | 'inline'
-export type ChainPart = { type: 'name' | 'value'; value: string }
-export type TransformResult = { changed: boolean; code: string; map: null }
 export type CssAsset = { fileName: string; source: string }
+export type TransformResult = { changed: boolean; code: string; css: string; map: null }
 export type EmitClass = (block: CssBlock, target: Exclude<CssTarget, 'inline'>) => string

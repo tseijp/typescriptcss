@@ -1,0 +1,94 @@
+export const title = 'Styling with utility chains'
+export const description = 'Building complex components from a constrained set of single-purpose utilities, written as a chain.'
+
+## Overview
+
+You style things with typescriptcss by combining many single-purpose utilities directly in your markup. Instead of writing class strings, you build a chain of property accesses that resolves to a style object. A chain like `flex.col.items.center.gap[4]` reads like a sentence and produces exactly the declarations it names.
+
+```tsx
+<div style={flex.items.center.gap[4].max.w[96].p[6].rounded[4].bg['#fff']()}>
+  <Logo />
+  <div>
+    <div style={text['#000'].font.medium()}>ChitChat</div>
+    <p style={text['#6b7280']()}>You have a new message!</p>
+  </div>
+</div>
+```
+
+In the card above the display and spacing utilities (`flex`, `items.center`, `gap[4]`, `p[6]`) control the layout, the sizing utility (`max.w[96]`) constrains the width, and the appearance utilities (`bg['#fff']`, `rounded[4]`) finish the look. Every utility affects only the element it is attached to.
+
+Styling this way has real advantages once you try it:
+
+- **You move faster** — there are no class names to invent and no second file to switch to, so a design comes together in one place.
+- **Changes stay local** — adding or removing a utility only ever affects that one element, so you never break a screen you forgot was sharing a class.
+- **Your styles are portable** — structure and styling live together, so you can copy a block of UI between files or projects and it keeps its look.
+- **Your styles stop growing** — identical chains share a single class, so the generated output stays flat as the project grows.
+
+## Reading and finalizing a chain
+
+A chain is an ordinary expression. Reading a property narrows the style; calling the chain at the end finalizes it into a plain style object that you hand to `style`.
+
+```tsx
+const base = flex.col.gap[3]      // a chain, not yet finalized
+<div style={base.p[6]()}>...</div> // call () to produce the style object
+```
+
+Because the chain is a value, your editor completes the available utilities as you type, the type checker rejects names that do not exist, and you can branch on it with plain JavaScript — pick a chain in a ternary, build one up across a few lines, or share a common prefix between elements.
+
+## Numbers and colors
+
+Scales use element access, where one unit equals four pixels. So `gap[4]` is 16px, `px[6]` is 24px, and `rounded[3]` is 12px. There is one rule to remember instead of a set of named sizes.
+
+Colors and other arbitrary values are passed as strings, so any hex or `oklch()` value works without adding it to a palette first.
+
+```tsx
+<button style={bg['#316ff6'].text['#fff'].px[5].py[2].rounded[2]()}>
+  Sign in
+</button>
+```
+
+There is no color palette to learn, no theme file you are required to extend, and no purge step to configure — the value you write is the value you get.
+
+## Merging one-off declarations
+
+A handful of CSS properties do not have a dedicated utility — things like `position`, `transition`, or a custom `gridTemplateColumns`. Pass a plain object to the call and it merges on top of the chain, so the common case stays terse while anything unusual is still one line away.
+
+```tsx
+<aside style={flex.col.gap[3].bg['#0b1120']({ position: 'sticky', top: 0 })}>
+  {/* ... */}
+</aside>
+```
+
+The object always wins over the chain for the same property, which makes it a clean override point when you need to set something precisely.
+
+## Managing duplication
+
+When you build whole screens from utilities, the same combination naturally shows up in several places. This is rarely a problem in practice, because the situations where it happens already have good answers.
+
+Most repeated UI is rendered in a loop, so the chain is authored once even though it appears many times on screen. When a pattern needs to be reused across files, lift it into a component and pass the data in as props — the styling lives in one place and updates everywhere at once.
+
+```tsx
+export function VacationCard({ img, title, price }: any) {
+  return (
+    <div style={flex.col.gap[2]()}>
+      <img style={rounded.lg()} src={img} />
+      <div style={text['#0f172a'].font.bold()}>{title}</div>
+      <div style={text['#64748b']()}>{price}</div>
+    </div>
+  )
+}
+```
+
+Because the component is the single source of truth for both the markup and the styling, updating the look is a one-line change in one file.
+
+## When to reach for a plain inline style
+
+A finalized chain is itself a style object, so it composes naturally with values that are only known at runtime — a color from an API, a width from a measurement. Spread the chain and add the dynamic property alongside it.
+
+```tsx
+<div style={{ ...rounded.lg.p[4](), backgroundColor: brandColor }}>
+  {/* ... */}
+</div>
+```
+
+Use this when a value is genuinely dynamic. For everything that is known at author time, the chain keeps the value constrained, type-checked, and ready to be collected at build.

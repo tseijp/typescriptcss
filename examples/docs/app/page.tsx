@@ -6,9 +6,10 @@ import { HeroCode } from '@/src/components/site/hero-code'
 const Pill = ({ children }: any) => (
         <span style={flex.items.center.gap[2].px[3].py[1].rounded.full({ borderWidth: '1px', borderStyle: 'solid', borderColor: color.border, fontFamily: fontMono, fontSize: '12px', color: color.cyan })}>{children}</span>
 )
-const Cta = ({ href, primary, children }: any) => (
-        <Link href={href} style={flex.items.center.justify.center.px[5].py[3].rounded[2]({ textDecoration: 'none', fontWeight: 600, fontSize: '14px', color: primary ? color.bg : color.text, background: primary ? color.cyan : 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: primary ? color.cyan : color.border })}>{children}</Link>
-)
+const Cta = ({ href, primary, children }: any) => {
+        if (primary) return <Link href={href} style={flex.items.center.justify.center.px[5].py[3].rounded[2]({ textDecoration: 'none', fontWeight: 600, fontSize: '14px', color: color.bg, background: color.cyan, borderWidth: '1px', borderStyle: 'solid', borderColor: color.cyan })}>{children}</Link>
+        return <Link href={href} style={flex.items.center.justify.center.px[5].py[3].rounded[2]({ textDecoration: 'none', fontWeight: 600, fontSize: '14px', color: color.text, background: 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: color.border })}>{children}</Link>
+}
 const Preview = () => (
         <div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black({ borderWidth: '1px', borderStyle: 'solid', borderColor: color.border })}>
                 <div style={bg[color.cyan].rounded.full({ width: '48px', height: '48px' })} />

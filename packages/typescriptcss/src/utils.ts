@@ -1,4 +1,4 @@
-import { Rule, RuntimeStyle, State, Argument, Chain } from './types'
+import type { Rule, RuntimeStyle, State, Argument, Chain } from './types.ts'
 const root: State = { css: {} }
 const rules: Record<string, Rule> = Object.create(null)
 const scoped: Record<string, Record<string, Rule>> = Object.create(null)

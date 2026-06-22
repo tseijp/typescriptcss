@@ -11,11 +11,10 @@ const groupCol = (g: any) => (
                 {g.links.map(linkRow)}
         </div>
 )
-const seg = (label: string, on: boolean) => (
-        <span key={label} style={flex.items.center.justify.center.text[3].px[3].py[1]({ backgroundColor: on ? color.panelHi : 'transparent', color: on ? color.text : color.faint })}>
-                {label}
-        </span>
-)
+const seg = (label: string, on: boolean) => {
+        if (on) return <span key={label} style={flex.items.center.justify.center.text[3].px[3].py[1]({ backgroundColor: color.panelHi, color: color.text })}>{label}</span>
+        return <span key={label} style={flex.items.center.justify.center.text[3].px[3].py[1]({ backgroundColor: 'transparent', color: color.faint })}>{label}</span>
+}
 export const DocsFooter = ({ groups = [] }: any) => (
         <footer style={flex.col.bg[color.bg].border.t.border[color.border]({ borderTopWidth: '1px' })}>
                 <div style={flex.px[6].py[12]({ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' })}>{groups.map(groupCol)}</div>

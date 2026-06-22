@@ -1,0 +1,74 @@
+export const title = 'Theme'
+export const description = 'Defining your design system as a plain TypeScript object that flows straight into your chains.'
+
+## Overview
+
+typescriptcss has no built-in palette and no named size scale. Your theme is an ordinary TypeScript object of strings and numbers that you import and pass into chains. The design system is just values you own, kept in your own code where the type checker can see them.
+
+```tsx
+// theme/tokens.ts
+export const color = {
+  bg: '#020617',
+  panel: '#0b1120',
+  text: '#f8fafc',
+  muted: '#9ca3af',
+  brand: '#22d3ee',
+}
+export const radius = { sm: 1, md: 3, lg: 4, pill: 9999 }
+```
+
+```tsx
+<div style={bg[color.panel].text[color.text].rounded[radius.lg]()}>
+  {/* ... */}
+</div>
+```
+
+There is no configuration file to set up, no generation step to run, and no plugin to register your tokens with. You write a normal object and use it like any other value in your program.
+
+## Constraints without a config
+
+Pulling values from a typed object gives you the discipline of a constrained design system. As you type `color.`, your editor lists every available token; if you reference a name that does not exist, the compiler tells you immediately. You get the safety of a curated palette and the convenience of plain autocompletion, with nothing between you and the value.
+
+Tokens are expressed in the units you already understand: hex or `oklch()` strings for color, and a four-pixel unit for scales. A token is just a string or a number, so there is never a question of how a value maps to CSS — what you store is what you get.
+
+## Organizing tokens
+
+Group related values into separate objects and import only what a file needs. Spacing, color, radius, and typography can each live in their own object, or together in one, whatever keeps the imports clear.
+
+```tsx
+export const space = { xs: 2, sm: 3, md: 4, lg: 6, xl: 8 }
+export const font = { body: 16, lead: 18, h1: 34 }
+```
+
+```tsx
+<section style={p[space.xl].gap[space.lg]()}>
+  <h1 style={text[font.h1].font.semibold()}>Title</h1>
+  <p style={text[font.body].text[color.muted]()}>Body copy</p>
+</section>
+```
+
+Because these are normal modules, you can compose them, derive one from another, or share a single theme package across several apps using the language's own import system.
+
+## Light and dark tokens
+
+Keep light and dark values side by side in the theme so the pairing is obvious, then feed both into a `dark` chain. Tuning the dark theme becomes editing the dark tokens in one place.
+
+```tsx
+export const color = {
+  panelLight: '#ffffff',
+  panelDark: '#0b1120',
+  inkLight: '#0f172a',
+  inkDark: '#f8fafc',
+}
+```
+
+```tsx
+<div style={bg[color.panelLight].dark.bg[color.panelDark]
+  .text[color.inkLight].dark.text[color.inkDark]()}>
+  {/* ... */}
+</div>
+```
+
+## Changing the system
+
+Updating the theme is editing one object. Every chain that reads a token updates with it, and because identical chains share a single class, swapping a value re-collects the output cleanly with no stale rules left behind. There is nothing to purge, nothing to regenerate, and no separate source of truth that can drift out of sync with your components.

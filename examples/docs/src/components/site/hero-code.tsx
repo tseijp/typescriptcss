@@ -1,18 +1,23 @@
-import { flex, text, bg, px, py } from 'typescriptcss/src'
+import { flex, text, bg, inline } from 'typescriptcss/src'
 import { color, fontMono } from '@/styles/tokens'
-const tone: any = { kw: color.pink, fn: color.cyan, str: color.purple, mut: color.faint, txt: color.text }
-const seg = (s: any, i: number) => (
-        <span key={i} style={text[s.t ? tone[s.t] : color.text]({})}>
-                {s.v}
-        </span>
-)
+const seg = (s: any, i: number) => {
+        if (s.t === 'kw') return <span key={i} style={text[color.pink]()}>{s.v}</span>
+        if (s.t === 'fn') return <span key={i} style={text[color.cyan]()}>{s.v}</span>
+        if (s.t === 'str') return <span key={i} style={text[color.purple]()}>{s.v}</span>
+        if (s.t === 'mut') return <span key={i} style={text[color.faint]()}>{s.v}</span>
+        return <span key={i} style={text[color.text]()}>{s.v}</span>
+}
 const row = (segs: any[], i: number) => (
         <div key={i} style={flex.px[5]({ minHeight: '22px', alignItems: 'center' })}>
                 <span style={text[color.faint]({ width: '30px', flexShrink: 0, userSelect: 'none' })}>{i + 1}</span>
-                <span style={{ whiteSpace: 'pre' }}>{segs.map(seg)}</span>
+                <span style={inline.whiteSpace.pre()}>{segs.map(seg)}</span>
         </div>
 )
-const dot = (c: string) => <span style={bg[c]({ width: '11px', height: '11px', borderRadius: '9999px' })} />
+const dot = (c: string) => {
+        if (c === '#f87171') return <span style={bg['#f87171']({ width: '11px', height: '11px', borderRadius: '9999px' })} />
+        if (c === '#fbbf24') return <span style={bg['#fbbf24']({ width: '11px', height: '11px', borderRadius: '9999px' })} />
+        return <span style={bg['#34d399']({ width: '11px', height: '11px', borderRadius: '9999px' })} />
+}
 const lines = [
         [{ t: 'kw', v: 'export default' }, { v: ' ' }, { t: 'kw', v: 'function' }, { v: ' ' }, { t: 'fn', v: 'Card' }, { v: '() {' }],
         [{ v: '  ' }, { t: 'kw', v: 'return' }, { v: ' (' }],

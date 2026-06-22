@@ -1,19 +1,19 @@
-import { createTypescriptcssProcessor, TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
+import { createTypescriptcssProcessor } from '@typescriptcss/plugin-core/src'
+import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
+type LoaderOptions = TypescriptcssOptions & { inlineOnly?: boolean; stylesheet?: boolean }
 type LoaderContext = {
         resourcePath: string
         async?: () => ((error: any, code?: string, map?: any) => void) | undefined
-        emitFile?: (name: string, source: string) => void
-        getOptions?: () => TypescriptcssOptions
+        getOptions?: () => LoaderOptions
 }
 export default function loader(this: LoaderContext, code: string) {
         const options = this.getOptions?.() ?? {}
-        const processor = createTypescriptcssProcessor(options)
+        const processor = createTypescriptcssProcessor(options, options.inlineOnly ? 'inline' : 'file')
         const result = processor.transform(code, this.resourcePath)
-        const asset = processor.file()
-        const head = processor.head()
-        const source = [head, asset?.source].filter(Boolean).join('')
-        if (source && this.emitFile) this.emitFile(asset?.fileName ?? options.fileName ?? 'typescriptcss.css', source)
+        const output = result?.code ?? code
+        const imports = result?.rules.map((rule) => `import ${JSON.stringify(`data:text/css,${encodeURIComponent(rule)}`)} with { turbopackModuleType: "css" }`) ?? []
+        const source = options.stylesheet && imports.length ? `${output}\n${imports.join('\n')}` : output
         const callback = this.async?.()
-        if (callback) return callback(null, result?.code ?? code, result?.map ?? null)
-        return result?.code ?? code
+        if (callback) return callback(null, source, result?.map ?? null)
+        return source
 }
