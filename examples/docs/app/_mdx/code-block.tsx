@@ -14,7 +14,7 @@ export const CodeBlock = ({ children }: { children?: any }) => {
         const source = typeof code === 'string' ? code.replace(/\n$/, '') : ''
 
         return (
-                <div style={w.full.margin['20px 0'].max.w.full.min.w[0].lineHeight['22px'].fontSize['13px'].flex.col.fontFamily[fontMono].bg[color.panel].rounded[2].border.border[color.border].overflow.hidden()}>
+                <div style={w.full.margin['20px 0'].max.w.full.min.w[0].fontSize['13px'].flex.col.lineHeight['22px'].fontFamily[fontMono].bg[color.panel].rounded[2].border.border[color.border].overflow.hidden()}>
                         <Highlight theme={prismTheme} code={source} language={language}>
                                 {({ tokens, getLineProps, getTokenProps }) => (
                                         <div style={py[3].w.full.max.w.full.min.w[0].flex.col.overflowX.auto()}>

@@ -9,7 +9,7 @@ export default async function DocPage({ params }: any) {
         const mod = (await import(`../../../../docs/${slug}.mdx`)) as any
         const Body = mod.default
         return (
-                <article style={px[8].py[12].max.w[224].lineHeight[1.7].text[color.muted].flex.col.w.full.marginInline.auto()}>
+                <article style={px[8].marginInline.auto.py[12].max.w[224].w.full.text[color.muted].flex.col.lineHeight[1.7]()}>
                         <Body />
                 </article>
         )
