@@ -26,3 +26,16 @@ export const token = {
 } as const
 
 export const fontMono = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
+
+export const prismTheme = {
+	plain: { color: token.plain, backgroundColor: 'transparent' },
+	styles: [
+		{ types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: token.gray, fontStyle: 'italic' as const } },
+		{ types: ['keyword', 'builtin', 'boolean', 'operator'], style: { color: token.pink } },
+		{ types: ['string', 'char', 'attr-value', 'inserted'], style: { color: token.cyan } },
+		{ types: ['number', 'constant', 'symbol'], style: { color: token.purple } },
+		{ types: ['function', 'class-name', 'tag', 'attr-name'], style: { color: token.cyan } },
+		{ types: ['punctuation'], style: { color: token.gray } },
+		{ types: ['variable', 'property', 'imports'], style: { color: token.plain } },
+	],
+}

@@ -19,6 +19,7 @@
                 "prism-react-renderer": "^2.4.1",
                 "react": "19.2.7",
                 "react-dom": "19.2.7",
+                "remark-gfm": "^4.0.1",
                 "typescriptcss": "workspace:*"
         },
         "devDependencies": {
