@@ -13,7 +13,7 @@ export const sections = [
         {
                 title: 'Getting Started',
                 items: [
-                        { label: 'Installation', href: '/docs/installation' },
+                        { label: 'Installation', href: '/docs/installation/using-vite' },
                         /**
 			 * @TODO FIX
 			{ label: 'Editor Setup', href: '/docs/editor-setup' },

@@ -10,7 +10,7 @@ A chain reads left to right. The utilities before a breakpoint segment are the b
 {/* prettier-ignore */}
 ```tsx
 // Column on small screens, row from the small breakpoint and up
-<div style={flex.col.sm.flex.row.gap[4]()}>
+<div style={flex.col.sm.gap[4].flex.row()}>
   <img style={w.full.sm.w[48]()} src="/cover.jpg" />
   <div style={p[8]()}>{/* ... */}</div>
 </div>
@@ -38,7 +38,7 @@ Breakpoints stack. You can move through `sm`, `md`, and `lg` in one chain, and e
 {/* prettier-ignore */}
 ```tsx
 // One column on phones, two from md, three from lg
-<div style={grid.gap[4].md.grid.cols[2].lg.grid.cols[3]()}>
+<div style={gap[4].grid.md.grid.cols[2].lg.grid.cols[3]()}>
   {items.map((item) => (
     <Card key={item.id} {...item} />
   ))}

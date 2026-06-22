@@ -19,7 +19,7 @@ export const radius = { sm: 1, md: 3, lg: 4, pill: 9999 }
 ```
 
 ```tsx
-<div style={bg[color.panel].text[color.text].rounded[radius.lg]()}>{/* ... */}</div>
+<div style={text[color.text].bg[color.panel].rounded[radius.lg]()}>{/* ... */}</div>
 ```
 
 There is no configuration file to set up, no generation step to run, and no plugin to register your tokens with. You write a normal object and use it like any other value in your program.

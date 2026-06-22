@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { flex } from 'typescriptcss/src'
+import { flex, max, px, py, text, w } from 'typescriptcss/src'
 import { color } from '@/styles'
 const slugs = ['styling-with-utility-classes', 'responsive-design', 'hover-focus-and-other-states', 'dark-mode', 'theme']
 export const generateStaticParams = () => slugs.map((slug) => ({ slug }))
@@ -9,7 +9,7 @@ export default async function DocPage({ params }: any) {
         const mod = (await import(`../../../../docs/${slug}.mdx`)) as any
         const Body = mod.default
         return (
-                <article style={flex.col.max.w[224].px[8].py[12]({ marginInline: 'auto', width: '100%', lineHeight: 1.7, color: color.muted })}>
+                <article style={px[8].py[12].w.full.max.w[224].lineHeight[1.7].text[color.muted].flex.col.marginInline.auto()}>
                         <Body />
                 </article>
         )

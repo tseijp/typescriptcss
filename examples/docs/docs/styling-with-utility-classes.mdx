@@ -3,11 +3,11 @@ export const description = 'Building complex components from a constrained set o
 
 ## Overview
 
-You style things with typescriptcss by combining many single-purpose utilities directly in your markup. Instead of writing class strings, you build a chain of property accesses that resolves to a style object. A chain like `flex.col.items.center.gap[4]` reads like a sentence and produces exactly the declarations it names.
+You style things with typescriptcss by combining many single-purpose utilities directly in your markup. Instead of writing class strings, you build a chain of property accesses that resolves to a style object. A chain like `gap[4].flex.col.items.center` reads like a sentence and produces exactly the declarations it names.
 
 {/* prettier-ignore */}
 ```tsx
-<div style={flex.items.center.gap[4].max.w[96].p[6].rounded[4].bg['#fff']()}>
+<div style={p[6].max.w[96].gap[4].flex.items.center.bg['#fff'].rounded[4]()}>
   <Logo />
   <div>
     <div style={text['#000'].font.medium()}>ChitChat</div>
@@ -31,7 +31,7 @@ A chain is an ordinary expression. Reading a property narrows the style; calling
 
 {/* prettier-ignore */}
 ```tsx
-const base = flex.col.gap[3]       // a chain, not yet finalized
+const base = gap[3].flex.col       // a chain, not yet finalized
 <div style={base.p[6]()}>...</div> // call () to produce the style object
 ```
 
@@ -45,7 +45,7 @@ Colors and other arbitrary values are passed as strings, so any hex or `oklch()`
 
 {/* prettier-ignore */}
 ```tsx
-<button style={bg['#316ff6'].text['#fff'].px[5].py[2].rounded[2]()}>
+<button style={px[5].py[2].text['#fff'].bg['#316ff6'].rounded[2]()}>
   Sign in
 </button>
 ```
@@ -58,7 +58,7 @@ A handful of CSS properties do not have a dedicated utility — things like `pos
 
 {/* prettier-ignore */}
 ```tsx
-<aside style={flex.col.gap[3].bg['#0b1120']({ position: 'sticky', top: 0 })}>
+<aside style={gap[3].flex.col.bg['#0b1120']({ position: 'sticky', top: 0 })}>
   {/* ... */}
 </aside>
 ```
@@ -75,7 +75,7 @@ Most repeated UI is rendered in a loop, so the chain is authored once even thoug
 ```tsx
 export function VacationCard({ img, title, price }: any) {
   return (
-    <div style={flex.col.gap[2]()}>
+    <div style={gap[2].flex.col()}>
       <img style={rounded.lg()} src={img} />
       <div style={text['#0f172a'].font.bold()}>{title}</div>
       <div style={text['#64748b']()}>{price}</div>
@@ -92,7 +92,7 @@ A finalized chain is itself a style object, so it composes naturally with values
 
 {/* prettier-ignore */}
 ```tsx
-<div style={{ ...rounded.lg.p[4](), backgroundColor: brandColor }}>
+<div style={{ ...p[4].rounded.lg(), backgroundColor: brandColor }}>
   {/* ... */}
 </div>
 ```

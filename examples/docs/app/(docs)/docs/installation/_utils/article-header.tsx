@@ -1,4 +1,4 @@
-import { text } from 'typescriptcss/src'
+import { m, text } from 'typescriptcss/src'
 import { color } from '@/styles'
 
 export type ArticleHeaderProps = {
@@ -8,7 +8,7 @@ export type ArticleHeaderProps = {
 
 export const ArticleHeader = ({ eyebrow, title }: ArticleHeaderProps) => (
         <>
-                <span style={text[3].text[color.cyan].font.semibold({ textTransform: 'uppercase', letterSpacing: '0.1em' })}>{eyebrow}</span>
-                <h1 style={text[8].text[color.text].font.semibold.tracking.tight.leading[10]({ margin: 0 })}>{title}</h1>
+                <span style={text[3].text[color.cyan].letterSpacing['0.1em'].textTransform.uppercase.font.semibold()}>{eyebrow}</span>
+                <h1 style={m[0].text[8].text[color.text].leading[10].font.semibold.tracking.tight()}>{title}</h1>
         </>
 )

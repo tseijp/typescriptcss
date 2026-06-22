@@ -7,7 +7,7 @@ Every utility in a typescriptcss chain can be applied conditionally by inserting
 
 {/* prettier-ignore */}
 ```tsx
-<button style={px[5].py[2].rounded.full.bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>
+<button style={px[5].py[2].bg['#0ea5e9'].rounded.full.hover.text['#fff'].bg['#0369a1']()}>
   Save changes
 </button>
 ```
@@ -32,8 +32,8 @@ Style elements as the user interacts with them using `hover`, `focus`, and `acti
 {/* prettier-ignore */}
 ```tsx
 <button
-  style={px[5].py[2].rounded.full.text['#fff']
-    .bg['#7c3aed']
+  style={px[5].py[2].text['#fff']
+    .bg['#7c3aed'].rounded.full
     .hover.bg['#6d28d9']
     .focus.outline['#7c3aed']
     .active.bg['#5b21b6']()}
@@ -50,7 +50,7 @@ Style an element by its position among its siblings. Use `first` and `last` to t
 
 {/* prettier-ignore */}
 ```tsx
-<li style={flex.py[4].first.pt[0].last.pb[0]()}>{/* ... */}</li>
+<li style={py[4].flex.first.pt[0].last.pb[0]()}>{/* ... */}</li>
 ```
 
 {/* prettier-ignore */}
@@ -67,7 +67,7 @@ Form controls expose their own states. React to what a field is doing with `requ
 {/* prettier-ignore */}
 ```tsx
 <input
-  style={rounded.md.border['#d1d5db'].px[3].py[2]
+  style={px[3].py[2].rounded.md.border['#d1d5db']
     .invalid.border['#ec4899'].invalid.text['#db2777']
     .focus.border['#0ea5e9']
     .disabled.bg['#f9fafb'].disabled.text['#9ca3af']()}
@@ -82,7 +82,7 @@ Style an element from the state or content of its descendants with `has`. A labe
 
 {/* prettier-ignore */}
 ```tsx
-<label style={flex.items.center.gap[3].rounded.lg.p[4]
+<label style={p[4].gap[3].flex.items.center.rounded.lg
   .has.checked.bg['#eef2ff'].has.checked.text['#3730a3']()}>
   <input type="radio" name="plan" />
   Google Pay
@@ -97,7 +97,7 @@ Mark a parent with `group` and read its state from a child with a `group` segmen
 
 {/* prettier-ignore */}
 ```tsx
-<a style={group.block.rounded.lg.p[8].bg['#0b1120']()}>
+<a style={group.block.p[8].bg['#0b1120'].rounded.lg()}>
   <div style={text['#f8fafc'].group.hover.text['#22d3ee']()}>New project</div>
   <p style={text['#64748b'].group.hover.text['#94a3b8']()}>
     Create a new project from a template.
@@ -113,7 +113,7 @@ Mark a sibling with `peer` and react to it from a later element using a `peer` s
 
 {/* prettier-ignore */}
 ```tsx
-<label style={peer.flex.items.center.gap[3]()}>
+<label style={peer.gap[3].flex.items.center()}>
   <input type="checkbox" />
   <span style={text['#334155'].peer.checked.text['#94a3b8']()}>Create a to-do list</span>
 </label>
