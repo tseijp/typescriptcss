@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 const themeSegment = (label: string, active: boolean) => (
-        <span key={label} style={px[3].py[1].text[3].text[active ? color.text : color.faint].flex.items.center.justify.center.bg[active ? color.panelHi : 'transparent']()}>
+        <span key={label} style={px[3].py[1].text[3].flex.items.center.justify.center({ color: active ? color.text : color.faint, background: active ? color.panelHi : 'transparent' })}>
                 {label}
         </span>
 )
