@@ -8,7 +8,7 @@ const withMDX = createMDX({
 })
 const withCSS = createCSS({ output: 'file' })
 const config = {
-        output: 'export',
+        output: 'export' as const,
         pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
         transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core', '@typescriptcss/plugin-next'],
 }
