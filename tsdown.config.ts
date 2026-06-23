@@ -8,7 +8,13 @@ export default defineConfig({
         dts: true,
         clean: true,
         deps: {
-                alwaysBundle: [/^@typescriptcss\/plugin-core(?:\/src)?$/, /^typescriptcss\/src$/],
+                alwaysBundle: [/^@typescriptcss\/plugin-core\/src$/, /^typescriptcss\/src$/],
+                neverBundle: [/^@typescriptcss\/plugin-core$/],
+                onlyBundle: false,
+                dts: {
+                        alwaysBundle: () => false,
+                        neverBundle: [/^@typescriptcss\/plugin-core(?:\/.*)?$/],
+                },
         },
         outExtensions: ({ format }) => ({
                 js: format === 'cjs' ? '.cjs' : '.js',

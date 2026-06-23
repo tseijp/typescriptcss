@@ -54,6 +54,7 @@
                 }
         },
         "scripts": {
+                "prebuild": "npm run build --workspace=@typescriptcss/plugin-core",
                 "build": "tsdown --config ../../../tsdown.config.ts"
         },
         "files": [

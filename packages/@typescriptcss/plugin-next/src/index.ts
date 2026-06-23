@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
+import type { TypescriptcssOptions } from '@typescriptcss/plugin-core'
 type NextConfig = Record<string, any>
 type LoaderOptions = TypescriptcssOptions & { inlineOnly?: boolean; stylesheet?: boolean }
 const extension = import.meta.url.endsWith('.cjs') ? '.cjs' : '.js'
@@ -51,7 +51,8 @@ const withWebpack = (config: NextConfig, options: TypescriptcssOptions, next: Ne
                 return value
         },
 })
-export const typescriptcss =
+const typescriptcss =
         (options: TypescriptcssOptions = {}) =>
-        (config: NextConfig = {}): NextConfig => withWebpack(config, options, withTurbo(withHead(config, options.output), options, options.root ?? process.cwd()))
+        (config: NextConfig = {}): NextConfig =>
+                withWebpack(config, options, withTurbo(withHead(config, options.output), options, options.root ?? process.cwd()))
 export default typescriptcss

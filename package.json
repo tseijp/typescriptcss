@@ -14,7 +14,13 @@
                 "preview": "cd examples/docs && npm run preview",
                 "tsup": "cd packages/typescriptcss && npm run build",
                 "pub": "cd packages/typescriptcss && npm publish",
-                "ls": "cd packages/typescriptcss && npm publish --dry-run"
+                "ls": "cd packages/typescriptcss && npm publish --dry-run",
+                "_core": "cd packages/@typescriptcss/plugin-core && npm run build",
+                "_next": "cd packages/@typescriptcss/plugin-next && npm run build",
+                "_rollup": "cd packages/@typescriptcss/plugin-rollup && npm run build",
+                "_vite": "cd packages/@typescriptcss/plugin-vite && npm run build",
+                "_sort": "cd packages/@typescriptcss/prettier-sort && npm run build",
+                "bundle": "npm run tsup && npm run _core && npm run _next & npm run _rollup & npm run _vite & npm run _sort"
         },
         "workspaces": [
                 "examples/*",
