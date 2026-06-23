@@ -11,6 +11,9 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.43
+      prettier:
+        specifier: 3.8.4
+        version: 3.8.4
       tsdown:
         specifier: 0.22.2
         version: 0.22.2(typescript@5.9.3)
@@ -109,6 +112,15 @@ importers:
       '@typescriptcss/plugin-core':
         specifier: workspace:*
         version: link:../plugin-core
+
+  packages/@typescriptcss/prettier-sort:
+    dependencies:
+      '@typescriptcss/plugin-core':
+        specifier: workspace:*
+        version: link:../plugin-core
+      prettier:
+        specifier: 3.8.4
+        version: 3.8.4
 
   packages/typescriptcss: {}
 
@@ -1081,6 +1093,11 @@ packages:
   postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
+
+  prettier@3.8.4:
+    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   prism-react-renderer@2.4.1:
     resolution: {integrity: sha512-ey8Ls/+Di31eqzUxC46h8MksNuGx/n0AAC8uKpwFau4RPDYLuE3EXTp8N8G2vX2N7UC/+IXeNUnlWBGGcAG+Ig==}
@@ -2427,6 +2444,8 @@ snapshots:
       nanoid: 3.3.12
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  prettier@3.8.4: {}
 
   prism-react-renderer@2.4.1(react@19.2.7):
     dependencies:

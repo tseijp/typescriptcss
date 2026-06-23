@@ -1,4 +1,4 @@
-import { border, flex, font, gap, items, leading, m, md, min, px, py, rounded, text, w } from 'typescriptcss/src'
+import { gap, m, min, px, py, text, w } from 'typescriptcss/src'
 import { color, fontMono } from '@/styles'
 import { CodeWindow } from './code-window'
 import type { InstallationGuide } from './installation-guides'
@@ -48,9 +48,9 @@ export const InstallationSteps = ({ guide }: InstallationStepsProps) => {
                 <div style={py[4].gap[10].flex.col()}>
                         {steps.map((step, index) => (
                                 <div key={step.title} style={gap[5].flex.col.items.start.md.flex.row()}>
-                                        <span style={px[2].py[1].flexShrink[0].text[3].text[color.faint].fontFamily[fontMono].rounded[2].border[color.border]()}>[{String(index + 1).padStart(2, '0')}]</span>
-                                        <div style={gap[2].min.w[0].flex[1].col()}>
-                                                <h3 style={m[0].text[4.5].text[color.text].font.semibold()}>{step.title}</h3>
+                                        <span style={px[2].py[1].text[3].text[color.faint].flexShrink[0].fontFamily[fontMono].rounded[2].border[color.border]()}>[{String(index + 1).padStart(2, '0')}]</span>
+                                        <div style={min.w[0].gap[2].flex[1].col()}>
+                                                <h3 style={m[0].font.semibold.text[4.5].text[color.text]()}>{step.title}</h3>
                                                 <p style={m[0].leading[6].text[3.5].text[color.muted]()}>{step.body}</p>
                                         </div>
                                         <div style={w.full.min.w[0].flex[1]()}>

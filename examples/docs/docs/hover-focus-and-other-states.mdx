@@ -32,11 +32,7 @@ Style elements as the user interacts with them using `hover`, `focus`, and `acti
 {/* prettier-ignore */}
 ```tsx
 <button
-  style={px[5].py[2].text['#fff']
-    .bg['#7c3aed'].rounded.full
-    .hover.bg['#6d28d9']
-    .focus.outline['#7c3aed']
-    .active.bg['#5b21b6']()}
+  style={px[5].py[2].text['#fff'].bg['#7c3aed'].rounded.full.hover.bg['#6d28d9'].focus.outline['#7c3aed'].active.bg['#5b21b6']()}
 >
   Save changes
 </button>
@@ -67,10 +63,7 @@ Form controls expose their own states. React to what a field is doing with `requ
 {/* prettier-ignore */}
 ```tsx
 <input
-  style={px[3].py[2].rounded.md.border['#d1d5db']
-    .invalid.border['#ec4899'].invalid.text['#db2777']
-    .focus.border['#0ea5e9']
-    .disabled.bg['#f9fafb'].disabled.text['#9ca3af']()}
+  style={px[3].py[2].rounded.md.border['#d1d5db'].invalid.border['#ec4899'].invalid.text['#db2777'].focus.border['#0ea5e9'].disabled.bg['#f9fafb'].disabled.text['#9ca3af']()}
 />
 ```
 
@@ -82,8 +75,7 @@ Style an element from the state or content of its descendants with `has`. A labe
 
 {/* prettier-ignore */}
 ```tsx
-<label style={p[4].gap[3].flex.items.center.rounded.lg
-  .has.checked.bg['#eef2ff'].has.checked.text['#3730a3']()}>
+<label style={p[4].gap[3].flex.items.center.rounded.lg.has.checked.bg['#eef2ff'].has.checked.text['#3730a3']()}>
   <input type="radio" name="plan" />
   Google Pay
 </label>
