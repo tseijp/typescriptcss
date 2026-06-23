@@ -1,7 +1,8 @@
-import hash = require('@emotion/hash') // Keep require: tsdown's CJS interop breaks this package's default import.
+import emotionHash from '@emotion/hash'
 import { transform } from 'lightningcss'
 import type { CssAsset, CssBlock, CssTarget, TypescriptcssOptions } from '../types.ts'
 import { createStyleTools } from './style.ts'
+const hash = typeof emotionHash === 'function' ? emotionHash : (emotionHash as { default: typeof emotionHash }).default
 export const createSheet = (options: TypescriptcssOptions = {}) => {
         const tools = createStyleTools()
         const head = new Map<string, CssBlock>()
@@ -13,7 +14,7 @@ export const createSheet = (options: TypescriptcssOptions = {}) => {
         const raw = (blocks: Map<string, CssBlock>) => [...blocks.entries()].map(([name, block]) => tools.rule(name, block)).join('')
         const render = (blocks: Map<string, CssBlock>) => compact(raw(blocks))
         const emitClass = (block: CssBlock, target: Exclude<CssTarget, 'inline'>) => {
-                const name = `${options.classPrefix ?? 'tcss'}-${hash.default(tools.stable(block))}`
+                const name = `${options.classPrefix ?? 'tcss'}-${hash(tools.stable(block))}`
                 if (target === 'head') head.set(name, block)
                 if (target === 'file') file.set(name, block)
                 return name
