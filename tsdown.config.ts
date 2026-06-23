@@ -1,17 +1,14 @@
-import { basename } from 'node:path'
 import { defineConfig } from 'tsdown/config'
-
-const next = basename(process.cwd()) === 'plugin-next'
 
 export default defineConfig({
         cwd: process.cwd(),
-        entry: next ? { index: 'src/index.ts', loader: 'src/loader.ts' } : { index: 'src/index.ts' },
+        entry: ['src/index.ts', 'src/*.js'],
         outDir: 'dist',
         format: ['esm', 'cjs'],
         dts: true,
         clean: true,
         deps: {
-                alwaysBundle: [/^@typescriptcss\/plugin-core\/src/],
+                alwaysBundle: [/^@typescriptcss\/plugin-core(?:\/src)?$/, /^typescriptcss\/src$/],
         },
         outExtensions: ({ format }) => ({
                 js: format === 'cjs' ? '.cjs' : '.js',

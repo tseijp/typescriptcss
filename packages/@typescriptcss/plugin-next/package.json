@@ -60,6 +60,7 @@
                 "dist/**/*.js",
                 "dist/**/*.cjs",
                 "dist/**/*.d.ts",
+                "src/**/*.js",
                 "src/**/*.ts",
                 "package.json",
                 "README.md",

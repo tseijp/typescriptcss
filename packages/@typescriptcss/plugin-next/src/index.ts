@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
 type NextConfig = Record<string, any>
 type LoaderOptions = TypescriptcssOptions & { inlineOnly?: boolean; stylesheet?: boolean }
-const extension = import.meta.url.endsWith('.ts') ? '.ts' : import.meta.url.endsWith('.cjs') ? '.cjs' : '.js'
+const extension = import.meta.url.endsWith('.cjs') ? '.cjs' : '.js'
 const loader = fileURLToPath(new URL(`./loader${extension}`, import.meta.url))
 const jsonOptions = (options: TypescriptcssOptions, root: string) => {
         const value: Record<string, string | boolean> = { output: options.output ?? 'head', root: options.root ?? root }

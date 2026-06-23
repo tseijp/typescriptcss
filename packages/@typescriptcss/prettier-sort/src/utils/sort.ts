@@ -1,7 +1,7 @@
-import { bucket, conditions, first, native, pseudo, responsive } from './rules.ts'
 import { importable, updateImports } from './imports.ts'
 import { readBalanced, segment, tokenize, unitText } from './parse.ts'
-import type { Item, Segment } from './types.ts'
+import { bucket, conditions, first, native, pseudo, responsive } from './rules.ts'
+import type { Item, Segment } from '../types.ts'
 
 const split = (units: Item[][]) => {
         const segments: Segment[] = []
@@ -29,7 +29,11 @@ const rank = (part: Segment) => {
         return 0
 }
 
-const sortUnits = (units: Item[][]) => units.map((unit, index) => ({ index, unit })).sort((a, b) => bucket(a.unit) - bucket(b.unit) || a.index - b.index).map(({ unit }) => unit)
+const sortUnits = (units: Item[][]) =>
+        units
+                .map((unit, index) => ({ index, unit }))
+                .sort((a, b) => bucket(a.unit) - bucket(b.unit) || a.index - b.index)
+                .map(({ unit }) => unit)
 const sortSegments = (segments: Segment[]) => segments.map((part) => ({ ...part, units: sortUnits(part.units) })).sort((a, b) => rank(a) - rank(b))
 
 export const sortChain = (source: string) => {
@@ -56,7 +60,12 @@ export const sortChain = (source: string) => {
                 const index = head.units.findIndex((unit) => !native.has(first(unit)))
                 if (index > 0) head.units.unshift(head.units.splice(index, 1)[0])
         }
-        return result.flatMap((part) => [...part.conditions, ...part.units]).map(unitText).join('.') + tokenized.call
+        return (
+                result
+                        .flatMap((part) => [...part.conditions, ...part.units])
+                        .map(unitText)
+                        .join('.') + tokenized.call
+        )
 }
 
 export const transform = (source: string) => {

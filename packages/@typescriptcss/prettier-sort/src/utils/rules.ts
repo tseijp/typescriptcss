@@ -1,4 +1,4 @@
-import type { Item, State } from './types.ts'
+import type { Item, State } from '../types.ts'
 
 export const utility = new Set('bg block border col cols colStart css flex font grid h hidden inline inlineBlock items justify gap leading m max mb min ml mr mt mx my overflow p pb pl pr pt px py rounded size table text tracking w'.split(' '))
 export const native = new Set('position zIndex top right bottom left width height minWidth maxWidth minHeight maxHeight fontSize fontFamily fontWeight lineHeight letterSpacing boxShadow background backgroundColor backgroundImage color colorScheme overflow overflowX overflowY textDecoration textTransform whiteSpace userSelect outline pointerEvents cursor transition opacity margin marginInline marginLeft marginRight marginTop marginBottom padding boxSizing alignSelf flexShrink flexGrow flexBasis gridTemplateColumns gridTemplateRows gridColumn gridRow borderBottom borderTop borderLeft borderRight borderLeftWidth borderColor borderWidth borderStyle borderRadius'.split(' '))
@@ -38,14 +38,14 @@ export const stateOf = (name: string): State => {
         return { custom: true }
 }
 
-export const first = (unit: Item[]) => unit[0]?.type !== 'index' ? unit[0]?.name : ''
+export const first = (unit: Item[]) => (unit[0]?.type !== 'index' ? unit[0]?.name : '')
 
 const raw = (unit: Item[]) => unit.find((item) => item.type === 'index')?.raw ?? ''
 const numeric = (value: string) => /^\[\s*-?\d+(?:\.\d+)?\s*\]$/.test(value)
 
 export const bucket = (unit: Item[]) => {
         const name = first(unit)
-        const text = unit.map((item) => item.type === 'index' ? item.raw : item.name).join('.')
+        const text = unit.map((item) => (item.type === 'index' ? item.raw : item.name)).join('.')
         const value = raw(unit)
         if (/`|\$\{/.test(text)) return 130
         if (!utility.has(name) && !native.has(name) && !conditions.has(name)) return 1

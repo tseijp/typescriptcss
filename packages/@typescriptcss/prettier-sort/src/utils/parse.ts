@@ -1,5 +1,5 @@
 import { roots, scoped, stateOf } from './rules.ts'
-import type { Item } from './types.ts'
+import type { Item } from '../types.ts'
 
 export const readBalanced = (source: string, index: number, open: string, close: string) => {
         let depth = 1

@@ -4,6 +4,7 @@
         "version": "0.1.0",
         "license": "MIT",
         "private": false,
+        "type": "module",
         "sideEffects": false,
         "scripts": {
                 "dev": "cd examples/docs && npm run dev",
