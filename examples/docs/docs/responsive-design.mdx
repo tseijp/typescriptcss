@@ -7,9 +7,10 @@ Every utility in a typescriptcss chain can be made conditional at a breakpoint. 
 
 A chain reads left to right. The utilities before a breakpoint segment are the base style. The moment you write `sm`, `md`, `lg`, or `xl`, the utilities after it become conditional on that breakpoint. This means a single expression can describe how an element looks on a phone, a tablet, and a desktop, all in the order you would read it aloud.
 
+{/* prettier-ignore */}
 ```tsx
 // Column on small screens, row from the small breakpoint and up
-<div style={flex.col.sm.flex.row.gap[4]()}>
+<div style={flex.col.sm.gap[4].flex.row()}>
   <img style={w.full.sm.w[48]()} src="/cover.jpg" />
   <div style={p[8]()}>{/* ... */}</div>
 </div>
@@ -21,12 +22,12 @@ In the example above the container stacks its children by default and switches t
 
 There are four breakpoints, inspired by common device widths. Each one is a minimum-width condition, so a segment applies at that width and everything larger.
 
-| Segment | Minimum width | Applies from        |
-| ------- | ------------- | ------------------- |
-| `sm`    | 640px         | large phones up     |
-| `md`    | 768px         | tablets up          |
-| `lg`    | 1024px        | laptops up          |
-| `xl`    | 1280px        | desktops up         |
+| Segment | Minimum width | Applies from    |
+| ------- | ------------- | --------------- |
+| `sm`    | 640px         | large phones up |
+| `md`    | 768px         | tablets up      |
+| `lg`    | 1024px        | laptops up      |
+| `xl`    | 1280px        | desktops up     |
 
 This works for every utility in the library. You can change layout, spacing, color, border, or typography at any breakpoint simply by placing the segment before the utilities you want to scope. There is nothing special about which properties can respond — if you can write it in a chain, you can write it behind a breakpoint.
 
@@ -34,9 +35,10 @@ This works for every utility in the library. You can change layout, spacing, col
 
 Breakpoints stack. You can move through `sm`, `md`, and `lg` in one chain, and each segment scopes the utilities that follow it until the next segment appears.
 
+{/* prettier-ignore */}
 ```tsx
 // One column on phones, two from md, three from lg
-<div style={grid.gap[4].md.grid.cols[2].lg.grid.cols[3]()}>
+<div style={gap[4].grid.md.grid.cols[2].lg.grid.cols[3]()}>
   {items.map((item) => (
     <Card key={item.id} {...item} />
   ))}
@@ -51,6 +53,7 @@ Breakpoints are mobile-first. Unprefixed utilities apply on every screen size, a
 
 The detail that surprises people most is that `sm` does not mean "on small screens" — it means "at the small breakpoint and up". To style phones, reach for the base utilities; to change the design on wider screens, add a breakpoint segment.
 
+{/* prettier-ignore */}
 ```tsx
 // Centered on phones, left-aligned from the small breakpoint up
 <p style={text.center.sm.text.left()}>Adaptive paragraph</p>

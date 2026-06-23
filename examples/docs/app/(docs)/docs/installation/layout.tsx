@@ -1,7 +1,5 @@
-import { flex, px, py } from 'typescriptcss/src'
+import { gap, max, mx, px, py, w } from 'typescriptcss/src'
 
 export default function InstallationLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-        return (
-                <div style={flex.col.px[10].py[12]({ width: '100%', maxWidth: '960px', marginLeft: 'auto', marginRight: 'auto' })}>{children}</div>
-        )
+        return <article style={px[10].py[12].max.w[260].gap[6].flex.col.mx.auto.w.full.boxSizing['border-box']()}>{children}</article>
 }

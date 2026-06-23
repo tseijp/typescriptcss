@@ -1,19 +1,25 @@
 export const primaryNav = [
         { label: 'Documentation', href: '/docs' },
+        /**
+	       * @TODO FIX
         { label: 'Components', href: '/docs/components' },
         { label: 'Templates', href: '/docs/templates' },
         { label: 'Playground', href: '/playground' },
         { label: 'Course', href: '/course', badge: 'NEW' },
         { label: 'Community', href: '/community' },
+	      */
 ]
 export const sections = [
         {
                 title: 'Getting Started',
                 items: [
-                        { label: 'Installation', href: '/docs/installation' },
-                        { label: 'Editor Setup', href: '/docs/editor-setup' },
-                        { label: 'Compatibility', href: '/docs/compatibility' },
-                        { label: 'Upgrade Guide', href: '/docs/upgrade-guide' },
+                        { label: 'Installation', href: '/docs/installation/using-vite' },
+                        /**
+			 * @TODO FIX
+			{ label: 'Editor Setup', href: '/docs/editor-setup' },
+			{ label: 'Compatibility', href: '/docs/compatibility' },
+			{ label: 'Upgrade Guide', href: '/docs/upgrade-guide' },
+			 */
                 ],
         },
         {
