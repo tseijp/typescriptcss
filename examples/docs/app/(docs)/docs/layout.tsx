@@ -22,7 +22,7 @@ export default function DocsLayout({ children }: Readonly<{ children: React.Reac
                                                         {section.items.map((item) => {
                                                                 const active = item.href === '/docs'
                                                                 return (
-                                                                        <a key={item.label} href={item.href} style={px[4].py[1].fontWeight[active ? 600 : 400].text[3.5].text[active ? color.text : color.muted].flex.items.center.border.l.borderLeftWidth['2px'].border[active ? color.cyan : color.border].textDecoration.none()}>
+                                                                        <a key={item.label} href={item.href} style={px[4].py[1].text[3.5].flex.items.center.border.l.borderLeftWidth['2px'].textDecoration.none({ fontWeight: active ? 600 : 400, color: active ? color.text : color.muted, borderLeftColor: active ? color.cyan : color.border })}>
                                                                                 {item.label}
                                                                         </a>
                                                                 )

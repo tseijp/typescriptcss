@@ -1,12 +1,5 @@
 import { createTypescriptcssProcessor } from '@typescriptcss/plugin-core/src'
-import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
-type LoaderOptions = TypescriptcssOptions & { inlineOnly?: boolean; stylesheet?: boolean }
-type LoaderContext = {
-        resourcePath: string
-        async?: () => ((error: any, code?: string, map?: any) => void) | undefined
-        getOptions?: () => LoaderOptions
-}
-export default function loader(this: LoaderContext, code: string) {
+export default function loader(code) {
         const options = this.getOptions?.() ?? {}
         const processor = createTypescriptcssProcessor(options, options.inlineOnly ? 'inline' : 'file')
         const result = processor.transform(code, this.resourcePath)

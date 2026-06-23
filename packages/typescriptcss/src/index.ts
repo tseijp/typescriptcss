@@ -21,10 +21,25 @@ export const border = token<Utility['border']>('border', (state) => {
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
 scope('cols', { subgrid: set({ gridTemplateColumns: 'subgrid' }) })
-export const cols = token<Utility['cols']>('cols', withScope('cols', read((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))))
+export const cols = token<Utility['cols']>(
+        'cols',
+        withScope(
+                'cols',
+                read((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key })),
+        ),
+)
 scope('col', { full: set({ gridColumn: '1 / -1' }) })
-export const col = token<Utility['col']>('col', withScope('col', numeric((key) => ({ gridColumn: `span ${key} / span ${key}` }))))
-export const colStart = token<Utility['colStart']>('colStart', numeric((key) => ({ gridColumnStart: Number(key) })))
+export const col = token<Utility['col']>(
+        'col',
+        withScope(
+                'col',
+                numeric((key) => ({ gridColumn: `span ${key} / span ${key}` })),
+        ),
+)
+export const colStart = token<Utility['colStart']>(
+        'colStart',
+        numeric((key) => ({ gridColumnStart: Number(key) })),
+)
 export const css = token<Utility['css']>('css', splitter)
 export const dark = token<Utility['dark']>('dark', dark_)
 export const flex = token<Utility['flex']>('flex', (state) => {

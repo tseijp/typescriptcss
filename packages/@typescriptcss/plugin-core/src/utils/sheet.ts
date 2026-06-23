@@ -1,7 +1,8 @@
-import hash from '@emotion/hash'
+import emotionHash from '@emotion/hash'
 import { transform } from 'lightningcss'
 import type { CssAsset, CssBlock, CssTarget, TypescriptcssOptions } from '../types.ts'
 import { createStyleTools } from './style.ts'
+const hash = typeof emotionHash === 'function' ? emotionHash : (emotionHash as { default: typeof emotionHash }).default
 export const createSheet = (options: TypescriptcssOptions = {}) => {
         const tools = createStyleTools()
         const head = new Map<string, CssBlock>()

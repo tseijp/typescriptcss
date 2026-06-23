@@ -30,7 +30,7 @@ export default async function InstallationMethodLayout({ children, params }: Ins
                                 {installationTabs.map((tab) => {
                                         const active = tab.method === method
                                         return (
-                                                <Link key={tab.method} href={tab.href} aria-current={active ? 'page' : undefined} style={px[3].py[2].font[active ? 600 : 400].text[3.5].text[active ? color.text : color.muted].whiteSpace.nowrap.textDecoration.none.borderBottom[active ? `2px solid ${color.cyan}` : '2px solid transparent']()}>
+                                                <Link key={tab.method} href={tab.href} aria-current={active ? 'page' : undefined} style={px[3].py[2].text[3.5].whiteSpace.nowrap.textDecoration.none({ fontWeight: active ? 600 : 400, color: active ? color.text : color.muted, borderBottom: active ? `2px solid ${color.cyan}` : '2px solid transparent' })}>
                                                         {tab.label}
                                                 </Link>
                                         )

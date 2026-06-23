@@ -91,7 +91,6 @@ importers:
       '@types/node':
         specifier: 25.9.3
         version: 25.9.3
-
   packages/@typescriptcss/plugin-next:
     dependencies:
       '@typescriptcss/plugin-core':
@@ -100,7 +99,6 @@ importers:
       next:
         specifier: '>=16.2.0'
         version: 16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-
   packages/@typescriptcss/plugin-rollup:
     dependencies:
       '@typescriptcss/plugin-core':

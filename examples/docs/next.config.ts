@@ -8,8 +8,9 @@ const withMDX = createMDX({
 })
 const withCSS = createCSS({ output: 'inline' })
 const config = {
+        output: 'export' as const,
         pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-        transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core'],
+        transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core', '@typescriptcss/plugin-next'],
 }
 
 export default withCSS(withMDX(config))

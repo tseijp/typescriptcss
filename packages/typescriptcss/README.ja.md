@@ -103,7 +103,7 @@ export default {
 
 <!-- prettier-ignore -->
 ```ts
-import { typescriptcss } from '@typescriptcss/plugin-next'
+import typescriptcss from '@typescriptcss/plugin-next'
 
 const withTypescriptcss = typescriptcss()
 
