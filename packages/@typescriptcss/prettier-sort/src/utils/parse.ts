@@ -98,4 +98,11 @@ export const segment = (items: Item[]) => {
         return units
 }
 
-export const unitText = (unit: Item[]) => unit.map((item) => (item.type === 'index' ? item.raw : item.type === 'head' ? item.name : `.${item.name}`)).join('')
+export const unitText = (unit: Item[]) =>
+        unit
+                .map((item, index) => {
+                        if (item.type === 'index') return item.raw
+                        if (item.type === 'head') return item.name
+                        return index ? `.${item.name}` : item.name
+                })
+                .join('')

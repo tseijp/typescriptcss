@@ -1,7 +1,7 @@
 import * as babel from 'prettier/plugins/babel'
 // import * as mdx from 'prettier/plugins/mdx'
 import * as typescript from 'prettier/plugins/typescript'
-import { transform } from './sort.ts'
+import { transform } from './utils/sort.ts'
 
 const wrap = (parser: any) => ({
         ...parser,

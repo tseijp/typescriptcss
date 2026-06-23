@@ -1,0 +1,7 @@
+{
+        "singleQuote": true,
+        "tabWidth": 8,
+        "printWidth": 9999,
+        "semi": false,
+        "plugins": ["./packages/@typescriptcss/prettier-sort/dist/index.js"]
+}

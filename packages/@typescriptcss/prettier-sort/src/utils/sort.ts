@@ -1,4 +1,5 @@
 import { bucket, conditions, first, native, pseudo, responsive } from './rules.ts'
+import { importable, updateImports } from './imports.ts'
 import { readBalanced, segment, tokenize, unitText } from './parse.ts'
 import type { Item, Segment } from './types.ts'
 
@@ -61,9 +62,10 @@ export const sortChain = (source: string) => {
 export const transform = (source: string) => {
         let output = ''
         let index = 0
+        const required = new Set<string>()
         for (;;) {
                 const found = source.indexOf('style={', index)
-                if (found < 0) return output + source.slice(index)
+                if (found < 0) return updateImports(output + source.slice(index), required)
                 const start = found + 7
                 output += source.slice(index, found)
                 if (source[start] === '{') {
@@ -72,8 +74,11 @@ export const transform = (source: string) => {
                         continue
                 }
                 const end = readBalanced(source, start - 1, '{', '}')
-                if (!end) return output + source.slice(found)
-                output += `style={${sortChain(source.slice(start, end - 1))}}`
+                if (!end) return updateImports(output + source.slice(found), required)
+                const sorted = sortChain(source.slice(start, end - 1))
+                const name = tokenize(sorted)?.items[0]?.name
+                if (name && importable(name)) required.add(name)
+                output += `style={${sorted}}`
                 index = end
         }
 }
