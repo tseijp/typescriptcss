@@ -2,6 +2,7 @@
 
 Tailwind 風の utility を TypeScript の inline style chain として記述し、build 時に実際の stylesheet へ集約する。
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black()}>
   <h2 style={text['#fff'].font.semibold()}>Zero runtime</h2>
@@ -14,7 +15,6 @@ property access の chain を組み立てて呼び出す。呼び出しは plain
 
 - **保守する CSS ファイルがない。** style は chain として markup の隣に存在する。build がそれらを集約するため、component と同期させ続ける stylesheet が存在しない。
 - **型付きで補完が効く。** すべての utility は editor が補完し compiler が検証する property。型検査を通らない style は出荷されない。
-- **単位は 1 つ、palette なし。** scale は 4px 単位（`gap[4]` は 16px）、色は素の hex か `oklch()` 文字列なので、設定するものも purge するものもない。
 - **Zero runtime。** chain は server 上で style object に描画され、build 時に class へ畳まれる。browser で余分に走るものはない。
 
 ## インストール
@@ -29,8 +29,9 @@ npm install typescriptcss
 
 必要な utility を import して組み合わせる。property を読むと style が絞り込まれ、chain を呼び出すと確定する。
 
+<!-- prettier-ignore -->
 ```tsx
-import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
+import { flex } from 'typescriptcss'
 
 <aside style={flex.col.gap[3].max.w[72].p[6].rounded[4].bg['#0b1120']()}>
   {/* ... */}
@@ -39,6 +40,7 @@ import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
 
 数値は要素アクセス（`gap[3]`、`p[6]`、`rounded[4]`）、色は文字列で渡す（`bg['#0b1120']`、`text['oklch(98.5% 0 0)']`）。まだ utility のない property を設定するには、呼び出しに plain な object を渡すと chain の上に merge される。
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.gap[3]({ position: 'sticky', top: 0 })}>{/* ... */}</div>
 ```
@@ -47,6 +49,7 @@ import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
 
 breakpoint の segment（`sm`、`md`、`lg`、`xl`）を挿入すると、その後ろの utility はその幅以上で適用される。
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.sm.flex.row.gap[4]()}>{/* スマホでは縦積み、sm から横並び */}</div>
 ```
@@ -55,6 +58,7 @@ breakpoint の segment（`sm`、`md`、`lg`、`xl`）を挿入すると、その
 
 `dark` を挿入すると、その後ろの色 utility は 2 つ目の値をとる。この組は 1 つの `light-dark()` 宣言に compile される。
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={bg['#fff'].dark.bg['#0b1120'].text['#111'].dark.text['#f8fafc']()}>{/* ... */}</div>
 ```
@@ -63,14 +67,18 @@ breakpoint の segment（`sm`、`md`、`lg`、`xl`）を挿入すると、その
 
 `hover`、`focus`、`active`、`first`、`disabled`、`checked`、`group`、`peer` などの状態 segment を挿入する。segment は breakpoint や `dark` と重ねられる。
 
+<!-- prettier-ignore -->
 ```tsx
 <button style={bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>Save changes</button>
 ```
+
+🚧 まだ実装に取り組んでいます！
 
 ## bundler のセットアップ
 
 ### Vite
 
+<!-- prettier-ignore -->
 ```ts
 import { defineConfig } from 'vite'
 import { typescriptcss } from '@typescriptcss/plugin-vite'
@@ -82,6 +90,7 @@ export default defineConfig({
 
 ### Rollup / tsdown
 
+<!-- prettier-ignore -->
 ```ts
 import { typescriptcss } from '@typescriptcss/plugin-rollup'
 
@@ -92,6 +101,7 @@ export default {
 
 ### Next.js
 
+<!-- prettier-ignore -->
 ```ts
 import { typescriptcss } from '@typescriptcss/plugin-next'
 
@@ -113,6 +123,7 @@ export default withTypescriptcss({
 
 境界を chain の内側に引くこともできる。先頭の `css` は chain 全体をファイル出力の対象にし、途中の `css` は先頭部分を inline か head に残しつつ、その後ろをすべてファイルへ送る。
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.css.bg['#0b1120']()}>{/* flex.col は inline のまま、bg はファイルへ */}</div>
 ```

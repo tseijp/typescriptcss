@@ -2,6 +2,7 @@
 
 Tailwind-like utilities, authored as inline style chains in TypeScript and collected into a real stylesheet at build time.
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black()}>
   <h2 style={text['#fff'].font.semibold()}>Zero runtime</h2>
@@ -14,7 +15,6 @@ You build a chain of property accesses and call it. The call returns a plain sty
 
 - **No CSS files to maintain.** Styles live next to the markup as chains. The build collects them; there is no stylesheet to keep in sync with your components.
 - **Typed and completed.** Every utility is a property your editor completes and the compiler validates. A style that does not type-check never ships.
-- **One unit, no palette.** Scales use a four-pixel unit (`gap[4]` is 16px) and colors are plain hex or `oklch()` strings, so there is nothing to configure and nothing to purge.
 - **Zero runtime.** Chains render to style objects on the server and collapse to classes at build. Nothing extra runs in the browser.
 
 ## Install
@@ -29,8 +29,9 @@ Then add the plugin for your bundler so the chains are collected at build time.
 
 Import the utilities you need and combine them. Reading a property narrows the style; calling the chain finalizes it.
 
+<!-- prettier-ignore -->
 ```tsx
-import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
+import { flex } from 'typescriptcss'
 
 <aside style={flex.col.gap[3].max.w[72].p[6].rounded[4].bg['#0b1120']()}>
   {/* ... */}
@@ -39,6 +40,7 @@ import { flex, text, bg, gap, p, rounded, max } from 'typescriptcss'
 
 Numbers use element access (`gap[3]`, `p[6]`, `rounded[4]`), and colors are passed as strings (`bg['#0b1120']`, `text['oklch(98.5% 0 0)']`). To set a property that has no utility yet, pass a plain object to the call and it merges on top of the chain:
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.gap[3]({ position: 'sticky', top: 0 })}>{/* ... */}</div>
 ```
@@ -47,6 +49,7 @@ Numbers use element access (`gap[3]`, `p[6]`, `rounded[4]`), and colors are pass
 
 Insert a breakpoint segment — `sm`, `md`, `lg`, `xl` — and the utilities after it apply at that width and up.
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.sm.flex.row.gap[4]()}>{/* stack on phones, row from sm */}</div>
 ```
@@ -55,6 +58,7 @@ Insert a breakpoint segment — `sm`, `md`, `lg`, `xl` — and the utilities aft
 
 Insert `dark` and the color utilities that follow take a second value. The pair compiles to one `light-dark()` declaration.
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={bg['#fff'].dark.bg['#0b1120'].text['#111'].dark.text['#f8fafc']()}>{/* ... */}</div>
 ```
@@ -63,14 +67,18 @@ Insert `dark` and the color utilities that follow take a second value. The pair 
 
 Insert a state segment such as `hover`, `focus`, `active`, `first`, `disabled`, `checked`, `group`, or `peer`. Segments stack with breakpoints and `dark`.
 
+<!-- prettier-ignore -->
 ```tsx
 <button style={bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>Save changes</button>
 ```
+
+🚧 Still working on the implementation!
 
 ## Bundler setup
 
 ### Vite
 
+<!-- prettier-ignore -->
 ```ts
 import { defineConfig } from 'vite'
 import { typescriptcss } from '@typescriptcss/plugin-vite'
@@ -82,6 +90,7 @@ export default defineConfig({
 
 ### Rollup / tsdown
 
+<!-- prettier-ignore -->
 ```ts
 import { typescriptcss } from '@typescriptcss/plugin-rollup'
 
@@ -92,6 +101,7 @@ export default {
 
 ### Next.js
 
+<!-- prettier-ignore -->
 ```ts
 import { typescriptcss } from '@typescriptcss/plugin-next'
 
@@ -113,6 +123,7 @@ Choose where collected styles go with the `output` option on the plugin:
 
 You can also draw the boundary inside a chain. A leading `css` marks the whole chain for file output, and a `css` in the middle keeps the leading part inline or in the head while sending everything after it to the file.
 
+<!-- prettier-ignore -->
 ```tsx
 <div style={flex.col.css.bg['#0b1120']()}>{/* flex.col stays inline; bg goes to the file */}</div>
 ```
