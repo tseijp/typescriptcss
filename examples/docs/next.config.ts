@@ -6,7 +6,7 @@ const withMDX = createMDX({
                 remarkPlugins: [['remark-gfm']],
         },
 })
-const withCSS = createCSS({ output: 'inline' })
+const withCSS = createCSS({ output: 'head' })
 const config = {
         output: 'export' as const,
         pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],

@@ -1,6 +1,6 @@
 {
         "name": "typescriptcss",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "author": "tseijp",
         "license": "MIT",
         "sideEffects": false,
@@ -70,5 +70,8 @@
                 "package.json",
                 "README.md",
                 "LICENSE"
-        ]
+        ],
+        "devDependencies": {
+                "vitest": "4.1.9"
+        }
 }

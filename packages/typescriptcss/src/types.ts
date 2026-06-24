@@ -1,7 +1,8 @@
 type CSS = Partial<Record<Exclude<keyof CSSStyleDeclaration, 'cssText'> & string, any>>
 type Scale = { [value: number]: Chain }
 type Screen = Scale & { full: Chain; screen: Chain; dvh: Chain }
-type Color = { [value: `#${string}` | `oklch(${string})`]: Chain; black: Chain; transparent: Chain; white: Chain }
+type ColorFunction = 'alpha' | 'color' | 'color-mix' | 'contrast-color' | 'device-cmyk' | 'hsl' | 'hsla' | 'hwb' | 'lab' | 'lch' | 'light-dark' | 'oklab' | 'oklch' | 'rgb' | 'rgba'
+type Color = { [value: `#${string}` | `${ColorFunction}(${string})` | `var(${string})`]: Chain; black: Chain; currentColor: Chain; transparent: Chain; white: Chain }
 type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: { [value: string]: Chain } }
 export type Utility = {
         bg: Color

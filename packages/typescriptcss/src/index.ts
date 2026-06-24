@@ -14,14 +14,16 @@ scope('tracking', { tight: set({ letterSpacing: '-0.025em' }) })
 scope('font', { bold: set({ fontWeight: 700 }), medium: set({ fontWeight: 500 }), normal: set({ fontWeight: 400 }), sans: set({ fontFamily: 'Arial, Helvetica, sans-serif' }), semibold: set({ fontWeight: 600 }) })
 scope('border', { b: side('borderBottom'), collapse: set({ borderCollapse: 'collapse' }), l: side('borderLeft'), r: side('borderRight'), t: side('borderTop'), x: side('borderLeft', 'borderRight'), y: side('borderBottom', 'borderTop') })
 scope('rounded', { full: set({ borderRadius: '9999px' }) })
-export const bg = token<Utility['bg']>('bg', color('background'))
-export const block = token<Utility['block']>('block', set({ display: 'block' }))
-export const border = token<Utility['border']>('border', (state) => {
+// Keep explicit result annotations: declaration bundlers otherwise expand Chain's
+// CSSStyleDeclaration-based mapped type for every inferred public token.
+export const bg: Utility['bg'] = token<Utility['bg']>('bg', color('background'))
+export const block: Utility['block'] = token<Utility['block']>('block', set({ display: 'block' }))
+export const border: Utility['border'] = token<Utility['border']>('border', (state) => {
         const next = merge(state, { borderStyle: 'solid', borderWidth: '1px' }, 'border')
         return { ...next, read: (key) => merge(next, { borderColor: key }) }
 })
 scope('cols', { subgrid: set({ gridTemplateColumns: 'subgrid' }) })
-export const cols = token<Utility['cols']>(
+export const cols: Utility['cols'] = token<Utility['cols']>(
         'cols',
         withScope(
                 'cols',
@@ -29,24 +31,24 @@ export const cols = token<Utility['cols']>(
         ),
 )
 scope('col', { full: set({ gridColumn: '1 / -1' }) })
-export const col = token<Utility['col']>(
+export const col: Utility['col'] = token<Utility['col']>(
         'col',
         withScope(
                 'col',
                 numeric((key) => ({ gridColumn: `span ${key} / span ${key}` })),
         ),
 )
-export const colStart = token<Utility['colStart']>(
+export const colStart: Utility['colStart'] = token<Utility['colStart']>(
         'colStart',
         numeric((key) => ({ gridColumnStart: Number(key) })),
 )
-export const css = token<Utility['css']>('css', splitter)
-export const dark = token<Utility['dark']>('dark', dark_)
-export const flex = token<Utility['flex']>('flex', (state) => {
+export const css: Utility['css'] = token<Utility['css']>('css', splitter)
+export const dark: Utility['dark'] = token<Utility['dark']>('dark', dark_)
+export const flex: Utility['flex'] = token<Utility['flex']>('flex', (state) => {
         const next = merge(state, { display: 'flex' }, 'flex')
         return { ...next, read: (key) => (isNum(key) ? merge(next, { flex: Number(key) }, 'flex') : undefined) }
 })
-export const font = token<Utility['font']>(
+export const font: Utility['font'] = token<Utility['font']>(
         'font',
         withScope(
                 'font',
@@ -54,41 +56,41 @@ export const font = token<Utility['font']>(
         ),
 )
 scope('gap', { x: space('columnGap'), y: space('rowGap') })
-export const gap = token<Utility['gap']>('gap', withScope('gap', space('gap')))
-export const grid = token<Utility['grid']>('grid', set({ display: 'grid' }))
-export const h = token<Utility['h']>('h', length('height'))
-export const hidden = token<Utility['hidden']>('hidden', set({ display: 'none' }))
-export const inline = token<Utility['inline']>('inline', set({ display: 'inline' }))
-export const inlineBlock = token<Utility['inlineBlock']>('inlineBlock', set({ display: 'inline-block' }))
-export const items = token<Utility['items']>('items', set({}, 'items'))
-export const justify = token<Utility['justify']>('justify', set({}, 'justify'))
-export const leading = token<Utility['leading']>('leading', space('lineHeight'))
-export const m = token<Utility['m']>('m', space('margin'))
-export const max = token<Utility['max']>('max', set({}, 'max'))
-export const mb = token<Utility['mb']>('mb', space('marginBottom'))
-export const min = token<Utility['min']>('min', set({}, 'min'))
-export const ml = token<Utility['ml']>('ml', space('marginLeft'))
-export const mr = token<Utility['mr']>('mr', space('marginRight'))
-export const mt = token<Utility['mt']>('mt', space('marginTop'))
-export const mx = token<Utility['mx']>('mx', withScope('mx', space('marginLeft', 'marginRight')))
-export const my = token<Utility['my']>('my', withScope('my', space('marginBottom', 'marginTop')))
-export const overflow = token<Utility['overflow']>('overflow', set({}, 'overflow'))
-export const p = token<Utility['p']>('p', space('padding'))
-export const pb = token<Utility['pb']>('pb', space('paddingBottom'))
-export const pl = token<Utility['pl']>('pl', space('paddingLeft'))
-export const pr = token<Utility['pr']>('pr', space('paddingRight'))
-export const pt = token<Utility['pt']>('pt', space('paddingTop'))
-export const px = token<Utility['px']>('px', space('paddingLeft', 'paddingRight'))
-export const py = token<Utility['py']>('py', space('paddingBottom', 'paddingTop'))
-export const rounded = token<Utility['rounded']>('rounded', (state) => ({ css: Object.assign({}, state.css, { borderRadius: '4px' }), scope: 'rounded', read: (key) => (isNum(key) ? merge(state, { borderRadius: x4(key) }, 'rounded') : undefined) }))
-export const size = token<Utility['size']>(
+export const gap: Utility['gap'] = token<Utility['gap']>('gap', withScope('gap', space('gap')))
+export const grid: Utility['grid'] = token<Utility['grid']>('grid', set({ display: 'grid' }))
+export const h: Utility['h'] = token<Utility['h']>('h', length('height'))
+export const hidden: Utility['hidden'] = token<Utility['hidden']>('hidden', set({ display: 'none' }))
+export const inline: Utility['inline'] = token<Utility['inline']>('inline', set({ display: 'inline' }))
+export const inlineBlock: Utility['inlineBlock'] = token<Utility['inlineBlock']>('inlineBlock', set({ display: 'inline-block' }))
+export const items: Utility['items'] = token<Utility['items']>('items', set({}, 'items'))
+export const justify: Utility['justify'] = token<Utility['justify']>('justify', set({}, 'justify'))
+export const leading: Utility['leading'] = token<Utility['leading']>('leading', space('lineHeight'))
+export const m: Utility['m'] = token<Utility['m']>('m', space('margin'))
+export const max: Utility['max'] = token<Utility['max']>('max', set({}, 'max'))
+export const mb: Utility['mb'] = token<Utility['mb']>('mb', space('marginBottom'))
+export const min: Utility['min'] = token<Utility['min']>('min', set({}, 'min'))
+export const ml: Utility['ml'] = token<Utility['ml']>('ml', space('marginLeft'))
+export const mr: Utility['mr'] = token<Utility['mr']>('mr', space('marginRight'))
+export const mt: Utility['mt'] = token<Utility['mt']>('mt', space('marginTop'))
+export const mx: Utility['mx'] = token<Utility['mx']>('mx', withScope('mx', space('marginLeft', 'marginRight')))
+export const my: Utility['my'] = token<Utility['my']>('my', withScope('my', space('marginBottom', 'marginTop')))
+export const overflow: Utility['overflow'] = token<Utility['overflow']>('overflow', set({}, 'overflow'))
+export const p: Utility['p'] = token<Utility['p']>('p', space('padding'))
+export const pb: Utility['pb'] = token<Utility['pb']>('pb', space('paddingBottom'))
+export const pl: Utility['pl'] = token<Utility['pl']>('pl', space('paddingLeft'))
+export const pr: Utility['pr'] = token<Utility['pr']>('pr', space('paddingRight'))
+export const pt: Utility['pt'] = token<Utility['pt']>('pt', space('paddingTop'))
+export const px: Utility['px'] = token<Utility['px']>('px', space('paddingLeft', 'paddingRight'))
+export const py: Utility['py'] = token<Utility['py']>('py', space('paddingBottom', 'paddingTop'))
+export const rounded: Utility['rounded'] = token<Utility['rounded']>('rounded', (state) => ({ css: Object.assign({}, state.css, { borderRadius: '4px' }), scope: 'rounded', read: (key) => (isNum(key) ? merge(state, { borderRadius: x4(key) }, 'rounded') : undefined) }))
+export const size: Utility['size'] = token<Utility['size']>(
         'size',
         read((key) => (isNum(key) || key === 'full' || key === 'screen' || key === 'dvh' ? { height: px_(key), width: px_(key) } : undefined)),
 )
-export const sm = token<Utility['sm']>('sm', media('640px'))
-export const table = token<Utility['table']>('table', set({ display: 'table' }, 'table'))
-export const text = token<Utility['text']>('text', (state) => ({ css: state.css, dark: state.dark, greedy: true, media: state.media, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: state.dark ? `light-dark(${state.css.color ?? 'initial'}, ${key})` : key })) }))
-export const tracking = token<Utility['tracking']>('tracking', set({}, 'tracking'))
-export const w = token<Utility['w']>('w', length('width'))
-export const md = token<Utility['md']>('md', media('768px'))
+export const sm: Utility['sm'] = token<Utility['sm']>('sm', media('640px'))
+export const table: Utility['table'] = token<Utility['table']>('table', set({ display: 'table' }, 'table'))
+export const text: Utility['text'] = token<Utility['text']>('text', (state) => ({ css: state.css, dark: state.dark, greedy: true, media: state.media, scope: 'text', read: (key) => (isNum(key) ? merge(state, { fontSize: x4(key) }) : merge(state, { color: state.dark ? `light-dark(${state.css.color ?? 'initial'}, ${key})` : key })) }))
+export const tracking: Utility['tracking'] = token<Utility['tracking']>('tracking', set({}, 'tracking'))
+export const w: Utility['w'] = token<Utility['w']>('w', length('width'))
+export const md: Utility['md'] = token<Utility['md']>('md', media('768px'))
 export const define = <T = Chain>(name: string, css: RuntimeStyle, scopeName?: string): T => token<T>(name, set(css, scopeName))
