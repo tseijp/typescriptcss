@@ -1,5 +1,5 @@
-import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, space, splitter, token, withScope, x4 } from './utils'
-import type { RuntimeStyle, Chain, Rule, Utility } from './types'
+import { color, dark as dark_, isNum, length, media, merge, numeric, px as px_, read, scope, set, space, splitter, token, withScope, x4 } from './utils.ts'
+import type { RuntimeStyle, Chain, Rule, Utility } from './types.ts'
 const borderSide =
         (...props: string[]): Rule =>
         (state) => {

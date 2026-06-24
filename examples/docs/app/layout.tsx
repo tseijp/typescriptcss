@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
-import { bg, flex, font, gap, m, min, px, text } from 'typescriptcss/src'
+import { bg, flex, font, gap, h, m, min, px, text } from 'typescriptcss/src'
 import { color } from '@/styles'
 import { primaryNav } from '@/const'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
         title: 'typescriptcss',
@@ -20,16 +21,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                         <body style={m[0].p[0].min.h.full.text[color.text].flex.col.fontFamily['Inter, system-ui, -apple-system, Segoe UI, sans-serif'].bg[color.bg].colorScheme.dark()}>
                                 <div style={min.h.full.position.relative.flex.col.backgroundImage[`repeating-linear-gradient(-45deg, ${color.line}1a 0px, ${color.line}1a 1px, transparent 1px, transparent 9px)`]()}>
                                         <header style={px[6].position.sticky.zIndex[30].h[16].top[0].flex.items.center.justify.between.bg[color.bg].border.b.border[color.border]()}>
-                                                <div style={gap[3].flex.items.center()}>
+                                                <Link href="/" style={h.full.gap[3].flex.items.center.textDecoration.none()}>
                                                         <span style={bg[color.cyan].width['18px'].height['18px'].rounded[2]()} />
                                                         <span style={font.semibold.text[4].text[color.text].fontFamily['ui-monospace, SFMono-Regular, Menlo, Consolas, monospace']()}>typescriptcss</span>
                                                         <span style={px[2].text[3].text[color.cyan].flex.items.center.rounded[2].border.border[color.border]()}>v0.1</span>
-                                                </div>
+                                                </Link>
                                                 <nav style={gap[6].flex.items.center()}>
                                                         {primaryNav.map((item) => (
-                                                                <a key={item.label} href={item.href} style={font.medium.text[3.5].text[color.muted].textDecoration.none()}>
+                                                                <Link key={item.label} href={item.href} style={font.medium.text[3.5].text[color.muted].textDecoration.none()}>
                                                                         {item.label}
-                                                                </a>
+                                                                </Link>
                                                         ))}
                                                 </nav>
                                                 <div style={gap[3].flex.items.center()}>
@@ -37,9 +38,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                                                 <span>Search</span>
                                                                 <span style={text[color.faint]()}>⌘K</span>
                                                         </div>
-                                                        <a href="https://github.com" style={font.medium.text[3.5].text[color.muted].textDecoration.none()}>
+                                                        <Link href="https://github.com/tseijp/typescriptcss" target="_blank" rel="noopener noreferrer" style={m[-3].p[3].font.medium.text[3.5].text[color.muted].textDecoration.none()}>
                                                                 GitHub
-                                                        </a>
+                                                        </Link>
                                                 </div>
                                         </header>
                                         <div style={min.w[0].flex[1].col()}>{children}</div>
@@ -86,9 +87,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                                                 <div key={group.title} style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
                                                                         <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>{group.title}</span>
                                                                         {group.links.map((link) => (
-                                                                                <a key={link.label} href={link.href} style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                <Link key={link.label} href={link.href} style={text[3.5].text[color.muted].textDecoration.none()}>
                                                                                         {link.label}
-                                                                                </a>
+                                                                                </Link>
                                                                         ))}
                                                                 </div>
                                                         ))}
