@@ -1,6 +1,7 @@
 packages:
-  - 'examples/*'
-  - 'packages/*'
-  - 'packages/@typescriptcss/*'
+        - 'examples/*'
+        - 'packages/*'
+        - 'integrations'
+        - 'packages/@typescriptcss/*'
 allowBuilds:
-  sharp: false
+        sharp: false

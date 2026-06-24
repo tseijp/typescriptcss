@@ -6,6 +6,7 @@ export default defineConfig({
         outDir: 'dist',
         format: ['esm', 'cjs'],
         dts: true,
+        minify: true,
         clean: true,
         deps: {
                 skipNodeModulesBundle: true,
