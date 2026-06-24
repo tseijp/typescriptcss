@@ -1,0 +1,16 @@
+{
+        "name": "@typescriptcss/test",
+        "author": "tseijp",
+        "version": "0.1.0",
+        "license": "MIT",
+        "private": false,
+        "type": "module",
+        "sideEffects": false,
+        "devDependencies": {
+                "@types/node": "^20",
+                "prettier": "3.8.4",
+                "tsdown": "0.22.2",
+                "typescript": "^5",
+                "vitest": "4.1.9"
+        }
+}
