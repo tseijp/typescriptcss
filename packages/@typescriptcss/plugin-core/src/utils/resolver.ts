@@ -1,19 +1,17 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+import { dirname } from 'node:path'
 import * as runtime from 'typescriptcss/src'
-import { Node, Project, SyntaxKind } from 'ts-morph'
+import { Node, Project, SyntaxKind, ts } from 'ts-morph'
 type Env = Record<string, any>
 export const createValueResolver = (rootDir: string) => {
         const cache = new Map<string, Env>()
-        const ext = ['', '.ts', '.tsx', '.js', '.jsx', '/index.ts', '/index.tsx', '/index.js', '/index.jsx']
+        const configFile = ts.findConfigFile(rootDir, ts.sys.fileExists)
+        const config = configFile ? ts.readConfigFile(configFile, ts.sys.readFile).config : {}
+        const base = configFile ? dirname(configFile) : rootDir
+        const options = ts.parseJsonConfigFileContent(config, ts.sys, base).options
+        const find = (specifier: string, from: string) => ts.resolveModuleName(specifier, from, options, ts.sys).resolvedModule?.resolvedFileName ?? ''
         const source = (file: string, code: string) => new Project({ useInMemoryFileSystem: true, compilerOptions: { allowJs: true, jsx: 1 } as any }).createSourceFile(file.replace(/[^\w.-]/g, '_'), code, { overwrite: true })
         const runtimeImport = (specifier: string, file = '') => specifier.includes('typescriptcss') || /packages\/typescriptcss\/src/.test(file)
-        const find = (specifier: string, from: string) => {
-                if (!specifier.startsWith('.') && !specifier.startsWith('@/')) return ''
-                const path = specifier.slice(2)
-                const bases = specifier.startsWith('@/') ? [resolve(rootDir, 'src', path), resolve(rootDir, path)] : [resolve(dirname(from), specifier)]
-                return bases.flatMap((base) => ext.map((suffix) => `${base}${suffix}`)).find((file) => existsSync(file)) ?? ''
-        }
         const value = (node: Node | undefined, env: Env): any => {
                 if (!node) return undefined
                 if (Node.isStringLiteral(node) || Node.isNoSubstitutionTemplateLiteral(node)) return node.getLiteralText()
@@ -21,21 +19,30 @@ export const createValueResolver = (rootDir: string) => {
                 if (node.getKind() === SyntaxKind.TrueKeyword) return true
                 if (node.getKind() === SyntaxKind.FalseKeyword) return false
                 if (Node.isIdentifier(node)) {
-                        const known = env[node.getText()]
-                        if (known !== undefined) return known
-                        const declaration = node.getSymbol()?.getDeclarations().find(Node.isVariableDeclaration)
-                        return value(declaration?.getInitializer(), env)
+                        const declarations = node.getSymbol()?.getDeclarations() ?? []
+                        const variable = declarations.find(Node.isVariableDeclaration)
+                        if (variable) return value(variable.getInitializer(), env)
+                        if (declarations.some(Node.isParameterDeclaration)) return undefined
+                        return env[node.getText()]
                 }
                 if (Node.isAsExpression(node) || Node.isParenthesizedExpression(node)) return value(node.getExpression(), env)
                 if (Node.isPropertyAccessExpression(node)) return value(node.getExpression(), env)?.[node.getName()]
-                if (Node.isElementAccessExpression(node)) return value(node.getExpression(), env)?.[String(value(node.getArgumentExpression(), env))]
+                if (Node.isElementAccessExpression(node)) {
+                        const key = value(node.getArgumentExpression(), env)
+                        if (key === undefined) return undefined
+                        return value(node.getExpression(), env)?.[String(key)]
+                }
                 if (Node.isCallExpression(node)) {
                         const fn = value(node.getExpression(), env)
                         const args = node.getArguments().map((arg) => value(arg, env))
                         if (typeof fn !== 'function' || args.some((arg) => arg === undefined)) return undefined
                         return fn(...args)
                 }
-                if (Node.isTemplateExpression(node)) return `${node.getHead().getLiteralText()}${node.getTemplateSpans().map((span) => `${value(span.getExpression(), env)}${span.getLiteral().getLiteralText()}`).join('')}`
+                if (Node.isTemplateExpression(node)) {
+                        const spans = node.getTemplateSpans().map((span) => ({ literal: span.getLiteral().getLiteralText(), value: value(span.getExpression(), env) }))
+                        if (spans.some((span) => span.value === undefined)) return undefined
+                        return `${node.getHead().getLiteralText()}${spans.map((span) => `${span.value}${span.literal}`).join('')}`
+                }
                 if (!Node.isObjectLiteralExpression(node)) return undefined
                 return Object.fromEntries(node.getProperties().flatMap((prop) => {
                         if (Node.isSpreadAssignment(prop)) return Object.entries(value(prop.getExpression(), env) ?? {})
