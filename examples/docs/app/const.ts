@@ -1,13 +1,13 @@
 export const primaryNav = [
-        { label: 'Documentation', href: '/docs' },
+        { label: 'Documentation', href: '/docs', icon: '/icon.webp' },
         /**
-	       * @TODO FIX
-        { label: 'Components', href: '/docs/components' },
-        { label: 'Templates', href: '/docs/templates' },
-        { label: 'Playground', href: '/playground' },
-        { label: 'Course', href: '/course', badge: 'NEW' },
-        { label: 'Community', href: '/community' },
-	      */
+	 * @TODO FIX
+        { label: 'Components', href: '/docs/components', icon: '/icon.webp' },
+        { label: 'Templates', href: '/docs/templates', icon: '/icon.webp' },
+        { label: 'Playground', href: '/playground', icon: '/icon.webp' },
+        { label: 'Course', href: '/course', icon: '/icon.webp', badge: 'NEW' },
+        { label: 'Community', href: '/community', icon: '/icon.webp' },
+	 */
 ]
 export const sections = [
         {

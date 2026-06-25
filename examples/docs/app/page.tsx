@@ -93,7 +93,7 @@ export default function Home() {
                                 </div>
                                 <div style={min.w[0].flex[1].col.justify.center()}>
                                         <div style={p[6].gap[4].flex.col.items.center.bg['#0b1120'].rounded[4].border[color.border].dark.bg.black()}>
-                                                <div style={w[12].h[12].bg[color.cyan].rounded.full()} />
+                                                <img src="/icon.webp" alt="" width={128} height={128} style={{ borderRadius: '9999px', flexShrink: 0 }} />
                                                 <div style={font.semibold.fontSize['18px'].text['#fff']()}>Zero runtime</div>
                                                 <div style={text[3.5].text[color.muted].text.center()}>Rendered from the chain on the left. No CSS file, no class names.</div>
                                         </div>
