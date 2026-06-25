@@ -13,6 +13,7 @@
                 "deploy": "cd examples/docs && npm run deploy",
                 "preview": "cd examples/docs && npm run preview",
                 "tsup": "cd packages/typescriptcss && npm run build",
+                "test": "cd packages/typescriptcss && npm run test",
                 "pub": "cd packages/typescriptcss && npm publish",
                 "ls": "cd packages/typescriptcss && npm publish --dry-run",
                 "_core": "cd packages/@typescriptcss/plugin-core && npm run build",
@@ -28,6 +29,7 @@
                 "packages/@typescriptcss/*"
         ],
         "devDependencies": {
+                "@vitest/coverage-v8": "^4.1.6",
                 "@types/node": "^20",
                 "prettier": "3.8.4",
                 "tsdown": "0.22.2",

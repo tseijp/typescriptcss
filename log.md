@@ -1,72 +1,60 @@
 yarn run v1.22.22
-$ cd examples/docs && npm run build
+$ cd packages/typescriptcss && npm run test
 npm warn Unknown env config "version-commit-hooks". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 npm warn Unknown env config "version-tag-prefix". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 npm warn Unknown env config "version-git-message". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 npm warn Unknown env config "argv". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 npm warn Unknown env config "version-git-tag". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
 
-> docs@0.1.0 build
-> next build
+> typescriptcss@0.2.0 test
+> vitest run --coverage
 
-▲ Next.js 16.2.9 (Turbopack)
+Testing types with tsc and vue-tsc is an experimental feature.
+Breaking changes might not follow SemVer, please pin Vitest's version when using it.
 
-  Creating an optimized production build ...
+ RUN  v4.1.9 /workspaces/typscriptcss/packages/typescriptcss
+      Coverage enabled with v8
 
-> Build error occurred
-Error: Turbopack build failed with 2 errors:
-./examples/docs/app/page.tsx.js:6:27
-Expected ',', got ':'
-  [90m4 |[0m [36mimport[0m { glow, cardSheen } [36mfrom[0m [32m'@/src/styles/patterns'[0m
-  [90m5 |[0m [36mimport[0m { [33mHeroCode[0m } [36mfrom[0m [32m'@/src/components/site/hero-code'[0m
-[31m[1m>[0m [90m6 |[0m [36mconst[0m [33mPill[0m = ({ children }: any) => (
-  [90m  |[0m                           [31m[1m^[0m
-  [90m7 |[0m         <span style={({...({ borderWidth: [32m'1px'[0m, borderStyle: [32m'solid'[0m, b...
-  [90m8 |[0m )
-  [90m9 |[0m [36mconst[0m [33mCta[0m = ({ href, primary, children }: any) => (
+ ✓ test/07_responsive-media.test.ts (8 tests) 7ms
+ ✓ test/12_package-surface.test.ts (15 tests) 5ms
+ ✓ test/08_composition-cascade.test.ts (12 tests) 5ms
+ ✓ test/01_grammar-collision.test.ts (31 tests) 6ms
+ ✓ test/05_utility-unsupported-red.test.ts (77 tests) 10ms
+ ✓ test/09_variants-red.test.ts (68 tests) 17ms
+ ✓ test/04_utility-implemented.test.ts (24 tests) 21ms
+ ✓ test/00_chain-contract.test.ts (70 tests) 24ms
+ ✓ test/03_value-syntax.test.ts (39 tests) 30ms
+ ✓ test/11_fuzz.test.ts (277 tests) 60ms
+ ✓ test/13_browser-semantic.test.ts (5 tests | 4 skipped) 2ms
+ ✓ test/06_dark-mode.test.ts (9 tests) 3ms
+ ✓ test/02_proxy-object-model.test.ts (18 tests) 3379ms
+     ✓ 5000 native (name,value) pairs all survive  3209ms
+ ✓  TS  test/02_proxy-object-model.test.ts (14 tests)
+ ✓  TS  test/11_fuzz.test.ts (7 tests)
+ ✓  TS  test/03_value-syntax.test.ts (23 tests)
+ ✓  TS  test/00_chain-contract.test.ts (15 tests)
+ ✓  TS  test/07_responsive-media.test.ts (8 tests)
+ ✓  TS  test/04_utility-implemented.test.ts (24 tests)
+ ✓  TS  test/08_composition-cascade.test.ts (12 tests)
+ ✓  TS  test/05_utility-unsupported-red.test.ts (4 tests)
+ ✓  TS  test/09_variants-red.test.ts (4 tests)
+ ✓  TS  test/12_package-surface.test.ts (5 tests)
+ ✓  TS  test/01_grammar-collision.test.ts (31 tests)
+ ✓  TS  test/06_dark-mode.test.ts (9 tests)
+ ✓  TS  test/13_browser-semantic.test.ts (5 tests)
 
-Parsing ecmascript source code failed
+ Test Files  26 passed (26)
+      Tests  790 passed | 12 expected fail | 4 skipped (814)
+Type Errors  no errors
+   Start at  09:57:33
+   Duration  4.81s (transform 701ms, setup 0ms, import 1.22s, tests 3.57s, environment 1ms, typecheck 775ms)
 
-Generated code of loaders [/workspaces/typscriptcss/packages/@typescriptcss/plugin-next/src/loader.ts] transform of file content of examples/docs/app/page.tsx:
-./examples/docs/app/page.tsx.js:6:27
-  [90m4 |[0m [36mimport[0m { glow, cardSheen } [36mfrom[0m [32m'@/src/styles/patterns'[0m
-  [90m5 |[0m [36mimport[0m { [33mHeroCode[0m } [36mfrom[0m [32m'@/src/components/site/hero-code'[0m
-[31m[1m>[0m [90m6 |[0m [36mconst[0m [33mPill[0m = ({ children }: any) => (
-  [90m  |[0m                           [31m[1m^[0m
-  [90m7 |[0m         <span style={({...({ borderWidth: [32m'1px'[0m, borderStyle: [32m'solid'[0m, b...
-  [90m8 |[0m )
-  [90m9 |[0m [36mconst[0m [33mCta[0m = ({ href, primary, children }: any) => (
-
-
-./examples/docs/app/layout.tsx.js:1:13
-Expected ',', got '{'
-[31m[1m>[0m [90m1 |[0m [36mimport[0m [36mtype[0m { [33mMetadata[0m } [36mfrom[0m [32m'next'[0m
-  [90m  |[0m             [31m[1m^[0m
-  [90m2 |[0m [36mimport[0m { flex, m } [36mfrom[0m [32m'typescriptcss/src'[0m
-  [90m3 |[0m [36mimport[0m { color, fontSans } [36mfrom[0m [32m'@/src/styles/tokens'[0m
-  [90m4 |[0m [36mimport[0m { diagonal } [36mfrom[0m [32m'@/src/styles/patterns'[0m
-
-Parsing ecmascript source code failed
-
-Generated code of loaders [/workspaces/typscriptcss/packages/@typescriptcss/plugin-next/src/loader.ts] transform of file content of examples/docs/app/layout.tsx:
-./examples/docs/app/layout.tsx.js:1:13
-[31m[1m>[0m [90m1 |[0m [36mimport[0m [36mtype[0m { [33mMetadata[0m } [36mfrom[0m [32m'next'[0m
-  [90m  |[0m             [31m[1m^[0m
-  [90m2 |[0m [36mimport[0m { flex, m } [36mfrom[0m [32m'typescriptcss/src'[0m
-  [90m3 |[0m [36mimport[0m { color, fontSans } [36mfrom[0m [32m'@/src/styles/tokens'[0m
-  [90m4 |[0m [36mimport[0m { diagonal } [36mfrom[0m [32m'@/src/styles/patterns'[0m
-
-
-    at <unknown> (./examples/docs/app/page.tsx.js:6:27)
-    at <unknown> (./examples/docs/app/page.tsx.js:6:27)
-    at <unknown> (./examples/docs/app/layout.tsx.js:1:13)
-    at <unknown> (./examples/docs/app/layout.tsx.js:1:13)
-npm error Lifecycle script `build` failed with error:
-npm error code 1
-npm error path /workspaces/typscriptcss/examples/docs
-npm error workspace docs@0.1.0
-npm error location /workspaces/typscriptcss/examples/docs
-npm error command failed
-npm error command sh -c next build
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+ % Coverage report from v8
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |   98.01 |    88.46 |   93.44 |   98.76 |                   
+ index.ts |     100 |    67.85 |     100 |     100 | 16,43-60,123-130  
+ utils.ts |   95.12 |      100 |   89.18 |   96.42 | 69-71             
+----------|---------|----------|---------|---------|-------------------
+Done in 8.31s.

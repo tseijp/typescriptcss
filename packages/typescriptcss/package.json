@@ -61,7 +61,7 @@
         },
         "scripts": {
                 "build": "tsdown --config ../../tsdown.config.ts",
-                "test": "vitest run",
+                "test": "vitest run --coverage",
                 "test:watch": "vitest"
         },
         "files": [
@@ -74,6 +74,7 @@
                 "LICENSE"
         ],
         "devDependencies": {
+                "@vitest/coverage-v8": "^4.1.9",
                 "vitest": "4.1.9"
         }
 }

@@ -9,7 +9,7 @@ describe('PROXY-001 chain is not a thenable', () => {
         it('Promise.resolve(chain) settles to a usable chain, await does not hang', async () => {
                 const resolved = await Promise.resolve(flex.col)
                 expect(typeof resolved).toBe('function')
-                expect((resolved as typeof flex)()).toEqual({ display: 'flex', flexDirection: 'column' })
+                expect(resolved()).toEqual({ display: 'flex', flexDirection: 'column' })
         })
 })
 
@@ -19,7 +19,7 @@ describe('PROXY-002 symbol access never fabricates CSS', () => {
                 expect(c[Symbol.toStringTag]).toBeUndefined()
                 expect(c[Symbol.iterator]).toBeUndefined()
                 expect(c[Symbol.asyncIterator]).toBeUndefined()
-                expect((flex.col as typeof flex)()).toEqual({ display: 'flex', flexDirection: 'column' })
+                expect(flex.col()).toEqual({ display: 'flex', flexDirection: 'column' })
         })
 })
 
