@@ -146,3 +146,71 @@ export const pagesBase = (name: string): Record<string, string> => ({
         'tsconfig.json': tsconfig,
         'next-env.d.ts': nextEnv,
 })
+
+// ---------------------------------------------------------------------------
+// Shared fixture vocabulary + observation helpers (kept here so test files stay lean).
+// ---------------------------------------------------------------------------
+
+export const MARKER = 'tcss-next-marker'
+export const RAW_VALUE = 'rgb(11, 17, 32)'
+export const RAW_VALUE_2 = 'rgb(248, 250, 252)'
+
+/** A Server Component page applying a reused chain + call-arg, no 'use client'. */
+export const serverPage = (render: 'static' | 'dynamic' = 'static') => tsx`
+        import { flex } from 'typescriptcss'
+        export const dynamic = '${render === 'static' ? 'force-static' : 'force-dynamic'}'
+        export default function Page() {
+                const shared = flex.col.gap[3].p[6].bg['${RAW_VALUE}']
+                return (
+                        <main>
+                                <p data-marker="server">${MARKER}</p>
+                                <div data-box="one" style={shared() as any}>one</div>
+                                <div data-box="two" style={shared({ outlineColor: '${RAW_VALUE_2}' }) as any}>two</div>
+                        </main>
+                )
+        }
+`
+
+/** A Client Component page (same chain fixture) with 'use client'. */
+export const clientPage = tsx`
+        'use client'
+        import { flex } from 'typescriptcss'
+        export default function Page() {
+                const shared = flex.col.gap[3].p[6].bg['${RAW_VALUE}']
+                return (
+                        <main>
+                                <p data-marker="client">${MARKER}</p>
+                                <div data-box="one" style={shared() as any}>one</div>
+                                <div data-box="two" style={shared({ outlineColor: '${RAW_VALUE_2}' }) as any}>two</div>
+                        </main>
+                )
+        }
+`
+
+/** tcss-* classes referenced in HTML class/className attributes. */
+export const referencedClasses = (htmlText: string, prefix = 'tcss'): Set<string> => {
+        const out = new Set<string>()
+        for (const m of htmlText.matchAll(/class(?:Name)?="([^"]*)"/gi)) for (const t of m[1].split(/\s+/)) if (t.startsWith(`${prefix}-`)) out.add(t)
+        return out
+}
+
+/** Selectors defined in collected stylesheet text. */
+export const definedSelectors = (sheet: string, prefix = 'tcss'): Set<string> => {
+        const out = new Set<string>()
+        for (const m of sheet.matchAll(new RegExp(`\\.(${prefix}-[A-Za-z0-9_-]+)`, 'g'))) out.add(m[1])
+        return out
+}
+
+/** COMMON-006: no undefined/null/[object Object] CSS value (React $undefined ignored). */
+export const assertNoInvalid = (expect: any, text: string) => {
+        expect(text).not.toMatch(/[a-z-]+\s*:\s*(?:undefined|null)\b/i)
+        expect(text).not.toContain('[object Object]')
+}
+
+/** Spawn `next start`/`next dev` and resolve the bound URL from the ready line. */
+export const startServer = async (spawn: any, command: string, root: string) => {
+        const server = await spawn(command, { cwd: root })
+        let url = ''
+        await server.onStdout((m: string) => ((url = m.match(/https?:\/\/[^\s]+/)?.[0] ?? url), url !== ''))
+        return { server, url }
+}

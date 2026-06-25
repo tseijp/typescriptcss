@@ -60,7 +60,9 @@
                 }
         },
         "scripts": {
-                "build": "tsdown --config ../../tsdown.config.ts"
+                "build": "tsdown --config ../../tsdown.config.ts",
+                "test": "vitest run",
+                "test:watch": "vitest"
         },
         "files": [
                 "dist/**/*.js",

@@ -60,3 +60,25 @@ export type Segment = (c: Chain) => Chain
 export function build(root: Chain, segments: Segment[]): Chain {
 	return segments.reduce((c, seg) => seg(c), root)
 }
+
+/**
+ * Order-independent value model of a finished style object.
+ *
+ * The metamorphic oracle (FUZZ-001 / API-005 / COMPOSE-010) needs to compare
+ * two style objects for *meaning* equality while ignoring CSS declaration
+ * order. A plain style object is just a map from property to value, so a sorted
+ * entry list is a canonical form that is independent of insertion order.
+ */
+export function normalize(style: Record<string, unknown>): Record<string, unknown> {
+	return Object.fromEntries(Object.entries(style).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
+}
+
+/** True when two finished style objects are meaning-equal (order-insensitive). */
+export function styleEqual(a: Record<string, unknown>, b: Record<string, unknown>): boolean {
+	const na = normalize(a)
+	const nb = normalize(b)
+	const ka = Object.keys(na)
+	const kb = Object.keys(nb)
+	if (ka.length !== kb.length) return false
+	return ka.every((k) => Object.is(na[k], nb[k]))
+}
