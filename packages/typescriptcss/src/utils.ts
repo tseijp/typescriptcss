@@ -1,11 +1,12 @@
 import type { Argument, Chain, Rule, RuntimeStyle, State } from './types.ts'
-
 type Entry = RuntimeStyle | Rule
-
 const root: State = { css: {} }
 const rules: Record<string, Rule> = Object.create(null)
 const scoped: Record<string, Record<string, Rule>> = Object.create(null)
-const toRule = (entry: Entry, scopeName?: string): Rule => (typeof entry === 'function' ? entry : styleRule(entry, scopeName))
+const toRule = (entry: Entry, scopeName?: string): Rule => {
+        if (typeof entry === 'function') return entry as Rule
+        return styleRule(entry, scopeName)
+}
 const wrapped = (state: State, css: RuntimeStyle) => {
         if (!state.media) return css
         return Object.fromEntries(Object.entries(css).map(([key, value]) => [key, `if(media(width >= ${state.media}): ${value}; else: ${state.css[key] ?? 'unset'})`]))
@@ -33,9 +34,13 @@ const resolve = (state: State, prop: string | symbol) => {
         if (next) return chain(next)
         return chain(readRule((value) => ({ [key]: value }), true)(state))
 }
-
 export const x4 = (key: string) => `${Number(key) * 4}px`
-export const pxValue = (key: string) => (key === 'full' ? '100%' : key === 'screen' ? '100vw' : key === 'dvh' ? '100dvh' : x4(key))
+export const pxValue = (key: string) => {
+        if (key === 'full') return '100%'
+        if (key === 'screen') return '100vw'
+        if (key === 'dvh') return '100dvh'
+        return x4(key)
+}
 export const isNum = (key: string) => Number.isFinite(Number(key))
 export const styleRule =
         (css: RuntimeStyle, scopeName?: string): Rule =>

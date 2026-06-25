@@ -17,7 +17,6 @@ type Side = Chain & Scale
 type BorderSide = { b: Side; l: Side; r: Side; t: Side; x: Side; y: Side }
 type Axis = { x: Scale; y: Scale }
 type Position = Scale & Values
-
 export type Utility = {
         absolute: Chain
         auto: { cols: Scale }

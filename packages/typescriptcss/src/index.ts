@@ -1,6 +1,5 @@
 import { borderRule, borderSideRule, colorRule, columnRule, columnsRule, darkRule, flexRule, group, lengthRule, mediaRule, numericRule, positionRule, roundedRule, scaleRule, scopedRule, sizeRule, splitRule, textRule, translateRule, utility, values } from './utils.ts'
 import type { Chain, RuntimeStyle, Utility } from './types.ts'
-
 group('auto', { cols: scaleRule('gridAutoColumns') })
 group('content', values('alignContent', { center: 'center', end: 'flex-end', start: 'flex-start', stretch: 'stretch' }))
 group('flex', { ...values('flexDirection', { col: 'column', row: 'row' }), ...values('flexWrap', { nowrap: 'nowrap', wrap: 'wrap' }) })
@@ -29,7 +28,6 @@ group('rounded', { full: { borderRadius: '9999px' } })
 group('translate', { x: translateRule('X'), y: translateRule('Y') })
 group('cols', { subgrid: { gridTemplateColumns: 'subgrid' } })
 group('col', { full: { gridColumn: '1 / -1' }, span: columnRule })
-
 export const absolute: Utility['absolute'] = utility('absolute', { position: 'absolute' })
 export const auto: Utility['auto'] = utility('auto', {}, 'auto')
 export const bg: Utility['bg'] = utility('bg', colorRule('background'))
@@ -37,12 +35,14 @@ export const block: Utility['block'] = utility('block', { display: 'block' })
 export const border: Utility['border'] = utility('border', borderRule)
 export const cols: Utility['cols'] = utility('cols', scopedRule('cols', columnsRule))
 export const col: Utility['col'] = utility('col', scopedRule('col', columnRule))
+// prettier-ignore
 export const colStart: Utility['colStart'] = utility('colStart', numericRule((key) => ({ gridColumnStart: Number(key) })))
 export const content: Utility['content'] = utility('content', {}, 'content')
 export const css: Utility['css'] = utility('css', splitRule)
 export const dark: Utility['dark'] = utility('dark', darkRule)
 export const flex: Utility['flex'] = utility('flex', flexRule)
 export const flow: Utility['flow'] = utility('flow', {}, 'flow')
+// prettier-ignore
 export const font: Utility['font'] = utility('font', scopedRule('font', numericRule((key) => ({ fontWeight: Number(key) }))))
 export const gap: Utility['gap'] = utility('gap', scopedRule('gap', scaleRule('gap')))
 export const grid: Utility['grid'] = utility('grid', { display: 'grid' })
