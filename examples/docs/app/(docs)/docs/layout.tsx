@@ -1,4 +1,4 @@
-import { bg, flex, gap, min, mx, px, py } from 'typescriptcss/src'
+import { flex, gap, min, mx, px, py } from 'typescriptcss/src'
 import { color } from '@/styles'
 import { primaryNav, sections } from '@/const'
 import Link from 'next/link'
@@ -10,7 +10,7 @@ export default function DocsLayout({ children }: Readonly<{ children: React.Reac
                                 <nav style={gap[1].flex.col()}>
                                         {primaryNav.map((item) => (
                                                 <Link key={item.label} href={item.href} style={px[3].py[2].font.medium.text[3.5].text[color.muted].gap[3].flex.items.center.rounded[1.5].textDecoration.none()}>
-                                                        <span style={bg[color.faint].width['14px'].height['14px'].rounded[0.75]()} />
+                                                        <img src={item.icon} alt="" width={16} height={16} style={{ borderRadius: '3px', flexShrink: 0 }} />
                                                         <span>{item.label}</span>
                                                         {'badge' in item ? <span style={px[2].marginLeft.auto.text[2.5].text[color.cyan].rounded[1].border.border[color.cyan]()}>{(item as any).badge}</span> : null}
                                                 </Link>
