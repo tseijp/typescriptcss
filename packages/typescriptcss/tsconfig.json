@@ -10,5 +10,6 @@
                 "skipLibCheck": true,
                 "lib": ["ESNext", "DOM"],
                 "jsx": "react"
-        }
+        },
+        "include": ["src/**/*.ts", "test/**/*.ts"]
 }

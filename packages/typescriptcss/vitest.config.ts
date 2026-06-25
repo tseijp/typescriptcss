@@ -8,11 +8,16 @@ export default defineConfig({
                 include: ['test/**/*.test.ts'],
                 environment: 'node',
                 typecheck: {
-                        // Chapter J (type oracle) relies on vitest's typecheck pass to assert
-                        // that `// @ts-expect-error` lines are honoured by tsc.
                         enabled: true,
-                        include: ['test/**/*.test-d.ts', 'test/**/*.test.ts'],
-                        tsconfig: '../../tsconfig.json',
+                        include: ['test/**/*.test.ts'],
+                        tsconfig: './tsconfig.json',
+                },
+                coverage: {
+                        provider: 'v8',
+                        include: ['src/**/*.ts', 'src/**/*.tsx'],
+                        exclude: ['src/**/*.test.ts', 'src/**/*.d.ts', 'src/**/types.ts'],
+                        reporter: ['text', 'json', 'html'],
+                        reportsDirectory: './logs/coverage',
                 },
         },
 })

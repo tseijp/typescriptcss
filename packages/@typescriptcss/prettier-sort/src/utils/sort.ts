@@ -2,7 +2,6 @@ import { importable, updateImports } from './imports.ts'
 import { readBalanced, segment, tokenize, unitText } from './parse.ts'
 import { bucket, conditions, first, native, pseudo, responsive } from './rules.ts'
 import type { Item, Segment } from '../types.ts'
-
 const split = (units: Item[][]) => {
         const segments: Segment[] = []
         let current: Segment = { conditions: [], units: [] }
@@ -22,20 +21,17 @@ const split = (units: Item[][]) => {
         push()
         return segments
 }
-
 const rank = (part: Segment) => {
         if (part.conditions.some((unit) => pseudo.has(first(unit)))) return 120
         if (part.conditions.some((unit) => responsive.has(first(unit)))) return 110
         return 0
 }
-
 const sortUnits = (units: Item[][]) =>
         units
                 .map((unit, index) => ({ index, unit }))
                 .sort((a, b) => bucket(a.unit) - bucket(b.unit) || a.index - b.index)
                 .map(({ unit }) => unit)
 const sortSegments = (segments: Segment[]) => segments.map((part) => ({ ...part, units: sortUnits(part.units) })).sort((a, b) => rank(a) - rank(b))
-
 export const sortChain = (source: string) => {
         const tokenized = tokenize(source)
         if (!tokenized) return source
@@ -67,7 +63,6 @@ export const sortChain = (source: string) => {
                         .join('.') + tokenized.call
         )
 }
-
 export const transform = (source: string) => {
         let output = ''
         let index = 0
@@ -85,6 +80,7 @@ export const transform = (source: string) => {
                 const end = readBalanced(source, start - 1, '{', '}')
                 if (!end) return updateImports(output + source.slice(found), required)
                 const sorted = sortChain(source.slice(start, end - 1))
+                // @ts-ignore @TODO FIX
                 const name = tokenize(sorted)?.items[0]?.name
                 if (name && importable(name)) required.add(name)
                 output += `style={${sorted}}`

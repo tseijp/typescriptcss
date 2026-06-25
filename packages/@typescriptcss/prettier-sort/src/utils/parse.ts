@@ -1,6 +1,5 @@
 import { roots, scoped, stateOf } from './rules.ts'
 import type { Item } from '../types.ts'
-
 export const readBalanced = (source: string, index: number, open: string, close: string) => {
         let depth = 1
         let i = index + 1
@@ -25,7 +24,6 @@ export const readBalanced = (source: string, index: number, open: string, close:
         }
         return depth ? undefined : i
 }
-
 export const tokenize = (source: string) => {
         source = source.trim()
         const head = /^[A-Za-z_$][A-Za-z0-9_$]*/.exec(source)?.[0]
@@ -62,7 +60,6 @@ export const tokenize = (source: string) => {
         if (!call) return
         return { call, items }
 }
-
 export const segment = (items: Item[]) => {
         const units: Item[][] = []
         let current: Item[] = []
@@ -97,7 +94,6 @@ export const segment = (items: Item[]) => {
         }
         return units
 }
-
 export const unitText = (unit: Item[]) =>
         unit
                 .map((item, index) => {
