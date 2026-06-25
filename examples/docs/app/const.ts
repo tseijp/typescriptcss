@@ -1,12 +1,12 @@
 export const primaryNav = [
-        { label: 'Documentation', href: '/docs', icon: '/favicon.webp' },
+        { label: 'Documentation', href: '/docs', icon: '/icon.webp' },
         /**
 	 * @TODO FIX
-        { label: 'Components', href: '/docs/components', icon: '/favicon.webp' },
-        { label: 'Templates', href: '/docs/templates', icon: '/favicon.webp' },
-        { label: 'Playground', href: '/playground', icon: '/favicon.webp' },
-        { label: 'Course', href: '/course', icon: '/favicon.webp', badge: 'NEW' },
-        { label: 'Community', href: '/community', icon: '/favicon.webp' },
+        { label: 'Components', href: '/docs/components', icon: '/icon.webp' },
+        { label: 'Templates', href: '/docs/templates', icon: '/icon.webp' },
+        { label: 'Playground', href: '/playground', icon: '/icon.webp' },
+        { label: 'Course', href: '/course', icon: '/icon.webp', badge: 'NEW' },
+        { label: 'Community', href: '/community', icon: '/icon.webp' },
 	 */
 ]
 export const sections = [
