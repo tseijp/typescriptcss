@@ -10,7 +10,7 @@
 //
 // Scope note: no utility-value / variant / Proxy assertions live here. We only
 // observe process + artifact boundaries. These assertions intentionally fail
-// (RED) until @typescriptcss/plugin-rollup exists; missing-package or config
+// (RED) until @typescriptcss/rollup exists; missing-package or config
 // syntax errors are NOT counted as the meaningful RED per PROMPT.
 import { test } from './_fixtures'
 
@@ -23,7 +23,7 @@ const PKG = JSON.stringify(
                         rollup: '^4.0.0',
                         '@rollup/plugin-node-resolve': '^15.0.0',
                         typescriptcss: 'workspace:^',
-                        '@typescriptcss/plugin-rollup': 'workspace:^',
+                        '@typescriptcss/rollup': 'workspace:^',
                 },
         },
         null,

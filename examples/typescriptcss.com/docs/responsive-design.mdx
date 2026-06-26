@@ -1,0 +1,73 @@
+export const title = 'Responsive design'
+export const description = 'Building adaptive interfaces by placing breakpoints directly inside a style chain.'
+
+## Responsive design
+
+Every utility in a typescriptcss chain can be made conditional at a breakpoint. You do not write a separate class or open a stylesheet to add a media query — you insert the breakpoint name into the chain, and everything that follows applies at that width and up.
+
+A chain reads left to right. The utilities before a breakpoint segment are the base style. The moment you write `sm`, `md`, `lg`, or `xl`, the utilities after it become conditional on that breakpoint. This means a single expression can describe how an element looks on a phone, a tablet, and a desktop, all in the order you would read it aloud.
+
+{/* prettier-ignore */}
+```tsx
+// Column on small screens, row from the small breakpoint and up
+<div style={flex.col.sm.gap[4].flex.row()}>
+  <img style={w.full.sm.w[48]()} src="/cover.jpg" />
+  <div style={p[8]()}>{/* ... */}</div>
+</div>
+```
+
+In the example above the container stacks its children by default and switches to a side-by-side layout once the viewport reaches the small breakpoint. The image is full width on phones and a fixed column on larger screens. All of it lives in the markup, with no class names to coordinate and no separate file to keep in step with the component.
+
+## The breakpoints
+
+There are four breakpoints, inspired by common device widths. Each one is a minimum-width condition, so a segment applies at that width and everything larger.
+
+| Segment | Minimum width | Applies from    |
+| ------- | ------------- | --------------- |
+| `sm`    | 640px         | large phones up |
+| `md`    | 768px         | tablets up      |
+| `lg`    | 1024px        | laptops up      |
+| `xl`    | 1280px        | desktops up     |
+
+This works for every utility in the library. You can change layout, spacing, color, border, or typography at any breakpoint simply by placing the segment before the utilities you want to scope. There is nothing special about which properties can respond — if you can write it in a chain, you can write it behind a breakpoint.
+
+## Composing several breakpoints
+
+Breakpoints stack. You can move through `sm`, `md`, and `lg` in one chain, and each segment scopes the utilities that follow it until the next segment appears.
+
+{/* prettier-ignore */}
+```tsx
+// One column on phones, two from md, three from lg
+<div style={gap[4].grid.md.grid.cols[2].lg.grid.cols[3]()}>
+  {items.map((item) => (
+    <Card key={item.id} {...item} />
+  ))}
+</div>
+```
+
+Read the chain as a series of overrides: start with the mobile layout, then describe what changes at each larger size. Because the later segments only add the properties they name, the earlier values carry through wherever they are not replaced.
+
+## Working mobile-first
+
+Breakpoints are mobile-first. Unprefixed utilities apply on every screen size, and a breakpoint segment only layers changes on top at that width and above.
+
+The detail that surprises people most is that `sm` does not mean "on small screens" — it means "at the small breakpoint and up". To style phones, reach for the base utilities; to change the design on wider screens, add a breakpoint segment.
+
+{/* prettier-ignore */}
+```tsx
+// Centered on phones, left-aligned from the small breakpoint up
+<p style={text.center.sm.text.left()}>Adaptive paragraph</p>
+```
+
+This is the opposite of writing desktop styles first and clawing them back for mobile. A good rhythm is to build the phone layout entirely with plain utilities, confirm it reads well in a narrow viewport, and only then add `sm`, `md`, and `lg` segments where the design genuinely needs to change.
+
+## Common patterns
+
+A handful of shapes cover most responsive work:
+
+- **Stack to row** — `flex.col.sm.flex.row` turns a vertical stack into a horizontal one for navigation bars, media objects, and form rows.
+- **Grow the grid** — `grid.cols[1].md.grid.cols[2].lg.grid.cols[3]` adds columns as space allows, the workhorse of card galleries.
+- **Tighten spacing** — start with generous padding on desktop and reduce it on phones, or the reverse, by placing a breakpoint before `p`, `px`, or `gap`.
+- **Resize type** — bump a heading up at `md` so it stays comfortable on large screens without overwhelming a phone.
+
+Keep each chain focused on one element. When a layout needs to change in several places at once, change each element's chain rather than reaching for a global breakpoint switch — the responsive behavior stays next to the markup it affects, which makes it easy to see and easy to adjust.

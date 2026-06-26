@@ -81,7 +81,7 @@ breakpoint の segment（`sm`、`md`、`lg`、`xl`）を挿入すると、その
 <!-- prettier-ignore -->
 ```ts
 import { defineConfig } from 'vite'
-import { typescriptcss } from '@typescriptcss/plugin-vite'
+import { typescriptcss } from '@typescriptcss/vite'
 
 export default defineConfig({
   plugins: [typescriptcss()],
@@ -92,7 +92,7 @@ export default defineConfig({
 
 <!-- prettier-ignore -->
 ```ts
-import { typescriptcss } from '@typescriptcss/plugin-rollup'
+import { typescriptcss } from '@typescriptcss/rollup'
 
 export default {
   plugins: [typescriptcss()],
@@ -103,7 +103,7 @@ export default {
 
 <!-- prettier-ignore -->
 ```ts
-import typescriptcss from '@typescriptcss/plugin-next'
+import typescriptcss from '@typescriptcss/next'
 
 const withTypescriptcss = typescriptcss()
 
@@ -131,10 +131,10 @@ export default withTypescriptcss({
 ## パッケージ
 
 - `typescriptcss` — runtime の chain library。
-- `@typescriptcss/plugin-core` — 以下の adapter が使う、bundler 非依存の collector。
-- `@typescriptcss/plugin-vite` — Vite plugin。
-- `@typescriptcss/plugin-rollup` — Rollup および tsdown plugin。
-- `@typescriptcss/plugin-next` — Next.js の config adapter。
+- `@typescriptcss/share` — 以下の adapter が使う、bundler 非依存の collector。
+- `@typescriptcss/next` — Next.js の config adapter。
+- `@typescriptcss/vite` — Vite plugin。
+- `@typescriptcss/rollup` — Rollup および tsdown plugin。
 
 ## ライセンス
 

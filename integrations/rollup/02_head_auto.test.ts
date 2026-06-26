@@ -4,7 +4,7 @@
 //   "head は HTML document を所有しない build tool である点を曖昧にせず、公開契約として
 //    選択可能か、明示的に分類されるか" を自動検証し、"silent な別 mode 化を見逃さない"。
 //
-// OBSERVED CONTRACT (from packages/@typescriptcss/plugin-rollup/src/index.ts):
+// OBSERVED CONTRACT (from packages/@typescriptcss/rollup/src/index.ts):
 //   const output = options.output === 'inline' ? 'inline' : 'file'
 //   => any value other than 'inline' (including 'head' and 'auto') is coerced to 'file'.
 //

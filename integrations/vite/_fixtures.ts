@@ -1,4 +1,4 @@
-// Shared fixtures + helpers for the @typescriptcss/plugin-vite suite.
+// Shared fixtures + helpers for the @typescriptcss/vite suite.
 //
 // Each framework keeps its own minimal standard-template fixture; only the small
 // binding that passes a typescriptcss chain to the element changes per framework.
@@ -16,7 +16,7 @@ export const VITE_DEV = { vite: '^7' }
 
 /** package.json with workspace plugin deps + per-framework extras. */
 export function pkg(deps: Record<string, string>, dev: Record<string, string> = {}): string {
-        const all = { typescriptcss: 'workspace:*', '@typescriptcss/plugin-vite': 'workspace:*', ...deps }
+        const all = { typescriptcss: 'workspace:*', '@typescriptcss/vite': 'workspace:*', ...deps }
         return json`
 		{
 		  "name": "fixture",
@@ -35,7 +35,7 @@ export function viteConfig(opts: { output?: string; framework?: string; pluginEx
         const optionParts = [output ? `output: ${JSON.stringify(output)}` : '', pluginExtra].filter(Boolean).join(', ')
         return ts`
 		import { defineConfig } from 'vite'
-		import { typescriptcss } from '@typescriptcss/plugin-vite/src'
+		import { typescriptcss } from '@typescriptcss/vite/src'
 		${framework ? framework : ''}
 
 		export default defineConfig({

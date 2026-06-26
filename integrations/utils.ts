@@ -28,10 +28,10 @@ export const REPO_ROOT = path.join(THIS_DIR, '..')
 // the live source tree so the temp project exercises the real adapter code.
 const WORKSPACE_PACKAGES: Record<string, string> = {
         typescriptcss: path.join(REPO_ROOT, 'packages', 'typescriptcss'),
-        '@typescriptcss/plugin-core': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'plugin-core'),
-        '@typescriptcss/plugin-next': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'plugin-next'),
-        '@typescriptcss/plugin-vite': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'plugin-vite'),
-        '@typescriptcss/plugin-rollup': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'plugin-rollup'),
+        '@typescriptcss/share': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'share'),
+        '@typescriptcss/next': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'next'),
+        '@typescriptcss/vite': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'vite'),
+        '@typescriptcss/rollup': path.join(REPO_ROOT, 'packages', '@typescriptcss', 'rollup'),
 }
 
 export const IS_WINDOWS = platform() === 'win32'

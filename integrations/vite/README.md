@@ -1,13 +1,13 @@
 # vite integration suite
 
-Exercises `@typescriptcss/plugin-vite` on Vite itself and on the frameworks that
+Exercises `@typescriptcss/vite` on Vite itself and on the frameworks that
 build on Vite. Each test stands up a temp project, installs the framework + the
 workspace plugin, then runs a real `vite build` (or `vite` dev) and observes the
 served HTML and reachable stylesheets.
 
 ## Shared helpers — `_fixtures.ts`
 
-- `pkg(deps, dev)` — manifest; always pulls `typescriptcss` + `@typescriptcss/plugin-vite`.
+- `pkg(deps, dev)` — manifest; always pulls `typescriptcss` + `@typescriptcss/vite`.
 - `viteConfig({ output, framework, pluginExtra })` — puts the typescriptcss plugin
   first; `framework` is an import snippet that binds `frameworkPlugin`, called after.
 - `indexHtml(entry)` — minimal mount point.

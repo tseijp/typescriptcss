@@ -8,7 +8,7 @@
  *
  * TDD regime (PROMPT.md "TDD 実行規約"): exactly one boundary/mode is driven RED at a
  * time. The active test below builds a real Next.js project and exercises the
- * @typescriptcss/plugin-next config wrapper at the App Router Server Component +
+ * @typescriptcss/next config wrapper at the App Router Server Component +
  * `inline` placement boundary. Every other cell stays as a visible skip so the
  * unaddressed boundaries are not deleted (PROMPT.md "最終監査").
  *
@@ -53,14 +53,14 @@ function project({ output, render }: { output: OutputMode; render: RenderMode })
           "react": "^19",
           "react-dom": "^19",
           "typescriptcss": "workspace:^",
-          "@typescriptcss/plugin-next": "workspace:^"
+          "@typescriptcss/next": "workspace:^"
         }
       }
     `,
                 // Standard Next config, plugin wrapper added, only the output mode varies from
                 // the matrix (PROMPT.md "共通 fixture").
                 'next.config.mjs': ts`
-      import typescriptcss from '@typescriptcss/plugin-next'
+      import typescriptcss from '@typescriptcss/next'
 
       const withTypescriptcss = typescriptcss({ output: '${output}' })
 

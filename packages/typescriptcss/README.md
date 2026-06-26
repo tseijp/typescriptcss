@@ -81,7 +81,7 @@ Insert a state segment such as `hover`, `focus`, `active`, `first`, `disabled`, 
 <!-- prettier-ignore -->
 ```ts
 import { defineConfig } from 'vite'
-import { typescriptcss } from '@typescriptcss/plugin-vite'
+import { typescriptcss } from '@typescriptcss/vite'
 
 export default defineConfig({
   plugins: [typescriptcss()],
@@ -92,7 +92,7 @@ export default defineConfig({
 
 <!-- prettier-ignore -->
 ```ts
-import { typescriptcss } from '@typescriptcss/plugin-rollup'
+import { typescriptcss } from '@typescriptcss/rollup'
 
 export default {
   plugins: [typescriptcss()],
@@ -103,7 +103,7 @@ export default {
 
 <!-- prettier-ignore -->
 ```ts
-import typescriptcss from '@typescriptcss/plugin-next'
+import typescriptcss from '@typescriptcss/next'
 
 const withTypescriptcss = typescriptcss()
 
@@ -131,10 +131,10 @@ You can also draw the boundary inside a chain. A leading `css` marks the whole c
 ## Packages
 
 - `typescriptcss` — the runtime chain library.
-- `@typescriptcss/plugin-core` — bundler-agnostic collector used by the adapters below.
-- `@typescriptcss/plugin-vite` — Vite plugin.
-- `@typescriptcss/plugin-rollup` — Rollup and tsdown plugin.
-- `@typescriptcss/plugin-next` — Next.js config adapter.
+- `@typescriptcss/share` — bundler-agnostic collector used by the adapters below.
+- `@typescriptcss/next` — Next.js config adapter.
+- `@typescriptcss/vite` — Vite plugin.
+- `@typescriptcss/rollup` — Rollup and tsdown plugin.
 
 ## License
 

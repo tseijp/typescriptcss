@@ -1,4 +1,4 @@
-// Shared Next.js project fixtures for the @typescriptcss/plugin-next suite.
+// Shared Next.js project fixtures for the @typescriptcss/next suite.
 //
 // Every test builds a real Next.js project in a temp directory. The fixtures
 // here keep the *framework* boilerplate in one place so each test file only
@@ -37,7 +37,7 @@ export const packageJson = (name: string) => json`
 			"react": "${REACT_VERSION}",
 			"react-dom": "${REACT_VERSION}",
 			"typescriptcss": "workspace:*",
-			"@typescriptcss/plugin-next": "workspace:*"
+			"@typescriptcss/next": "workspace:*"
 		},
 		"devDependencies": {
 			"@types/node": "^20",
@@ -97,12 +97,12 @@ export const nextConfig = (opts: ConfigOptions = {}) => {
         if (opts.minify !== undefined) pluginOptions.push(`minify: ${opts.minify}`)
         if (opts.root !== undefined) pluginOptions.push(`root: ${JSON.stringify(opts.root)}`)
 
-        const nextOptions: string[] = [`transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core', '@typescriptcss/plugin-next']`]
+        const nextOptions: string[] = [`transpilePackages: ['typescriptcss', '@typescriptcss/share', '@typescriptcss/next']`]
         if (opts.staticExport) nextOptions.push(`output: 'export'`)
         if (opts.extra) nextOptions.push(opts.extra)
 
         return ts`
-		import typescriptcss from '@typescriptcss/plugin-next/src'
+		import typescriptcss from '@typescriptcss/next/src'
 
 		const withTypescriptcss = typescriptcss({ ${pluginOptions.join(', ')} })
 

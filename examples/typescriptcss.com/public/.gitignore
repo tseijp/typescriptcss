@@ -1,0 +1,9 @@
+**/*
+!.gitignore
+!icon
+!icon/*.png
+!icon/favicon.ico
+!icon/site.webmanifest
+!icon.png
+!icon.webp
+!icon.webm

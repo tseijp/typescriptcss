@@ -1,4 +1,4 @@
-// Shared fixtures + config generators for the @typescriptcss/plugin-rollup
+// Shared fixtures + config generators for the @typescriptcss/rollup
 // integration suite.
 //
 // These helpers satisfy the REFACTOR rule in PROMPT.md: the temporary project
@@ -27,7 +27,7 @@
 import { json, ts, tsx } from '../utils'
 
 export { test } from '../utils'
-export const PLUGIN = '@typescriptcss/plugin-rollup'
+export const PLUGIN = '@typescriptcss/rollup'
 
 // ---------------------------------------------------------------------------
 // tsconfig — shared JSX factory so every tool compiles `<div/>` to `h('div',…)`
@@ -67,7 +67,7 @@ export function packageJson(extra: Record<string, string> = {}, devExtra: Record
 		  "type": "module",
 		  "dependencies": {
 		    "typescriptcss": "workspace:*",
-		    "@typescriptcss/plugin-rollup": "workspace:*"${depsTail(extra)}
+		    "@typescriptcss/rollup": "workspace:*"${depsTail(extra)}
 		  },
 		  "devDependencies": {${depsTail(devExtra, true)}
 		  }
@@ -232,7 +232,7 @@ export function rollupConfig(opts: RollupOptions = {}): string {
         const sm = sourcemap !== undefined ? `sourcemap: ${JSON.stringify(sourcemap)}, ` : ''
         return ts`
 		import { nodeResolve } from '@rollup/plugin-node-resolve'
-		${plugin ? `import { typescriptcss } from '@typescriptcss/plugin-rollup/src'` : ''}
+		${plugin ? `import { typescriptcss } from '@typescriptcss/rollup/src'` : ''}
 
 		export default {
 		  input: ${input},
@@ -252,7 +252,7 @@ export function tsupConfig(opts: { output?: string; multi?: boolean; pluginExtra
         // transform + generateBundle, which tsup forwards.
         return ts`
 		import { defineConfig } from 'tsup'
-		import { typescriptcss } from '@typescriptcss/plugin-rollup/src'
+		import { typescriptcss } from '@typescriptcss/rollup/src'
 
 		export default defineConfig({
 		  entry: ${entry},
@@ -277,7 +277,7 @@ export function tsdownConfig(opts: { output?: string; multi?: boolean; pluginExt
         const entry = multi ? `['src/a.tsx', 'src/b.tsx']` : `['src/index.tsx']`
         return ts`
 		import { defineConfig } from 'tsdown'
-		import { typescriptcss } from '@typescriptcss/plugin-rollup/src'
+		import { typescriptcss } from '@typescriptcss/rollup/src'
 
 		export default defineConfig({
 		  entry: ${entry},

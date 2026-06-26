@@ -12,14 +12,14 @@ const files = (output: string): Record<string, string> => ({
 		  "dependencies": {
 		    "astro": "^5",
 		    "typescriptcss": "workspace:*",
-		    "@typescriptcss/plugin-vite": "workspace:*"
+		    "@typescriptcss/vite": "workspace:*"
 		  }
 		}
 	`,
         // Astro integrates the vite plugin through astro.config's vite.plugins.
         'astro.config.mjs': ts`
 		import { defineConfig } from 'astro/config'
-		import { typescriptcss } from '@typescriptcss/plugin-vite/src'
+		import { typescriptcss } from '@typescriptcss/vite/src'
 		export default defineConfig({
 		  vite: { plugins: [typescriptcss({ output: '${output}' })] },
 		})
