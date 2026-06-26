@@ -1,7 +1,7 @@
 import type { MDXComponents } from 'mdx/types'
-import { font, text } from 'typescriptcss/src'
+import { font } from 'typescriptcss/src'
 import { color, fontMono } from '@/styles'
-import { CodeBlock } from '@/_mdx/code-block'
+import { CodeBlock } from '@/_atoms/mdx-code-block'
 import Link from 'next/link'
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
