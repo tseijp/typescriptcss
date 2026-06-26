@@ -7,7 +7,7 @@ export const createTransformer = (options: TypescriptcssOptions, emitClass: Emit
         const tools = createStyleTools()
         const resolver = createValueResolver(options.root ?? process.cwd())
         const baseTarget = () => (options.output === 'file' || options.output === 'inline' ? options.output : 'head')
-        const attrName = (attr: any) => Node.isJsxAttribute(attr) ? attr.getNameNode().getText() : ''
+        const attrName = (attr: any) => (Node.isJsxAttribute(attr) ? attr.getNameNode().getText() : '')
         const partsOf = (node: Node, env: Record<string, any>): Part[] | null => {
                 if (Node.isIdentifier(node)) return [{ type: 'name', value: node.getText() }]
                 if (Node.isPropertyAccessExpression(node)) {
@@ -33,7 +33,10 @@ export const createTransformer = (options: TypescriptcssOptions, emitClass: Emit
         }
         const sections = (parts: Part[], env: Record<string, any>, extra: RuntimeStyle) => {
                 const index = parts.findIndex((part) => part.type === 'name' && part.value === 'css')
-                const items = [{ parts: index < 0 ? parts : parts.slice(0, index), target: baseTarget() as CssTarget }, { parts: index < 0 ? [] : parts.slice(index + 1), target: splitTarget }]
+                const items = [
+                        { parts: index < 0 ? parts : parts.slice(0, index), target: baseTarget() as CssTarget },
+                        { parts: index < 0 ? [] : parts.slice(index + 1), target: splitTarget },
+                ]
                 const built = items.flatMap((item) => {
                         const style = run(item.parts, env)
                         if (!style) return []

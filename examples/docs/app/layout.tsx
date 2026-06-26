@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { flex, font, gap, h, m, min, px, text } from 'typescriptcss/src'
+import { flex, font, gap, h, m, min, mx, px, text } from 'typescriptcss/src'
 import { color } from '@/styles'
 import { primaryNav } from '@/const'
 import Link from 'next/link'

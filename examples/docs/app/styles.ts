@@ -15,7 +15,7 @@ export const color = {
         pink: '#f472b6',
         purple: '#c084fc',
         line: '#1e293b',
-} as const
+}
 
 export const token = {
         cyan: '#67e8f9',
@@ -23,7 +23,7 @@ export const token = {
         purple: '#d8b4fe',
         gray: '#94a3b8',
         plain: '#e2e8f0',
-} as const
+}
 
 export const fontMono = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
 

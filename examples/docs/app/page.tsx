@@ -26,7 +26,7 @@ const dot = (color: '#f87171' | '#fbbf24' | '#34d399') => <span style={bg[color]
 export default function Home() {
         return (
                 <div style={w.full.flex.col.items.center()}>
-                        <section style={px[6].position.relative.py[20].w.full.max.w[240].gap[6].flex.col.items.center.backgroundImage['radial-gradient(60% 50% at 50% 0%, rgba(34,211,238,0.12) 0%, transparent 70%)']()}>
+                        <section style={py[20].w.full.max.w[240].gap[6].flex.col.items.center.backgroundImage['radial-gradient(60% 50% at 50% 0%, rgba(34,211,238,0.12) 0%, transparent 70%)']()}>
                                 <span style={px[3].py[1].text[3].text[color.cyan].gap[2].flex.items.center.fontFamily[fontMono].rounded.full.border[color.border]()}>v0.1 — TypeScript-authored styles</span>
                                 <h1 style={max.w[208].lineHeight['1.05'].letterSpacing['-0.03em'].font.semibold.text[14].text[color.text].text.center()}>
                                         <span style={inlineBlock()}>Write your styles in TypeScript.</span>
@@ -40,7 +40,7 @@ export default function Home() {
                                         <Cta href="/docs/styling-with-utility-classes">Read the docs</Cta>
                                 </div>
                         </section>
-                        <section style={px[6].py[6].w.full.max.w[240].gap[6].flex.items.stretch()}>
+                        <section style={py[6].w.full.max.w[240].gap[6].flex.items.stretch()}>
                                 <div style={min.w[0].flex[2].col()}>
                                         <div style={flex.col.lineHeight['22px'].fontSize['13px'].fontFamily[fontMono].boxShadow['0 20px 60px -20px rgba(0,0,0,0.6)'].bg[color.panel].rounded[3].border[color.border].overflow.hidden()}>
                                                 <div style={px[4].py[3].gap[2].flex.items.center.bg[color.panelHi]()}>
@@ -99,7 +99,7 @@ export default function Home() {
                                         </div>
                                 </div>
                         </section>
-                        <section style={px[6].py[20].w.full.max.w[240].gap[8].flex.col()}>
+                        <section style={py[20].w.full.max.w[240].gap[8].flex.col()}>
                                 <div style={gap[3].flex.col()}>
                                         <span style={font.semibold.letterSpacing['0.12em'].text[3].text[color.cyan].fontFamily[fontMono].textTransform.uppercase()}>Why typescriptcss</span>
                                         <h2 style={max.w[176].letterSpacing['-0.02em'].font.semibold.fontSize['34px'].text[color.text]()}>The ergonomics of utilities, without the stylesheet to maintain.</h2>
