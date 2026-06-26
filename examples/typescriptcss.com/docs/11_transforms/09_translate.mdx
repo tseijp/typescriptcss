@@ -1,0 +1,32 @@
+export const title = 'translate'
+export const description = 'Utilities for translating elements.'
+
+## translate
+
+Utilities for translating elements.
+
+| Utility                   | Styles                                                                                       |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `translate[*<value>*]`    | `translate: calc(var(--spacing) * *<number>*) calc(var(--spacing) * *<number>*);`            |
+| `-translate[*<value>*]`   | `translate: calc(var(--spacing) * -*<number>*) calc(var(--spacing) * -*<number>*);`          |
+| `translate.full`          | `translate: 100% 100%;`                                                                      |
+| `-translate.full`         | `translate: -100% -100%;`                                                                    |
+| `translate.px`            | `translate: 1px 1px;`                                                                        |
+| `-translate.px`           | `translate: -1px -1px;`                                                                      |
+| `translate.x[*<value>*]`  | `translate: calc(var(--spacing) * *<number>*) var(--tw-translate-y);`                        |
+| `-translate.x[*<value>*]` | `translate: calc(var(--spacing) * -*<number>*) var(--tw-translate-y);`                       |
+| `translate.x.full`        | `translate: 100% var(--tw-translate-y);`                                                     |
+| `-translate.x.full`       | `translate: -100% var(--tw-translate-y);`                                                    |
+| `translate.x.px`          | `translate: 1px var(--tw-translate-y);`                                                      |
+| `-translate.x.px`         | `translate: -1px var(--tw-translate-y);`                                                     |
+| `translate.y[*<value>*]`  | `translate: var(--tw-translate-x) calc(var(--spacing) * *<number>*);`                        |
+| `-translate.y[*<value>*]` | `translate: var(--tw-translate-x) calc(var(--spacing) * -*<number>*);`                       |
+| `translate.y.full`        | `translate: var(--tw-translate-x) 100%;`                                                     |
+| `-translate.y.full`       | `translate: var(--tw-translate-x) -100%;`                                                    |
+| `translate.y.px`          | `translate: var(--tw-translate-x) 1px;`                                                      |
+| `-translate.y.px`         | `translate: var(--tw-translate-x) -1px;`                                                     |
+| `translate.z[*<value>*]`  | `translate: var(--tw-translate-x) var(--tw-translate-y) calc(var(--spacing) * *<number>*);`  |
+| `-translate.z[*<value>*]` | `translate: var(--tw-translate-x) var(--tw-translate-y) calc(var(--spacing) * -*<number>*);` |
+| `translate.z.px`          | `translate: var(--tw-translate-x) var(--tw-translate-y) 1px;`                                |
+| `-translate.z.px`         | `translate: var(--tw-translate-x) var(--tw-translate-y) -1px;`                               |
+| `translate.none`          | `translate: none;`                                                                           |
