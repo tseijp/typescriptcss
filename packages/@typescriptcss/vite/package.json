@@ -1,5 +1,5 @@
 {
-        "name": "@typescriptcss/plugin-next",
+        "name": "@typescriptcss/vite",
         "version": "0.1.0",
         "author": "tseijp",
         "license": "MIT",
@@ -54,23 +54,18 @@
                 }
         },
         "scripts": {
-                "prebuild": "npm run build --workspace=@typescriptcss/plugin-core",
                 "build": "tsdown --config ../../../tsdown.config.ts"
         },
         "files": [
                 "dist/**/*.js",
                 "dist/**/*.cjs",
                 "dist/**/*.d.ts",
-                "src/**/*.js",
                 "src/**/*.ts",
                 "package.json",
                 "README.md",
                 "LICENSE"
         ],
         "dependencies": {
-                "@typescriptcss/plugin-core": "workspace:*"
-        },
-        "peerDependencies": {
-                "next": ">=16.2.0"
+                "@typescriptcss/share": "workspace:*"
         }
 }

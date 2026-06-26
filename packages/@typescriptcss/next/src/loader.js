@@ -1,4 +1,4 @@
-import { createTypescriptcssProcessor } from '@typescriptcss/plugin-core/src'
+import { createTypescriptcssProcessor } from '@typescriptcss/share/src'
 export default function loader(code) {
         const options = this.getOptions?.() ?? {}
         const processor = createTypescriptcssProcessor(options, options.inlineOnly ? 'inline' : 'file')

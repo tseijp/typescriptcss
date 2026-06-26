@@ -1,5 +1,5 @@
-import { createTypescriptcssProcessor } from '@typescriptcss/plugin-core/src'
-import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
+import { createTypescriptcssProcessor } from '@typescriptcss/share/src'
+import type { TypescriptcssOptions } from '@typescriptcss/share/src'
 type RollupPlugin = Record<string, any>
 export const typescriptcss = (options: TypescriptcssOptions = {}): RollupPlugin => {
         const output = options.output === 'inline' ? 'inline' : 'file'

@@ -1,5 +1,5 @@
 {
-        "name": "@typescriptcss/plugin-vite",
+        "name": "@typescriptcss/share",
         "version": "0.1.0",
         "author": "tseijp",
         "license": "MIT",
@@ -39,6 +39,12 @@
                         "module": "./src/index.ts",
                         "default": "./src/index.ts"
                 },
+                "./src/*": {
+                        "types": "./src/*.ts",
+                        "import": "./src/*.ts",
+                        "module": "./src/*.ts",
+                        "default": "./src/*.ts"
+                },
                 "./*": {
                         "types": "./dist/index.d.ts",
                         "import": {
@@ -66,6 +72,13 @@
                 "LICENSE"
         ],
         "dependencies": {
-                "@typescriptcss/plugin-core": "workspace:*"
+                "@emotion/hash": "0.9.2",
+                "lightningcss": "^1.32.0",
+                "ts-morph": "^27.0.2",
+                "typescriptcss": "workspace:*",
+                "unplugin": "3.0.0"
+        },
+        "devDependencies": {
+                "@types/node": "25.9.3"
         }
 }

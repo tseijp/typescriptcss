@@ -1,6 +1,6 @@
 # next integration suite
 
-Exercises `@typescriptcss/plugin-next` on real Next.js projects: App Router and
+Exercises `@typescriptcss/next` on real Next.js projects: App Router and
 Pages Router, Server and Client Components, Turbopack and webpack, dev and
 production, static export. Each test writes a temp Next project, runs the real
 `next build` / `next dev` / `next start`, and observes the served HTML + reachable
@@ -10,7 +10,7 @@ stylesheets.
 
 - `packageJson`, `tsconfig`, `nextEnv`, `appLayout`, `appBase(name)`, `pagesBase(name)`.
 - `nextConfig({ output, classPrefix, fileName, minify, root, staticExport })` —
-  wraps a Next config with the plugin imported from `@typescriptcss/plugin-next/src`
+  wraps a Next config with the plugin imported from `@typescriptcss/next/src`
   and sets `transpilePackages` for the workspace packages.
 - Page fixtures sharing one chain (`flex.col.gap[3].p[6].bg[RAW_VALUE]`) + a call-arg:
   `serverPage('static'|'dynamic')`, `clientPage` (`'use client'`).
@@ -22,19 +22,19 @@ stylesheets.
 
 ## What each file observes
 
-| File | Focus |
-| --- | --- |
-| `00_app_router_server` | original MATRIX-001 inline active + skipped placeholders |
-| `01_app_router_modes` | App Router Server Component, static+dynamic × inline/head/file |
-| `02_app_router_client` | App Router Client Component, static+dynamic parent × three modes |
-| `03_mixed_tree` | Server + Client siblings; one graph's rule must not erase the other |
-| `04_pages_router` | Pages Router SSR + static, custom `_document`/`_app`, three modes |
-| `05_routes_navigation` | two routes, direct-request resolution; client-nav rows skipped RED |
-| `06_css_boundary` | `css` marker split on an App Router Server Component |
-| `07_bundler_matrix` | Turbopack vs webpack, dev + production — see RED |
-| `08_static_export` | `output: 'export'`; each out/ HTML resolves its class references |
-| `09_options_scanner` | classPrefix, minify, invalid-output + dangling-class scan |
-| `10_dev_update` | edit Server / Client / token source; new value reflected in dev |
+| File                   | Focus                                                               |
+| ---------------------- | ------------------------------------------------------------------- |
+| `00_app_router_server` | original MATRIX-001 inline active + skipped placeholders            |
+| `01_app_router_modes`  | App Router Server Component, static+dynamic × inline/head/file      |
+| `02_app_router_client` | App Router Client Component, static+dynamic parent × three modes    |
+| `03_mixed_tree`        | Server + Client siblings; one graph's rule must not erase the other |
+| `04_pages_router`      | Pages Router SSR + static, custom `_document`/`_app`, three modes   |
+| `05_routes_navigation` | two routes, direct-request resolution; client-nav rows skipped RED  |
+| `06_css_boundary`      | `css` marker split on an App Router Server Component                |
+| `07_bundler_matrix`    | Turbopack vs webpack, dev + production — see RED                    |
+| `08_static_export`     | `output: 'export'`; each out/ HTML resolves its class references    |
+| `09_options_scanner`   | classPrefix, minify, invalid-output + dangling-class scan           |
+| `10_dev_update`        | edit Server / Client / token source; new value reflected in dev     |
 
 ## Observed plugin contract (next adapter)
 

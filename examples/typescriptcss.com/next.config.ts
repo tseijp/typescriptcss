@@ -1,5 +1,5 @@
 import createMDX from '@next/mdx'
-import createCSS from '@typescriptcss/plugin-next/src'
+import createCSS from '@typescriptcss/next/src'
 
 const withMDX = createMDX({
         options: {
@@ -10,7 +10,7 @@ const withCSS = createCSS({ output: 'file' })
 const config = {
         output: 'export' as const,
         pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-        transpilePackages: ['typescriptcss', '@typescriptcss/plugin-core', '@typescriptcss/plugin-next'],
+        transpilePackages: ['typescriptcss', '@typescriptcss/share', '@typescriptcss/next'],
 }
 
 export default withCSS(withMDX(config))

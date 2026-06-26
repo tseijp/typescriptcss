@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import type { TypescriptcssOptions } from '@typescriptcss/plugin-core/src'
+import type { TypescriptcssOptions } from '@typescriptcss/share/src'
 type NextConfig = Record<string, any>
 type LoaderOptions = TypescriptcssOptions & { inlineOnly?: boolean; stylesheet?: boolean }
 const extension = import.meta.url.endsWith('.cjs') ? '.cjs' : '.js'

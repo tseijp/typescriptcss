@@ -1,6 +1,6 @@
 # rollup integration suite
 
-Exercises `@typescriptcss/plugin-rollup` on real Rollup, tsup and tsdown builds.
+Exercises `@typescriptcss/rollup` on real Rollup, tsup and tsdown builds.
 Each test writes an isolated temp project (via `test` from `../utils`), installs
 public deps with pnpm, runs the real build, then executes the emitted entry and
 scans the artifacts.

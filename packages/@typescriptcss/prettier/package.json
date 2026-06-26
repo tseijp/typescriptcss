@@ -1,5 +1,5 @@
 {
-        "name": "@typescriptcss/prettier-sort",
+        "name": "@typescriptcss/prettier",
         "version": "0.1.0",
         "author": "tseijp",
         "license": "MIT",
@@ -67,6 +67,6 @@
         ],
         "dependencies": {
                 "prettier": "3.8.4",
-                "@typescriptcss/plugin-core": "workspace:*"
+                "@typescriptcss/share": "workspace:*"
         }
 }

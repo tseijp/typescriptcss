@@ -24,7 +24,7 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  examples/docs:
+  examples/typescriptcss.com:
     dependencies:
       '@mdx-js/loader':
         specifier: 3.1.1
@@ -38,9 +38,9 @@ importers:
       '@types/mdx':
         specifier: 2.0.14
         version: 2.0.14
-      '@typescriptcss/plugin-next':
+      '@typescriptcss/next':
         specifier: workspace:*
-        version: link:../../packages/@typescriptcss/plugin-next
+        version: link:../../packages/@typescriptcss/next
       next:
         specifier: 16.2.9
         version: 16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -91,7 +91,31 @@ importers:
         specifier: 4.1.9
         version: 4.1.9(@types/node@20.19.43)(@vitest/coverage-v8@4.1.9)(vite@8.0.16(@types/node@20.19.43))
 
-  packages/@typescriptcss/plugin-core:
+  packages/@typescriptcss/next:
+    dependencies:
+      '@typescriptcss/share':
+        specifier: workspace:*
+        version: link:../share
+      next:
+        specifier: '>=16.2.0'
+        version: 16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+
+  packages/@typescriptcss/prettier:
+    dependencies:
+      '@typescriptcss/share':
+        specifier: workspace:*
+        version: link:../share
+      prettier:
+        specifier: 3.8.4
+        version: 3.8.4
+
+  packages/@typescriptcss/rollup:
+    dependencies:
+      '@typescriptcss/share':
+        specifier: workspace:*
+        version: link:../share
+
+  packages/@typescriptcss/share:
     dependencies:
       '@emotion/hash':
         specifier: 0.9.2
@@ -113,35 +137,11 @@ importers:
         specifier: 25.9.3
         version: 25.9.3
 
-  packages/@typescriptcss/plugin-next:
+  packages/@typescriptcss/vite:
     dependencies:
-      '@typescriptcss/plugin-core':
+      '@typescriptcss/share':
         specifier: workspace:*
-        version: link:../plugin-core
-      next:
-        specifier: '>=16.2.0'
-        version: 16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-
-  packages/@typescriptcss/plugin-rollup:
-    dependencies:
-      '@typescriptcss/plugin-core':
-        specifier: workspace:*
-        version: link:../plugin-core
-
-  packages/@typescriptcss/plugin-vite:
-    dependencies:
-      '@typescriptcss/plugin-core':
-        specifier: workspace:*
-        version: link:../plugin-core
-
-  packages/@typescriptcss/prettier-sort:
-    dependencies:
-      '@typescriptcss/plugin-core':
-        specifier: workspace:*
-        version: link:../plugin-core
-      prettier:
-        specifier: 3.8.4
-        version: 3.8.4
+        version: link:../share
 
   packages/typescriptcss:
     devDependencies:
