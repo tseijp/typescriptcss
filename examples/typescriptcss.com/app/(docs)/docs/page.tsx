@@ -1,7 +1,15 @@
 import Link from 'next/link'
 import { font, gap, leading, max, p, py } from 'typescriptcss/src'
 import { cardSheen, color, fontMono } from '@/styles'
-import { sections } from '@/const'
+import { docSections } from '@/_utils/docs'
+
+const sections = [
+        {
+                title: 'Getting Started',
+                items: [{ title: 'Installation', href: '/docs/installation/using-vite', description: 'Install typescriptcss in your project.' }],
+        },
+        ...docSections,
+]
 
 export default function DocsIndex() {
         return (
@@ -11,14 +19,14 @@ export default function DocsIndex() {
                                 <h1 style={leading[10].letterSpacing['-0.02em'].font.semibold.text[8.5].text[color.text]()}>Write styles as TypeScript, ship them as CSS.</h1>
                                 <p style={max.w[160].leading[8].text[4.25].text[color.muted]()}>typescriptcss lets you author Tailwind-like utilities as inline style chains. There is no CSS file to maintain and no class names to invent — the build step collects every chain, removes duplicates, and emits the stylesheet for you.</p>
                         </header>
-                        {sections.map((group: any) => (
+                        {sections.map((group) => (
                                 <section key={group.title} style={gap[4].flex.col()}>
                                         <h2 style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>{group.title}</h2>
                                         <div style={gap[3].grid.gridTemplateColumns['repeat(auto-fill, minmax(220px, 1fr))']()}>
-                                                {group.items.map((item: any) => (
+                                                {group.items.map((item) => (
                                                         <Link key={item.href} href={item.href} style={p[5].gap[2].flex.col.bg[color.panel].backgroundImage[cardSheen.backgroundImage].rounded[3].border[color.border].textDecoration.none()}>
-                                                                <span style={font.semibold.text[3.75].text[color.text]()}>{item.label}</span>
-                                                                <span style={leading[6].text[3.5].text[color.muted]()}>Read the guide</span>
+                                                                <span style={font.semibold.text[3.75].text[color.text]()}>{item.title}</span>
+                                                                <span style={leading[6].text[3.5].text[color.muted]()}>{item.description || 'Read the guide'}</span>
                                                         </Link>
                                                 ))}
                                         </div>
