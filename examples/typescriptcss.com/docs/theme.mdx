@@ -1,7 +1,7 @@
 export const title = 'Theme'
 export const description = 'Defining your design system as a plain TypeScript object that flows straight into your chains.'
 
-## Overview
+## Theme variables
 
 typescriptcss has no built-in palette and no named size scale. Your theme is an ordinary TypeScript object of strings and numbers that you import and pass into chains. The design system is just values you own, kept in your own code where the type checker can see them.
 
@@ -19,7 +19,8 @@ export const radius = { sm: 1, md: 3, lg: 4, pill: 9999 }
 ```
 
 ```tsx
-<div style={text[color.text].bg[color.panel].rounded[radius.lg]()}>{/* ... */}</div>
+import { text } from 'typescriptcss/src'
+;<div style={text[color.text].bg[color.panel].rounded[radius.lg]()}>{/* ... */}</div>
 ```
 
 There is no configuration file to set up, no generation step to run, and no plugin to register your tokens with. You write a normal object and use it like any other value in your program.

@@ -41,7 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                 <div style={min.h.full.position.relative.flex.col.backgroundImage[`repeating-linear-gradient(-45deg, ${color.line}1a 0px, ${color.line}1a 1px, transparent 1px, transparent 9px)`]()}>
                                         <header style={px[6].position.sticky.zIndex[30].h[16].top[0].flex.items.center.justify.between.bg[color.bg].border.b.border[color.border]()}>
                                                 <Link href="/" style={h.full.gap[3].flex.items.center.textDecoration.none()}>
-                                                        <AnimatedIcon src="/icon.webm" width={32} height={32} radius="8px">
+                                                        <AnimatedIcon src="/icon.webm" width={32} height={32}>
                                                                 <img src="/icon.webp" alt="" width={32} height={32} style={{ borderRadius: '8px', flexShrink: 0 }} />
                                                         </AnimatedIcon>
                                                         <span style={font.semibold.text[4].text[color.text].fontFamily['ui-monospace, SFMono-Regular, Menlo, Consolas, monospace']()}>typescriptcss</span>

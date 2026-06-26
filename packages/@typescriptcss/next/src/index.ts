@@ -11,9 +11,9 @@ const jsonOptions = (options: TypescriptcssOptions, root: string) => {
         if (options.minify !== undefined) value.minify = options.minify
         return value
 }
-const turboRule = (options: TypescriptcssOptions, root: string, as: string, type: string) => {
+const turboRule = (options: TypescriptcssOptions, root: string) => {
         const values = jsonOptions(options, root)
-        return { condition: { not: 'foreign' }, loaders: [{ loader, options: { ...values, stylesheet: true } }], as, type }
+        return { condition: { not: 'foreign' }, loaders: [{ loader, options: { ...values, stylesheet: true } }], as: '*' }
 }
 const appendRule = (current: any, rule: any) => [...(current ? (Array.isArray(current) ? current : [current]) : []), rule]
 const withHead = (config: NextConfig, output: TypescriptcssOptions['output']) => {
@@ -29,10 +29,10 @@ const withTurbo = (config: NextConfig, options: TypescriptcssOptions, root: stri
         const current = config.turbopack?.rules ?? {}
         const rules = {
                 ...current,
-                '*.js': appendRule(current['*.js'], turboRule(options, root, '*.js', 'ecmascript')),
-                '*.jsx': appendRule(current['*.jsx'], turboRule(options, root, '*.jsx', 'ecmascript')),
-                '*.ts': appendRule(current['*.ts'], turboRule(options, root, '*.ts', 'typescript')),
-                '*.tsx': appendRule(current['*.tsx'], turboRule(options, root, '*.tsx', 'typescript')),
+                '*.js': appendRule(current['*.js'], turboRule(options, root)),
+                '*.ts': appendRule(current['*.ts'], turboRule(options, root)),
+                '*.jsx': appendRule(current['*.jsx'], turboRule(options, root)),
+                '*.tsx': appendRule(current['*.tsx'], turboRule(options, root)),
         }
         return {
                 ...config,

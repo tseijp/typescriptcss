@@ -1,5 +1,5 @@
 export const primaryNav = [
-        { label: 'Documentation', href: '/docs', icon: '/icon.webp', badge: null },
+        { label: 'Docs', href: '/docs', icon: '/icon.webp', badge: null },
         /**
 	 * @TODO FIX
         { label: 'Components', href: '/docs/components', icon: '/icon.webp', badge: null },
