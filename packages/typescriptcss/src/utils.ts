@@ -13,7 +13,7 @@ const toRule = (entry: Entry, scopeName?: string): Rule => {
 }
 const wrapValue = (state: State, key: string, value: any) => (state.wraps ?? []).reduceRight((next, wrap) => `if(${wrap}: ${next}; else: ${state.css[key] ?? 'unset'})`, value)
 const wrapped = (state: State, css: RuntimeStyle) => Object.fromEntries(Object.entries(css).map(([key, value]) => [key, wrapValue(state, key, value)]))
-const isRecord = (value: any) => value && typeof value === 'object' && !Array.isArray(value)
+const isRecord = (value: any): value is Record<string, any> => value && typeof value === 'object' && !Array.isArray(value)
 const assignCss = (...items: RuntimeStyle[]) => {
         const css: RuntimeStyle = {}
         for (const item of items) for (const [key, value] of Object.entries(item)) css[key] = isRecord(css[key]) && isRecord(value) ? { ...css[key], ...value } : value
@@ -85,6 +85,16 @@ export const styleRule =
         (css: RuntimeStyle, scopeName?: string): Rule =>
         (state) =>
                 merge(state, css, scopeName)
+export const displayRule =
+        (display: string, entry: Entry): Rule =>
+        (state) =>
+                toRule(entry)(merge(state, { display }))
+export const withoutDisplayRule =
+        (entry: Entry): Rule =>
+        (state) => {
+                const { display: _display, ...css } = state.css
+                return toRule(entry)({ ...state, css })
+        }
 export const readRule =
         (fn: (key: string, state: State) => RuntimeStyle | undefined, greedy = false): Rule =>
         (state) => ({
@@ -115,12 +125,15 @@ export const scopedRule =
         (state) => ({ ...toRule(entry)(state), scope: scopeName })
 export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule => readRule((key) => ({ [prop]: fn(key) }), greedy)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
-export const numericDefaultRule = (prop: string, value: string): Rule => (state) => {
-        const next = merge(state, { [prop]: value })
-        return { ...next, read: (key) => (isNum(key) ? merge(next, { [prop]: key }) : undefined) }
-}
+export const numericDefaultRule =
+        (prop: string, value: string): Rule =>
+        (state) => {
+                const next = merge(state, { [prop]: value })
+                return { ...next, read: (key) => (isNum(key) ? merge(next, { [prop]: key }) : undefined) }
+        }
 export const scaleRule = (...props: string[]): Rule => numericRule((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
-export const callableScaleRule = (...props: string[]): Rule =>
+export const callableScaleRule =
+        (...props: string[]): Rule =>
         (state) => {
                 const read = (key: string) => (isNum(key) ? merge(state, Object.fromEntries(props.map((prop) => [prop, x4(key)]))) : undefined)
                 return { css: state.css, call: read, dark: state.dark, read, scope: state.scope, wraps: state.wraps }
@@ -153,17 +166,22 @@ export const colorRule = (prop: string): Rule =>
         }, true)
 export const positionRule = (...props: string[]): Rule =>
         readRule((key) => {
-                const value = isNum(key) ? spacingValue(key) : lengthValue(key)
+                const value = lengthValue(key)
                 if (!value) return undefined
                 return Object.fromEntries(props.map((prop) => [prop, value]))
         })
 export const splitPositionRule = (numericProps: string[], valueProps: string[]): Rule =>
         readRule((key) => {
-                const value = isNum(key) ? spacingValue(key) : lengthValue(key)
+                const value = lengthValue(key)
                 if (!value) return undefined
                 const props = isNum(key) ? numericProps : valueProps
                 return Object.fromEntries(props.map((prop) => [prop, value]))
         })
+export const insetRule: Rule = readRule((key) => {
+        const value = isNum(key) ? `${Number(key)}px` : lengthValue(key)
+        if (!value) return undefined
+        return { inset: value }
+})
 export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule =>
         readRule((key, state) => {
                 const value = fn(key)
@@ -178,8 +196,8 @@ export const variantRule =
 export const darkRule: Rule = (state) => ({ ...state, dark: true })
 export const splitRule: Rule = (state) => state
 export const flexRule: Rule = (state) => {
-        const next = merge(state, {}, 'flex')
-        return { ...next, read: (key) => (isNum(key) ? merge(next, { flex: key }, 'flex') : undefined) }
+        const next = merge(state, { display: 'flex' }, 'flex')
+        return { ...next, read: (key) => (isNum(key) ? merge(state, { flex: key }, 'flex') : undefined) }
 }
 export const borderWidthValue = (key: string) => {
         if (isNum(key)) return `${Number(key)}px`

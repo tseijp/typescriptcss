@@ -7,8 +7,8 @@ describe('aspect-ratio', () => {
         test('aspect[4]', () => {
                 expect(_.aspect[4]()).toEqual({ aspectRatio: '16 / 9' })
         })
-        test("aspect['1 / 1']", () => {
-                expect(_.aspect['1 / 1']()).toEqual({ aspectRatio: '1 / 1' })
+        test('aspect.square', () => {
+                expect(_.aspect.square()).toEqual({ aspectRatio: '1 / 1' })
         })
         test('aspect.video', () => {
                 expect(_.aspect.video()).toEqual({ aspectRatio: '16 / 9' })
@@ -37,8 +37,8 @@ describe('break-after', () => {
         test('break.after.all', () => {
                 expect(_.break.after.all()).toEqual({ breakAfter: 'all' })
         })
-        test("break.after['avoid-page']", () => {
-                expect(_.break.after['avoid-page']()).toEqual({ breakAfter: 'avoid-page' })
+        test('break.after.avoid.page', () => {
+                expect(_.break.after.avoid.page()).toEqual({ breakAfter: 'avoid-page' })
         })
         test('break.after.page', () => {
                 expect(_.break.after.page()).toEqual({ breakAfter: 'page' })
@@ -64,8 +64,8 @@ describe('break-before', () => {
         test('break.before.all', () => {
                 expect(_.break.before.all()).toEqual({ breakBefore: 'all' })
         })
-        test("break.before['avoid-page']", () => {
-                expect(_.break.before['avoid-page']()).toEqual({ breakBefore: 'avoid-page' })
+        test('break.before.avoid.page', () => {
+                expect(_.break.before.avoid.page()).toEqual({ breakBefore: 'avoid-page' })
         })
         test('break.before.page', () => {
                 expect(_.break.before.page()).toEqual({ breakBefore: 'page' })
@@ -88,11 +88,11 @@ describe('break-inside', () => {
         test('break.inside.avoid', () => {
                 expect(_.break.inside.avoid()).toEqual({ breakInside: 'avoid' })
         })
-        test("break.inside['avoid-page']", () => {
-                expect(_.break.inside['avoid-page']()).toEqual({ breakInside: 'avoid-page' })
+        test('break.inside.avoid.page', () => {
+                expect(_.break.inside.avoid.page()).toEqual({ breakInside: 'avoid-page' })
         })
-        test("break.inside['avoid-column']", () => {
-                expect(_.break.inside['avoid-column']()).toEqual({ breakInside: 'avoid-column' })
+        test('break.inside.avoid.column', () => {
+                expect(_.break.inside.avoid.column()).toEqual({ breakInside: 'avoid-column' })
         })
 })
 
@@ -106,77 +106,77 @@ describe('box-decoration-break', () => {
 })
 
 describe('box-sizing', () => {
-        test("box['border-box']", () => {
-                expect(_.box['border-box']()).toEqual({ boxSizing: 'border-box' })
+        test('box.border', () => {
+                expect(_.box.border()).toEqual({ boxSizing: 'border-box' })
         })
-        test("box['content-box']", () => {
-                expect(_.box['content-box']()).toEqual({ boxSizing: 'content-box' })
+        test('box.content', () => {
+                expect(_.box.content()).toEqual({ boxSizing: 'content-box' })
         })
 })
 
 describe('display', () => {
-        test('display.inline', () => {
-                expect(_.display.inline()).toEqual({ display: 'inline' })
+        test('inline', () => {
+                expect(_.inline()).toEqual({ display: 'inline' })
         })
-        test('display.block', () => {
-                expect(_.display.block()).toEqual({ display: 'block' })
+        test('block', () => {
+                expect(_.block()).toEqual({ display: 'block' })
         })
-        test("display['inline-block']", () => {
-                expect(_.display['inline-block']()).toEqual({ display: 'inline-block' })
+        test('inline.block', () => {
+                expect(_.inline.block()).toEqual({ display: 'inline-block' })
         })
-        test("display['flow-root']", () => {
-                expect(_.display['flow-root']()).toEqual({ display: 'flow-root' })
+        test('flow.root', () => {
+                expect(_.flow.root()).toEqual({ display: 'flow-root' })
         })
-        test('display.flex', () => {
-                expect(_.display.flex()).toEqual({ display: 'flex' })
+        test('flex', () => {
+                expect(_.flex()).toEqual({ display: 'flex' })
         })
-        test("display['inline-flex']", () => {
-                expect(_.display['inline-flex']()).toEqual({ display: 'inline-flex' })
+        test('inline.flex', () => {
+                expect(_.inline.flex()).toEqual({ display: 'inline-flex' })
         })
-        test('display.grid', () => {
-                expect(_.display.grid()).toEqual({ display: 'grid' })
+        test('grid', () => {
+                expect(_.grid()).toEqual({ display: 'grid' })
         })
-        test("display['inline-grid']", () => {
-                expect(_.display['inline-grid']()).toEqual({ display: 'inline-grid' })
+        test('inline.grid', () => {
+                expect(_.inline.grid()).toEqual({ display: 'inline-grid' })
         })
-        test('display.contents', () => {
-                expect(_.display.contents()).toEqual({ display: 'contents' })
+        test('contents', () => {
+                expect(_.contents()).toEqual({ display: 'contents' })
         })
-        test('display.table', () => {
-                expect(_.display.table()).toEqual({ display: 'table' })
+        test('table', () => {
+                expect(_.table()).toEqual({ display: 'table' })
         })
-        test("display['inline-table']", () => {
-                expect(_.display['inline-table']()).toEqual({ display: 'inline-table' })
+        test('inline.table', () => {
+                expect(_.inline.table()).toEqual({ display: 'inline-table' })
         })
-        test("display['table-caption']", () => {
-                expect(_.display['table-caption']()).toEqual({ display: 'table-caption' })
+        test('table.caption', () => {
+                expect(_.table.caption()).toEqual({ display: 'table-caption' })
         })
-        test("display['table-cell']", () => {
-                expect(_.display['table-cell']()).toEqual({ display: 'table-cell' })
+        test('table.cell', () => {
+                expect(_.table.cell()).toEqual({ display: 'table-cell' })
         })
-        test("display['table-column']", () => {
-                expect(_.display['table-column']()).toEqual({ display: 'table-column' })
+        test('table.column', () => {
+                expect(_.table.column()).toEqual({ display: 'table-column' })
         })
-        test("display['table-column-group']", () => {
-                expect(_.display['table-column-group']()).toEqual({ display: 'table-column-group' })
+        test('table.column.group', () => {
+                expect(_.table.column.group()).toEqual({ display: 'table-column-group' })
         })
-        test("display['table-footer-group']", () => {
-                expect(_.display['table-footer-group']()).toEqual({ display: 'table-footer-group' })
+        test('table.footer.group', () => {
+                expect(_.table.footer.group()).toEqual({ display: 'table-footer-group' })
         })
-        test("display['table-header-group']", () => {
-                expect(_.display['table-header-group']()).toEqual({ display: 'table-header-group' })
+        test('table.header.group', () => {
+                expect(_.table.header.group()).toEqual({ display: 'table-header-group' })
         })
-        test("display['table-row-group']", () => {
-                expect(_.display['table-row-group']()).toEqual({ display: 'table-row-group' })
+        test('table.row.group', () => {
+                expect(_.table.row.group()).toEqual({ display: 'table-row-group' })
         })
-        test("display['table-row']", () => {
-                expect(_.display['table-row']()).toEqual({ display: 'table-row' })
+        test('table.row', () => {
+                expect(_.table.row()).toEqual({ display: 'table-row' })
         })
-        test("display['list-item']", () => {
-                expect(_.display['list-item']()).toEqual({ display: 'list-item' })
+        test('list.item', () => {
+                expect(_.list.item()).toEqual({ display: 'list-item' })
         })
-        test('display.none', () => {
-                expect(_.display.none()).toEqual({ display: 'none' })
+        test('hidden', () => {
+                expect(_.hidden()).toEqual({ display: 'none' })
         })
         test('sr.only', () => {
                 expect(_.sr.only()).toEqual({ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap', borderWidth: '0' })
@@ -193,11 +193,11 @@ describe('float', () => {
         test('float.left', () => {
                 expect(_.float.left()).toEqual({ float: 'left' })
         })
-        test("float['inline-start']", () => {
-                expect(_.float['inline-start']()).toEqual({ float: 'inline-start' })
+        test('float.start', () => {
+                expect(_.float.start()).toEqual({ float: 'inline-start' })
         })
-        test("float['inline-end']", () => {
-                expect(_.float['inline-end']()).toEqual({ float: 'inline-end' })
+        test('float.end', () => {
+                expect(_.float.end()).toEqual({ float: 'inline-end' })
         })
         test('float.none', () => {
                 expect(_.float.none()).toEqual({ float: 'none' })
@@ -214,11 +214,11 @@ describe('clear', () => {
         test('clear.both', () => {
                 expect(_.clear.both()).toEqual({ clear: 'both' })
         })
-        test("clear['inline-start']", () => {
-                expect(_.clear['inline-start']()).toEqual({ clear: 'inline-start' })
+        test('clear.start', () => {
+                expect(_.clear.start()).toEqual({ clear: 'inline-start' })
         })
-        test("clear['inline-end']", () => {
-                expect(_.clear['inline-end']()).toEqual({ clear: 'inline-end' })
+        test('clear.end', () => {
+                expect(_.clear.end()).toEqual({ clear: 'inline-end' })
         })
         test('clear.none', () => {
                 expect(_.clear.none()).toEqual({ clear: 'none' })
@@ -226,8 +226,8 @@ describe('clear', () => {
 })
 
 describe('isolation', () => {
-        test('isolation.isolate', () => {
-                expect(_.isolation.isolate()).toEqual({ isolation: 'isolate' })
+        test('isolate', () => {
+                expect(_.isolate()).toEqual({ isolation: 'isolate' })
         })
         test('isolation.auto', () => {
                 expect(_.isolation.auto()).toEqual({ isolation: 'auto' })
@@ -247,20 +247,20 @@ describe('object-fit', () => {
         test('object.none', () => {
                 expect(_.object.none()).toEqual({ objectFit: 'none' })
         })
-        test("object['scale-down']", () => {
-                expect(_.object['scale-down']()).toEqual({ objectFit: 'scale-down' })
+        test('object.scale.down', () => {
+                expect(_.object.scale.down()).toEqual({ objectFit: 'scale-down' })
         })
 })
 
 describe('object-position', () => {
-        test("object['top left']", () => {
-                expect(_.object['top left']()).toEqual({ objectPosition: 'top left' })
+        test('object.top.left', () => {
+                expect(_.object.top.left()).toEqual({ objectPosition: 'top left' })
         })
         test('object.top', () => {
                 expect(_.object.top()).toEqual({ objectPosition: 'top' })
         })
-        test("object['top right']", () => {
-                expect(_.object['top right']()).toEqual({ objectPosition: 'top right' })
+        test('object.top.right', () => {
+                expect(_.object.top.right()).toEqual({ objectPosition: 'top right' })
         })
         test('object.left', () => {
                 expect(_.object.left()).toEqual({ objectPosition: 'left' })
@@ -271,14 +271,14 @@ describe('object-position', () => {
         test('object.right', () => {
                 expect(_.object.right()).toEqual({ objectPosition: 'right' })
         })
-        test("object['bottom left']", () => {
-                expect(_.object['bottom left']()).toEqual({ objectPosition: 'bottom left' })
+        test('object.bottom.left', () => {
+                expect(_.object.bottom.left()).toEqual({ objectPosition: 'bottom left' })
         })
         test('object.bottom', () => {
                 expect(_.object.bottom()).toEqual({ objectPosition: 'bottom' })
         })
-        test("object['bottom right']", () => {
-                expect(_.object['bottom right']()).toEqual({ objectPosition: 'bottom right' })
+        test('object.bottom.right', () => {
+                expect(_.object.bottom.right()).toEqual({ objectPosition: 'bottom right' })
         })
         test('object[4]', () => {
                 expect(_.object[4]()).toEqual({ objectPosition: '4' })
@@ -364,155 +364,101 @@ describe('overscroll-behavior', () => {
 })
 
 describe('position', () => {
-        test('position.static', () => {
-                expect(_.position.static()).toEqual({ position: 'static' })
+        test('static', () => {
+                expect(_.static()).toEqual({ position: 'static' })
         })
-        test('position.fixed', () => {
-                expect(_.position.fixed()).toEqual({ position: 'fixed' })
+        test('fixed', () => {
+                expect(_.fixed()).toEqual({ position: 'fixed' })
         })
-        test('position.absolute', () => {
-                expect(_.position.absolute()).toEqual({ position: 'absolute' })
+        test('absolute', () => {
+                expect(_.absolute()).toEqual({ position: 'absolute' })
         })
-        test('position.relative', () => {
-                expect(_.position.relative()).toEqual({ position: 'relative' })
+        test('relative', () => {
+                expect(_.relative()).toEqual({ position: 'relative' })
         })
-        test('position.sticky', () => {
-                expect(_.position.sticky()).toEqual({ position: 'sticky' })
+        test('sticky', () => {
+                expect(_.sticky()).toEqual({ position: 'sticky' })
         })
 })
 
 describe('top / right / bottom / left', () => {
-        test("inset['1px']", () => {
-                expect(_.inset['1px']()).toEqual({ inset: '1px' })
+        test('inset[4]', () => {
+                expect(_.inset[4]()).toEqual({ inset: '4px' })
         })
-        test("inset['-1px']", () => {
-                expect(_.inset['-1px']()).toEqual({ inset: '-1px' })
-        })
-        test("inset['100%']", () => {
-                expect(_.inset['100%']()).toEqual({ inset: '100%' })
-        })
-        test("inset['-100%']", () => {
-                expect(_.inset['-100%']()).toEqual({ inset: '-100%' })
+        test('inset.full', () => {
+                expect(_.inset.full()).toEqual({ inset: '100%' })
         })
         test('inset.auto', () => {
                 expect(_.inset.auto()).toEqual({ inset: 'auto' })
         })
-        test("inset.x['1px']", () => {
-                expect(_.inset.x['1px']()).toEqual({ insetInline: '1px' })
+        test('inset.x[4]', () => {
+                expect(_.inset.x[4]()).toEqual({ insetInline: '16px' })
         })
-        test("inset.x['-1px']", () => {
-                expect(_.inset.x['-1px']()).toEqual({ insetInline: '-1px' })
-        })
-        test("inset.x['100%']", () => {
-                expect(_.inset.x['100%']()).toEqual({ insetInline: '100%' })
-        })
-        test("inset.x['-100%']", () => {
-                expect(_.inset.x['-100%']()).toEqual({ insetInline: '-100%' })
+        test('inset.x.full', () => {
+                expect(_.inset.x.full()).toEqual({ insetInline: '100%' })
         })
         test('inset.x.auto', () => {
                 expect(_.inset.x.auto()).toEqual({ insetInline: 'auto' })
         })
-        test("inset.y['1px']", () => {
-                expect(_.inset.y['1px']()).toEqual({ insetBlock: '1px' })
+        test('inset.y[4]', () => {
+                expect(_.inset.y[4]()).toEqual({ insetBlock: '16px' })
         })
-        test("inset.y['-1px']", () => {
-                expect(_.inset.y['-1px']()).toEqual({ insetBlock: '-1px' })
-        })
-        test("inset.y['100%']", () => {
-                expect(_.inset.y['100%']()).toEqual({ insetBlock: '100%' })
-        })
-        test("inset.y['-100%']", () => {
-                expect(_.inset.y['-100%']()).toEqual({ insetBlock: '-100%' })
+        test('inset.y.full', () => {
+                expect(_.inset.y.full()).toEqual({ insetBlock: '100%' })
         })
         test('inset.y.auto', () => {
                 expect(_.inset.y.auto()).toEqual({ insetBlock: 'auto' })
         })
-        test("start['1px']", () => {
-                expect(_.start['1px']()).toEqual({ insetInlineStart: '1px' })
+        test('inset.s[4]', () => {
+                expect(_.inset.s[4]()).toEqual({ insetInlineStart: '16px' })
         })
-        test("start['-1px']", () => {
-                expect(_.start['-1px']()).toEqual({ insetInlineStart: '-1px' })
-        })
-        test("start['100%']", () => {
-                expect(_.start['100%']()).toEqual({ insetInlineStart: '100%' })
-        })
-        test("start['-100%']", () => {
-                expect(_.start['-100%']()).toEqual({ insetInlineStart: '-100%' })
+        test('inset.s.full', () => {
+                expect(_.inset.s.full()).toEqual({ insetInlineStart: '100%' })
         })
         test('start.auto', () => {
                 expect(_.start.auto()).toEqual({ insetInlineStart: 'auto' })
         })
-        test("end['1px']", () => {
-                expect(_.end['1px']()).toEqual({ insetInlineEnd: '1px' })
+        test('inset.e[4]', () => {
+                expect(_.inset.e[4]()).toEqual({ insetInlineEnd: '16px' })
         })
-        test("end['-1px']", () => {
-                expect(_.end['-1px']()).toEqual({ insetInlineEnd: '-1px' })
+        test('inset.e.full', () => {
+                expect(_.inset.e.full()).toEqual({ insetInlineEnd: '100%' })
         })
-        test("end['100%']", () => {
-                expect(_.end['100%']()).toEqual({ insetInlineEnd: '100%' })
+        test('inset.end.auto', () => {
+                expect(_.inset.e.auto()).toEqual({ insetInlineEnd: 'auto' })
         })
-        test("end['-100%']", () => {
-                expect(_.end['-100%']()).toEqual({ insetInlineEnd: '-100%' })
+        test('top[4]', () => {
+                expect(_.top[4]()).toEqual({ insetBlockStart: '16px' })
         })
-        test('end.auto', () => {
-                expect(_.end.auto()).toEqual({ insetInlineEnd: 'auto' })
-        })
-        test("top['1px']", () => {
-                expect(_.top['1px']()).toEqual({ insetBlockStart: '1px' })
-        })
-        test("top['-1px']", () => {
-                expect(_.top['-1px']()).toEqual({ insetBlockStart: '-1px' })
-        })
-        test("top['100%']", () => {
-                expect(_.top['100%']()).toEqual({ insetBlockStart: '100%' })
-        })
-        test("top['-100%']", () => {
-                expect(_.top['-100%']()).toEqual({ insetBlockStart: '-100%' })
+        test('top.full', () => {
+                expect(_.top.full()).toEqual({ insetBlockStart: '100%' })
         })
         test('top.auto', () => {
                 expect(_.top.auto()).toEqual({ insetBlockStart: 'auto' })
         })
-        test("bottom['1px']", () => {
-                expect(_.bottom['1px']()).toEqual({ insetBlockEnd: '1px' })
+        test('bottom[4]', () => {
+                expect(_.bottom[4]()).toEqual({ insetBlockEnd: '16px' })
         })
-        test("bottom['-1px']", () => {
-                expect(_.bottom['-1px']()).toEqual({ insetBlockEnd: '-1px' })
-        })
-        test("bottom['100%']", () => {
-                expect(_.bottom['100%']()).toEqual({ insetBlockEnd: '100%' })
-        })
-        test("bottom['-100%']", () => {
-                expect(_.bottom['-100%']()).toEqual({ insetBlockEnd: '-100%' })
+        test('bottom.full', () => {
+                expect(_.bottom.full()).toEqual({ insetBlockEnd: '100%' })
         })
         test('bottom.auto', () => {
                 expect(_.bottom.auto()).toEqual({ insetBlockEnd: 'auto' })
         })
-        test("right['1px']", () => {
-                expect(_.right['1px']()).toEqual({ right: '1px' })
+        test('right[4]', () => {
+                expect(_.right[4]()).toEqual({ right: '16px' })
         })
-        test("right['-1px']", () => {
-                expect(_.right['-1px']()).toEqual({ right: '-1px' })
-        })
-        test("right['100%']", () => {
-                expect(_.right['100%']()).toEqual({ right: '100%' })
-        })
-        test("right['-100%']", () => {
-                expect(_.right['-100%']()).toEqual({ right: '-100%' })
+        test('right.full', () => {
+                expect(_.right.full()).toEqual({ right: '100%' })
         })
         test('right.auto', () => {
                 expect(_.right.auto()).toEqual({ right: 'auto' })
         })
-        test("left['1px']", () => {
-                expect(_.left['1px']()).toEqual({ left: '1px' })
+        test('left[4]', () => {
+                expect(_.left[4]()).toEqual({ left: '16px' })
         })
-        test("left['-1px']", () => {
-                expect(_.left['-1px']()).toEqual({ left: '-1px' })
-        })
-        test("left['100%']", () => {
-                expect(_.left['100%']()).toEqual({ left: '100%' })
-        })
-        test("left['-100%']", () => {
-                expect(_.left['-100%']()).toEqual({ left: '-100%' })
+        test('left.full', () => {
+                expect(_.left.full()).toEqual({ left: '100%' })
         })
         test('left.auto', () => {
                 expect(_.left.auto()).toEqual({ left: 'auto' })
@@ -520,14 +466,14 @@ describe('top / right / bottom / left', () => {
 })
 
 describe('visibility', () => {
-        test('visibility.visible', () => {
-                expect(_.visibility.visible()).toEqual({ visibility: 'visible' })
+        test('visible', () => {
+                expect(_.visible()).toEqual({ visibility: 'visible' })
         })
-        test('visibility.hidden', () => {
-                expect(_.visibility.hidden()).toEqual({ visibility: 'hidden' })
+        test('invisible', () => {
+                expect(_.invisible()).toEqual({ visibility: 'hidden' })
         })
-        test('visibility.collapse', () => {
-                expect(_.visibility.collapse()).toEqual({ visibility: 'collapse' })
+        test('collapse', () => {
+                expect(_.collapse()).toEqual({ visibility: 'collapse' })
         })
 })
 

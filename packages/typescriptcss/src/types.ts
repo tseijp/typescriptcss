@@ -1,6 +1,7 @@
-type StyleValue = string | number
+type PrimitiveStyleValue = string | number
+type StyleValue = PrimitiveStyleValue | { [key: string]: StyleValue }
 type CSSKey = Exclude<keyof CSSStyleDeclaration, 'cssText'> & string
-type CSS = Partial<Record<CSSKey, StyleValue>>
+type CSS = Partial<Record<CSSKey, PrimitiveStyleValue>>
 type StyleObject = {}
 type Func = (...styles: Argument[]) => StyleObject
 type ValueFunc = (value: string | number) => StyleObject
@@ -26,7 +27,8 @@ type JustifyContent = C & { start: C; end: SafeC; center: SafeC; between: C; aro
 type PlaceContent = C & { center: SafeC; start: C; end: SafeC; between: C; around: C; evenly: C; baseline: C; stretch: C; normal: C }
 type PositionValue = Length & { auto: C }
 type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom right'
-type ObjectPosition = C & Values & { top: C; right: C; bottom: C; left: C; center: C } & { [value in ObjectPositionKeyword]: C }
+type ObjectPositionEdge = C & { left: C; right: C }
+type ObjectPosition = C & Values & { contain: C; cover: C; fill: C; none: C; top: ObjectPositionEdge; right: C; bottom: ObjectPositionEdge; left: C; center: C; scale: C & { down: C } } & { [value in ObjectPositionKeyword]: C }
 type Repeat = C & { repeat: C; 'repeat-x': C; 'repeat-y': C; space: C; round: C; 'no-repeat': C }
 type Box = C & { 'border-box': C; 'padding-box': C; 'content-box': C }
 type Track = Values & Scale & { auto: C; none: C; subgrid: C; min: C; max: C; fr: C; 'min-content': C; 'max-content': C; 'minmax(0, 1fr)': C }
@@ -37,7 +39,11 @@ type GridRowArea = Values & Scale & { auto: C; full: C; span: Scale; start: Grid
 type ReverseC = C & { reverse: C }
 type DenseC = C & { dense: C }
 type Flex = C & Scale & { row: ReverseC; col: ReverseC; column: ReverseC; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: ReverseC; 'wrap-reverse': C; auto: C; initial: C; none: C; '0 auto': C }
-type Flow = Values & { row: DenseC; column: DenseC; col: DenseC; dense: C }
+type Flow = Values & { root: C; row: DenseC; column: DenseC; col: DenseC; dense: C }
+type TableGroup = C & { group: C }
+type Table = C & { auto: C; fixed: C; caption: C; cell: C; column: TableGroup; footer: TableGroup; header: TableGroup; row: TableGroup }
+type Grid = C & { cols: Track; rows: Track; flow: Flow }
+type Inline = C & { block: C; flex: Flex; grid: Grid; table: Table }
 type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: Values & { 'ultra-condensed': C; 'extra-condensed': C; condensed: C; 'semi-condensed': C; normal: C; 'semi-expanded': C; expanded: C; 'extra-expanded': C; 'ultra-expanded': C } }
 type Text = Color & Scale & { base: C; xs: C; sm: C; lg: C; xl: C; left: C; center: C; right: C; justify: C; start: C; end: C; ellipsis: C; clip: C; wrap: C; nowrap: C; balance: C; pretty: C; shadow: Values & Scale & { none: C } }
 type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
@@ -63,7 +69,9 @@ type Ease = Values & { linear: C; in: C & { out: C }; out: C; initial: C }
 type Transform = Values & Scale & { none: C; '3d': C; flat: C }
 type Translate = Transform & { x: Length; y: Length; full: C; px: C }
 type Skew = Transform & { x: Scale; y: Scale }
-type Break = C & { after: Values; before: Values; inside: Values; normal: C; 'break-all': C; 'keep-all': C }
+type BreakAvoid = C & { page: C; column: C }
+type BreakValues = Values & { auto: C; avoid: BreakAvoid; all: C; page: C; left: C; right: C; column: C; 'avoid-page': C; 'avoid-column': C }
+type Break = C & { after: BreakValues; before: BreakValues; inside: BreakValues; normal: C; 'break-all': C; 'keep-all': C }
 type Native = { [K in Exclude<CSSKey, keyof U>]: Values }
 export type RuntimeStyle = CSS & Record<string, StyleValue>
 export type Argument = RuntimeStyle | string | number | null | undefined | false
@@ -75,21 +83,27 @@ export type U = {
         blur: C
         fixed: C
         relative: C
+        sticky: C
         static: C
         block: C
+        contents: C
         hidden: C
-        inline: C & { block: C; flex: C }
+        inline: Inline
         inlineBlock: C
         inlineFlex: C
-        grid: C & { cols: Track; rows: Track; flow: Flow }
+        grid: Grid
         flex: Flex
-        table: C & { auto: C; fixed: C }
+        table: Table
         display: Values
         position: Values
         float: Values
         clear: Values
         isolation: Values
+        isolate: C
         visibility: Values
+        visible: C
+        invisible: C
+        collapse: C
         container: C
         active: C
         after: C
@@ -172,7 +186,7 @@ export type U = {
         align: Values
         animate: Values & { spin: C; ping: C; pulse: C; bounce: C; none: C }
         appearance: Values & { none: C; auto: C }
-        aspect: Values & Scale & { auto: C; video: C }
+        aspect: Values & Scale & { auto: C; square: C; video: C }
         auto: C & { cols: Track; rows: Track }
         backdrop: Backdrop
         backface: Values
@@ -180,7 +194,7 @@ export type U = {
         bg: Background
         border: Border
         bottom: PositionValue
-        box: C & { decoration: { clone: C; slice: C }; 'border-box': C; 'content-box': C }
+        box: C & { decoration: { clone: C; slice: C }; border: C; content: C; 'border-box': C; 'content-box': C }
         break: Break
         brightness: Filter
         caption: Values
@@ -221,7 +235,7 @@ export type U = {
         leading: Scale
         left: PositionValue
         line: { clamp: Scale & { none: C } }
-        list: Values & { image: Values & { none: C }; inside: C; outside: C; disc: C; decimal: C; none: C }
+        list: Values & { image: Values & { none: C }; inside: C; outside: C; disc: C; decimal: C; item: C; none: C }
         m: Length
         margin: Length
         marker: C
