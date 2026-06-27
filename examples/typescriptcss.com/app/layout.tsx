@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
-import { flex, font, gap, h, m, min, px, text } from 'typescriptcss/src'
+import { flex, font, gap, h, m, min, px, relative, text } from 'typescriptcss/src'
 import { color } from '@/styles'
-import { primaryNav } from '@/const'
 import Link from 'next/link'
 import AnimatedIcon from '@/_atoms/animated-icon'
 
@@ -28,17 +27,35 @@ export const metadata: Metadata = {
         },
 }
 
-const themeSegment = (label: string, active: boolean) => (
-        <span key={label} style={px[3].py[1].text[3].flex.items.center.justify.center({ color: active ? color.text : color.faint, background: active ? color.panelHi : 'transparent' })}>
-                {label}
-        </span>
-)
+const primaryNav = [{ label: 'Docs', href: '/docs' }]
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
         return (
                 <html lang="en" style={m[0].p[0].min.h.full()}>
                         <body style={m[0].p[0].min.h.full.text[color.text].flex.col.fontFamily['Inter, system-ui, -apple-system, Segoe UI, sans-serif'].bg[color.bg].colorScheme.dark()}>
-                                <div style={min.h.full.position.relative.flex.col.backgroundImage[`repeating-linear-gradient(-45deg, ${color.line}1a 0px, ${color.line}1a 1px, transparent 1px, transparent 9px)`]()}>
+                                <div style={relative.min.h.full.flex.col.backgroundImage[`repeating-linear-gradient(-45deg, ${color.line}1a 0px, ${color.line}1a 1px, transparent 1px, transparent 9px)`]()}>
+                                        {/* @TODO FIX */}
+                                        <style>{`
+                                                #page-content:has([data-docs-sidebar]) {
+                                                        position: relative;
+                                                        width: 100%;
+                                                        max-width: 96rem;
+                                                        margin-inline: auto;
+                                                }
+                                                #page-content:has([data-docs-sidebar]) > #site-footer,
+                                                #page-content:has([data-docs-sidebar]) [data-docs-main] {
+                                                        margin-left: 18rem;
+                                                        width: calc(100% - 18rem);
+                                                        box-sizing: border-box;
+                                                }
+                                                @media (max-width: 768px) {
+                                                        #page-content:has([data-docs-sidebar]) > #site-footer,
+                                                        #page-content:has([data-docs-sidebar]) [data-docs-main] {
+                                                                margin-left: 0;
+                                                                width: 100%;
+                                                        }
+                                                }
+                                        `}</style>
                                         <header style={px[6].position.sticky.zIndex[30].h[16].top[0].flex.items.center.justify.between.bg[color.bg].border.b.border[color.border]()}>
                                                 <Link href="/" style={h.full.gap[3].flex.items.center.textDecoration.none()}>
                                                         <AnimatedIcon src="/icon.webm" width={32} height={32}>
@@ -64,66 +81,81 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                                         </Link>
                                                 </div>
                                         </header>
-                                        <div style={min.w[0].flex[1].col()}>{children}</div>
-                                        <footer style={flex.col.bg[color.bg].border.t.border[color.border]()}>
-                                                <div style={px[6].py[12].grid.cols[4]()}>
-                                                        {[
-                                                                {
-                                                                        title: 'typescriptcss',
-                                                                        links: [
-                                                                                { label: 'Documentation', href: '/docs' },
-                                                                                { label: 'Components', href: '/docs/components' },
-                                                                                { label: 'Templates', href: '/docs/templates' },
-                                                                                { label: 'Playground', href: '/playground' },
-                                                                        ],
-                                                                },
-                                                                {
-                                                                        title: 'Resources',
-                                                                        links: [
-                                                                                { label: 'Installation', href: '/docs/installation/using-vite' },
-                                                                                { label: 'Theme', href: '/docs/theme' },
-                                                                                { label: 'Responsive design', href: '/docs/responsive-design' },
-                                                                                { label: 'Dark mode', href: '/docs/dark-mode' },
-                                                                        ],
-                                                                },
-                                                                {
-                                                                        title: 'Community',
-                                                                        links: [
-                                                                                { label: 'GitHub', href: 'https://github.com/tseijp' },
-                                                                                { label: 'Discussions', href: '/community' },
-                                                                                { label: 'Showcase', href: '/showcase' },
-                                                                                { label: 'Blog', href: '/blog' },
-                                                                        ],
-                                                                },
-                                                                {
-                                                                        title: 'More',
-                                                                        links: [
-                                                                                { label: 'plugin-vite', href: '/docs/installation/using-vite' },
-                                                                                { label: 'plugin-next', href: '/docs/installation/nextjs' },
-                                                                                { label: 'plugin-rollup', href: '/docs/installation/framework-guides' },
-                                                                                { label: 'plugin-webpack', href: '/docs/installation/framework-guides' },
-                                                                        ],
-                                                                },
-                                                        ].map((group) => (
-                                                                <div key={group.title} style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
-                                                                        <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>{group.title}</span>
-                                                                        {group.links.map((link) => (
-                                                                                <Link key={link.label} href={link.href} style={text[3.5].text[color.muted].textDecoration.none()}>
-                                                                                        {link.label}
-                                                                                </Link>
-                                                                        ))}
+                                        <div id="page-content" style={min.w[0].flex[1].col()}>
+                                                {children}
+                                                <footer id="site-footer" style={flex.col.bg[color.bg].border.t.border[color.border]()}>
+                                                        <div style={px[6].py[12].grid.cols[4]()}>
+                                                                <div style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
+                                                                        <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>typescriptcss</span>
+                                                                        <Link href="/docs" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Documentation
+                                                                        </Link>
+                                                                        <Link href="/docs/components" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Components
+                                                                        </Link>
+                                                                        <Link href="/docs/templates" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Templates
+                                                                        </Link>
+                                                                        <Link href="/playground" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Playground
+                                                                        </Link>
                                                                 </div>
-                                                        ))}
-                                                </div>
-                                                <div style={px[6].py[5].flex.items.center.justify.between.border.t.border[color.border]()}>
-                                                        <div style={flex.items.center.rounded.full.border.border[color.border].overflow.hidden()}>
-                                                                {themeSegment('System', false)}
-                                                                {themeSegment('Light', false)}
-                                                                {themeSegment('Dark', true)}
+                                                                <div style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
+                                                                        <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>Resources</span>
+                                                                        <Link href="/docs/installation/using-vite" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Installation
+                                                                        </Link>
+                                                                        <Link href="/docs/theme" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Theme
+                                                                        </Link>
+                                                                        <Link href="/docs/responsive-design" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Responsive design
+                                                                        </Link>
+                                                                        <Link href="/docs/dark-mode" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Dark mode
+                                                                        </Link>
+                                                                </div>
+                                                                <div style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
+                                                                        <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>Community</span>
+                                                                        <Link href="https://github.com/tseijp" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                GitHub
+                                                                        </Link>
+                                                                        <Link href="/community" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Discussions
+                                                                        </Link>
+                                                                        <Link href="/showcase" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Showcase
+                                                                        </Link>
+                                                                        <Link href="/blog" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                Blog
+                                                                        </Link>
+                                                                </div>
+                                                                <div style={px[6].py[2].gap[3].flex.col.border.l.border[color.border]()}>
+                                                                        <span style={font.semibold.letterSpacing['0.08em'].text[3].text[color.faint].textTransform.uppercase()}>More</span>
+                                                                        <Link href="/docs/installation/using-vite" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                plugin-vite
+                                                                        </Link>
+                                                                        <Link href="/docs/installation/nextjs" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                plugin-next
+                                                                        </Link>
+                                                                        <Link href="/docs/installation/framework-guides" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                plugin-rollup
+                                                                        </Link>
+                                                                        <Link href="/docs/installation/framework-guides" style={text[3.5].text[color.muted].textDecoration.none()}>
+                                                                                plugin-webpack
+                                                                        </Link>
+                                                                </div>
                                                         </div>
-                                                        <span style={text[3].text[color.faint]()}>© 2026 typescriptcss</span>
-                                                </div>
-                                        </footer>
+                                                        <div style={px[6].py[5].flex.items.center.justify.between.border.t.border[color.border]()}>
+                                                                <div style={flex.items.center.rounded.full.border.border[color.border].overflow.hidden()}>
+                                                                        <span style={px[3].py[1].text[3].flex.items.center.justify.center({ color: color.faint, background: 'transparent' })}>System</span>
+                                                                        <span style={px[3].py[1].text[3].flex.items.center.justify.center({ color: color.faint, background: 'transparent' })}>Light</span>
+                                                                        <span style={px[3].py[1].text[3].flex.items.center.justify.center({ color: color.text, background: color.panelHi })}>Dark</span>
+                                                                </div>
+                                                                <span style={text[3].text[color.faint]()}>© 2026 typescriptcss</span>
+                                                        </div>
+                                                </footer>
+                                        </div>
                                 </div>
                         </body>
                 </html>

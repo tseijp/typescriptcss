@@ -1,0 +1,76 @@
+export const title = 'top / right / bottom / left'
+export const description = 'Utilities for controlling the placement of positioned elements.'
+
+## top / right / bottom / left
+
+Utilities for controlling the placement of positioned elements.
+
+| Utility                | Styles                                                    |
+| ---------------------- | --------------------------------------------------------- |
+| `inset[*<value>*]`     | `inset: calc(var(--spacing) * *<number>*);`               |
+| `-inset[*<value>*]`    | `inset: calc(var(--spacing) * -*<number>*);`              |
+| `inset['1px']`         | `inset: 1px;`                                             |
+| `inset['-1px']`        | `inset: -1px;`                                            |
+| `inset['100%']`        | `inset: 100%;`                                            |
+| `inset['-100%']`       | `inset: -100%;`                                           |
+| `inset.auto`           | `inset: auto;`                                            |
+| `inset.x[*<value>*]`   | `inset-inline: calc(var(--spacing) * *<number>*);`        |
+| `-inset.x[*<value>*]`  | `inset-inline: calc(var(--spacing) * -*<number>*);`       |
+| `inset.x['1px']`       | `inset-inline: 1px;`                                      |
+| `inset.x['-1px']`      | `inset-inline: -1px;`                                     |
+| `inset.x['100%']`      | `inset-inline: 100%;`                                     |
+| `inset.x['-100%']`     | `inset-inline: -100%;`                                    |
+| `inset.x.auto`         | `inset-inline: auto;`                                     |
+| `inset.y[*<value>*]`   | `inset-block: calc(var(--spacing) * *<number>*);`         |
+| `-inset.y[*<value>*]`  | `inset-block: calc(var(--spacing) * -*<number>*);`        |
+| `inset.y['1px']`       | `inset-block: 1px;`                                       |
+| `inset.y['-1px']`      | `inset-block: -1px;`                                      |
+| `inset.y['100%']`      | `inset-block: 100%;`                                      |
+| `inset.y['-100%']`     | `inset-block: -100%;`                                     |
+| `inset.y.auto`         | `inset-block: auto;`                                      |
+| `inset.s[*<value>*]`   | `inset-inline-start: calc(var(--spacing) * *<number>*);`  |
+| `-inset.s[*<value>*]`  | `inset-inline-start: calc(var(--spacing) * -*<number>*);` |
+| `start['1px']`         | `inset-inline-start: 1px;`                                |
+| `start['-1px']`        | `inset-inline-start: -1px;`                               |
+| `start['100%']`        | `inset-inline-start: 100%;`                               |
+| `start['-100%']`       | `inset-inline-start: -100%;`                              |
+| `start.auto`           | `inset-inline-start: auto;`                               |
+| `inset.e[*<value>*]`   | `inset-inline-end: calc(var(--spacing) * *<number>*);`    |
+| `-inset.e[*<value>*]`  | `inset-inline-end: calc(var(--spacing) * -*<number>*);`   |
+| `end['1px']`           | `inset-inline-end: 1px;`                                  |
+| `end['-1px']`          | `inset-inline-end: -1px;`                                 |
+| `end['100%']`          | `inset-inline-end: 100%;`                                 |
+| `end['-100%']`         | `inset-inline-end: -100%;`                                |
+| `end.auto`             | `inset-inline-end: auto;`                                 |
+| `inset.bs[*<value>*]`  | `inset-block-start: calc(var(--spacing) * *<number>*);`   |
+| `-inset.bs[*<value>*]` | `inset-block-start: calc(var(--spacing) * -*<number>*);`  |
+| `top['1px']`           | `inset-block-start: 1px;`                                 |
+| `top['-1px']`          | `inset-block-start: -1px;`                                |
+| `top['100%']`          | `inset-block-start: 100%;`                                |
+| `top['-100%']`         | `inset-block-start: -100%;`                               |
+| `top.auto`             | `inset-block-start: auto;`                                |
+| `inset.be[*<value>*]`  | `inset-block-end: calc(var(--spacing) * *<number>*);`     |
+| `-inset.be[*<value>*]` | `inset-block-end: calc(var(--spacing) * -*<number>*);`    |
+| `bottom['1px']`        | `inset-block-end: 1px;`                                   |
+| `bottom['-1px']`       | `inset-block-end: -1px;`                                  |
+| `bottom['100%']`       | `inset-block-end: 100%;`                                  |
+| `bottom['-100%']`      | `inset-block-end: -100%;`                                 |
+| `bottom.auto`          | `inset-block-end: auto;`                                  |
+| `top[*<value>*]`       | `top: calc(var(--spacing) * *<number>*);`                 |
+| `-top[*<value>*]`      | `top: calc(var(--spacing) * -*<number>*);`                |
+| `right[*<value>*]`     | `right: calc(var(--spacing) * *<number>*);`               |
+| `-right[*<value>*]`    | `right: calc(var(--spacing) * -*<number>*);`              |
+| `right['1px']`         | `right: 1px;`                                             |
+| `right['-1px']`        | `right: -1px;`                                            |
+| `right['100%']`        | `right: 100%;`                                            |
+| `right['-100%']`       | `right: -100%;`                                           |
+| `right.auto`           | `right: auto;`                                            |
+| `bottom[*<value>*]`    | `bottom: calc(var(--spacing) * *<number>*);`              |
+| `-bottom[*<value>*]`   | `bottom: calc(var(--spacing) * -*<number>*);`             |
+| `left[*<value>*]`      | `left: calc(var(--spacing) * *<number>*);`                |
+| `-left[*<value>*]`     | `left: calc(var(--spacing) * -*<number>*);`               |
+| `left['1px']`          | `left: 1px;`                                              |
+| `left['-1px']`         | `left: -1px;`                                             |
+| `left['100%']`         | `left: 100%;`                                             |
+| `left['-100%']`        | `left: -100%;`                                            |
+| `left.auto`            | `left: auto;`                                             |
