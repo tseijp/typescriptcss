@@ -4,6 +4,8 @@ const root: State = { css: {} }
 const rules: Record<string, Rule> = Object.create(null)
 const scoped: Record<string, Record<string, Rule>> = Object.create(null)
 const controlKeys = new Set<string>()
+const childSelector = '& > :not(:last-child)'
+const colorLogicalKeys = new Set(['inherit', 'current', 'currentColor', 'transparent'])
 const toRule = (entry: Entry, scopeName?: string): Rule => {
         if (typeof entry === 'function' && scopeName) return (state) => ({ ...(entry as Rule)(state), scope: scopeName })
         if (typeof entry === 'function') return entry as Rule
@@ -11,9 +13,15 @@ const toRule = (entry: Entry, scopeName?: string): Rule => {
 }
 const wrapValue = (state: State, key: string, value: any) => (state.wraps ?? []).reduceRight((next, wrap) => `if(${wrap}: ${next}; else: ${state.css[key] ?? 'unset'})`, value)
 const wrapped = (state: State, css: RuntimeStyle) => Object.fromEntries(Object.entries(css).map(([key, value]) => [key, wrapValue(state, key, value)]))
+const isRecord = (value: any) => value && typeof value === 'object' && !Array.isArray(value)
+const assignCss = (...items: RuntimeStyle[]) => {
+        const css: RuntimeStyle = {}
+        for (const item of items) for (const [key, value] of Object.entries(item)) css[key] = isRecord(css[key]) && isRecord(value) ? { ...css[key], ...value } : value
+        return css
+}
 const merge = (state: State, css: RuntimeStyle, scopeName?: string): State => {
         const keepWraps = scopeName || !Object.keys(css).length ? state.wraps : undefined
-        return { css: Object.assign({}, state.css, wrapped(state, css)), dark: state.dark, scope: scopeName, wraps: keepWraps }
+        return { css: assignCss(state.css, wrapped(state, css)), dark: state.dark, scope: scopeName, wraps: keepWraps }
 }
 const chain = (state: State): C =>
         new Proxy((...styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])), {
@@ -41,7 +49,13 @@ export const x4 = (key: string) => `${Number(key) * 4}px`
 export const spacingValue = (key: string) => `calc(var(--spacing) * ${Number(key)})`
 export const isNum = (key: string) => Number.isFinite(Number(key))
 export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|%|vw|vh|dvw|dvh|lvw|lvh|svw|svh|lh|rlh|ch|ex|cap|ic|vmin|vmax|cm|mm|in|pt|pc)$/.test(key)
-export const colorValue = (key: string) => (key === 'current' ? 'currentColor' : key)
+export const colorValue = (key: string) => {
+        if (key === 'current') return 'currentColor'
+        if (key === 'black') return 'var(--color-black)'
+        if (key === 'white') return 'var(--color-white)'
+        if (key.startsWith('--')) return `var(${key})`
+        return key
+}
 export const lengthValue = (key: string, screen = '100vw') => {
         if (isNum(key)) return x4(key)
         if (isLength(key)) return key === '0' ? '0px' : key
@@ -180,6 +194,19 @@ export const borderSideRule =
                         },
                 }
         }
+export const splitBorderSideRule =
+        (numericProps: string[], valueProps: string[]): Rule =>
+        (state) => {
+                const next = merge(state, {})
+                return {
+                        ...next,
+                        read: (key) => {
+                                const width = borderWidthValue(key)
+                                if (width) return merge(next, Object.fromEntries((isNum(key) ? numericProps : valueProps).map((prop) => [`${prop}Width`, width])))
+                                return merge(next, Object.fromEntries((colorLogicalKeys.has(key) ? valueProps : numericProps).map((prop) => [`${prop}Color`, colorValue(key)])))
+                        },
+                }
+        }
 export const outlineRule: Rule = (state) => {
         const next = merge(state, {}, 'outline')
         return {
@@ -192,18 +219,20 @@ export const outlineRule: Rule = (state) => {
         }
 }
 export const divideRule =
-        (...props: string[]): Rule =>
+        (zeroProp: string, widthProp: string): Rule =>
         (state) => {
-                const next = merge(state, Object.fromEntries(props.map((prop) => [prop, '1px'])), 'divide')
+                const next = merge(state, childStyle({ [zeroProp]: '0px', [widthProp]: '1px' }), 'divide')
                 return {
                         ...next,
                         read: (key) => {
                                 const width = borderWidthValue(key)
-                                if (width) return merge(next, Object.fromEntries(props.map((prop) => [prop, width])))
-                                return merge(next, { borderColor: colorValue(key) })
+                                if (width) return merge(next, childStyle({ [zeroProp]: '0px', [widthProp]: width }))
+                                return merge(next, childStyle({ borderColor: colorValue(key) }))
                         },
                 }
         }
+export const divideColorRule: Rule = readRule((key) => childStyle({ borderColor: colorValue(key) }), true)
+export const childStyle = (css: RuntimeStyle): RuntimeStyle => ({ [childSelector]: css })
 export const columnsRule: Rule = readRule((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
 export const rowsRule: Rule = readRule((key) => ({ gridTemplateRows: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
 export const columnRule: Rule = readRule((key) => ({ gridColumn: isNum(key) ? `span ${key} / span ${key}` : key }))
@@ -213,7 +242,7 @@ export const roundedValue = (key: string) => {
         if (key === 'none') return '0px'
         if (isNum(key)) return x4(key)
         if (isLength(key)) return key === '0' ? '0px' : key
-        return undefined
+        return key
 }
 export const roundedRule =
         (...props: string[]): Rule =>
