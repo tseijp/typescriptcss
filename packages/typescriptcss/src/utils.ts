@@ -248,10 +248,11 @@ export const roundedRule =
         (...props: string[]): Rule =>
         (state) => {
                 const keys = props.length ? props : ['borderRadius']
-                const next = merge(state, Object.fromEntries(keys.map((prop) => [prop, '4px'])), 'rounded')
+                const next = { ...state, scope: props.length ? undefined : 'rounded' }
                 return {
                         ...next,
                         read: (key) => {
+                                if (key === 'none' && keys.length > 1) return merge(next, Object.fromEntries(keys.map((prop, index) => [prop, index ? '0px' : '0'])))
                                 const value = roundedValue(key)
                                 if (!value) return undefined
                                 return merge(next, Object.fromEntries(keys.map((prop) => [prop, value])))
