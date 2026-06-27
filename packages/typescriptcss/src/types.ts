@@ -1,6 +1,8 @@
 type StyleValue = string | number
-type CSS = Partial<Record<Exclude<keyof CSSStyleDeclaration, 'cssText'> & string, StyleValue>>
-type Func = (...styles: Argument[]) => RuntimeStyle
+type CSSKey = Exclude<keyof CSSStyleDeclaration, 'cssText'> & string
+type CSS = Partial<Record<CSSKey, StyleValue>>
+type StyleObject = {}
+type Func = (...styles: Argument[]) => StyleObject
 type Values = { [value: string]: C }
 type Scale = { [value: number]: C } & { [value in `${number}`]: C }
 type Unit = 'px' | 'rem' | 'em' | '%' | 'vw' | 'vh' | 'dvw' | 'dvh' | 'lvw' | 'lvh' | 'svw' | 'svh' | 'lh' | 'rlh' | 'ch' | 'ex' | 'cap' | 'ic' | 'vmin' | 'vmax' | 'cm' | 'mm' | 'in' | 'pt' | 'pc'
@@ -14,9 +16,11 @@ type Axis<T = Length> = { x: T; y: T }
 type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: T; y: T }
 type Corner<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; tl: T; tr: T; br: T; bl: T; ss: T; se: T; ee: T; es: T }
 type AlignKeyword = 'flex-start' | 'flex-end' | 'safe center' | 'safe end' | 'safe flex-end' | 'last baseline'
-type ContentKeyword = 'space-between' | 'space-be_een' | 'space-around' | 'space-evenly'
 type Align = C & { center: C; end: C; start: C; stretch: C; normal: C; baseline: C } & { [value in AlignKeyword]: C }
-type ContentAlign = Align & { [value in ContentKeyword]: C }
+type AlignContent = C & { normal: C; center: C; start: C; end: C; between: C; arround: C; evenly: C; baseline: C; stretch: C }
+type SafeC = C & { safe: C }
+type JustifyContent = C & { start: C; end: SafeC; center: SafeC; between: C; arround: C; evenly: C; stretch: C; baseline: C; normal: C }
+type PlaceContent = C & { center: SafeC; start: C; end: SafeC; between: C; around: C; evenly: C; baseline: C; stretch: C; normal: C }
 type PositionValue = Length & { auto: C }
 type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom right'
 type ObjectPosition = C & Values & { top: C; right: C; bottom: C; left: C; center: C } & { [value in ObjectPositionKeyword]: C }
@@ -52,7 +56,7 @@ type Transform = Values & Scale & { none: C; '3d': C; flat: C }
 type Translate = Transform & { x: Length; y: Length; full: C; px: C }
 type Skew = Transform & { x: Scale; y: Scale }
 type Break = C & { after: Values; before: Values; inside: Values; normal: C; 'break-all': C; 'keep-all': C }
-type Native = { [K in Exclude<keyof CSS & string, keyof U>]: Values }
+type Native = { [K in Exclude<CSSKey, keyof U>]: Values }
 export type RuntimeStyle = CSS & Record<string, StyleValue>
 export type Argument = RuntimeStyle | null | undefined | false
 export type Rule = (state: State) => State
@@ -178,7 +182,7 @@ export type U = {
         color: Color
         cols: Track
         colStart: GridLine
-        content: Values & ContentAlign & { none: C }
+        content: Values & AlignContent & { none: C }
         contrast: Filter
         cursor: Cursor
         decoration: Color & Values
@@ -205,7 +209,7 @@ export type U = {
         inset: PositionValue & Axis<PositionValue>
         invert: Filter
         items: Align
-        justify: ContentAlign & { items: Align; self: Align }
+        justify: JustifyContent & { items: Align; self: Align }
         leading: Scale
         left: PositionValue
         line: { clamp: Scale & { none: C } }
@@ -241,7 +245,7 @@ export type U = {
         pb: Length
         pe: Length
         perspective: Values & Scale & { origin: Origin }
-        place: { content: ContentAlign; items: Align; self: Align }
+        place: { content: PlaceContent; items: Align; self: Align }
         pl: Length
         pointer: { events: { auto: C; none: C } }
         pr: Length
