@@ -4,20 +4,22 @@ import * as tw from '../src'
 // Chapter 22 — DARK MODE.
 //
 // MECE scope: this file owns the dark-mode *pairing* semantics only — how a
-// `dark.*` segment combines with a preceding/base color to emit a
+// `dark.*` segment combines with a preceding base color to emit a
 // `light-dark(base, dark)` value. Plain (non-dark) color emission is owned by
-// 05_backgrounds / 04_typography and is not re-checked except as the explicit
-// non-leak boundary. Transform/filter composition is owned by 21.
+// 04_typography / 05_backgrounds and is re-touched here only as the explicit
+// non-leak boundary. Transform / filter composition is owned by 21.
 //
-// `dark` is implemented for the color families that flow their `dark` flag
+// `dark` is implemented for the color families that thread their `dark` flag
 // through `colorRule` / `textRule`:
-//   - bg   -> light-dark on `background`         (GREEN)
-//   - text -> light-dark on `color`              (GREEN)
-//   - border color utility                        (GREEN, but does NOT pair)
+//   - bg   -> light-dark on `background` (+ colorScheme)   (GREEN)
+//   - text -> light-dark on `color`                        (GREEN)
+//   - border color utility                                  (GREEN, but does NOT pair)
 // Families with no implemented root surface go RED on direct access:
-//   - fill / stroke / shadow                      (RED)
+//   - fill / stroke / shadow / accent / caret / ring        (RED)
 // Activation must be flag-driven via the `dark` chain; there is no
-// data-attribute-driven activation source yet (RED).
+// data-attribute-driven activation source yet (RED). Per the brief the
+// unimplemented families are read directly — no `?.`, no `?? fallback`, no
+// `as any` to swallow a TypeError — so the gaps surface honestly.
 
 describe('light -> dark pairing produces light-dark(base, dark)', () => {
         test('bg: base then dark.bg pairs the two colors', () => {
@@ -40,7 +42,7 @@ describe('light -> dark pairing produces light-dark(base, dark)', () => {
         test('bg pairing works with currentColor / transparent keywords', () => {
                 expect(tw.bg.transparent.dark.bg.currentColor()).toEqual({ colorScheme: 'light dark', background: 'light-dark(transparent, currentColor)' })
         })
-        test('bg: only the final dark color is paired (last dark wins)', () => {
+        test('bg: only the final dark color is paired (nested last-wins)', () => {
                 expect(tw.bg.white.dark.bg.black.dark.bg.red()).toEqual({ colorScheme: 'light dark', background: 'light-dark(light-dark(white, black), red)' })
         })
         test('text and bg pair independently in the same chain', () => {
@@ -104,18 +106,30 @@ describe('non-leak boundary — dark must not bleed across independent chains', 
         })
 })
 
-// Typed escape hatch for unimplemented dark color families.
+// Typed escape hatch for unimplemented dark color families. Reading an unexported
+// root yields undefined, so the access below throws — the honest RED signal.
 const u = tw as unknown as Record<string, Record<string | number, () => Record<string, string>>>
 
-describe('fill / stroke / shadow dark families — unimplemented (RED)', () => {
-        test('fill dark pairing — root unimplemented (RED)', () => {
-                expect((u.fill as unknown as Record<string, () => Record<string, string>>).black()).toEqual({ fill: 'black' })
+// Color families that should support dark pairing but have no root surface yet.
+// Each maps to the plain (non-paired) declaration a first implementation would
+// emit; all are RED because the root does not exist.
+const UNIMPLEMENTED_FAMILIES: Array<[string, string]> = [
+        ['fill', 'fill'],
+        ['stroke', 'stroke'],
+        ['shadow', 'boxShadow'],
+        ['accent', 'accentColor'],
+        ['caret', 'caretColor'],
+        ['ring', 'boxShadow'],
+]
+
+describe('fill / stroke / shadow / accent / caret / ring dark families — unimplemented (RED)', () => {
+        test.each(UNIMPLEMENTED_FAMILIES)('%s color family — root unimplemented (RED)', (root, prop) => {
+                const out = (u[root] as unknown as Record<string, () => Record<string, string>>).black()
+                expect(out).toEqual({ [prop]: 'black' })
         })
-        test('stroke dark pairing — root unimplemented (RED)', () => {
-                expect((u.stroke as unknown as Record<string, () => Record<string, string>>).black()).toEqual({ stroke: 'black' })
-        })
-        test('shadow dark pairing — root unimplemented (RED)', () => {
-                expect((u.shadow as unknown as Record<string, () => Record<string, string>>).black()).toEqual({ boxShadow: 'black' })
+        test.each(UNIMPLEMENTED_FAMILIES)('%s dark pairing — root unimplemented (RED)', (root, prop) => {
+                const out = ((tw as any)[root] as Record<string, any>).white.dark[root].black()
+                expect(out).toEqual({ colorScheme: 'light dark', [prop]: 'light-dark(white, black)' })
         })
 })
 
@@ -124,7 +138,11 @@ describe('activation source — only the dark chain activates pairing', () => {
                 expect(tw.bg.white.dark.bg.black().background).toBe('light-dark(white, black)')
         })
         test('data-attribute-driven activation is unimplemented (RED)', () => {
-                // A `[data-theme=dark]` style activation source has no root surface yet.
+                // A `[data-theme=dark] &` style activation source has no root surface yet.
                 expect((u.data as unknown as Record<string, Record<string, Record<string, () => Record<string, string>>>>).theme.dark.bg.black()).toEqual({ '[data-theme=dark] &': { background: 'black' } })
+        })
+        test('class-based dark activation (.dark &) is unimplemented (RED)', () => {
+                // A class-strategy activation source (`.dark &`) also has no root surface.
+                expect((u.scheme as unknown as Record<string, Record<string, Record<string, () => Record<string, string>>>>).class.bg.black()).toEqual({ '.dark &': { background: 'black' } })
         })
 })

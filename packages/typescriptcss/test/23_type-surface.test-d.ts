@@ -5,22 +5,29 @@ import type { Chain } from '../src/types'
 // 23 — Type surface (section J: TYPE-001..009), checked by `tsc` under vitest
 // `--typecheck`.
 //
-// MECE boundary: every runtime file pins value -> CSS. This file is the *type
-// oracle* (prompt_unit_test.md §J): a correct chain must type-check, and an
+// MECE boundary: every runtime file (00..22, 24..26) pins value -> CSS at
+// runtime. This file is the *type oracle*. A correct chain must type-check; an
 // illegal utility/value combination must be a type error *at the offending
-// position*. Each negative sits behind a `// @ts-expect-error`. Where the
-// published types are too loose to reject the combination, the directive turns
-// "unused" and tsc fails the file — those sites are tagged `// [RED type-gap]`
-// and are the documented holes (chiefly the open `Values = { [k: string]:
-// Chain }` index on color / native families). They stay RED until the types
-// tighten; weakening the assertion to hide them is forbidden (§J: "`any` へ逃
-// がした結果を成功と数えないこと").
+// position*. Each negative therefore sits directly behind a
+// `// @ts-expect-error`.
+//
+// Per _REDESIGN.md rule 4, a type hole is NOT hidden. Where the published
+// types in src/types.ts are too loose to reject a combination the chapter
+// claims is illegal, the `// @ts-expect-error` finds nothing to suppress and
+// `tsc` fails the line with TS2578 ("Unused '@ts-expect-error' directive").
+// Those sites are tagged `// [RED type-gap]` and are the documented holes
+// (chiefly the open `Values = { [k: string]: Chain }` index that color / native
+// families inherit). They stay RED until the types tighten. Escaping the
+// assertion with `as any`, or relaxing the assertion to make the line pass, is
+// forbidden (_REDESIGN.md: "型エラーは未実装機能の指標").
 //
 // One ID -> one responsibility, no overlap with the runtime files.
 
 // ---------------------------------------------------------------------------
-// TYPE-001 — every root utility positive: a well-formed chain is a `Chain` and
-// the editor can keep completing the next segment.
+// TYPE-001 — root utility positives: a well-formed chain is a `Chain` and the
+// editor can keep completing the next segment. Covers every shape of root the
+// surface exposes: static, scope word, numeric scale, nested object, axis,
+// color, length, screen, position.
 // ---------------------------------------------------------------------------
 describe('TYPE-001: root utility positives', () => {
         test('static / scope / scale / nested / axis / color roots are Chains', () => {
@@ -62,12 +69,14 @@ describe('TYPE-001: root utility positives', () => {
 
 // ---------------------------------------------------------------------------
 // TYPE-002 — category violation: a member of a foreign category must be
-// rejected even though the runtime has a native fallback for it.
+// rejected even though the runtime has a greedy/native fallback that would
+// happily resolve it. This is where the open color index leaks.
 // ---------------------------------------------------------------------------
 describe('TYPE-002: category violations rejected', () => {
         test('`bg.flex` — a layout word is not a color', () => {
-                // [RED type-gap] `bg: Color`, `Color extends Values` whose `[k: string]`
-                // index accepts any word, so the type cannot reject `flex`.
+                // [RED type-gap] `bg: Color`, and `Color extends Values` whose
+                // `[k: string]: Chain` index accepts any word, so the type cannot reject
+                // `flex`. The runtime even mis-swallows it as `{ background: 'flex' }`.
                 // @ts-expect-error — `flex` is not a color token
                 void bg.flex
         })
@@ -76,22 +85,31 @@ describe('TYPE-002: category violations rejected', () => {
                 // @ts-expect-error — `grid` is not a text color/size token
                 void text.grid
         })
+        test('`bg.hover` — a variant word is not a color', () => {
+                // [RED type-gap] the open color index also swallows variant words, so the
+                // surface cannot distinguish a pseudo from a hue.
+                // @ts-expect-error — `hover` is a variant, not a color token
+                void bg.hover
+        })
         test('`font.wrap` — a flex word is not a weight/family', () => {
                 // `font: Scale & { bold; medium; normal; sans; semibold }` is closed (no
-                // open index), so the foreign word is a genuine, position-accurate error.
+                // open string index), so the foreign word is a genuine, position-accurate
+                // error and the directive is consumed.
                 // @ts-expect-error — `wrap` is not a font member
                 void font.wrap
         })
         test('`overflow.col` — a flex word is not an overflow keyword', () => {
-                // `overflow` is a closed object literal -> genuine rejection.
+                // `overflow: { auto; hidden; scroll; visible }` is a closed object literal
+                // -> genuine rejection.
                 // @ts-expect-error — `col` is not an overflow member
                 void overflow.col
         })
 })
 
 // ---------------------------------------------------------------------------
-// TYPE-003 — value-domain violation rejected at position: color string on a
-// numeric scale, number on a color-only slot, unknown word on a keyword slot.
+// TYPE-003 — value-domain violation rejected at position: a color string on a
+// numeric scale, a number on a color-only slot, an unknown word on a keyword
+// slot, a non-screen word on a Screen slot.
 // ---------------------------------------------------------------------------
 describe('TYPE-003: value-domain violations', () => {
         test('a numeric scale yields a Chain at numeric keys (positive)', () => {
@@ -110,8 +128,8 @@ describe('TYPE-003: value-domain violations', () => {
                 void px.crimson
         })
         test('a number is (not) rejected on a color-only slot', () => {
-                // [RED type-gap] `Color` resolves a numeric literal key through its string
-                // index, so a number is wrongly accepted where only colors are valid.
+                // [RED type-gap] `Color` resolves a numeric literal key through its open
+                // string index, so a number is wrongly accepted where only colors are valid.
                 // @ts-expect-error — bg has no numeric scale domain
                 void bg[4]
         })
@@ -155,7 +173,7 @@ describe('TYPE-004: native CSS property fallback', () => {
 
 // ---------------------------------------------------------------------------
 // TYPE-005 — call-argument contract: a chain accepts style objects and the
-// nullish / false sentinels; a primitive or an array is rejected.
+// nullish / false sentinels; a primitive or `true` is rejected.
 // ---------------------------------------------------------------------------
 describe('TYPE-005: call argument contract', () => {
         test('accepts an object, null, undefined, false, and zero args (positive)', () => {
@@ -183,7 +201,8 @@ describe('TYPE-005: call argument contract', () => {
 
 // ---------------------------------------------------------------------------
 // TYPE-006 — `define<T>` boundary: inference defaults to Chain, an explicit
-// type widens, and the custom type must not leak foreign members.
+// type sets the exact result, and the custom type must not leak foreign
+// members. The runtime arg types (name: string, css: RuntimeStyle) are pinned.
 // ---------------------------------------------------------------------------
 describe('TYPE-006: define generic boundary', () => {
         test('inference defaults the result to Chain (positive)', () => {
@@ -216,7 +235,8 @@ describe('TYPE-006: define generic boundary', () => {
 
 // ---------------------------------------------------------------------------
 // TYPE-007 — utility domain after a variant segment: a breakpoint / dark
-// segment is a Chain, so the utilities that follow keep their type domain.
+// segment is a Chain, so the utilities that follow keep their type domain and
+// still enforce it.
 // ---------------------------------------------------------------------------
 describe('TYPE-007: utility domain survives a variant', () => {
         test('utilities after a breakpoint keep their domain (positive)', () => {
@@ -234,12 +254,18 @@ describe('TYPE-007: utility domain survives a variant', () => {
                 // @ts-expect-error — color string is not a numeric scale key after `sm`
                 void sm.m.crimson
         })
+        test('the keyword domain is still enforced after a breakpoint', () => {
+                // `md.items` is `Align` again; an unknown word stays rejected.
+                // @ts-expect-error — `middle` is not an Align keyword after `sm`
+                void sm.items.middle
+        })
 })
 
 // ---------------------------------------------------------------------------
-// TYPE-008 — value origin: literal vs `as const` vs imported value must not
-// change acceptance for a slot. The open color index already accepts any
-// string, so these are positives plus one documented gap.
+// TYPE-008 — value origin: a literal, an `as const`, and a widened binding must
+// not change acceptance for a slot. The open color index already accepts any
+// string (positives + one documented gap); the numeric scale must still reject
+// a `string`-typed index even though the runtime would coerce it.
 // ---------------------------------------------------------------------------
 describe('TYPE-008: value origin invariance', () => {
         test('a widened `string` and an `as const` color resolve the same (positive)', () => {
@@ -263,8 +289,10 @@ describe('TYPE-008: value origin invariance', () => {
 })
 
 // ---------------------------------------------------------------------------
-// TYPE-009 — escape-hatch boundary: `any` bypasses the surface, but `unknown`
-// and `never`-typed keys must not silently satisfy a constrained slot.
+// TYPE-009 — escape-hatch boundary: `any` bypasses the surface (documented, not
+// a guarantee), but `unknown`-typed keys must not silently satisfy a
+// constrained slot, and a finalized chain return is a concrete object, never
+// callable / never `any`.
 // ---------------------------------------------------------------------------
 describe('TYPE-009: any / unknown / never boundary', () => {
         test('an `any`-typed key bypasses the surface (documented, not a guarantee)', () => {
@@ -277,7 +305,7 @@ describe('TYPE-009: any / unknown / never boundary', () => {
                 // @ts-expect-error — `unknown` cannot index a numeric scale
                 void p[k]
         })
-        test('a chain return value is not `any`', () => {
+        test('a chain return value is not `any` (it is an object, not callable)', () => {
                 // A finished chain returns the concrete CSS object type, never `any`; if it
                 // were `any`, this negative could not hold.
                 // @ts-expect-error — the result is an object, not callable

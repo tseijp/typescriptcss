@@ -16,6 +16,11 @@ import { isPlainStyle, assertNoLeakedMarkers } from './_helpers.ts'
 //   PACKAGE-004  unused exports do not perturb a finalized result.
 //   PACKAGE-005  the root registry is deterministic across re-imports.
 //   PACKAGE-006  define() registers a custom root onto the shared registry.
+//
+// Per _REDESIGN.md rule 5, this chapter is one of the documented low-fail
+// exceptions: it asserts language-level / packaging invariants of the
+// *implemented* runtime, not unimplemented Tailwind features, so GREEN is
+// correct here. (Feature coverage lives in 00..25.)
 
 // The full named-export surface of src/index.ts. `define` is the only export
 // that is a plain factory function; all others are chain proxies (also typeof

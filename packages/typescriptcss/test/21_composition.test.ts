@@ -4,19 +4,23 @@ import { styleEqual } from './_helpers.ts'
 
 // Chapter 21 — COMPOSITION.
 //
-// MECE scope: this file is exclusively about what happens when *multiple*
-// segments are chained together. The single-utility -> single-declaration
-// mappings (one segment, one property) already live in 00..13 and are NOT
-// re-checked here. Here we assert the composition algebra only:
+// MECE scope: this file is exclusively about what happens when *multiple* segments
+// are chained. The single-utility -> single-declaration mappings (one segment,
+// one property) already live in 00–13 and are NOT re-checked here. This file
+// asserts the composition algebra only:
 //   - accumulation across independent properties,
 //   - last-write-wins on a repeated property,
 //   - order-independence for independent properties,
 //   - call-argument override of accumulated declarations,
-//   - the filter / transform / gradient / shadow families that are still
-//     unimplemented (those segments are accessed directly so they go RED).
+//   - identity / freshness of the finished composite,
+//   - the filter / transform-scale / gradient / shadow families, which are still
+//     unimplemented and are therefore accessed directly so they go RED.
 //
 // Implemented spacing/flex/grid families compose -> GREEN.
-// Unimplemented filter/transform-scale/gradient/shadow roots -> RED on access.
+// Unimplemented filter / transform-scale / gradient / shadow roots -> RED. Per the
+// brief these are read directly (no `?.`, no `?? fallback`, no `as any` to hide a
+// TypeError); reading an unexported root yields undefined and the access throws,
+// which is the honest RED signal.
 
 describe('accumulation across independent properties', () => {
         test('p[4].m[2] keeps both declarations', () => {
@@ -62,7 +66,7 @@ describe('last-write-wins on a repeated property', () => {
                 // text.base seeds fontSize+lineHeight; leading[10] must override lineHeight only.
                 expect(tw.text.base.leading[10]()).toEqual({ fontSize: '16px', lineHeight: '40px' })
         })
-        test('font-size override via leading then text.base re-seeds both', () => {
+        test('text.base re-seeds both after a leading override', () => {
                 expect(tw.leading[10].text.base()).toEqual({ fontSize: '16px', lineHeight: '24px' })
         })
 })
@@ -120,9 +124,10 @@ describe('finished composite is a fresh plain object each call', () => {
         })
 })
 
-// Helper: a typed escape hatch for roots that are intentionally not exported
-// yet. Reading `.scale` etc. yields undefined, so the property access below
-// throws — that thrown error is the RED signal for the unimplemented root.
+// Typed escape hatch for roots that are intentionally not exported yet. Reading
+// `.scale` / `.blur` / … yields undefined, so the property access below throws —
+// that thrown error is the RED signal for the unimplemented root. No `?.`, no
+// `?? fallback`: the gap must surface.
 const u = tw as unknown as Record<string, Record<string | number, () => Record<string, string>>>
 
 describe('transform family — translate single-axis GREEN; multi-axis accumulation RED', () => {
@@ -132,15 +137,14 @@ describe('transform family — translate single-axis GREEN; multi-axis accumulat
         test('translate.y single axis writes transform (GREEN)', () => {
                 expect(tw.translate.y[8]()).toEqual({ transform: 'translateY(32px)' })
         })
-        test('translate.x[4].translate.y[8] should accumulate transform functions (RED — currently overwrites)', () => {
-                // Documents the transform-accumulation gap: two transform writes must
-                // concatenate, not last-write-wins.
+        test('translate.x[4].translate.y[8] should accumulate transform functions (RED — currently last-write)', () => {
+                // Two transform writes must concatenate, not overwrite.
                 expect(tw.translate.x[4].translate.y[8]()).toEqual({ transform: 'translateX(16px) translateY(32px)' })
         })
-        test('scale root unimplemented — accumulates into transform (RED)', () => {
+        test('scale root unimplemented — should accumulate into transform (RED)', () => {
                 expect(u.scale[4]()).toEqual({ transform: 'scale(4)' })
         })
-        test('rotate root unimplemented — accumulates into transform (RED)', () => {
+        test('rotate root unimplemented — should accumulate into transform (RED)', () => {
                 expect(u.rotate[45]()).toEqual({ transform: 'rotate(45deg)' })
         })
         test('skew root unimplemented (RED)', () => {
@@ -158,6 +162,9 @@ describe('filter family — unimplemented roots compose into one filter (RED)', 
         test('blur then brightness should accumulate into one filter (RED)', () => {
                 expect(u.blur[4].brightness[50]()).toEqual({ filter: 'blur(16px) brightness(0.5)' })
         })
+        test('grayscale root unimplemented (RED)', () => {
+                expect((u.grayscale as unknown as Record<string, () => Record<string, string>>).full()).toEqual({ filter: 'grayscale(100%)' })
+        })
 })
 
 describe('gradient family — unimplemented roots (RED)', () => {
@@ -167,10 +174,16 @@ describe('gradient family — unimplemented roots (RED)', () => {
         test('to root unimplemented (RED)', () => {
                 expect((u.to as unknown as Record<string, Record<number, () => Record<string, string>>>).red[500]()).toEqual({ '--tw-gradient-to': 'red' })
         })
+        test('via root unimplemented (RED)', () => {
+                expect((u.via as unknown as Record<string, Record<number, () => Record<string, string>>>).green[500]()).toEqual({ '--tw-gradient-via': 'green' })
+        })
 })
 
 describe('shadow family — unimplemented root (RED)', () => {
         test('shadow root unimplemented (RED)', () => {
                 expect((u.shadow as unknown as Record<string, () => Record<string, string>>).lg()).toEqual({ boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' })
+        })
+        test('shadow accumulates with ring into one boxShadow (RED)', () => {
+                expect((u.ring as unknown as Record<string, () => Record<string, string>>).DEFAULT()).toEqual({ boxShadow: '0 0 0 3px rgb(59 130 246 / 0.5)' })
         })
 })

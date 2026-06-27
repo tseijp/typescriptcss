@@ -5,22 +5,23 @@ import { flex, text, leading } from '../src'
 // 24 — Browser semantic regression (section K: BROWSER-001..008).
 //
 // Source of truth: `.articles/ui.spec2.ts` — the Tailwind playwright suite. Each
-// case here re-expresses one of those scenarios through the typescriptcss chain
-// and asserts the *Tailwind-correct computed style*, never a string snapshot and
-// never the value the current runtime happens to emit (prompt_unit_test.md §K,
-// "現在の実装に合わせて期待を弱めないこと").
+// case re-expresses one of those scenarios through the typescriptcss chain and
+// asserts the *Tailwind-correct computed style*, never a string snapshot and
+// never the value the current runtime happens to emit (_REDESIGN.md rule 2,
+// "実装の現状に合わせて期待を弱めない").
 //
 // The oracle is the engine's computed style (getComputedStyle), so a chain that
 // emits nothing the engine accepts is observably wrong rather than silently
 // green. Most of section K targets Tailwind features with no typescriptcss root
 // yet — touch-action, the filter/drop-shadow family, scale, pseudo-element
-// content, the hover variant, transition shorthands, the shadow-DOM compile
-// path. Those roots are absent from src, so the chains throw / emit nothing and
-// the cases stay RED, in line with the library being mostly unimplemented.
+// content, the hover variant, transition shorthands. Those roots are absent
+// from src, so the chains read `undefined` and the access throws (no `?.`, no
+// `?? fallback`, no `as any` swallow — _REDESIGN.md rule 3), keeping the cases
+// RED in line with the library being ~95% unimplemented.
 //
 // Environment: the default vitest runner is `node`, which has no `document`, so
-// every case is guarded and the whole file reports skipped under node. A DOM
-// runner (jsdom / happy-dom / browser) is what exercises the oracle.
+// every case is guarded by `hasDOM` and the whole file reports *skipped* under
+// node. A DOM runner (jsdom / happy-dom / browser) is what exercises the oracle.
 
 const hasDOM = typeof document !== 'undefined'
 const dom = hasDOM ? test : test.skip
@@ -37,7 +38,7 @@ function styleOf(style: Record<string, unknown>): { cs: CSSStyleDeclaration; el:
 // ---------------------------------------------------------------------------
 // BROWSER-001 — touch-action composition (ui.spec2 "touch action").
 // `touch-pan-x touch-pan-y` must compute to `pan-x pan-y`. No `touch` root
-// exists in src, so this is RED.
+// exists in src, so reading `u.touch` is `undefined` and this is RED.
 // ---------------------------------------------------------------------------
 describe('BROWSER-001: touch-action composition', () => {
         dom('touch.pan.x + touch.pan.y compose to "pan-x pan-y" (RED — unimplemented)', () => {
@@ -131,11 +132,12 @@ describe('BROWSER-005: pseudo-element content persistence', () => {
 // leading / tracking / weight ... when overriding font-size"). An explicit
 // leading/tracking/weight must survive a later font-size change.
 // `text.sm` writes both fontSize and lineHeight; `leading` is implemented, so
-// the leading-explicit case is partially observable. The font-size *variant*
-// override (hover:text-xl) has no runtime, so the override leg stays RED.
+// the leading-explicit and weight-persistence legs are observable GREEN. The
+// font-size *variant* override (hover:text-xl) has no runtime, so that leg is
+// owned by the variant files, not here.
 // ---------------------------------------------------------------------------
 describe('BROWSER-006: implicit vs explicit text sub-properties', () => {
-        dom('text.sm establishes the implicit 16px font / 20px line box', () => {
+        dom('text.sm establishes the implicit 14px font / 20px line box', () => {
                 const cs = styleOf(text.sm()).cs
                 expect(cs.fontSize).toBe('14px')
                 expect(cs.lineHeight).toBe('20px')
@@ -177,7 +179,7 @@ describe('BROWSER-007: transition duration / ease persistence', () => {
 // variables"). A `flex gap-2` utility must compute gap:8px inside a shadow root.
 // gap is implemented as an inline declaration, so this is observable WITHOUT the
 // build pipeline — it pins that the finished style object works across a shadow
-// boundary.
+// boundary (GREEN under a DOM runner).
 // ---------------------------------------------------------------------------
 describe('BROWSER-008: shadow-DOM boundary', () => {
         dom('flex.gap[2] computes gap:8px inside a shadow root', () => {
