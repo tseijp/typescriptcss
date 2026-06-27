@@ -38,6 +38,7 @@ export const controls = (...keys: string[]) => {
         for (const key of keys) controlKeys.add(key)
 }
 export const x4 = (key: string) => `${Number(key) * 4}px`
+export const spacingValue = (key: string) => `calc(var(--spacing) * ${Number(key)})`
 export const isNum = (key: string) => Number.isFinite(Number(key))
 export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|%|vw|vh|dvw|dvh|lvw|lvh|svw|svh|lh|rlh|ch|ex|cap|ic|vmin|vmax|cm|mm|in|pt|pc)$/.test(key)
 export const colorValue = (key: string) => (key === 'current' ? 'currentColor' : key)
@@ -96,8 +97,15 @@ export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule
 export const scaleRule = (...props: string[]): Rule => numericRule((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
 export const spacingRule = (...props: string[]): Rule =>
         readRule((key) => {
-                const value = isNum(key) ? x4(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
+                const value = isNum(key) ? spacingValue(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
                 if (!value) return undefined
+                return Object.fromEntries(props.map((prop) => [prop, value]))
+        })
+export const splitSpacingRule = (numericProps: string[], valueProps: string[]): Rule =>
+        readRule((key) => {
+                const value = isNum(key) ? spacingValue(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
+                if (!value) return undefined
+                const props = isNum(key) ? numericProps : valueProps
                 return Object.fromEntries(props.map((prop) => [prop, value]))
         })
 export const lengthRule = (prop: string, screen?: string): Rule =>
@@ -115,8 +123,15 @@ export const colorRule = (prop: string): Rule =>
         }, true)
 export const positionRule = (...props: string[]): Rule =>
         readRule((key) => {
-                const value = lengthValue(key)
+                const value = isNum(key) ? spacingValue(key) : lengthValue(key)
                 if (!value) return undefined
+                return Object.fromEntries(props.map((prop) => [prop, value]))
+        })
+export const splitPositionRule = (numericProps: string[], valueProps: string[]): Rule =>
+        readRule((key) => {
+                const value = isNum(key) ? spacingValue(key) : lengthValue(key)
+                if (!value) return undefined
+                const props = isNum(key) ? numericProps : valueProps
                 return Object.fromEntries(props.map((prop) => [prop, value]))
         })
 export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule =>

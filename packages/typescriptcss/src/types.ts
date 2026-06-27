@@ -14,6 +14,7 @@ type ColorName = 'inherit' | 'current' | 'currentColor' | 'transparent' | 'black
 type Color = C & Values & { [value in ColorLiteral | ColorName]: C }
 type Axis<T = Length> = { x: T; y: T }
 type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: T; y: T }
+type InsetSides<T = Length> = { x: T; y: T; s: T; e: T; bs: T; be: T }
 type Corner<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; tl: T; tr: T; br: T; bl: T; ss: T; se: T; ee: T; es: T }
 type AlignKeyword = 'flex-start' | 'flex-end' | 'safe center' | 'safe end' | 'safe flex-end' | 'last baseline'
 type Align = C & { center: C; end: C; start: C; stretch: C; normal: C; baseline: C } & { [value in AlignKeyword]: C }
@@ -206,7 +207,7 @@ export type U = {
         hue: C & { rotate: Filter }
         hyphens: Values
         indent: Length
-        inset: PositionValue & Axis<PositionValue>
+        inset: PositionValue & InsetSides<PositionValue>
         invert: Filter
         items: Align
         justify: JustifyContent & { items: Align; self: Align }
@@ -220,6 +221,8 @@ export type U = {
         mask: Mask
         max: C & { h: Size; w: Size; size: Size }
         mb: Length
+        mbe: Length
+        mbs: Length
         me: Length
         min: C & { h: Size; w: Size; size: Size }
         mix: { blend: Blend }
@@ -243,6 +246,8 @@ export type U = {
         p: Length
         padding: Length
         pb: Length
+        pbe: Length
+        pbs: Length
         pe: Length
         perspective: Values & Scale & { origin: Origin }
         place: { content: PlaceContent; items: Align; self: Align }
