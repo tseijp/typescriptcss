@@ -5,7 +5,8 @@ import { defineConfig } from 'vitest/config'
 // environment so they can run without a real browser when one is unavailable.
 export default defineConfig({
         test: {
-                include: ['test/**/*.test.ts'],
+                // include: ['test/**/*.test.ts'],
+                include: ['test/**/{00,01,02,03,04,05,06,07,08,09,10,11,12,13,14}_*.test.ts'],
                 environment: 'node',
                 typecheck: {
                         enabled: true,

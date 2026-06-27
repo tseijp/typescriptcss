@@ -220,26 +220,26 @@ describe('grid-auto-rows', () => {
 })
 
 describe('justify-content', () => {
-        test("justify['flex-start']", () => {
-                expect(_.justify['flex-start']()).toEqual({ justifyContent: 'flex-start' })
+        test('justify.start', () => {
+                expect(_.justify.start()).toEqual({ justifyContent: 'flex-start' })
         })
-        test("justify['flex-end']", () => {
-                expect(_.justify['flex-end']()).toEqual({ justifyContent: 'flex-end' })
+        test('justify.end', () => {
+                expect(_.justify.end()).toEqual({ justifyContent: 'flex-end' })
         })
-        test("justify['safe flex-end']", () => {
-                expect(_.justify['safe flex-end']()).toEqual({ justifyContent: 'safe flex-end' })
+        test('justify.end.safe', () => {
+                expect(_.justify.end.safe()).toEqual({ justifyContent: 'safe flex-end' })
         })
         test('justify.center', () => {
                 expect(_.justify.center()).toEqual({ justifyContent: 'center' })
         })
         test("justify['safe center']", () => {
-                expect(_.justify['safe center']()).toEqual({ justifyContent: 'safe center' })
+                expect(_.justify.center.safe()).toEqual({ justifyContent: 'safe center' })
         })
-        test("justify['space-be_een']", () => {
-                expect(_.justify['space-be_een']()).toEqual({ justifyContent: 'space-be_een' })
+        test('justify.between', () => {
+                expect(_.justify.between()).toEqual({ justifyContent: 'space-between' })
         })
-        test("justify['space-around']", () => {
-                expect(_.justify['space-around']()).toEqual({ justifyContent: 'space-around' })
+        test('justify.around', () => {
+                expect(_.justify.around()).toEqual({ justifyContent: 'space-around' })
         })
         test("justify['space-evenly']", () => {
                 expect(_.justify['space-evenly']()).toEqual({ justifyContent: 'space-evenly' })
@@ -310,20 +310,20 @@ describe('align-content', () => {
         test('content.center', () => {
                 expect(_.content.center()).toEqual({ alignContent: 'center' })
         })
-        test("content['flex-start']", () => {
-                expect(_.content['flex-start']()).toEqual({ alignContent: 'flex-start' })
+        test('content.start', () => {
+                expect(_.content.start()).toEqual({ alignContent: 'flex-start' })
         })
-        test("content['flex-end']", () => {
-                expect(_.content['flex-end']()).toEqual({ alignContent: 'flex-end' })
+        test('content.end', () => {
+                expect(_.content.end()).toEqual({ alignContent: 'flex-end' })
         })
-        test("content['space-be_een']", () => {
-                expect(_.content['space-be_een']()).toEqual({ alignContent: 'space-be_een' })
+        test('content.between', () => {
+                expect(_.content['space-between']()).toEqual({ alignContent: 'space-between' })
         })
-        test("content['space-around']", () => {
-                expect(_.content['space-around']()).toEqual({ alignContent: 'space-around' })
+        test('content.around', () => {
+                expect(_.content.around()).toEqual({ alignContent: 'space-around' })
         })
-        test("content['space-evenly']", () => {
-                expect(_.content['space-evenly']()).toEqual({ alignContent: 'space-evenly' })
+        test('content.evenly', () => {
+                expect(_.content.evenly()).toEqual({ alignContent: 'space-evenly' })
         })
         test('content.baseline', () => {
                 expect(_.content.baseline()).toEqual({ alignContent: 'baseline' })
@@ -406,8 +406,8 @@ describe('place-content', () => {
         test("place.content['safe end']", () => {
                 expect(_.place.content['safe end']()).toEqual({ placeContent: 'safe end' })
         })
-        test("place.content['space-be_een']", () => {
-                expect(_.place.content['space-be_een']()).toEqual({ placeContent: 'space-be_een' })
+        test("place.content['space-between']", () => {
+                expect(_.place.content['space-between']()).toEqual({ placeContent: 'space-between' })
         })
         test("place.content['space-around']", () => {
                 expect(_.place.content['space-around']()).toEqual({ placeContent: 'space-around' })

@@ -17,9 +17,9 @@ type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: 
 type Corner<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; tl: T; tr: T; br: T; bl: T; ss: T; se: T; ee: T; es: T }
 type AlignKeyword = 'flex-start' | 'flex-end' | 'safe center' | 'safe end' | 'safe flex-end' | 'last baseline'
 type Align = C & { center: C; end: C; start: C; stretch: C; normal: C; baseline: C } & { [value in AlignKeyword]: C }
-type AlignContent = C & { normal: C; center: C; start: C; end: C; between: C; arround: C; evenly: C; baseline: C; stretch: C }
+type AlignContent = C & { normal: C; center: C; start: C; end: C; between: C; around: C; evenly: C; baseline: C; stretch: C }
 type SafeC = C & { safe: C }
-type JustifyContent = C & { start: C; end: SafeC; center: SafeC; between: C; arround: C; evenly: C; stretch: C; baseline: C; normal: C }
+type JustifyContent = C & { start: C; end: SafeC; center: SafeC; between: C; around: C; evenly: C; stretch: C; baseline: C; normal: C }
 type PlaceContent = C & { center: SafeC; start: C; end: SafeC; between: C; around: C; evenly: C; baseline: C; stretch: C; normal: C }
 type PositionValue = Length & { auto: C }
 type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom right'
