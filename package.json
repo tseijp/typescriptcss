@@ -14,6 +14,7 @@
                 "preview": "cd examples/typescriptcss.com && npm run preview",
                 "tsup": "cd packages/typescriptcss && npm run build",
                 "test": "cd packages/typescriptcss && npm run test",
+                "tee": "NO_COLOR=1 FORCE_COLOR=0  NODE_DISABLE_COLORS=1 npm run test -- --no-color 2>&1 | tee log.md",
                 "it": "cd integrations && npm run test",
                 "pub": "cd packages/typescriptcss && npm publish",
                 "ls": "cd packages/typescriptcss && npm publish --dry-run",

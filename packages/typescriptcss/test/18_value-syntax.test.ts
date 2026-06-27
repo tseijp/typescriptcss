@@ -1,72 +1,150 @@
 import { describe, expect, test } from 'vitest'
-import * as tw from '../src'
-import { gap, p, bg, text, w } from '../src'
+import { bg, gap, h, leading, m, p, rounded, text, w } from '../src'
 
-// Chapter C — value-syntax classification.
-// Pins the *acceptance/rejection domain* of values per utility category, which
-// the docs never describe: numeric-scale utilities reject arbitrary strings,
-// while color and native fallbacks accept any string. Also covers var(), calc(),
-// arbitrary strings, and number-vs-string equivalence. No per-utility value table.
+// 18 — value-syntax acceptance / rejection boundaries of the chain runtime.
+//
+// Scope (MECE vs. the docs-derived suites 00–13): those suites assert the
+// *documented* spec value for each utility key. This file instead pins the
+// *runtime* acceptance contract of the shared value readers in src/utils.ts —
+// which keys a reader accepts, which it rejects, and how the raw key text is
+// preserved or transformed. It deliberately avoids re-testing any specific
+// utility/key pair already covered by 00–13 (e.g. w['1px'], size.full,
+// text[4]→var(4)); it targets the reader semantics those suites do not.
+//
+// Most cases here exercise implemented readers (scaleRule / lengthRule /
+// colorRule / numericRule / darkRule) and are GREEN. A few pin the
+// rejection boundary (numeric readers must drop non-numeric keys) and are RED
+// where the runtime currently still emits something.
 
-describe('VALUE-001 integers and zero on numeric scales', () => {
-	test('the spacing scale multiplies by 4px', () => {
-		expect(p[0]()).toEqual({ padding: '0px' })
-		expect(p[1]()).toEqual({ padding: '4px' })
-		expect(gap[10]()).toEqual({ gap: '40px' })
-	})
+describe('numeric scale — integer and zero', () => {
+        // scaleRule multiplies the numeric key by 4 and appends px (x4).
+        test('p[0] → 0px', () => {
+                expect(p[0]()).toEqual({ padding: '0px' })
+        })
+        test('p[4] → 16px', () => {
+                expect(p[4]()).toEqual({ padding: '16px' })
+        })
+        test('m[1] → 4px', () => {
+                expect(m[1]()).toEqual({ margin: '4px' })
+        })
+        test('gap[2] → 8px (scoped scale)', () => {
+                expect(gap[2]()).toEqual({ gap: '8px' })
+        })
+        test('leading[4] → 16px (lineHeight scale)', () => {
+                expect(leading[4]()).toEqual({ lineHeight: '16px' })
+        })
+        test('rounded[2] → 8px (rounded numeric reader)', () => {
+                expect(rounded[2]()).toEqual({ borderRadius: '8px' })
+        })
 })
 
-describe('VALUE-004 sizing keywords vs numeric scale', () => {
-	test('full / screen / dvh keywords are not multiplied like numbers', () => {
-		expect(w['full' as any]()).toEqual({ width: '100%' })
-		expect(w['screen' as any]()).toEqual({ width: '100vw' })
-		expect(w['dvh' as any]()).toEqual({ width: '100dvh' })
-	})
+describe('numeric scale — rejects non-numeric string keys', () => {
+        // numericRule / scaleRule must return undefined for a non-numeric key, so the
+        // reader contributes nothing and the property never appears. A naive fallback
+        // that echoes the key back as a value would violate this.
+        test('p["abc"] does not emit a padding declaration', () => {
+                const style = p['abc']() as Record<string, unknown>
+                expect(style.padding).toBeUndefined()
+                expect(Object.values(style)).not.toContain('abc')
+        })
+        test('gap["xx"] does not emit a gap declaration', () => {
+                const style = gap['xx']() as Record<string, unknown>
+                expect(style.gap).toBeUndefined()
+                expect(Object.values(style)).not.toContain('xx')
+        })
+        test('leading["loose"] does not emit a lineHeight declaration', () => {
+                const style = leading['loose']() as Record<string, unknown>
+                expect(style.lineHeight).toBeUndefined()
+        })
 })
 
-describe('VALUE-005 raw CSS color values', () => {
-	test('color utilities accept hex / oklch / rgb verbatim', () => {
-		expect(bg['#0b1120']()).toEqual({ background: '#0b1120' })
-		expect(text['oklch(98.5% 0 0)']()).toEqual({ color: 'oklch(98.5% 0 0)' })
-		expect(bg['rgb(1 2 3)']()).toEqual({ background: 'rgb(1 2 3)' })
-	})
+describe('sizing keyword — implemented length keywords full / screen / dvh', () => {
+        // lengthRule accepts exactly three keyword sizes besides numbers.
+        test('w.full → 100%', () => {
+                expect(w.full()).toEqual({ width: '100%' })
+        })
+        test('w.screen → 100vw', () => {
+                expect(w.screen()).toEqual({ width: '100vw' })
+        })
+        test('w.dvh → 100dvh', () => {
+                expect(w.dvh()).toEqual({ width: '100dvh' })
+        })
+        test('h.full → 100%', () => {
+                expect(h.full()).toEqual({ height: '100%' })
+        })
+        test('h.screen → 100vw', () => {
+                expect(h.screen()).toEqual({ height: '100vw' })
+        })
+        test('w[4] numeric still scales to 16px', () => {
+                expect(w[4]()).toEqual({ width: '16px' })
+        })
 })
 
-describe('VALUE-006/007 var() and calc() arbitrary values', () => {
-	test('a variable reference is preserved on a color property', () => {
-		expect(bg['var(--brand)']()).toEqual({ background: 'var(--brand)' })
-	})
-
-	test('calc() with spaces and slashes survives as a native value', () => {
-		expect((tw as any).width['calc(100% - 2rem)']()).toEqual({ width: 'calc(100% - 2rem)' })
-	})
+describe('raw color — hex / oklch / rgb / var passthrough', () => {
+        // colorRule (no dark) returns the key verbatim as the property value.
+        test("bg['#fff'] keeps the hex literal", () => {
+                expect(bg['#fff']()).toEqual({ background: '#fff' })
+        })
+        test("bg['#1a2b3c'] keeps a 6-digit hex literal", () => {
+                expect(bg['#1a2b3c']()).toEqual({ background: '#1a2b3c' })
+        })
+        test("bg['oklch(0.7 0.1 200)'] keeps the oklch() literal", () => {
+                expect(bg['oklch(0.7 0.1 200)']()).toEqual({ background: 'oklch(0.7 0.1 200)' })
+        })
+        test("bg['rgb(0, 0, 0)'] keeps the rgb() literal", () => {
+                expect(bg['rgb(0, 0, 0)']()).toEqual({ background: 'rgb(0, 0, 0)' })
+        })
+        test("text['#abc'] keeps the hex literal as color", () => {
+                expect(text['#abc']()).toEqual({ color: '#abc' })
+        })
 })
 
-describe('VALUE-003 numeric scale rejects arbitrary strings', () => {
-	test('a string value on a numeric-only utility is not silently accepted', () => {
-		// the scale reader only fires for numbers; a bare word must not produce gap
-		const out = gap['nonsense' as any]
-		// resolving an unknown key on the gap scope yields a chain whose call has no gap
-		const finalized = typeof out === 'function' ? (out as any)() : {}
-		expect(finalized).not.toHaveProperty('gap', 'nonsense')
-	})
+describe('var() / calc() function literals', () => {
+        // Function-value strings flow through the greedy color reader / length reader
+        // unchanged where the reader accepts them.
+        test("bg['var(--brand)'] keeps the var() literal", () => {
+                expect(bg['var(--brand)']()).toEqual({ background: 'var(--brand)' })
+        })
+        test("text['var(--ink)'] keeps the var() literal as color", () => {
+                expect(text['var(--ink)']()).toEqual({ color: 'var(--ink)' })
+        })
+        test("w['calc(100% - 1px)'] is rejected by the numeric length reader", () => {
+                // lengthRule only accepts numbers + full/screen/dvh, so calc() is dropped.
+                const style = w['calc(100% - 1px)']() as Record<string, unknown>
+                expect(style.width).toBeUndefined()
+        })
 })
 
-describe('VALUE-008 arbitrary strings on native fallback', () => {
-	test('a quoted content string is kept verbatim', () => {
-		expect((tw as any).content['"\\2014"']()).toEqual({ content: '"\\2014"' })
-	})
+describe('dark — light-dark() pairing on color readers', () => {
+        // darkRule flips state.dark; the next color read wraps prior + new value.
+        test("bg['#fff'].dark.bg['#000'] → light-dark(#fff, #000)", () => {
+                expect(bg['#fff'].dark.bg['#000']()).toEqual({ colorScheme: 'light dark', background: 'light-dark(#fff, #000)' })
+        })
+        test("text['#111'].dark.text['#eee'] → light-dark color", () => {
+                expect(text['#111'].dark.text['#eee']()).toEqual({ color: 'light-dark(#111, #eee)' })
+        })
+        // Boundary: when `.dark` comes BEFORE any color, the greedy color reader of
+        // `bg` swallows the word "dark" instead of toggling dark mode, so the pairing
+        // never forms. The *intended* result pairs against `initial`; the current
+        // greedy-trap behaviour does not, so this pins the documented limitation (RED).
+        test("dark-first: bg.dark.bg['#000'] should still pair against initial", () => {
+                expect(bg.dark.bg['#000']()).toEqual({ colorScheme: 'light dark', background: 'light-dark(initial, #000)' })
+        })
 })
 
-describe('VALUE-012 number vs numeric string equivalence', () => {
-	test('bracketed numbers arrive as strings and native fallback keeps them verbatim', () => {
-		expect((tw as any).zIndex[5]()).toEqual({ zIndex: '5' })
-		expect((tw as any).order[3]()).toEqual({ order: '3' })
-	})
-})
-
-describe('VALUE-011 nullish call arguments vs CSS values', () => {
-	test('nullish call arguments are skipped, not coerced into CSS values', () => {
-		expect(gap[2](null as any, undefined as any)).toEqual({ gap: '8px' })
-	})
+describe('numeric bracket key stringifies to a CSS string value', () => {
+        // Value-TYPE contract (distinct from the call-arg merge contract in 15/21):
+        // bracket-number access yields a string-keyed read, so the px result is a
+        // string, never a JS number, keeping serialization stable.
+        test('p[4] value is the string "16px", not a number', () => {
+                const v = (p[4]() as Record<string, unknown>).padding
+                expect(typeof v).toBe('string')
+                expect(v).toBe('16px')
+        })
+        test('gap[2] value is the string "8px"', () => {
+                expect(typeof (gap[2]() as Record<string, unknown>).gap).toBe('string')
+        })
+        test('rounded[4] value is a string px length', () => {
+                expect(typeof (rounded[4]() as Record<string, unknown>).borderRadius).toBe('string')
+        })
 })
