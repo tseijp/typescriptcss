@@ -14,7 +14,7 @@ describe('font-family', () => {
                 expect(_.font.mono()).toEqual({ fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" })
         })
         test('font[4]', () => {
-                expect(_.font[4]()).toEqual({ fontFamily: 'var(4)' })
+                expect(_.font[4]()).toEqual({ fontFamily: '4' })
         })
 })
 
@@ -23,7 +23,7 @@ describe('font-size', () => {
                 expect(_.text.base()).toEqual({ fontSize: '1rem (16px)' })
         })
         test('text[4]', () => {
-                expect(_.text[4]()).toEqual({ fontSize: 'var(4)' })
+                expect(_.text[4]()).toEqual({ fontSize: '4' })
         })
 })
 
@@ -161,7 +161,7 @@ describe('letter-spacing', () => {
                 expect(_.tracking.widest()).toEqual({ letterSpacing: '0.1em' })
         })
         test('tracking[4]', () => {
-                expect(_.tracking[4]()).toEqual({ letterSpacing: 'var(4)' })
+                expect(_.tracking[4]()).toEqual({ letterSpacing: '4' })
         })
 })
 
@@ -209,7 +209,7 @@ describe('list-style-type', () => {
                 expect(_.list.none()).toEqual({ listStyleType: 'none' })
         })
         test('list[4]', () => {
-                expect(_.list[4]()).toEqual({ listStyleType: 'var(4)' })
+                expect(_.list[4]()).toEqual({ listStyleType: '4' })
         })
 })
 
@@ -272,7 +272,7 @@ describe('text-decoration-color', () => {
                 expect(_.decoration.transparent()).toEqual({ textDecorationColor: 'transparent' })
         })
         test('decoration[4]', () => {
-                expect(_.decoration[4]()).toEqual({ textDecorationColor: 'var(4)' })
+                expect(_.decoration[4]()).toEqual({ textDecorationColor: '4' })
         })
 })
 
@@ -392,7 +392,7 @@ describe('vertical-align', () => {
                 expect(_.align.super()).toEqual({ verticalAlign: 'super' })
         })
         test('align[4]', () => {
-                expect(_.align[4]()).toEqual({ verticalAlign: 'var(4)' })
+                expect(_.align[4]()).toEqual({ verticalAlign: '4' })
         })
 })
 

@@ -3,6 +3,7 @@ type CSSKey = Exclude<keyof CSSStyleDeclaration, 'cssText'> & string
 type CSS = Partial<Record<CSSKey, StyleValue>>
 type StyleObject = {}
 type Func = (...styles: Argument[]) => StyleObject
+type ValueFunc = (value: string | number) => StyleObject
 type Values = { [value: string]: C }
 type Scale = { [value: number]: C } & { [value in `${number}`]: C }
 type Unit = 'px' | 'rem' | 'em' | '%' | 'vw' | 'vh' | 'dvw' | 'dvh' | 'lvw' | 'lvh' | 'svw' | 'svh' | 'lh' | 'rlh' | 'ch' | 'ex' | 'cap' | 'ic' | 'vmin' | 'vmax' | 'cm' | 'mm' | 'in' | 'pt' | 'pc'
@@ -17,9 +18,10 @@ type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: 
 type InsetSides<T = Length> = { x: T; y: T; s: T; e: T; bs: T; be: T }
 type Corner<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; tl: T; tr: T; br: T; bl: T; ss: T; se: T; ee: T; es: T }
 type AlignKeyword = 'flex-start' | 'flex-end' | 'safe center' | 'safe end' | 'safe flex-end' | 'last baseline'
-type Align = C & { center: C; end: C; start: C; stretch: C; normal: C; baseline: C } & { [value in AlignKeyword]: C }
-type AlignContent = C & { normal: C; center: C; start: C; end: C; between: C; around: C; evenly: C; baseline: C; stretch: C }
 type SafeC = C & { safe: C }
+type LastC = C & { last: C }
+type Align = C & { center: SafeC; end: SafeC; start: C; stretch: C; normal: C; baseline: LastC } & { [value in AlignKeyword]: C }
+type AlignContent = C & { normal: C; center: C; start: C; end: C; between: C; around: C; evenly: C; baseline: C; stretch: C }
 type JustifyContent = C & { start: C; end: SafeC; center: SafeC; between: C; around: C; evenly: C; stretch: C; baseline: C; normal: C }
 type PlaceContent = C & { center: SafeC; start: C; end: SafeC; between: C; around: C; evenly: C; baseline: C; stretch: C; normal: C }
 type PositionValue = Length & { auto: C }
@@ -27,10 +29,15 @@ type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom 
 type ObjectPosition = C & Values & { top: C; right: C; bottom: C; left: C; center: C } & { [value in ObjectPositionKeyword]: C }
 type Repeat = C & { repeat: C; 'repeat-x': C; 'repeat-y': C; space: C; round: C; 'no-repeat': C }
 type Box = C & { 'border-box': C; 'padding-box': C; 'content-box': C }
-type Track = Values & Scale & { auto: C; none: C; subgrid: C; 'min-content': C; 'max-content': C; 'minmax(0, 1fr)': C }
+type Track = Values & Scale & { auto: C; none: C; subgrid: C; min: C; max: C; fr: C; 'min-content': C; 'max-content': C; 'minmax(0, 1fr)': C }
 type GridLine = Values & Scale & { auto: C }
-type GridArea = Values & Scale & { auto: C; full: C; span: Scale; start: GridLine; end: GridLine }
-type Flex = C & Scale & { row: C; col: C; column: C; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: C; 'wrap-reverse': C; auto: C; none: C; '0 auto': C }
+type GridSpan = Scale & { full: C }
+type GridArea = Values & Scale & { auto: C; span: GridSpan; start: GridLine; end: GridLine }
+type GridRowArea = Values & Scale & { auto: C; full: C; span: Scale; start: GridLine; end: GridLine }
+type ReverseC = C & { reverse: C }
+type DenseC = C & { dense: C }
+type Flex = C & Scale & { row: ReverseC; col: ReverseC; column: ReverseC; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: ReverseC; 'wrap-reverse': C; auto: C; initial: C; none: C; '0 auto': C }
+type Flow = Values & { row: DenseC; column: DenseC; col: DenseC; dense: C }
 type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: Values & { 'ultra-condensed': C; 'extra-condensed': C; condensed: C; 'semi-condensed': C; normal: C; 'semi-expanded': C; expanded: C; 'extra-expanded': C; 'ultra-expanded': C } }
 type Text = Color & Scale & { base: C; xs: C; sm: C; lg: C; xl: C; left: C; center: C; right: C; justify: C; start: C; end: C; ellipsis: C; clip: C; wrap: C; nowrap: C; balance: C; pretty: C; shadow: Values & Scale & { none: C } }
 type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
@@ -59,9 +66,9 @@ type Skew = Transform & { x: Scale; y: Scale }
 type Break = C & { after: Values; before: Values; inside: Values; normal: C; 'break-all': C; 'keep-all': C }
 type Native = { [K in Exclude<CSSKey, keyof U>]: Values }
 export type RuntimeStyle = CSS & Record<string, StyleValue>
-export type Argument = RuntimeStyle | null | undefined | false
+export type Argument = RuntimeStyle | string | number | null | undefined | false
 export type Rule = (state: State) => State
-export type State = { css: RuntimeStyle; dark?: boolean; greedy?: boolean; read?: (key: string) => State | undefined; scope?: string; wraps?: string[] }
+export type State = { call?: (key: string) => State | undefined; css: RuntimeStyle; dark?: boolean; greedy?: boolean; read?: (key: string) => State | undefined; scope?: string; wraps?: string[] }
 export type C = Func & U & Native
 export type U = {
         absolute: C
@@ -74,7 +81,7 @@ export type U = {
         inline: C & { block: C; flex: C }
         inlineBlock: C
         inlineFlex: C
-        grid: C & { cols: Track; rows: Track; flow: Values }
+        grid: C & { cols: Track; rows: Track; flow: Flow }
         flex: Flex
         table: C & { auto: C; fixed: C }
         display: Values
@@ -195,13 +202,13 @@ export type U = {
         field: C & { sizing: { fixed: C; content: C } }
         fill: Color
         filter: FilterRoot
-        flow: Values
+        flow: Flow
         font: Font
         forcedColorAdjust: Values
         from: Color
-        gap: Scale & Axis<Scale>
+        gap: Scale & ValueFunc & Axis<Scale & ValueFunc>
         grayscale: Filter
-        grow: Values & Scale
+        grow: C & Scale
         h: Size
         height: Size
         hue: C & { rotate: Filter }
@@ -238,7 +245,7 @@ export type U = {
         notSr: { only: C }
         object: Values & ObjectPosition
         opacity: Scale
-        order: Values & Scale
+        order: Values & Scale & { first: C; last: C; none: C }
         origin: Origin
         outline: Outline
         overflow: Values & Axis<Values>
@@ -262,7 +269,7 @@ export type U = {
         right: PositionValue
         rotate: Transform
         rounded: Rounded
-        row: GridArea
+        row: GridRowArea
         rows: Track
         saturate: Filter
         scale: Transform
@@ -273,7 +280,7 @@ export type U = {
         self: Align
         sepia: Filter
         shadow: Values & Scale & { none: C; lg: C }
-        shrink: Values & Scale
+        shrink: C & Scale
         size: Size
         skew: Skew
         snap: Snap

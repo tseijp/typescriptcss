@@ -23,9 +23,16 @@ const merge = (state: State, css: RuntimeStyle, scopeName?: string): State => {
         const keepWraps = scopeName || !Object.keys(css).length ? state.wraps : undefined
         return { css: assignCss(state.css, wrapped(state, css)), dark: state.dark, scope: scopeName, wraps: keepWraps }
 }
+const finalize = (state: State, styles: Argument[]) => {
+        const [first, ...rest] = styles
+        const applied = typeof first === 'number' || typeof first === 'string' ? state.call?.(String(first)) : undefined
+        const css = applied ? applied.css : state.css
+        const args = applied ? rest : styles
+        return assignCss(css, ...(args.filter(isRecord) as RuntimeStyle[]))
+}
 const chain = (state: State): C =>
-        new Proxy((...styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])), {
-                apply: (_target, _this, styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])),
+        new Proxy((...styles: Argument[]) => finalize(state, styles), {
+                apply: (_target, _this, styles: Argument[]) => finalize(state, styles),
                 get: (_target, prop) => resolve(state, prop),
         }) as C
 const resolve = (state: State, prop: string | symbol) => {
@@ -108,7 +115,16 @@ export const scopedRule =
         (state) => ({ ...toRule(entry)(state), scope: scopeName })
 export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule => readRule((key) => ({ [prop]: fn(key) }), greedy)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
+export const numericDefaultRule = (prop: string, value: string): Rule => (state) => {
+        const next = merge(state, { [prop]: value })
+        return { ...next, read: (key) => (isNum(key) ? merge(next, { [prop]: key }) : undefined) }
+}
 export const scaleRule = (...props: string[]): Rule => numericRule((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
+export const callableScaleRule = (...props: string[]): Rule =>
+        (state) => {
+                const read = (key: string) => (isNum(key) ? merge(state, Object.fromEntries(props.map((prop) => [prop, x4(key)]))) : undefined)
+                return { css: state.css, call: read, dark: state.dark, read, scope: state.scope, wraps: state.wraps }
+        }
 export const spacingRule = (...props: string[]): Rule =>
         readRule((key) => {
                 const value = isNum(key) ? spacingValue(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
@@ -162,8 +178,8 @@ export const variantRule =
 export const darkRule: Rule = (state) => ({ ...state, dark: true })
 export const splitRule: Rule = (state) => state
 export const flexRule: Rule = (state) => {
-        const next = merge(state, { display: 'flex' }, 'flex')
-        return { ...next, read: (key) => (isNum(key) ? merge(next, { flex: Number(key) }, 'flex') : undefined) }
+        const next = merge(state, {}, 'flex')
+        return { ...next, read: (key) => (isNum(key) ? merge(next, { flex: key }, 'flex') : undefined) }
 }
 export const borderWidthValue = (key: string) => {
         if (isNum(key)) return `${Number(key)}px`
