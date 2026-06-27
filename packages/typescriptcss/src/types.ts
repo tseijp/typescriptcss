@@ -1,192 +1,193 @@
 type StyleValue = string | number
 type CSS = Partial<Record<Exclude<keyof CSSStyleDeclaration, 'cssText'> & string, StyleValue>>
 type Func = (...styles: Argument[]) => RuntimeStyle
-type Values = { [value: string]: Chain }
-type Scale = { [value: number]: Chain } & { [value in `${number}`]: Chain }
+type Values = { [value: string]: C }
+type Scale = { [value: number]: C } & { [value in `${number}`]: C }
 type Unit = 'px' | 'rem' | 'em' | '%' | 'vw' | 'vh' | 'dvw' | 'dvh' | 'lvw' | 'lvh' | 'svw' | 'svh' | 'lh' | 'rlh' | 'ch' | 'ex' | 'cap' | 'ic' | 'vmin' | 'vmax' | 'cm' | 'mm' | 'in' | 'pt' | 'pc'
 type LengthValue = `${number}${Unit}` | '0' | 'auto' | 'px' | 'full' | 'screen' | 'dvw' | 'dvh' | 'lvw' | 'lvh' | 'svw' | 'svh' | 'min' | 'max' | 'fit' | 'min-content' | 'max-content' | 'fit-content' | 'none'
-type Length = Scale & { [value in LengthValue]: Chain }
+type Length = Scale & { [value in LengthValue]: C }
 type ColorFunction = 'alpha' | 'color' | 'color-mix' | 'contrast-color' | 'device-cmyk' | 'hsl' | 'hsla' | 'hwb' | 'lab' | 'lch' | 'light-dark' | 'oklab' | 'oklch' | 'rgb' | 'rgba'
 type ColorLiteral = `#${string}` | `${ColorFunction}(${string})` | `var(${string})`
 type ColorName = 'inherit' | 'current' | 'currentColor' | 'transparent' | 'black' | 'white' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'
-type Color = Chain & Values & { [value in ColorLiteral | ColorName]: Chain }
+type Color = C & Values & { [value in ColorLiteral | ColorName]: C }
 type Axis<T = Length> = { x: T; y: T }
 type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: T; y: T }
 type Corner<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; tl: T; tr: T; br: T; bl: T; ss: T; se: T; ee: T; es: T }
 type AlignKeyword = 'flex-start' | 'flex-end' | 'safe center' | 'safe end' | 'safe flex-end' | 'last baseline'
 type ContentKeyword = 'space-between' | 'space-be_een' | 'space-around' | 'space-evenly'
-type Align = Chain & { center: Chain; end: Chain; start: Chain; stretch: Chain; normal: Chain; baseline: Chain } & { [value in AlignKeyword]: Chain }
-type ContentAlign = Align & { [value in ContentKeyword]: Chain }
-type PositionValue = Length & { auto: Chain }
+type Align = C & { center: C; end: C; start: C; stretch: C; normal: C; baseline: C } & { [value in AlignKeyword]: C }
+type ContentAlign = Align & { [value in ContentKeyword]: C }
+type PositionValue = Length & { auto: C }
 type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom right'
-type ObjectPosition = Chain & Values & { top: Chain; right: Chain; bottom: Chain; left: Chain; center: Chain } & { [value in ObjectPositionKeyword]: Chain }
-type Repeat = Chain & { repeat: Chain; 'repeat-x': Chain; 'repeat-y': Chain; space: Chain; round: Chain; 'no-repeat': Chain }
-type Box = Chain & { 'border-box': Chain; 'padding-box': Chain; 'content-box': Chain }
-type Track = Values & Scale & { auto: Chain; none: Chain; subgrid: Chain; 'min-content': Chain; 'max-content': Chain; 'minmax(0, 1fr)': Chain }
-type GridLine = Values & Scale & { auto: Chain }
-type GridArea = Values & Scale & { auto: Chain; full: Chain; span: Scale; start: GridLine; end: GridLine }
-type Flex = Chain & Scale & { row: Chain; col: Chain; column: Chain; 'row-reverse': Chain; 'column-reverse': Chain; nowrap: Chain; wrap: Chain; 'wrap-reverse': Chain; auto: Chain; none: Chain; '0 auto': Chain }
-type Font = Chain & Scale & { sans: Chain; serif: Chain; mono: Chain; bold: Chain; semibold: Chain; medium: Chain; normal: Chain; features: Values; stretch: Values & { 'ultra-condensed': Chain; 'extra-condensed': Chain; condensed: Chain; 'semi-condensed': Chain; normal: Chain; 'semi-expanded': Chain; expanded: Chain; 'extra-expanded': Chain; 'ultra-expanded': Chain } }
-type Text = Color & Scale & { base: Chain; xs: Chain; sm: Chain; lg: Chain; xl: Chain; left: Chain; center: Chain; right: Chain; justify: Chain; start: Chain; end: Chain; ellipsis: Chain; clip: Chain; wrap: Chain; nowrap: Chain; balance: Chain; pretty: Chain; shadow: Values & Scale & { none: Chain } }
-type Background = Color & { fixed: Chain; local: Chain; scroll: Chain; auto: Chain; cover: Chain; contain: Chain; blend: Blend; clip: Box & { text: Chain }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
-type Blend = Chain & { normal: Chain; multiply: Chain; screen: Chain; overlay: Chain; darken: Chain; lighten: Chain; 'color-dodge': Chain; 'color-burn': Chain; 'hard-light': Chain; 'soft-light': Chain; difference: Chain; exclusion: Chain; hue: Chain; saturation: Chain; color: Chain; luminosity: Chain; 'plus-darker': Chain; 'plus-lighter': Chain }
+type ObjectPosition = C & Values & { top: C; right: C; bottom: C; left: C; center: C } & { [value in ObjectPositionKeyword]: C }
+type Repeat = C & { repeat: C; 'repeat-x': C; 'repeat-y': C; space: C; round: C; 'no-repeat': C }
+type Box = C & { 'border-box': C; 'padding-box': C; 'content-box': C }
+type Track = Values & Scale & { auto: C; none: C; subgrid: C; 'min-content': C; 'max-content': C; 'minmax(0, 1fr)': C }
+type GridLine = Values & Scale & { auto: C }
+type GridArea = Values & Scale & { auto: C; full: C; span: Scale; start: GridLine; end: GridLine }
+type Flex = C & Scale & { row: C; col: C; column: C; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: C; 'wrap-reverse': C; auto: C; none: C; '0 auto': C }
+type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: Values & { 'ultra-condensed': C; 'extra-condensed': C; condensed: C; 'semi-condensed': C; normal: C; 'semi-expanded': C; expanded: C; 'extra-expanded': C; 'ultra-expanded': C } }
+type Text = Color & Scale & { base: C; xs: C; sm: C; lg: C; xl: C; left: C; center: C; right: C; justify: C; start: C; end: C; ellipsis: C; clip: C; wrap: C; nowrap: C; balance: C; pretty: C; shadow: Values & Scale & { none: C } }
+type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
+type Blend = C & { normal: C; multiply: C; screen: C; overlay: C; darken: C; lighten: C; 'color-dodge': C; 'color-burn': C; 'hard-light': C; 'soft-light': C; difference: C; exclusion: C; hue: C; saturation: C; color: C; luminosity: C; 'plus-darker': C; 'plus-lighter': C }
 type BorderPart = Length & Color
-type Border = Color & Length & Sides<BorderPart> & { collapse: Chain; separate: Chain; solid: Chain; dashed: Chain; dotted: Chain; double: Chain; hidden: Chain; none: Chain }
-type Rounded = Chain & Length & { full: Chain } & Corner<Length & { full: Chain; none: Chain }>
-type Outline = Color & Length & { solid: Chain; dashed: Chain; dotted: Chain; double: Chain; none: Chain; hidden: Chain; offset: Length & { auto: Chain } }
-type Divide = Color & Length & Axis<Length> & { solid: Chain; dashed: Chain; dotted: Chain; double: Chain; hidden: Chain; none: Chain }
-type Filter = Values & Scale & { none: Chain }
-type FilterRoot = Filter & { grayscale: Chain; invert: Chain; sepia: Chain }
-type Backdrop = Chain & { filter: Filter; blur: Filter; brightness: Filter; contrast: Filter; grayscale: Filter; invert: Filter; opacity: Filter; saturate: Filter; sepia: Filter; hue: { rotate: Filter } }
-type Mask = Values & Scale & { none: Chain; add: Chain; subtract: Chain; intersect: Chain; exclude: Chain; alpha: Chain; luminance: Chain; 'match-source': Chain; auto: Chain; cover: Chain; contain: Chain; radial: Scale; clip: Box & { 'fill-box': Chain; 'stroke-box': Chain; 'view-box': Chain; 'no-clip': Chain }; origin: Box & { 'fill-box': Chain; 'stroke-box': Chain; 'view-box': Chain }; position: ObjectPosition; repeat: Repeat; size: Scale }
-type Cursor = Values & { auto: Chain; default: Chain; pointer: Chain; wait: Chain; text: Chain; move: Chain; help: Chain; none: Chain; alias: Chain; copy: Chain; progress: Chain; cell: Chain; crosshair: Chain; grab: Chain; grabbing: Chain; not: { allowed: Chain }; context: { menu: Chain }; no: { drop: Chain }; all: { scroll: Chain }; col: { resize: Chain }; row: { resize: Chain }; vertical: { text: Chain }; zoom: { in: Chain; out: Chain }; n: { resize: Chain }; e: { resize: Chain }; s: { resize: Chain }; w: { resize: Chain }; ne: { resize: Chain }; nw: { resize: Chain }; se: { resize: Chain }; sw: { resize: Chain }; ew: { resize: Chain }; ns: { resize: Chain }; nesw: { resize: Chain }; nwse: { resize: Chain } }
-type Scheme = Chain & { normal: Chain; dark: Chain; light: Chain & { dark: Chain }; only: { dark: Chain; light: Chain } }
-type Scrollbar = Chain & { auto: Chain; thin: Chain; none: Chain; thumb: Color; track: Color; gutter: { auto: Chain; stable: Chain; both: Chain } }
-type Snap = Chain & { start: Chain; end: Chain; center: Chain; none: Chain; normal: Chain; always: Chain; align: { none: Chain } }
-type Touch = Chain & { auto: Chain; none: Chain; manipulation: Chain; pan: { x: Chain; left: Chain; right: Chain; y: Chain; up: Chain; down: Chain }; pinch: { zoom: Chain } }
-type Origin = Values & { center: Chain; top: Chain & { right: Chain; left: Chain }; right: Chain; bottom: Chain & { right: Chain; left: Chain }; left: Chain }
-type Size = Length & { auto: Chain; px: Chain; full: Chain; screen: Chain; dvw: Chain; dvh: Chain; lvw: Chain; lvh: Chain; svw: Chain; svh: Chain; min: Chain; max: Chain; fit: Chain }
-type Transition = Values & Scale & { all: Chain; opacity: Chain; shadow: Chain; transform: Chain; none: Chain; normal: Chain; discrete: Chain }
-type Ease = Values & { linear: Chain; in: Chain & { out: Chain }; out: Chain; initial: Chain }
-type Transform = Values & Scale & { none: Chain; '3d': Chain; flat: Chain }
-type Translate = Transform & { x: Length; y: Length; full: Chain; px: Chain }
+type Border = Color & Length & Sides<BorderPart> & { collapse: C; separate: C; solid: C; dashed: C; dotted: C; double: C; hidden: C; none: C }
+type Rounded = C & Length & { full: C } & Corner<Length & { full: C; none: C }>
+type Outline = Color & Length & { solid: C; dashed: C; dotted: C; double: C; none: C; hidden: C; offset: Length & { auto: C } }
+type Divide = Color & Length & Axis<Length> & { solid: C; dashed: C; dotted: C; double: C; hidden: C; none: C }
+type Filter = Values & Scale & { none: C }
+type FilterRoot = Filter & { grayscale: C; invert: C; sepia: C }
+type Backdrop = C & { filter: Filter; blur: Filter; brightness: Filter; contrast: Filter; grayscale: Filter; invert: Filter; opacity: Filter; saturate: Filter; sepia: Filter; hue: { rotate: Filter } }
+type Mask = Values & Scale & { none: C; add: C; subtract: C; intersect: C; exclude: C; alpha: C; luminance: C; 'match-source': C; auto: C; cover: C; contain: C; radial: Scale; clip: Box & { 'fill-box': C; 'stroke-box': C; 'view-box': C; 'no-clip': C }; origin: Box & { 'fill-box': C; 'stroke-box': C; 'view-box': C }; position: ObjectPosition; repeat: Repeat; size: Scale }
+type Cursor = Values & { auto: C; default: C; pointer: C; wait: C; text: C; move: C; help: C; none: C; alias: C; copy: C; progress: C; cell: C; crosshair: C; grab: C; grabbing: C; not: { allowed: C }; context: { menu: C }; no: { drop: C }; all: { scroll: C }; col: { resize: C }; row: { resize: C }; vertical: { text: C }; zoom: { in: C; out: C }; n: { resize: C }; e: { resize: C }; s: { resize: C }; w: { resize: C }; ne: { resize: C }; nw: { resize: C }; se: { resize: C }; sw: { resize: C }; ew: { resize: C }; ns: { resize: C }; nesw: { resize: C }; nwse: { resize: C } }
+type Scheme = C & { normal: C; dark: C; light: C & { dark: C }; only: { dark: C; light: C } }
+type Scrollbar = C & { auto: C; thin: C; none: C; thumb: Color; track: Color; gutter: { auto: C; stable: C; both: C } }
+type Snap = C & { start: C; end: C; center: C; none: C; normal: C; always: C; align: { none: C } }
+type Touch = C & { auto: C; none: C; manipulation: C; pan: { x: C; left: C; right: C; y: C; up: C; down: C }; pinch: { zoom: C } }
+type Origin = Values & { center: C; top: C & { right: C; left: C }; right: C; bottom: C & { right: C; left: C }; left: C }
+type Size = Length & { auto: C; px: C; full: C; screen: C; dvw: C; dvh: C; lvw: C; lvh: C; svw: C; svh: C; min: C; max: C; fit: C }
+type Transition = Values & Scale & { all: C; opacity: C; shadow: C; transform: C; none: C; normal: C; discrete: C }
+type Ease = Values & { linear: C; in: C & { out: C }; out: C; initial: C }
+type Transform = Values & Scale & { none: C; '3d': C; flat: C }
+type Translate = Transform & { x: Length; y: Length; full: C; px: C }
 type Skew = Transform & { x: Scale; y: Scale }
-type Break = Chain & { after: Values; before: Values; inside: Values; normal: Chain; 'break-all': Chain; 'keep-all': Chain }
-type Native = { [K in Exclude<keyof CSS & string, keyof Utility>]: Values }
+type Break = C & { after: Values; before: Values; inside: Values; normal: C; 'break-all': C; 'keep-all': C }
+type Native = { [K in Exclude<keyof CSS & string, keyof U>]: Values }
 export type RuntimeStyle = CSS & Record<string, StyleValue>
 export type Argument = RuntimeStyle | null | undefined | false
 export type Rule = (state: State) => State
 export type State = { css: RuntimeStyle; dark?: boolean; greedy?: boolean; read?: (key: string) => State | undefined; scope?: string; wraps?: string[] }
-export type Chain = Func & Utility & Native
-export type Utility = {
-        absolute: Chain
-        fixed: Chain
-        relative: Chain
-        static: Chain
-        block: Chain
-        hidden: Chain
-        inline: Chain & { block: Chain; flex: Chain }
-        inlineBlock: Chain
-        inlineFlex: Chain
-        grid: Chain & { cols: Track; rows: Track; flow: Values }
+export type C = Func & U & Native
+export type U = {
+        absolute: C
+        blur: C
+        fixed: C
+        relative: C
+        static: C
+        block: C
+        hidden: C
+        inline: C & { block: C; flex: C }
+        inlineBlock: C
+        inlineFlex: C
+        grid: C & { cols: Track; rows: Track; flow: Values }
         flex: Flex
-        table: Chain & { auto: Chain; fixed: Chain }
+        table: C & { auto: C; fixed: C }
         display: Values
         position: Values
         float: Values
         clear: Values
         isolation: Values
         visibility: Values
-        container: Chain
-        active: Chain
-        after: Chain
-        aria: Chain
-        ariaChecked: Chain
-        ariaDisabled: Chain
-        ariaExpanded: Chain
-        ariaSelected: Chain
-        atLg: Chain
-        atMd: Chain
-        atSm: Chain
-        autofill: Chain
-        before: Chain
-        checked: Chain
-        child: Chain
-        contrastLess: Chain
-        contrastMore: Chain
-        css: Chain
-        dark: Chain
-        data: Chain
-        dataActive: Chain
-        descendant: Chain
-        disabled: Chain
-        empty: Chain
-        enabled: Chain
-        even: Chain
-        file: Chain
-        first: Chain
-        firstLetter: Chain
-        firstLine: Chain
-        firstOfType: Chain
-        focus: Chain
-        focusVisible: Chain
-        focusWithin: Chain
-        forcedColors: Chain
-        group: Chain
-        groupFocus: Chain
-        groupHover: Chain
-        has: Chain
-        hover: Chain
-        indeterminate: Chain
-        invalid: Chain
-        landscape: Chain
-        last: Chain
-        lastOfType: Chain
-        lg: Chain
-        light: Chain
-        ltr: Chain
-        maxMd: Chain
-        maxSm: Chain
-        md: Chain
-        motionReduce: Chain
-        motionSafe: Chain
-        odd: Chain
-        only: Chain
-        onlyOfType: Chain
-        optional: Chain
-        peer: Chain
-        peerFocus: Chain
-        peerHover: Chain
-        placeholder: Chain
-        placeholderShown: Chain
-        pointerCoarse: Chain
-        pointerFine: Chain
-        portrait: Chain
-        prefersDark: Chain
-        print: Chain
-        readOnly: Chain
-        required: Chain
-        rtl: Chain
-        selection: Chain
-        sm: Chain
-        supports: Chain
-        target: Chain
-        valid: Chain
-        visited: Chain
-        xl: Chain
-        xl2: Chain
+        container: C
+        active: C
+        after: C
+        aria: C
+        ariaChecked: C
+        ariaDisabled: C
+        ariaExpanded: C
+        ariaSelected: C
+        atLg: C
+        atMd: C
+        atSm: C
+        autofill: C
+        before: C
+        checked: C
+        child: C
+        contrastLess: C
+        contrastMore: C
+        css: C
+        dark: C
+        data: C
+        dataActive: C
+        descendant: C
+        disabled: C
+        empty: C
+        enabled: C
+        even: C
+        file: C
+        first: C
+        firstLetter: C
+        firstLine: C
+        firstOfType: C
+        focus: C
+        focusVisible: C
+        focusWithin: C
+        forcedColors: C
+        group: C
+        groupFocus: C
+        groupHover: C
+        has: C
+        hover: C
+        indeterminate: C
+        invalid: C
+        landscape: C
+        last: C
+        lastOfType: C
+        lg: C
+        light: C
+        ltr: C
+        maxMd: C
+        maxSm: C
+        md: C
+        motionReduce: C
+        motionSafe: C
+        odd: C
+        only: C
+        onlyOfType: C
+        optional: C
+        peer: C
+        peerFocus: C
+        peerHover: C
+        placeholder: C
+        placeholderShown: C
+        pointerCoarse: C
+        pointerFine: C
+        portrait: C
+        prefersDark: C
+        print: C
+        readOnly: C
+        required: C
+        rtl: C
+        selection: C
+        sm: C
+        supports: C
+        target: C
+        valid: C
+        visited: C
+        xl: C
+        xl2: C
         accent: Color
         align: Values
-        animate: Values & { spin: Chain; ping: Chain; pulse: Chain; bounce: Chain; none: Chain }
-        appearance: Values & { none: Chain; auto: Chain }
-        aspect: Values & Scale & { auto: Chain; video: Chain }
-        auto: Chain & { cols: Track; rows: Track }
+        animate: Values & { spin: C; ping: C; pulse: C; bounce: C; none: C }
+        appearance: Values & { none: C; auto: C }
+        aspect: Values & Scale & { auto: C; video: C }
+        auto: C & { cols: Track; rows: Track }
         backdrop: Backdrop
         backface: Values
         basis: Length
         bg: Background
         border: Border
         bottom: PositionValue
-        box: Chain & { decoration: { clone: Chain; slice: Chain }; 'border-box': Chain; 'content-box': Chain }
+        box: C & { decoration: { clone: C; slice: C }; 'border-box': C; 'content-box': C }
         break: Break
         brightness: Filter
         caption: Values
         caret: Color
         col: GridArea
-        columns: Values & Scale & { auto: Chain }
+        columns: Values & Scale & { auto: C }
         color: Color
         cols: Track
         colStart: GridLine
-        content: Values & ContentAlign & { none: Chain }
+        content: Values & ContentAlign & { none: C }
         contrast: Filter
         cursor: Cursor
         decoration: Color & Values
         delay: Scale
         divide: Divide
-        duration: Scale & { initial: Chain }
+        duration: Scale & { initial: C }
         ease: Ease
         end: PositionValue
-        field: Chain & { sizing: { fixed: Chain; content: Chain } }
+        field: C & { sizing: { fixed: C; content: C } }
         fill: Color
         filter: FilterRoot
         flow: Values
@@ -198,7 +199,7 @@ export type Utility = {
         grow: Values & Scale
         h: Size
         height: Size
-        hue: Chain & { rotate: Filter }
+        hue: C & { rotate: Filter }
         hyphens: Values
         indent: Length
         inset: PositionValue & Axis<PositionValue>
@@ -207,27 +208,27 @@ export type Utility = {
         justify: ContentAlign & { items: Align; self: Align }
         leading: Scale
         left: PositionValue
-        line: { clamp: Scale & { none: Chain } }
-        list: Values & { image: Values & { none: Chain }; inside: Chain; outside: Chain; disc: Chain; decimal: Chain; none: Chain }
+        line: { clamp: Scale & { none: C } }
+        list: Values & { image: Values & { none: C }; inside: C; outside: C; disc: C; decimal: C; none: C }
         m: Length
         margin: Length
-        marker: Chain
+        marker: C
         mask: Mask
-        max: Chain & { h: Size; w: Size; size: Size }
+        max: C & { h: Size; w: Size; size: Size }
         mb: Length
         me: Length
-        min: Chain & { h: Size; w: Size; size: Size }
+        min: C & { h: Size; w: Size; size: Size }
         mix: { blend: Blend }
         ml: Length
         mr: Length
         ms: Length
         mt: Length
-        mx: Length & { auto: Chain }
-        my: Length & { auto: Chain }
-        none: Chain
-        normal: Chain
-        not: Chain & { sr: { only: Chain } }
-        notSr: { only: Chain }
+        mx: Length & { auto: C }
+        my: Length & { auto: C }
+        none: C
+        normal: C
+        not: C & { sr: { only: C } }
+        notSr: { only: C }
         object: Values & ObjectPosition
         opacity: Scale
         order: Values & Scale
@@ -242,7 +243,7 @@ export type Utility = {
         perspective: Values & Scale & { origin: Origin }
         place: { content: ContentAlign; items: Align; self: Align }
         pl: Length
-        pointer: { events: { auto: Chain; none: Chain } }
+        pointer: { events: { auto: C; none: C } }
         pr: Length
         ps: Length
         pt: Length
@@ -262,15 +263,15 @@ export type Utility = {
         select: Values
         self: Align
         sepia: Filter
-        shadow: Values & Scale & { none: Chain; lg: Chain }
+        shadow: Values & Scale & { none: C; lg: C }
         shrink: Values & Scale
         size: Size
         skew: Skew
         snap: Snap
-        sr: { only: Chain }
+        sr: { only: C }
         start: PositionValue
         stroke: Color
-        subpixel: { antialiased: Chain }
+        subpixel: { antialiased: C }
         tab: Scale
         text: Text
         to: Color
@@ -280,27 +281,27 @@ export type Utility = {
         transform: Transform
         transition: Transition
         translate: Translate
-        underline: Chain & { offset: Length & { auto: Chain } }
+        underline: C & { offset: Length & { auto: C } }
         w: Size
         whitespace: Values
         width: Size
         will: { change: Values }
         wrap: Values
-        z: Values & Scale & { auto: Chain }
+        z: Values & Scale & { auto: C }
         zoom: Values & Scale
-        antialiased: Chain
-        capitalize: Chain
-        italic: Chain
-        lineThrough: Chain
-        liningNums: Chain
-        lowercase: Chain
-        oldstyleNums: Chain
-        ordinal: Chain
-        overline: Chain
-        proportionalNums: Chain
-        slashedZero: Chain
-        stackedFractions: Chain
-        tabularNums: Chain
-        truncate: Chain
-        uppercase: Chain
+        antialiased: C
+        capitalize: C
+        italic: C
+        lineThrough: C
+        liningNums: C
+        lowercase: C
+        oldstyleNums: C
+        ordinal: C
+        overline: C
+        proportionalNums: C
+        slashedZero: C
+        stackedFractions: C
+        tabularNums: C
+        truncate: C
+        uppercase: C
 }

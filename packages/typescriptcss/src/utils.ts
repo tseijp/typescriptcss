@@ -1,4 +1,4 @@
-import type { Argument, Chain, Rule, RuntimeStyle, State } from './types.ts'
+import type { Argument, C, Rule, RuntimeStyle, State } from './types.ts'
 type Entry = RuntimeStyle | Rule
 const root: State = { css: {} }
 const rules: Record<string, Rule> = Object.create(null)
@@ -15,11 +15,11 @@ const merge = (state: State, css: RuntimeStyle, scopeName?: string): State => {
         const keepWraps = scopeName || !Object.keys(css).length ? state.wraps : undefined
         return { css: Object.assign({}, state.css, wrapped(state, css)), dark: state.dark, scope: scopeName, wraps: keepWraps }
 }
-const chain = (state: State): Chain =>
+const chain = (state: State): C =>
         new Proxy((...styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])), {
                 apply: (_target, _this, styles: Argument[]) => Object.assign({}, state.css, ...(styles.filter(Boolean) as RuntimeStyle[])),
                 get: (_target, prop) => resolve(state, prop),
-        }) as Chain
+        }) as C
 const resolve = (state: State, prop: string | symbol) => {
         const key = typeof prop === 'symbol' ? '' : prop
         if (!key || key === 'then') return undefined
@@ -109,8 +109,8 @@ export const lengthRule = (prop: string, screen?: string): Rule =>
 export const colorRule = (prop: string): Rule =>
         readRule((key, state) => {
                 const value = colorValue(key)
-                if (!state.dark) return { [prop]: value }
-                const scheme = prop === 'background' ? { colorScheme: 'light dark' } : {}
+                if (!state.dark) return { [prop]: value } as unknown as Rule
+                const scheme = prop === 'background' ? ({ colorScheme: 'light dark' } as unknown as Rule) : ({} as Rule)
                 return { ...scheme, [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
         }, true)
 export const positionRule = (...props: string[]): Rule =>
