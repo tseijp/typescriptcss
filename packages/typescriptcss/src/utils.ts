@@ -94,33 +94,38 @@ export const scopedRule =
 export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule => readRule((key) => ({ [prop]: fn(key) }), greedy)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
 export const scaleRule = (...props: string[]): Rule => numericRule((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
-export const spacingRule = (...props: string[]): Rule => readRule((key) => {
-        const value = isNum(key) ? x4(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
-        if (!value) return undefined
-        return Object.fromEntries(props.map((prop) => [prop, value]))
-})
-export const lengthRule = (prop: string, screen?: string): Rule => readRule((key) => {
-        const value = lengthValue(key, screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw'))
-        if (!value) return undefined
-        return { [prop]: value }
-})
-export const colorRule = (prop: string): Rule => readRule((key, state) => {
-        const value = colorValue(key)
-        if (!state.dark) return { [prop]: value }
-        const scheme = prop === 'background' ? { colorScheme: 'light dark' } : {}
-        return { ...scheme, [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
-}, true)
-export const positionRule = (...props: string[]): Rule => readRule((key) => {
-        const value = lengthValue(key)
-        if (!value) return undefined
-        return Object.fromEntries(props.map((prop) => [prop, value]))
-})
-export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule => readRule((key, state) => {
-        const value = fn(key)
-        if (!value) return undefined
-        const current = state.css[prop]
-        return { [prop]: current && current !== 'none' ? `${current} ${value}` : value }
-})
+export const spacingRule = (...props: string[]): Rule =>
+        readRule((key) => {
+                const value = isNum(key) ? x4(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
+                if (!value) return undefined
+                return Object.fromEntries(props.map((prop) => [prop, value]))
+        })
+export const lengthRule = (prop: string, screen?: string): Rule =>
+        readRule((key) => {
+                const value = lengthValue(key, screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw'))
+                if (!value) return undefined
+                return { [prop]: value }
+        })
+export const colorRule = (prop: string): Rule =>
+        readRule((key, state) => {
+                const value = colorValue(key)
+                if (!state.dark) return { [prop]: value }
+                const scheme = prop === 'background' ? { colorScheme: 'light dark' } : {}
+                return { ...scheme, [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
+        }, true)
+export const positionRule = (...props: string[]): Rule =>
+        readRule((key) => {
+                const value = lengthValue(key)
+                if (!value) return undefined
+                return Object.fromEntries(props.map((prop) => [prop, value]))
+        })
+export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule =>
+        readRule((key, state) => {
+                const value = fn(key)
+                if (!value) return undefined
+                const current = state.css[prop]
+                return { [prop]: current && current !== 'none' ? `${current} ${value}` : value }
+        })
 export const mediaRule = (value: string): Rule => variantRule(`media(width >= ${value})`)
 export const variantRule =
         (value: string): Rule =>
@@ -138,46 +143,58 @@ export const borderWidthValue = (key: string) => {
 }
 export const borderRule: Rule = (state) => {
         const next = merge(state, {}, 'border')
-        return { ...next, read: (key) => {
-                const width = borderWidthValue(key)
-                if (width) return merge(next, { borderWidth: width })
-                return merge(next, { borderColor: colorValue(key) })
-        } }
+        return {
+                ...next,
+                read: (key) => {
+                        const width = borderWidthValue(key)
+                        if (width) return merge(next, { borderWidth: width })
+                        return merge(next, { borderColor: colorValue(key) })
+                },
+        }
 }
 export const borderSideRule =
         (...props: string[]): Rule =>
         (state) => {
                 const next = merge(state, {})
-                return { ...next, read: (key) => {
-                        const width = borderWidthValue(key)
-                        if (width) return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Width`, width])))
-                        return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Color`, colorValue(key)])))
-                } }
+                return {
+                        ...next,
+                        read: (key) => {
+                                const width = borderWidthValue(key)
+                                if (width) return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Width`, width])))
+                                return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Color`, colorValue(key)])))
+                        },
+                }
         }
 export const outlineRule: Rule = (state) => {
         const next = merge(state, {}, 'outline')
-        return { ...next, read: (key) => {
-                const width = borderWidthValue(key)
-                if (width) return merge(next, { outlineWidth: width })
-                return merge(next, { outlineColor: colorValue(key) })
-        } }
+        return {
+                ...next,
+                read: (key) => {
+                        const width = borderWidthValue(key)
+                        if (width) return merge(next, { outlineWidth: width })
+                        return merge(next, { outlineColor: colorValue(key) })
+                },
+        }
 }
 export const divideRule =
         (...props: string[]): Rule =>
         (state) => {
                 const next = merge(state, Object.fromEntries(props.map((prop) => [prop, '1px'])), 'divide')
-                return { ...next, read: (key) => {
-                        const width = borderWidthValue(key)
-                        if (width) return merge(next, Object.fromEntries(props.map((prop) => [prop, width])))
-                        return merge(next, { borderColor: colorValue(key) })
-                } }
+                return {
+                        ...next,
+                        read: (key) => {
+                                const width = borderWidthValue(key)
+                                if (width) return merge(next, Object.fromEntries(props.map((prop) => [prop, width])))
+                                return merge(next, { borderColor: colorValue(key) })
+                        },
+                }
         }
 export const columnsRule: Rule = readRule((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
 export const rowsRule: Rule = readRule((key) => ({ gridTemplateRows: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
 export const columnRule: Rule = readRule((key) => ({ gridColumn: isNum(key) ? `span ${key} / span ${key}` : key }))
 export const rowRule: Rule = readRule((key) => ({ gridRow: isNum(key) ? `span ${key} / span ${key}` : key }))
 export const roundedValue = (key: string) => {
-        if (key === 'full') return '9999px'
+        if (key === 'full') return 'calc(infinity * 1px)'
         if (key === 'none') return '0px'
         if (isNum(key)) return x4(key)
         if (isLength(key)) return key === '0' ? '0px' : key
@@ -188,50 +205,62 @@ export const roundedRule =
         (state) => {
                 const keys = props.length ? props : ['borderRadius']
                 const next = merge(state, Object.fromEntries(keys.map((prop) => [prop, '4px'])), 'rounded')
-                return { ...next, read: (key) => {
-                        const value = roundedValue(key)
-                        if (!value) return undefined
-                        return merge(next, Object.fromEntries(keys.map((prop) => [prop, value])))
-                } }
+                return {
+                        ...next,
+                        read: (key) => {
+                                const value = roundedValue(key)
+                                if (!value) return undefined
+                                return merge(next, Object.fromEntries(keys.map((prop) => [prop, value])))
+                        },
+                }
         }
 export const sizeRule: Rule = readRule((key) => {
         const value = lengthValue(key)
         if (!value) return undefined
         return { height: value, width: value }
 })
-export const sizePropsRule = (heightProp: string, widthProp: string): Rule => readRule((key) => {
-        const value = lengthValue(key)
-        if (!value) return undefined
-        return { [heightProp]: value, [widthProp]: value }
-})
+export const sizePropsRule = (heightProp: string, widthProp: string): Rule =>
+        readRule((key) => {
+                const value = lengthValue(key)
+                if (!value) return undefined
+                return { [heightProp]: value, [widthProp]: value }
+        })
 export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: String(Number(key) / 100) }))
-export const translateRule = (axis: 'X' | 'Y'): Rule => appendRule('transform', (key) => {
-        const value = lengthValue(key)
-        if (!value) return undefined
-        return `translate${axis}(${value})`
-})
-export const transformRule = (name: string, unit = ''): Rule => appendRule('transform', (key) => {
-        if (key === 'none') return 'none'
-        if (!isNum(key)) return undefined
-        return `${name}(${key}${unit})`
-})
-export const filterRule = (prop: string, name: string, unit = ''): Rule => appendRule(prop, (key) => {
-        if (key === 'none') return 'none'
-        if (!isNum(key)) return undefined
-        return `${name}(${key}${unit})`
-})
-export const defaultFilterRule = (prop: string, name: string, value: string, unit = ''): Rule => (state) => {
-        const current = state.css[prop]
-        const nextValue = current && current !== 'none' ? `${current} ${name}(${value})` : `${name}(${value})`
-        const next = merge(state, { [prop]: nextValue })
-        return { ...next, read: (key) => {
-                if (key === 'none') return merge(state, { [prop]: 'none' })
+export const translateRule = (axis: 'X' | 'Y'): Rule =>
+        appendRule('transform', (key) => {
+                const value = lengthValue(key)
+                if (!value) return undefined
+                return `translate${axis}(${value})`
+        })
+export const transformRule = (name: string, unit = ''): Rule =>
+        appendRule('transform', (key) => {
+                if (key === 'none') return 'none'
                 if (!isNum(key)) return undefined
-                const currentValue = state.css[prop]
-                const keyedValue = `${name}(${key}${unit})`
-                return merge(state, { [prop]: currentValue && currentValue !== 'none' ? `${currentValue} ${keyedValue}` : keyedValue })
-        } }
-}
+                return `${name}(${key}${unit})`
+        })
+export const filterRule = (prop: string, name: string, unit = ''): Rule =>
+        appendRule(prop, (key) => {
+                if (key === 'none') return 'none'
+                if (!isNum(key)) return undefined
+                return `${name}(${key}${unit})`
+        })
+export const defaultFilterRule =
+        (prop: string, name: string, value: string, unit = ''): Rule =>
+        (state) => {
+                const current = state.css[prop]
+                const nextValue = current && current !== 'none' ? `${current} ${name}(${value})` : `${name}(${value})`
+                const next = merge(state, { [prop]: nextValue })
+                return {
+                        ...next,
+                        read: (key) => {
+                                if (key === 'none') return merge(state, { [prop]: 'none' })
+                                if (!isNum(key)) return undefined
+                                const currentValue = state.css[prop]
+                                const keyedValue = `${name}(${key}${unit})`
+                                return merge(state, { [prop]: currentValue && currentValue !== 'none' ? `${currentValue} ${keyedValue}` : keyedValue })
+                        },
+                }
+        }
 export const textRule: Rule = (state) => ({
         css: state.css,
         dark: state.dark,
