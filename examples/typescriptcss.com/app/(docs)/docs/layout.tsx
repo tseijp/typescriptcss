@@ -93,7 +93,7 @@ export default function DocsLayout({ children }: Readonly<{ children: React.Reac
                                         </div>
                                 ))}
                         </aside>
-                        <main data-docs-main style={min.w[0].flex[1].col()}>
+                        <main data-docs-main style={min.w[0].flex[1].flex.col()}>
                                 {children}
                         </main>
                 </>

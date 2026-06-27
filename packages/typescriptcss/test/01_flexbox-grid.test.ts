@@ -4,8 +4,11 @@ import * as _ from '../src'
 // Unimplemented utilities return undefined and stay RED until added to src.
 
 describe('flex-basis', () => {
-        test("basis['100%']", () => {
-                expect(_.basis['100%']()).toEqual({ flexBasis: '100%' })
+        test('basis[4]', () => {
+                expect(_.basis.full()).toEqual({ flexBasis: '16px' })
+        })
+        test('basis.full', () => {
+                expect(_.basis.full()).toEqual({ flexBasis: '100%' })
         })
         test('basis.auto', () => {
                 expect(_.basis.auto()).toEqual({ flexBasis: 'auto' })
@@ -16,14 +19,14 @@ describe('flex-direction', () => {
         test('flex.row', () => {
                 expect(_.flex.row()).toEqual({ flexDirection: 'row' })
         })
-        test("flex['row-reverse']", () => {
-                expect(_.flex['row-reverse']()).toEqual({ flexDirection: 'row-reverse' })
+        test('flex.row.reverse', () => {
+                expect(_.flex.row.reverse()).toEqual({ flexDirection: 'row-reverse' })
         })
-        test('flex.column', () => {
-                expect(_.flex.column()).toEqual({ flexDirection: 'column' })
+        test('flex.col', () => {
+                expect(_.flex.col()).toEqual({ flexDirection: 'column' })
         })
-        test("flex['column-reverse']", () => {
-                expect(_.flex['column-reverse']()).toEqual({ flexDirection: 'column-reverse' })
+        test('flex.column.reverse', () => {
+                expect(_.flex.col.reverse()).toEqual({ flexDirection: 'column-reverse' })
         })
 })
 
@@ -34,8 +37,8 @@ describe('flex-wrap', () => {
         test('flex.wrap', () => {
                 expect(_.flex.wrap()).toEqual({ flexWrap: 'wrap' })
         })
-        test("flex['wrap-reverse']", () => {
-                expect(_.flex['wrap-reverse']()).toEqual({ flexWrap: 'wrap-reverse' })
+        test('flex.wrap.reverse', () => {
+                expect(_.flex.wrap.reverse()).toEqual({ flexWrap: 'wrap-reverse' })
         })
 })
 
@@ -46,8 +49,8 @@ describe('flex', () => {
         test('flex.auto', () => {
                 expect(_.flex.auto()).toEqual({ flex: 'auto' })
         })
-        test("flex['0 auto']", () => {
-                expect(_.flex['0 auto']()).toEqual({ flex: '0 auto' })
+        test('flex.initial', () => {
+                expect(_.flex.initial()).toEqual({ flex: '0 auto' })
         })
         test('flex.none', () => {
                 expect(_.flex.none()).toEqual({ flex: 'none' })
@@ -55,8 +58,8 @@ describe('flex', () => {
 })
 
 describe('flex-grow', () => {
-        test("grow['1']", () => {
-                expect(_.grow['1']()).toEqual({ flexGrow: '1' })
+        test('grow', () => {
+                expect(_.grow()).toEqual({ flexGrow: '1' })
         })
         test('grow[4]', () => {
                 expect(_.grow[4]()).toEqual({ flexGrow: '4' })
@@ -64,8 +67,8 @@ describe('flex-grow', () => {
 })
 
 describe('flex-shrink', () => {
-        test("shrink['1']", () => {
-                expect(_.shrink['1']()).toEqual({ flexShrink: '1' })
+        test('shrink', () => {
+                expect(_.shrink()).toEqual({ flexShrink: '1' })
         })
         test('shrink[4]', () => {
                 expect(_.shrink[4]()).toEqual({ flexShrink: '4' })
@@ -76,14 +79,14 @@ describe('order', () => {
         test('order[4]', () => {
                 expect(_.order[4]()).toEqual({ order: '4' })
         })
-        test("order['-9999']", () => {
-                expect(_.order['-9999']()).toEqual({ order: '-9999' })
+        test('order.first', () => {
+                expect(_.order.first()).toEqual({ order: '-9999' })
         })
-        test("order['9999']", () => {
-                expect(_.order['9999']()).toEqual({ order: '9999' })
+        test('order.last', () => {
+                expect(_.order.last()).toEqual({ order: '9999' })
         })
-        test("order['0']", () => {
-                expect(_.order['0']()).toEqual({ order: '0' })
+        test('order.none', () => {
+                expect(_.order.none()).toEqual({ order: '0' })
         })
 })
 
@@ -103,8 +106,8 @@ describe('grid-column', () => {
         test('col.span[4]', () => {
                 expect(_.col.span[4]()).toEqual({ gridColumn: 'span 4 / span 4' })
         })
-        test("col['1 / -1']", () => {
-                expect(_.col['1 / -1']()).toEqual({ gridColumn: '1 / -1' })
+        test('col.span.full', () => {
+                expect(_.col.span.full()).toEqual({ gridColumn: '1 / -1' })
         })
         test('col.start[4]', () => {
                 expect(_.col.start[4]()).toEqual({ gridColumnStart: '4' })
@@ -142,8 +145,8 @@ describe('grid-row', () => {
         test('row.span[4]', () => {
                 expect(_.row.span[4]()).toEqual({ gridRow: 'span 4 / span 4' })
         })
-        test("row['1 / -1']", () => {
-                expect(_.row['1 / -1']()).toEqual({ gridRow: '1 / -1' })
+        test('row.full', () => {
+                expect(_.row.full()).toEqual({ gridRow: '1 / -1' })
         })
         test('row.start[4]', () => {
                 expect(_.row.start[4]()).toEqual({ gridRowStart: '4' })
@@ -175,11 +178,11 @@ describe('grid-auto-flow', () => {
         test('grid.flow.dense', () => {
                 expect(_.grid.flow.dense()).toEqual({ gridAutoFlow: 'dense' })
         })
-        test("grid.flow['row dense']", () => {
-                expect(_.grid.flow['row dense']()).toEqual({ gridAutoFlow: 'row dense' })
+        test('grid.flow.row.dense', () => {
+                expect(_.grid.flow.row.dense()).toEqual({ gridAutoFlow: 'row dense' })
         })
-        test("grid.flow['column dense']", () => {
-                expect(_.grid.flow['column dense']()).toEqual({ gridAutoFlow: 'column dense' })
+        test('grid.flow.column.dense', () => {
+                expect(_.grid.flow.column.dense()).toEqual({ gridAutoFlow: 'column dense' })
         })
 })
 
@@ -187,17 +190,17 @@ describe('grid-auto-columns', () => {
         test('auto.cols.auto', () => {
                 expect(_.auto.cols.auto()).toEqual({ gridAutoColumns: 'auto' })
         })
-        test("auto.cols['min-content']", () => {
-                expect(_.auto.cols['min-content']()).toEqual({ gridAutoColumns: 'min-content' })
+        test('auto.cols.min', () => {
+                expect(_.auto.cols.min()).toEqual({ gridAutoColumns: 'min-content' })
         })
-        test("auto.cols['max-content']", () => {
-                expect(_.auto.cols['max-content']()).toEqual({ gridAutoColumns: 'max-content' })
+        test('auto.cols.max', () => {
+                expect(_.auto.cols.max()).toEqual({ gridAutoColumns: 'max-content' })
         })
-        test("auto.cols['minmax(0, 1fr)']", () => {
-                expect(_.auto.cols['minmax(0, 1fr)']()).toEqual({ gridAutoColumns: 'minmax(0, 1fr)' })
+        test('auto.cols.fr', () => {
+                expect(_.auto.cols.fr()).toEqual({ gridAutoColumns: 'minmax(0, 1fr)' })
         })
         test('auto.cols[4]', () => {
-                expect(_.auto.cols[4]()).toEqual({ gridAutoColumns: 'var(4)' })
+                expect(_.auto.cols[4]()).toEqual({ gridAutoColumns: '4' })
         })
 })
 
@@ -205,44 +208,56 @@ describe('grid-auto-rows', () => {
         test('auto.rows.auto', () => {
                 expect(_.auto.rows.auto()).toEqual({ gridAutoRows: 'auto' })
         })
-        test("auto.rows['min-content']", () => {
-                expect(_.auto.rows['min-content']()).toEqual({ gridAutoRows: 'min-content' })
+        test('auto.rows.min', () => {
+                expect(_.auto.rows.min()).toEqual({ gridAutoRows: 'min-content' })
         })
-        test("auto.rows['max-content']", () => {
-                expect(_.auto.rows['max-content']()).toEqual({ gridAutoRows: 'max-content' })
+        test('auto.rows.max', () => {
+                expect(_.auto.rows.max()).toEqual({ gridAutoRows: 'max-content' })
         })
-        test("auto.rows['minmax(0, 1fr)']", () => {
-                expect(_.auto.rows['minmax(0, 1fr)']()).toEqual({ gridAutoRows: 'minmax(0, 1fr)' })
+        test('auto.rows.fr', () => {
+                expect(_.auto.rows.fr()).toEqual({ gridAutoRows: 'minmax(0, 1fr)' })
         })
         test('auto.rows[4]', () => {
-                expect(_.auto.rows[4]()).toEqual({ gridAutoRows: 'var(4)' })
+                expect(_.auto.rows[4]()).toEqual({ gridAutoRows: '4' })
+        })
+})
+
+describe('gap', () => {
+        test('gap[4]', () => {
+                expect(_.gap(4)).toEqual({ gap: '16px' })
+        })
+        test('gap[4]', () => {
+                expect(_.gap.x(4)).toEqual({ columnGap: '16px' })
+        })
+        test('gap[4]', () => {
+                expect(_.gap.y(4)).toEqual({ rowGap: '16px' })
         })
 })
 
 describe('justify-content', () => {
-        test("justify['flex-start']", () => {
-                expect(_.justify['flex-start']()).toEqual({ justifyContent: 'flex-start' })
+        test('justify.start', () => {
+                expect(_.justify.start()).toEqual({ justifyContent: 'flex-start' })
         })
-        test("justify['flex-end']", () => {
-                expect(_.justify['flex-end']()).toEqual({ justifyContent: 'flex-end' })
+        test('justify.end', () => {
+                expect(_.justify.end()).toEqual({ justifyContent: 'flex-end' })
         })
-        test("justify['safe flex-end']", () => {
-                expect(_.justify['safe flex-end']()).toEqual({ justifyContent: 'safe flex-end' })
+        test('justify.end.safe', () => {
+                expect(_.justify.end.safe()).toEqual({ justifyContent: 'safe flex-end' })
         })
         test('justify.center', () => {
                 expect(_.justify.center()).toEqual({ justifyContent: 'center' })
         })
-        test("justify['safe center']", () => {
-                expect(_.justify['safe center']()).toEqual({ justifyContent: 'safe center' })
+        test('justify.center.safe', () => {
+                expect(_.justify.center.safe()).toEqual({ justifyContent: 'safe center' })
         })
-        test("justify['space-be_een']", () => {
-                expect(_.justify['space-be_een']()).toEqual({ justifyContent: 'space-be_een' })
+        test('justify.between', () => {
+                expect(_.justify.between()).toEqual({ justifyContent: 'space-between' })
         })
-        test("justify['space-around']", () => {
-                expect(_.justify['space-around']()).toEqual({ justifyContent: 'space-around' })
+        test('justify.around', () => {
+                expect(_.justify.around()).toEqual({ justifyContent: 'space-around' })
         })
-        test("justify['space-evenly']", () => {
-                expect(_.justify['space-evenly']()).toEqual({ justifyContent: 'space-evenly' })
+        test('justify.evenly', () => {
+                expect(_.justify.evenly()).toEqual({ justifyContent: 'space-evenly' })
         })
         test('justify.stretch', () => {
                 expect(_.justify.stretch()).toEqual({ justifyContent: 'stretch' })
@@ -262,14 +277,14 @@ describe('justify-items', () => {
         test('justify.items.end', () => {
                 expect(_.justify.items.end()).toEqual({ justifyItems: 'end' })
         })
-        test("justify.items['safe end']", () => {
-                expect(_.justify.items['safe end']()).toEqual({ justifyItems: 'safe end' })
+        test('justify.items.end.safe', () => {
+                expect(_.justify.items.end.safe()).toEqual({ justifyItems: 'safe end' })
         })
         test('justify.items.center', () => {
                 expect(_.justify.items.center()).toEqual({ justifyItems: 'center' })
         })
-        test("justify.items['safe center']", () => {
-                expect(_.justify.items['safe center']()).toEqual({ justifyItems: 'safe center' })
+        test('justify.items.center.safe', () => {
+                expect(_.justify.items.center.safe()).toEqual({ justifyItems: 'safe center' })
         })
         test('justify.items.stretch', () => {
                 expect(_.justify.items.stretch()).toEqual({ justifyItems: 'stretch' })
@@ -289,14 +304,14 @@ describe('justify-self', () => {
         test('justify.self.center', () => {
                 expect(_.justify.self.center()).toEqual({ justifySelf: 'center' })
         })
-        test("justify.self['safe center']", () => {
-                expect(_.justify.self['safe center']()).toEqual({ justifySelf: 'safe center' })
+        test('justify.self.center.safe', () => {
+                expect(_.justify.self.center.safe()).toEqual({ justifySelf: 'safe center' })
         })
         test('justify.self.end', () => {
                 expect(_.justify.self.end()).toEqual({ justifySelf: 'end' })
         })
-        test("justify.self['safe end']", () => {
-                expect(_.justify.self['safe end']()).toEqual({ justifySelf: 'safe end' })
+        test('justify.self.end.safe', () => {
+                expect(_.justify.self.end.safe()).toEqual({ justifySelf: 'safe end' })
         })
         test('justify.self.stretch', () => {
                 expect(_.justify.self.stretch()).toEqual({ justifySelf: 'stretch' })
@@ -310,20 +325,20 @@ describe('align-content', () => {
         test('content.center', () => {
                 expect(_.content.center()).toEqual({ alignContent: 'center' })
         })
-        test("content['flex-start']", () => {
-                expect(_.content['flex-start']()).toEqual({ alignContent: 'flex-start' })
+        test('content.start', () => {
+                expect(_.content.start()).toEqual({ alignContent: 'flex-start' })
         })
-        test("content['flex-end']", () => {
-                expect(_.content['flex-end']()).toEqual({ alignContent: 'flex-end' })
+        test('content.end', () => {
+                expect(_.content.end()).toEqual({ alignContent: 'flex-end' })
         })
-        test("content['space-be_een']", () => {
-                expect(_.content['space-be_een']()).toEqual({ alignContent: 'space-be_een' })
+        test('content.between', () => {
+                expect(_.content.between()).toEqual({ alignContent: 'space-between' })
         })
-        test("content['space-around']", () => {
-                expect(_.content['space-around']()).toEqual({ alignContent: 'space-around' })
+        test('content.around', () => {
+                expect(_.content.around()).toEqual({ alignContent: 'space-around' })
         })
-        test("content['space-evenly']", () => {
-                expect(_.content['space-evenly']()).toEqual({ alignContent: 'space-evenly' })
+        test('content.evenly', () => {
+                expect(_.content.evenly()).toEqual({ alignContent: 'space-evenly' })
         })
         test('content.baseline', () => {
                 expect(_.content.baseline()).toEqual({ alignContent: 'baseline' })
@@ -334,26 +349,26 @@ describe('align-content', () => {
 })
 
 describe('align-items', () => {
-        test("items['flex-start']", () => {
-                expect(_.items['flex-start']()).toEqual({ alignItems: 'flex-start' })
+        test('items.start', () => {
+                expect(_.items.start()).toEqual({ alignItems: 'flex-start' })
         })
-        test("items['flex-end']", () => {
-                expect(_.items['flex-end']()).toEqual({ alignItems: 'flex-end' })
+        test('items.end', () => {
+                expect(_.items.end()).toEqual({ alignItems: 'flex-end' })
         })
-        test("items['safe flex-end']", () => {
-                expect(_.items['safe flex-end']()).toEqual({ alignItems: 'safe flex-end' })
+        test('items.end.safe', () => {
+                expect(_.items.end.safe()).toEqual({ alignItems: 'safe flex-end' })
         })
         test('items.center', () => {
                 expect(_.items.center()).toEqual({ alignItems: 'center' })
         })
-        test("items['safe center']", () => {
-                expect(_.items['safe center']()).toEqual({ alignItems: 'safe center' })
+        test('items.center.safe', () => {
+                expect(_.items.center.safe()).toEqual({ alignItems: 'safe center' })
         })
         test('items.baseline', () => {
                 expect(_.items.baseline()).toEqual({ alignItems: 'baseline' })
         })
-        test("items['last baseline']", () => {
-                expect(_.items['last baseline']()).toEqual({ alignItems: 'last baseline' })
+        test('items.baseline.last', () => {
+                expect(_.items.baseline.last()).toEqual({ alignItems: 'last baseline' })
         })
         test('items.stretch', () => {
                 expect(_.items.stretch()).toEqual({ alignItems: 'stretch' })
@@ -364,20 +379,20 @@ describe('align-self', () => {
         test('self.auto', () => {
                 expect(_.self.auto()).toEqual({ alignSelf: 'auto' })
         })
-        test("self['flex-start']", () => {
-                expect(_.self['flex-start']()).toEqual({ alignSelf: 'flex-start' })
+        test('self.start', () => {
+                expect(_.self.start()).toEqual({ alignSelf: 'flex-start' })
         })
-        test("self['flex-end']", () => {
-                expect(_.self['flex-end']()).toEqual({ alignSelf: 'flex-end' })
+        test('self.end', () => {
+                expect(_.self.end()).toEqual({ alignSelf: 'flex-end' })
         })
-        test("self['safe flex-end']", () => {
-                expect(_.self['safe flex-end']()).toEqual({ alignSelf: 'safe flex-end' })
+        test('self.end', () => {
+                expect(_.self.end()).toEqual({ alignSelf: 'safe flex-end' })
         })
         test('self.center', () => {
                 expect(_.self.center()).toEqual({ alignSelf: 'center' })
         })
-        test("self['safe center']", () => {
-                expect(_.self['safe center']()).toEqual({ alignSelf: 'safe center' })
+        test('self.center', () => {
+                expect(_.self.center()).toEqual({ alignSelf: 'safe center' })
         })
         test('self.stretch', () => {
                 expect(_.self.stretch()).toEqual({ alignSelf: 'stretch' })
@@ -385,8 +400,8 @@ describe('align-self', () => {
         test('self.baseline', () => {
                 expect(_.self.baseline()).toEqual({ alignSelf: 'baseline' })
         })
-        test("self['last baseline']", () => {
-                expect(_.self['last baseline']()).toEqual({ alignSelf: 'last baseline' })
+        test('self.baseline.last', () => {
+                expect(_.self.baseline.last()).toEqual({ alignSelf: 'last baseline' })
         })
 })
 
@@ -394,8 +409,8 @@ describe('place-content', () => {
         test('place.content.center', () => {
                 expect(_.place.content.center()).toEqual({ placeContent: 'center' })
         })
-        test("place.content['safe center']", () => {
-                expect(_.place.content['safe center']()).toEqual({ placeContent: 'safe center' })
+        test('place.content.center.safe', () => {
+                expect(_.place.content.center.safe()).toEqual({ placeContent: 'safe center' })
         })
         test('place.content.start', () => {
                 expect(_.place.content.start()).toEqual({ placeContent: 'start' })
@@ -403,17 +418,17 @@ describe('place-content', () => {
         test('place.content.end', () => {
                 expect(_.place.content.end()).toEqual({ placeContent: 'end' })
         })
-        test("place.content['safe end']", () => {
-                expect(_.place.content['safe end']()).toEqual({ placeContent: 'safe end' })
+        test('place.content.end.safe', () => {
+                expect(_.place.content.end.safe()).toEqual({ placeContent: 'safe end' })
         })
-        test("place.content['space-be_een']", () => {
-                expect(_.place.content['space-be_een']()).toEqual({ placeContent: 'space-be_een' })
+        test('place.content.between', () => {
+                expect(_.place.content.between()).toEqual({ placeContent: 'space-between' })
         })
-        test("place.content['space-around']", () => {
-                expect(_.place.content['space-around']()).toEqual({ placeContent: 'space-around' })
+        test('place.content.around', () => {
+                expect(_.place.content.around()).toEqual({ placeContent: 'space-around' })
         })
-        test("place.content['space-evenly']", () => {
-                expect(_.place.content['space-evenly']()).toEqual({ placeContent: 'space-evenly' })
+        test('place.content.evenly', () => {
+                expect(_.place.content.evenly()).toEqual({ placeContent: 'space-evenly' })
         })
         test('place.content.baseline', () => {
                 expect(_.place.content.baseline()).toEqual({ placeContent: 'baseline' })
@@ -430,14 +445,14 @@ describe('place-items', () => {
         test('place.items.end', () => {
                 expect(_.place.items.end()).toEqual({ placeItems: 'end' })
         })
-        test("place.items['safe end']", () => {
-                expect(_.place.items['safe end']()).toEqual({ placeItems: 'safe end' })
+        test('place.items.end.safe', () => {
+                expect(_.place.items.end.safe()).toEqual({ placeItems: 'safe end' })
         })
         test('place.items.center', () => {
                 expect(_.place.items.center()).toEqual({ placeItems: 'center' })
         })
-        test("place.items['safe center']", () => {
-                expect(_.place.items['safe center']()).toEqual({ placeItems: 'safe center' })
+        test('place.items.center.safe', () => {
+                expect(_.place.items.center.safe()).toEqual({ placeItems: 'safe center' })
         })
         test('place.items.baseline', () => {
                 expect(_.place.items.baseline()).toEqual({ placeItems: 'baseline' })
@@ -457,14 +472,14 @@ describe('place-self', () => {
         test('place.self.end', () => {
                 expect(_.place.self.end()).toEqual({ placeSelf: 'end' })
         })
-        test("place.self['safe end']", () => {
-                expect(_.place.self['safe end']()).toEqual({ placeSelf: 'safe end' })
+        test('place.self.end.safe', () => {
+                expect(_.place.self.end.safe()).toEqual({ placeSelf: 'safe end' })
         })
         test('place.self.center', () => {
                 expect(_.place.self.center()).toEqual({ placeSelf: 'center' })
         })
-        test("place.self['safe center']", () => {
-                expect(_.place.self['safe center']()).toEqual({ placeSelf: 'safe center' })
+        test('place.self.center.safe', () => {
+                expect(_.place.self.center.safe()).toEqual({ placeSelf: 'safe center' })
         })
         test('place.self.stretch', () => {
                 expect(_.place.self.stretch()).toEqual({ placeSelf: 'stretch' })

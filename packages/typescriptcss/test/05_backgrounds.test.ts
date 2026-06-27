@@ -92,7 +92,7 @@ describe('background-position', () => {
                 expect(_.bg.position['bottom right']()).toEqual({ backgroundPosition: 'bottom right' })
         })
         test('bg.position[4]', () => {
-                expect(_.bg.position[4]()).toEqual({ backgroundPosition: 'var(4)' })
+                expect(_.bg.position[4]()).toEqual({ backgroundPosition: '4' })
         })
 })
 
@@ -128,6 +128,6 @@ describe('background-size', () => {
                 expect(_.bg.contain()).toEqual({ backgroundSize: 'contain' })
         })
         test('bg.size[4]', () => {
-                expect(_.bg.size[4]()).toEqual({ backgroundSize: 'var(4)' })
+                expect(_.bg.size[4]()).toEqual({ backgroundSize: '16px' })
         })
 })

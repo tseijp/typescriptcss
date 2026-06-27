@@ -4,140 +4,140 @@ import * as _ from '../src'
 // Unimplemented utilities return undefined and stay RED until added to src.
 
 describe('border-radius', () => {
-        test("rounded['0']", () => {
-                expect(_.rounded['0']()).toEqual({ borderRadius: '0' })
+        test('rounded[0]', () => {
+                expect(_.rounded[0]()).toEqual({ borderRadius: '0px' })
         })
         test('rounded.full', () => {
                 expect(_.rounded.full()).toEqual({ borderRadius: 'calc(infinity * 1px)' })
         })
         test('rounded[4]', () => {
-                expect(_.rounded[4]()).toEqual({ borderRadius: 'var(4)' })
+                expect(_.rounded[4]()).toEqual({ borderRadius: '16px' })
         })
         test('rounded.s.none', () => {
-                expect(_.rounded.s.none()).toEqual({ borderStartStartRadius: '0', borderEndStartRadius: '0' })
+                expect(_.rounded.s.none()).toEqual({ borderStartStartRadius: '0', borderEndStartRadius: '0px' })
         })
         test('rounded.s.full', () => {
                 expect(_.rounded.s.full()).toEqual({ borderStartStartRadius: 'calc(infinity * 1px)', borderEndStartRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.s[4]', () => {
-                expect(_.rounded.s[4]()).toEqual({ borderStartStartRadius: 'var(4)', borderEndStartRadius: 'var(4)' })
+                expect(_.rounded.s[4]()).toEqual({ borderStartStartRadius: '16px', borderEndStartRadius: '16px' })
         })
         test('rounded.e.none', () => {
-                expect(_.rounded.e.none()).toEqual({ borderStartEndRadius: '0', borderEndEndRadius: '0' })
+                expect(_.rounded.e.none()).toEqual({ borderStartEndRadius: '0', borderEndEndRadius: '0px' })
         })
         test('rounded.e.full', () => {
                 expect(_.rounded.e.full()).toEqual({ borderStartEndRadius: 'calc(infinity * 1px)', borderEndEndRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.e[4]', () => {
-                expect(_.rounded.e[4]()).toEqual({ borderStartEndRadius: 'var(4)', borderEndEndRadius: 'var(4)' })
+                expect(_.rounded.e[4]()).toEqual({ borderStartEndRadius: '16px', borderEndEndRadius: '16px' })
         })
         test('rounded.t.none', () => {
-                expect(_.rounded.t.none()).toEqual({ borderTopLeftRadius: '0', borderTopRightRadius: '0' })
+                expect(_.rounded.t.none()).toEqual({ borderTopLeftRadius: '0', borderTopRightRadius: '0px' })
         })
         test('rounded.t.full', () => {
                 expect(_.rounded.t.full()).toEqual({ borderTopLeftRadius: 'calc(infinity * 1px)', borderTopRightRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.t[4]', () => {
-                expect(_.rounded.t[4]()).toEqual({ borderTopLeftRadius: 'var(4)', borderTopRightRadius: 'var(4)' })
+                expect(_.rounded.t[4]()).toEqual({ borderTopLeftRadius: '16px', borderTopRightRadius: '16px' })
         })
         test('rounded.r.none', () => {
-                expect(_.rounded.r.none()).toEqual({ borderTopRightRadius: '0', borderBottomRightRadius: '0' })
+                expect(_.rounded.r.none()).toEqual({ borderTopRightRadius: '0', borderBottomRightRadius: '0px' })
         })
         test('rounded.r.full', () => {
                 expect(_.rounded.r.full()).toEqual({ borderTopRightRadius: 'calc(infinity * 1px)', borderBottomRightRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.r[4]', () => {
-                expect(_.rounded.r[4]()).toEqual({ borderTopRightRadius: 'var(4)', borderBottomRightRadius: 'var(4)' })
+                expect(_.rounded.r[4]()).toEqual({ borderTopRightRadius: '16px', borderBottomRightRadius: '16px' })
         })
         test('rounded.b.none', () => {
-                expect(_.rounded.b.none()).toEqual({ borderBottomRightRadius: '0', borderBottomLeftRadius: '0' })
+                expect(_.rounded.b.none()).toEqual({ borderBottomRightRadius: '0', borderBottomLeftRadius: '0px' })
         })
         test('rounded.b.full', () => {
                 expect(_.rounded.b.full()).toEqual({ borderBottomRightRadius: 'calc(infinity * 1px)', borderBottomLeftRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.b[4]', () => {
-                expect(_.rounded.b[4]()).toEqual({ borderBottomRightRadius: 'var(4)', borderBottomLeftRadius: 'var(4)' })
+                expect(_.rounded.b[4]()).toEqual({ borderBottomRightRadius: '16px', borderBottomLeftRadius: '16px' })
         })
         test('rounded.l.none', () => {
-                expect(_.rounded.l.none()).toEqual({ borderTopLeftRadius: '0', borderBottomLeftRadius: '0' })
+                expect(_.rounded.l.none()).toEqual({ borderTopLeftRadius: '0', borderBottomLeftRadius: '0px' })
         })
         test('rounded.l.full', () => {
                 expect(_.rounded.l.full()).toEqual({ borderTopLeftRadius: 'calc(infinity * 1px)', borderBottomLeftRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.l[4]', () => {
-                expect(_.rounded.l[4]()).toEqual({ borderTopLeftRadius: 'var(4)', borderBottomLeftRadius: 'var(4)' })
+                expect(_.rounded.l[4]()).toEqual({ borderTopLeftRadius: '16px', borderBottomLeftRadius: '16px' })
         })
-        test("rounded.ss['0']", () => {
-                expect(_.rounded.ss['0']()).toEqual({ borderStartStartRadius: '0' })
+        test('rounded.ss[0]', () => {
+                expect(_.rounded.ss[0]()).toEqual({ borderStartStartRadius: '0px' })
         })
         test('rounded.ss.full', () => {
                 expect(_.rounded.ss.full()).toEqual({ borderStartStartRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.ss[4]', () => {
-                expect(_.rounded.ss[4]()).toEqual({ borderStartStartRadius: 'var(4)' })
+                expect(_.rounded.ss[4]()).toEqual({ borderStartStartRadius: '16px' })
         })
-        test("rounded.se['0']", () => {
-                expect(_.rounded.se['0']()).toEqual({ borderStartEndRadius: '0' })
+        test('rounded.se[0]', () => {
+                expect(_.rounded.se[0]()).toEqual({ borderStartEndRadius: '0px' })
         })
         test('rounded.se.full', () => {
                 expect(_.rounded.se.full()).toEqual({ borderStartEndRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.se[4]', () => {
-                expect(_.rounded.se[4]()).toEqual({ borderStartEndRadius: 'var(4)' })
+                expect(_.rounded.se[4]()).toEqual({ borderStartEndRadius: '16px' })
         })
-        test("rounded.ee['0']", () => {
-                expect(_.rounded.ee['0']()).toEqual({ borderEndEndRadius: '0' })
+        test('rounded.ee[0]', () => {
+                expect(_.rounded.ee[0]()).toEqual({ borderEndEndRadius: '0px' })
         })
         test('rounded.ee.full', () => {
                 expect(_.rounded.ee.full()).toEqual({ borderEndEndRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.ee[4]', () => {
-                expect(_.rounded.ee[4]()).toEqual({ borderEndEndRadius: 'var(4)' })
+                expect(_.rounded.ee[4]()).toEqual({ borderEndEndRadius: '16px' })
         })
-        test("rounded.es['0']", () => {
-                expect(_.rounded.es['0']()).toEqual({ borderEndStartRadius: '0' })
+        test('rounded.es[0]', () => {
+                expect(_.rounded.es[0]()).toEqual({ borderEndStartRadius: '0px' })
         })
         test('rounded.es.full', () => {
                 expect(_.rounded.es.full()).toEqual({ borderEndStartRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.es[4]', () => {
-                expect(_.rounded.es[4]()).toEqual({ borderEndStartRadius: 'var(4)' })
+                expect(_.rounded.es[4]()).toEqual({ borderEndStartRadius: '16px' })
         })
-        test("rounded.tl['0']", () => {
-                expect(_.rounded.tl['0']()).toEqual({ borderTopLeftRadius: '0' })
+        test('rounded.tl[0]', () => {
+                expect(_.rounded.tl[0]()).toEqual({ borderTopLeftRadius: '0px' })
         })
         test('rounded.tl.full', () => {
                 expect(_.rounded.tl.full()).toEqual({ borderTopLeftRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.tl[4]', () => {
-                expect(_.rounded.tl[4]()).toEqual({ borderTopLeftRadius: 'var(4)' })
+                expect(_.rounded.tl[4]()).toEqual({ borderTopLeftRadius: '16px' })
         })
-        test("rounded.tr['0']", () => {
-                expect(_.rounded.tr['0']()).toEqual({ borderTopRightRadius: '0' })
+        test('rounded.tr[0]', () => {
+                expect(_.rounded.tr[0]()).toEqual({ borderTopRightRadius: '0px' })
         })
         test('rounded.tr.full', () => {
                 expect(_.rounded.tr.full()).toEqual({ borderTopRightRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.tr[4]', () => {
-                expect(_.rounded.tr[4]()).toEqual({ borderTopRightRadius: 'var(4)' })
+                expect(_.rounded.tr[4]()).toEqual({ borderTopRightRadius: '16px' })
         })
-        test("rounded.br['0']", () => {
-                expect(_.rounded.br['0']()).toEqual({ borderBottomRightRadius: '0' })
+        test('rounded.br[0]', () => {
+                expect(_.rounded.br[0]()).toEqual({ borderBottomRightRadius: '0px' })
         })
         test('rounded.br.full', () => {
                 expect(_.rounded.br.full()).toEqual({ borderBottomRightRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.br[4]', () => {
-                expect(_.rounded.br[4]()).toEqual({ borderBottomRightRadius: 'var(4)' })
+                expect(_.rounded.br[4]()).toEqual({ borderBottomRightRadius: '16px' })
         })
-        test("rounded.bl['0']", () => {
-                expect(_.rounded.bl['0']()).toEqual({ borderBottomLeftRadius: '0' })
+        test('rounded.bl[0]', () => {
+                expect(_.rounded.bl[0]()).toEqual({ borderBottomLeftRadius: '0px' })
         })
         test('rounded.bl.full', () => {
                 expect(_.rounded.bl.full()).toEqual({ borderBottomLeftRadius: 'calc(infinity * 1px)' })
         })
         test('rounded.bl[4]', () => {
-                expect(_.rounded.bl[4]()).toEqual({ borderBottomLeftRadius: 'var(4)' })
+                expect(_.rounded.bl[4]()).toEqual({ borderBottomLeftRadius: '16px' })
         })
 })
 

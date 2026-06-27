@@ -5,10 +5,9 @@ export const description = 'Utilities for controlling the order of flex and grid
 
 Utilities for controlling the order of flex and grid items.
 
-| Utility             | Styles                          |
-| ------------------- | ------------------------------- |
-| `order[*<value>*]`  | `order: *<number>*;`            |
-| `-order[*<value>*]` | `order: calc(*<number>* * -1);` |
-| `order['-9999']`    | `order: -9999;`                 |
-| `order['9999']`     | `order: 9999;`                  |
-| `order['0']`        | `order: 0;`                     |
+| Utility            | Styles               |
+| ------------------ | -------------------- |
+| `order[*<value>*]` | `order: *<number>*;` |
+| `order.first`      | `order: -9999;`      |
+| `order.last`       | `order: 9999;`       |
+| `order.none`       | `order: 0;`          |

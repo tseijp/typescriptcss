@@ -2,27 +2,29 @@ import { describe, expect, test } from 'vitest'
 import * as tw from '../src'
 import { assertNoLeakedMarkers, isPlainStyle, pick, rng, styleEqual } from './_helpers.ts'
 
-// Chapter 25 — Section L: Fuzzing and property-based exploration (FUZZ-001..007).
+// 25 — Section L: Fuzzing and property-based exploration (FUZZ-001..007).
 //
 // This chapter owns the property-based invariants of the runtime chain. Fixed
 // single-utility mappings live in 00..13; the worked composition examples live
 // in 21. Here every assertion is a law that must hold for *every* generated
 // chain, never the output of one specific chain. Seeds are fixed (via _helpers
-// `rng`) so each case is reproducible, and every failure message embeds its seed
-// and the generated chain so a red case is replayable and minimisable.
+// `rng` / `pick`, per _REDESIGN.md) so each case is reproducible, and every
+// failure message embeds its seed and the generated chain so a red case is
+// replayable.
 //
 // The chain API is used directly (no `tw('...')` string API).
 //
-// Fail-rate calibration. The mechanically-generated chapters 00..14 are mostly
-// RED because ~90% of the Tailwind surface is unimplemented. A fuzzer drawing
-// only implemented utilities would be artificially all-GREEN and hide that gap.
-// So FUZZ-004 (grammar generation) draws from a pool that MIXES implemented and
-// unimplemented utilities *and* variants, each pinned to its correct
-// tailwind-compatible expectation. Implemented draws converge to GREEN;
-// unimplemented draws converge to RED (the root is `undefined`, so the access
-// throws) — we never catch the throw or weaken the expectation. The structural
-// laws (001..003, 005..007) stay on the implemented subset, since order /
-// last-write / no-leak are only well-defined once a utility emits a declaration.
+// Fail-rate calibration (_REDESIGN.md rules 1 & 5). The mechanically-generated
+// chapters 00..13 are ~95% RED because most of the Tailwind surface is
+// unimplemented. A fuzzer drawing only implemented utilities would be
+// artificially all-GREEN and hide that gap. So FUZZ-004 draws from a pool that
+// MIXES implemented and unimplemented utilities *and* variants, each pinned to
+// its correct tailwind-compatible expectation. Implemented draws converge to
+// GREEN; unimplemented draws read an `undefined` root, so the access throws and
+// the case goes RED — the throw is never caught and the expectation is never
+// weakened (rule 3). The structural laws (001..003, 005..007) run on the
+// implemented subset, since order / last-write / no-leak are only well-defined
+// once a utility actually emits a declaration.
 
 const tn = tw as any
 const NUMS = [0, 1, 2, 3, 4, 5, 6, 7] as const
@@ -163,7 +165,7 @@ interface Spec {
         expected: Record<string, string>
 }
 
-// Implemented utilities — exported from src/index.ts.
+// Implemented utilities — exported from src/index.ts. These converge to GREEN.
 const IMPLEMENTED: Spec[] = [
         { label: 'p[4]', run: () => tw.p[4](), expected: { padding: '16px' } },
         { label: 'm[2]', run: () => tw.m[2](), expected: { margin: '8px' } },
@@ -181,7 +183,7 @@ const IMPLEMENTED: Spec[] = [
 
 // Unimplemented utilities — referenced by the docs/oracle but NOT exported.
 // Each `run` throws on the `undefined` root, so the case goes RED; expectations
-// are the correct tailwind values mirrored from 00_layout's mechanical oracle.
+// are the correct tailwind values mirrored from 00..13's mechanical oracle.
 const UNIMPLEMENTED_UTIL: Spec[] = [
         { label: 'aspect[4]', run: () => tn.aspect[4](), expected: { aspectRatio: '16 / 9' } },
         { label: 'columns[4]', run: () => tn.columns[4](), expected: { columns: '4' } },
@@ -198,6 +200,9 @@ const UNIMPLEMENTED_UTIL: Spec[] = [
         { label: 'z[4]', run: () => tn.z[4](), expected: { zIndex: '4' } },
         { label: 'scale[4]', run: () => tn.scale[4](), expected: { transform: 'scale(4)' } },
         { label: 'shadow.lg', run: () => tn.shadow.lg(), expected: { boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' } },
+        { label: 'rotate[45]', run: () => tn.rotate[45](), expected: { transform: 'rotate(45deg)' } },
+        { label: 'blur.md', run: () => tn.blur.md(), expected: { filter: 'blur(12px)' } },
+        { label: 'fill.none', run: () => tn.fill.none(), expected: { fill: 'none' } },
 ]
 
 // Unimplemented variants — the whole variant surface (Section E) is unbuilt, so
@@ -210,6 +215,7 @@ const UNIMPLEMENTED_VARIANT: Spec[] = [
         { label: 'first.p[4]', run: () => tn.first.p[4](), expected: { padding: '16px' } },
         { label: 'disabled.m[2]', run: () => tn.disabled.m[2](), expected: { margin: '8px' } },
         { label: 'group.gap[4]', run: () => tn.group.gap[4](), expected: { gap: '16px' } },
+        { label: 'peer.flex', run: () => tn.peer.flex(), expected: { display: 'flex' } },
 ]
 
 const UNIMPLEMENTED: Spec[] = [...UNIMPLEMENTED_UTIL, ...UNIMPLEMENTED_VARIANT]
@@ -218,7 +224,7 @@ const POOL: Spec[] = [...IMPLEMENTED, ...UNIMPLEMENTED]
 describe('FUZZ-004 grammar generation converges to the ledger state', () => {
         // A seeded permutation exercises every spec exactly once in a reproducible
         // random order — implemented -> GREEN, unimplemented -> RED — so the
-        // chapter's fail rate tracks the ~90%-unimplemented surface.
+        // chapter's fail rate tracks the ~95%-unimplemented surface.
         for (const spec of shuffle(rng(2025), POOL))
                 test(`${spec.label} -> ${JSON.stringify(spec.expected)}`, () => {
                         expect(spec.run()).toEqual(spec.expected)
@@ -226,7 +232,7 @@ describe('FUZZ-004 grammar generation converges to the ledger state', () => {
 
         // The generated pool must keep the unimplemented (RED) cases a majority — a
         // guard that this fuzzer never silently drifts into all-GREEN and stops
-        // tracking the unimplemented surface.
+        // tracking the unimplemented surface (_REDESIGN.md rule 5).
         test('pool keeps an unimplemented (RED) majority', () => {
                 expect(UNIMPLEMENTED.length).toBeGreaterThan(POOL.length / 2)
         })

@@ -281,7 +281,7 @@ describe('object-position', () => {
                 expect(_.object['bottom right']()).toEqual({ objectPosition: 'bottom right' })
         })
         test('object[4]', () => {
-                expect(_.object[4]()).toEqual({ objectPosition: 'var(4)' })
+                expect(_.object[4]()).toEqual({ objectPosition: '4' })
         })
 })
 

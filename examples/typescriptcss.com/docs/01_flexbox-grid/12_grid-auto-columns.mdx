@@ -5,10 +5,10 @@ export const description = 'Utilities for controlling the size of implicitly-cre
 
 Utilities for controlling the size of implicitly-created grid columns.
 
-| Utility                       | Styles                                         |
-| ----------------------------- | ---------------------------------------------- |
-| `auto.cols.auto`              | `grid-auto-columns: auto;`                     |
-| `auto.cols['min-content']`    | `grid-auto-columns: min-content;`              |
-| `auto.cols['max-content']`    | `grid-auto-columns: max-content;`              |
-| `auto.cols['minmax(0, 1fr)']` | `grid-auto-columns: minmax(0, 1fr);`           |
-| `auto.cols[*<value>*]`        | `grid-auto-columns: var(*<custom-property>*);` |
+| Utility                | Styles                                         |
+| ---------------------- | ---------------------------------------------- |
+| `auto.cols.auto`       | `grid-auto-columns: auto;`                     |
+| `auto.cols.min`        | `grid-auto-columns: min-content;`              |
+| `auto.cols.max`        | `grid-auto-columns: max-content;`              |
+| `auto.cols.fr`         | `grid-auto-columns: minmax(0, 1fr);`           |
+| `auto.cols[*<value>*]` | `grid-auto-columns: var(*<custom-property>*);` |
