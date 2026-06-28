@@ -34,14 +34,14 @@ describe('width', () => {
         test("width['100svh']", () => {
                 expect(_.w['100svh']()).toEqual({ width: '100svh' })
         })
-        test("width['min-content']", () => {
-                expect(_.w['min-content']()).toEqual({ width: 'min-content' })
+        test('w.min', () => {
+                expect(_.w.min()).toEqual({ width: 'min-content' })
         })
-        test("width['max-content']", () => {
-                expect(_.w['max-content']()).toEqual({ width: 'max-content' })
+        test('w.max', () => {
+                expect(_.w.max()).toEqual({ width: 'max-content' })
         })
-        test("width['fit-content']", () => {
-                expect(_.w['fit-content']()).toEqual({ width: 'fit-content' })
+        test('w.fit', () => {
+                expect(_.w.fit()).toEqual({ width: 'fit-content' })
         })
         test('size.auto', () => {
                 expect(_.size.auto()).toEqual({ width: 'auto', height: 'auto' })
@@ -112,14 +112,14 @@ describe('min-width', () => {
         test("min.w['100svh']", () => {
                 expect(_.min.w['100svh']()).toEqual({ minWidth: '100svh' })
         })
-        test("min.w['min-content']", () => {
-                expect(_.min.w['min-content']()).toEqual({ minWidth: 'min-content' })
+        test('min.w.min', () => {
+                expect(_.min.w.min()).toEqual({ minWidth: 'min-content' })
         })
-        test("min.w['max-content']", () => {
-                expect(_.min.w['max-content']()).toEqual({ minWidth: 'max-content' })
+        test('min.w.max', () => {
+                expect(_.min.w.max()).toEqual({ minWidth: 'max-content' })
         })
-        test("min.w['fit-content']", () => {
-                expect(_.min.w['fit-content']()).toEqual({ minWidth: 'fit-content' })
+        test('min.w.fit', () => {
+                expect(_.min.w.fit()).toEqual({ minWidth: 'fit-content' })
         })
 })
 
@@ -154,14 +154,14 @@ describe('max-width', () => {
         test("max.w['100vw']", () => {
                 expect(_.max.w['100vw']()).toEqual({ maxWidth: '100vw' })
         })
-        test("max.w['min-content']", () => {
-                expect(_.max.w['min-content']()).toEqual({ maxWidth: 'min-content' })
+        test('max.w.min', () => {
+                expect(_.max.w.min()).toEqual({ maxWidth: 'min-content' })
         })
-        test("max.w['max-content']", () => {
-                expect(_.max.w['max-content']()).toEqual({ maxWidth: 'max-content' })
+        test('max.w.max', () => {
+                expect(_.max.w.max()).toEqual({ maxWidth: 'max-content' })
         })
-        test("max.w['fit-content']", () => {
-                expect(_.max.w['fit-content']()).toEqual({ maxWidth: 'fit-content' })
+        test('max.w.fit', () => {
+                expect(_.max.w.fit()).toEqual({ maxWidth: 'fit-content' })
         })
         test.skip('container', () => {
                 expect(_.container()).toEqual({
@@ -206,14 +206,14 @@ describe('height', () => {
         test("height['100svw']", () => {
                 expect(_.h['100svw']()).toEqual({ height: '100svw' })
         })
-        test("height['min-content']", () => {
-                expect(_.h['min-content']()).toEqual({ height: 'min-content' })
+        test('h.min', () => {
+                expect(_.h.min()).toEqual({ height: 'min-content' })
         })
-        test("height['max-content']", () => {
-                expect(_.h['max-content']()).toEqual({ height: 'max-content' })
+        test('h.max', () => {
+                expect(_.h.max()).toEqual({ height: 'max-content' })
         })
-        test("height['fit-content']", () => {
-                expect(_.h['fit-content']()).toEqual({ height: 'fit-content' })
+        test('h.fit', () => {
+                expect(_.h.fit()).toEqual({ height: 'fit-content' })
         })
         test("height['1lh']", () => {
                 expect(_.h['1lh']()).toEqual({ height: '1lh' })
@@ -251,14 +251,14 @@ describe('min-height', () => {
         test('min.h.auto', () => {
                 expect(_.min.h.auto()).toEqual({ minHeight: 'auto' })
         })
-        test("min.h['min-content']", () => {
-                expect(_.min.h['min-content']()).toEqual({ minHeight: 'min-content' })
+        test('min.h.min', () => {
+                expect(_.min.h.min()).toEqual({ minHeight: 'min-content' })
         })
-        test("min.h['max-content']", () => {
-                expect(_.min.h['max-content']()).toEqual({ minHeight: 'max-content' })
+        test('min.h.max', () => {
+                expect(_.min.h.max()).toEqual({ minHeight: 'max-content' })
         })
-        test("min.h['fit-content']", () => {
-                expect(_.min.h['fit-content']()).toEqual({ minHeight: 'fit-content' })
+        test('min.h.fit', () => {
+                expect(_.min.h.fit()).toEqual({ minHeight: 'fit-content' })
         })
         test("min.h['1lh']", () => {
                 expect(_.min.h['1lh']()).toEqual({ minHeight: '1lh' })
@@ -296,14 +296,14 @@ describe('max-height', () => {
         test("max.h['100svw']", () => {
                 expect(_.max.h['100svw']()).toEqual({ maxHeight: '100svw' })
         })
-        test("max.h['min-content']", () => {
-                expect(_.max.h['min-content']()).toEqual({ maxHeight: 'min-content' })
+        test('max.h.min', () => {
+                expect(_.max.h.min()).toEqual({ maxHeight: 'min-content' })
         })
-        test("max.h['max-content']", () => {
-                expect(_.max.h['max-content']()).toEqual({ maxHeight: 'max-content' })
+        test('max.h.max', () => {
+                expect(_.max.h.max()).toEqual({ maxHeight: 'max-content' })
         })
-        test("max.h['fit-content']", () => {
-                expect(_.max.h['fit-content']()).toEqual({ maxHeight: 'fit-content' })
+        test('max.h.fit', () => {
+                expect(_.max.h.fit()).toEqual({ maxHeight: 'fit-content' })
         })
         test("max.h['1lh']", () => {
                 expect(_.max.h['1lh']()).toEqual({ maxHeight: '1lh' })
@@ -344,14 +344,14 @@ describe('inline-size', () => {
         test("inline['100svh']", () => {
                 expect(_.inline['100svh']()).toEqual({ inlineSize: '100svh' })
         })
-        test("inline['min-content']", () => {
-                expect(_.inline['min-content']()).toEqual({ inlineSize: 'min-content' })
+        test('inline.min', () => {
+                expect(_.inline.min()).toEqual({ inlineSize: 'min-content' })
         })
-        test("inline['max-content']", () => {
-                expect(_.inline['max-content']()).toEqual({ inlineSize: 'max-content' })
+        test('inline.max', () => {
+                expect(_.inline.max()).toEqual({ inlineSize: 'max-content' })
         })
-        test("inline['fit-content']", () => {
-                expect(_.inline['fit-content']()).toEqual({ inlineSize: 'fit-content' })
+        test('inline.fit', () => {
+                expect(_.inline.fit()).toEqual({ inlineSize: 'fit-content' })
         })
 })
 
@@ -389,14 +389,14 @@ describe('min-inline-size', () => {
         test("min.inline['100svh']", () => {
                 expect(_.min.inline['100svh']()).toEqual({ minInlineSize: '100svh' })
         })
-        test("min.inline['min-content']", () => {
-                expect(_.min.inline['min-content']()).toEqual({ minInlineSize: 'min-content' })
+        test('min.inline.min', () => {
+                expect(_.min.inline.min()).toEqual({ minInlineSize: 'min-content' })
         })
-        test("min.inline['max-content']", () => {
-                expect(_.min.inline['max-content']()).toEqual({ minInlineSize: 'max-content' })
+        test('min.inline.max', () => {
+                expect(_.min.inline.max()).toEqual({ minInlineSize: 'max-content' })
         })
-        test("min.inline['fit-content']", () => {
-                expect(_.min.inline['fit-content']()).toEqual({ minInlineSize: 'fit-content' })
+        test('min.inline.fit', () => {
+                expect(_.min.inline.fit()).toEqual({ minInlineSize: 'fit-content' })
         })
 })
 
@@ -434,14 +434,14 @@ describe('max-inline-size', () => {
         test("max.inline['100vw']", () => {
                 expect(_.max.inline['100vw']()).toEqual({ maxInlineSize: '100vw' })
         })
-        test("max.inline['min-content']", () => {
-                expect(_.max.inline['min-content']()).toEqual({ maxInlineSize: 'min-content' })
+        test('max.inline.min', () => {
+                expect(_.max.inline.min()).toEqual({ maxInlineSize: 'min-content' })
         })
-        test("max.inline['max-content']", () => {
-                expect(_.max.inline['max-content']()).toEqual({ maxInlineSize: 'max-content' })
+        test('max.inline.max', () => {
+                expect(_.max.inline.max()).toEqual({ maxInlineSize: 'max-content' })
         })
-        test("max.inline['fit-content']", () => {
-                expect(_.max.inline['fit-content']()).toEqual({ maxInlineSize: 'fit-content' })
+        test('max.inline.fit', () => {
+                expect(_.max.inline.fit()).toEqual({ maxInlineSize: 'fit-content' })
         })
 })
 
@@ -451,6 +451,15 @@ describe('block-size', () => {
         })
         test('block.auto', () => {
                 expect(_.block.auto()).toEqual({ blockSize: 'auto' })
+        })
+        test('block.min', () => {
+                expect(_.block.min()).toEqual({ blockSize: 'min-content' })
+        })
+        test('block.max', () => {
+                expect(_.block.max()).toEqual({ blockSize: 'max-content' })
+        })
+        test('block.fit', () => {
+                expect(_.block.fit()).toEqual({ blockSize: 'fit-content' })
         })
         test("block['100vh']", () => {
                 expect(_.block['100vh']()).toEqual({ blockSize: '100vh' })
@@ -467,6 +476,15 @@ describe('min-block-size', () => {
         test('min.block.auto', () => {
                 expect(_.min.block.auto()).toEqual({ minBlockSize: 'auto' })
         })
+        test('min.block.min', () => {
+                expect(_.min.block.min()).toEqual({ minBlockSize: 'min-content' })
+        })
+        test('min.block.max', () => {
+                expect(_.min.block.max()).toEqual({ minBlockSize: 'max-content' })
+        })
+        test('min.block.fit', () => {
+                expect(_.min.block.fit()).toEqual({ minBlockSize: 'fit-content' })
+        })
         test("min.block['100vh']", () => {
                 expect(_.min.block['100vh']()).toEqual({ minBlockSize: '100vh' })
         })
@@ -481,6 +499,15 @@ describe('max-block-size', () => {
         })
         test('max.block.none', () => {
                 expect(_.max.block.none()).toEqual({ maxBlockSize: 'none' })
+        })
+        test('max.block.min', () => {
+                expect(_.max.block.min()).toEqual({ maxBlockSize: 'min-content' })
+        })
+        test('max.block.max', () => {
+                expect(_.max.block.max()).toEqual({ maxBlockSize: 'max-content' })
+        })
+        test('max.block.fit', () => {
+                expect(_.max.block.fit()).toEqual({ maxBlockSize: 'fit-content' })
         })
         test("max.block['100vh']", () => {
                 expect(_.max.block['100vh']()).toEqual({ maxBlockSize: '100vh' })

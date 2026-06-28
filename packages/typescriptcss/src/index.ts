@@ -1,4 +1,4 @@
-import { borderRule, borderSideRule, callableScaleRule, childStyle, colorRule, columnRule, columnsRule, controls, darkRule, defaultDisplayRule, defaultFilterRule, defaultSizeRule, displayRule, divideColorRule, divideRule, filterRule, flexRule, group, insetRule, lengthRule, mediaRule, numericDefaultRule, numericRule, opacityRule, outlineRule, positionRule, propertyRule, roundedRule, rowRule, rowsRule, scaleRule, scopedRule, sizePropsRule, sizeRule, spacingRule, splitBorderSideRule, splitRule, splitSpacingRule, textRule, transformRule, translateRule, utility as u, values, variantRule, withoutDisplayRule } from './utils.ts'
+import { borderRule, borderSideRule, callableScaleRule, childStyle, colorRule, columnRule, columnsRule, controls, darkRule, defaultDisplayRule, defaultFilterRule, defaultSizeRule, displayRule, divideColorRule, divideRule, filterRule, flexRule, group, insetRule, lengthRule, mediaRule, numericDefaultRule, numericRule, opacityRule, outlineRule, positionRule, propertyRule, roundedRule, rowRule, rowsRule, scaleRule, scopedRule, sizeLengthRule, sizePropsRule, sizeRule, spacingRule, splitBorderSideRule, splitRule, splitSpacingRule, textRule, transformRule, translateRule, utility as u, values, variantRule, withoutDisplayRule } from './utils.ts'
 import type { C, RuntimeStyle, U } from './types.ts'
 controls('active', 'after', 'aria', 'ariaChecked', 'ariaDisabled', 'ariaExpanded', 'ariaSelected', 'atLg', 'atMd', 'atSm', 'autofill', 'before', 'bg', 'border', 'checked', 'child', 'contrastLess', 'contrastMore', 'css', 'dark', 'data', 'dataActive', 'descendant', 'disabled', 'empty', 'enabled', 'even', 'file', 'fill', 'first', 'firstLetter', 'firstLine', 'firstOfType', 'focus', 'focusVisible', 'focusWithin', 'forcedColors', 'group', 'groupFocus', 'groupHover', 'has', 'hover', 'indeterminate', 'invalid', 'landscape', 'last', 'lastOfType', 'lg', 'light', 'ltr', 'maxMd', 'maxSm', 'md', 'motionReduce', 'motionSafe', 'odd', 'only', 'onlyOfType', 'optional', 'peer', 'peerFocus', 'peerHover', 'placeholder', 'placeholderShown', 'pointerCoarse', 'pointerFine', 'portrait', 'prefersDark', 'print', 'readOnly', 'required', 'rtl', 'selection', 'shadow', 'sm', 'stroke', 'supports', 'target', 'text', 'valid', 'visited', 'xl', 'xl2')
 const boxValues = { auto: 'auto', avoid: 'avoid', all: 'all', 'avoid-page': 'avoid-page', 'avoid-column': 'avoid-column', page: 'page', left: 'left', right: 'right', column: 'column' }
@@ -95,10 +95,10 @@ group('maskClip', values('maskClip', { 'border-box': 'border-box', 'padding-box'
 group('maskOrigin', values('maskOrigin', { 'border-box': 'border-box', 'padding-box': 'padding-box', 'content-box': 'content-box', 'fill-box': 'fill-box', 'stroke-box': 'stroke-box', 'view-box': 'view-box' }))
 group('maskPosition', values('maskPosition', positionValues))
 group('maskRepeat', values('maskRepeat', repeatValues))
-group('max', { block: scopedRule('maxBlock', sizeRule('maxBlockSize', { none: true, screen: '100vh' })), h: lengthRule('maxHeight'), inline: scopedRule('maxInline', sizeRule('maxInlineSize', { none: true })), size: scopedRule('maxSize', sizePropsRule(['maxWidth', 'maxHeight'], { none: true })), w: lengthRule('maxWidth') })
+group('max', { block: scopedRule('maxBlock', sizeRule('maxBlockSize', { none: true, screen: '100vh' })), h: sizeLengthRule('maxHeight'), inline: scopedRule('maxInline', sizeRule('maxInlineSize', { none: true })), size: scopedRule('maxSize', sizePropsRule(['maxWidth', 'maxHeight'], { none: true })), w: sizeLengthRule('maxWidth') })
 group('maxBlock', { none: { maxBlockSize: 'none' } })
 group('maxInline', { auto: { maxInlineSize: 'none' }, none: { maxInlineSize: 'none' } })
-group('min', { block: sizeRule('minBlockSize', { screen: '100vh' }), h: lengthRule('minHeight'), inline: sizeRule('minInlineSize'), size: scopedRule('minSize', sizePropsRule(['minWidth', 'minHeight'])), w: lengthRule('minWidth') })
+group('min', { block: sizeRule('minBlockSize', { screen: '100vh' }), h: sizeLengthRule('minHeight'), inline: sizeRule('minInlineSize'), size: scopedRule('minSize', sizePropsRule(['minWidth', 'minHeight'])), w: sizeLengthRule('minWidth') })
 group('mix', { blend: scopedRule('mixBlend', {}) })
 group('mixBlend', values('mixBlendMode', blendValues))
 group('not', { sr: scopedRule('notSr', {}) })
@@ -283,9 +283,9 @@ export { group_ as group }
 export const groupFocus: U['groupFocus'] = u<U['groupFocus']>('groupFocus', variantRule('.group:focus &'))
 export const groupHover: U['groupHover'] = u<U['groupHover']>('groupHover', variantRule('.group:hover &'))
 export const grow: U['grow'] = u<U['grow']>('grow', numericDefaultRule('flexGrow', '1'))
-export const h: U['h'] = u<U['h']>('h', lengthRule('height', '100vh'))
+export const h: U['h'] = u<U['h']>('h', sizeLengthRule('height', '100vh'))
 export const has: U['has'] = u<U['has']>('has', variantRule(':has(*)'))
-export const height: U['height'] = u<U['height']>('height', lengthRule('height', '100vh'))
+export const height: U['height'] = u<U['height']>('height', sizeLengthRule('height', '100vh'))
 export const hidden: U['hidden'] = u<U['hidden']>('hidden', { display: 'none' })
 export const hover: U['hover'] = u<U['hover']>('hover', variantRule(':hover'))
 export const hue: U['hue'] = u<U['hue']>('hue', {}, 'hue')
@@ -447,9 +447,9 @@ export const visibility: U['visibility'] = u<U['visibility']>('visibility', {}, 
 export const visible: U['visible'] = u<U['visible']>('visible', { visibility: 'visible' })
 export const collapse: U['collapse'] = u<U['collapse']>('collapse', { visibility: 'collapse' })
 export const visited: U['visited'] = u<U['visited']>('visited', variantRule(':visited'))
-export const w: U['w'] = u<U['w']>('w', lengthRule('width', '100vw'))
+export const w: U['w'] = u<U['w']>('w', sizeLengthRule('width', '100vw'))
 export const whitespace: U['whitespace'] = u<U['whitespace']>('whitespace', {}, 'whitespace')
-export const width: U['width'] = u<U['width']>('width', lengthRule('width', '100vw'))
+export const width: U['width'] = u<U['width']>('width', sizeLengthRule('width', '100vw'))
 export const will: U['will'] = u<U['will']>('will', {}, 'will')
 export const wrap: U['wrap'] = u<U['wrap']>('wrap', {}, 'wrap')
 export const xl: U['xl'] = u<U['xl']>('xl', mediaRule('1280px'))

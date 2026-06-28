@@ -81,8 +81,10 @@ export const lengthValue = (key: string, screen = '100vw') => {
         if (key === 'min-content' || key === 'max-content' || key === 'fit-content' || key === 'auto' || key === 'none') return key
         return undefined
 }
+const isContentSizeValue = (key: string) => key === 'min-content' || key === 'max-content' || key === 'fit-content'
 type SizeValueOptions = { auto?: boolean; none?: boolean; screen?: string }
 export const sizeValue = (key: string, options: SizeValueOptions = {}) => {
+        if (isContentSizeValue(key)) return undefined
         const value = lengthValue(key, options.screen)
         if (value === 'auto' && options.auto === false) return undefined
         if (value === 'none' && !options.none) return undefined
@@ -165,6 +167,12 @@ export const splitSpacingRule = (numericProps: string[], valueProps: string[]): 
 export const lengthRule = (prop: string, screen?: string): Rule =>
         readRule((key) => {
                 const value = lengthValue(key, screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw'))
+                if (!value) return undefined
+                return { [prop]: value }
+        })
+export const sizeLengthRule = (prop: string, screen?: string): Rule =>
+        readRule((key) => {
+                const value = sizeValue(key, { none: true, screen: screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw') })
                 if (!value) return undefined
                 return { [prop]: value }
         })
