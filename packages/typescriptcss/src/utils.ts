@@ -53,7 +53,7 @@ export const controls = (...keys: string[]) => {
         for (const key of keys) controlKeys.add(key)
 }
 export const x4 = (key: string) => `${Number(key) * 4}px`
-export const spacingValue = (key: string) => `calc(var(--spacing) * ${Number(key)})`
+export const spacingValue = (key: string) => `${4 * Number(key)}px`
 export const isNum = (key: string) => Number.isFinite(Number(key))
 export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|%|vw|vh|dvw|dvh|lvw|lvh|svw|svh|lh|rlh|ch|ex|cap|ic|vmin|vmax|cm|mm|in|pt|pc)$/.test(key)
 export const colorValue = (key: string) => {
@@ -81,6 +81,13 @@ export const lengthValue = (key: string, screen = '100vw') => {
         if (key === 'min-content' || key === 'max-content' || key === 'fit-content' || key === 'auto' || key === 'none') return key
         return undefined
 }
+type SizeValueOptions = { auto?: boolean; none?: boolean; screen?: string }
+export const sizeValue = (key: string, options: SizeValueOptions = {}) => {
+        const value = lengthValue(key, options.screen)
+        if (value === 'auto' && options.auto === false) return undefined
+        if (value === 'none' && !options.none) return undefined
+        return value
+}
 export const styleRule =
         (css: RuntimeStyle, scopeName?: string): Rule =>
         (state) =>
@@ -89,6 +96,10 @@ export const displayRule =
         (display: string, entry: Entry): Rule =>
         (state) =>
                 toRule(entry)(merge(state, { display }))
+export const defaultDisplayRule =
+        (display: string, entry: Entry): Rule =>
+        (state) =>
+                toRule(entry)(state.css.display === undefined ? merge(state, { display }) : state)
 export const withoutDisplayRule =
         (entry: Entry): Rule =>
         (state) => {
@@ -293,17 +304,26 @@ export const roundedRule =
                         },
                 }
         }
-export const sizeRule: Rule = readRule((key) => {
-        const value = lengthValue(key)
-        if (!value) return undefined
-        return { height: value, width: value }
-})
-export const sizePropsRule = (heightProp: string, widthProp: string): Rule =>
+export const sizeRule = (prop: string, options: SizeValueOptions = {}): Rule =>
         readRule((key) => {
-                const value = lengthValue(key)
+                const value = sizeValue(key, options)
                 if (!value) return undefined
-                return { [heightProp]: value, [widthProp]: value }
+                return { [prop]: value }
         })
+export const defaultSizeRule =
+        (css: RuntimeStyle, prop: string, scopeName?: string, options: SizeValueOptions = {}): Rule =>
+        (state) => {
+                const next = merge(state, css, scopeName)
+                return {
+                        ...next,
+                        read: (key) => {
+                                const value = sizeValue(key, options)
+                                if (!value) return undefined
+                                return merge(state, { [prop]: value }, scopeName)
+                        },
+                }
+        }
+export const sizePropsRule = (prop: string, options?: SizeValueOptions): Rule => sizeRule(prop, options)
 export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: String(Number(key) / 100) }))
 export const translateRule = (axis: 'X' | 'Y'): Rule =>
         appendRule('transform', (key) => {

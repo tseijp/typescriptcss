@@ -38,12 +38,13 @@ type GridArea = Values & Scale & { auto: C; span: GridSpan; start: GridLine; end
 type GridRowArea = Values & Scale & { auto: C; full: C; span: Scale; start: GridLine; end: GridLine }
 type ReverseC = C & { reverse: C }
 type DenseC = C & { dense: C }
-type Flex = C & Scale & { row: ReverseC; col: ReverseC; column: ReverseC; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: ReverseC; 'wrap-reverse': C; auto: C; initial: C; none: C; '0 auto': C }
+type FlexScale = { [value: number]: Flex } & { [value in `${number}`]: Flex }
+type Flex = C & FlexScale & { row: ReverseC; col: ReverseC; column: ReverseC; 'row-reverse': C; 'column-reverse': C; nowrap: C; wrap: ReverseC; 'wrap-reverse': C; auto: C; initial: C; none: C; '0 auto': C }
 type Flow = Values & { root: C; row: DenseC; column: DenseC; col: DenseC; dense: C }
 type TableGroup = C & { group: C }
 type Table = C & { auto: C; fixed: C; caption: C; cell: C; column: TableGroup; footer: TableGroup; header: TableGroup; row: TableGroup }
 type Grid = C & { cols: Track; rows: Track; flow: Flow }
-type Inline = C & { block: C; flex: Flex; grid: Grid; table: Table }
+type Inline = C & Size & { block: C; flex: Flex; grid: Grid; table: Table }
 type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: Values & { 'ultra-condensed': C; 'extra-condensed': C; condensed: C; 'semi-condensed': C; normal: C; 'semi-expanded': C; expanded: C; 'extra-expanded': C; 'ultra-expanded': C } }
 type Text = Color & Scale & { base: C; xs: C; sm: C; lg: C; xl: C; left: C; center: C; right: C; justify: C; start: C; end: C; ellipsis: C; clip: C; wrap: C; nowrap: C; balance: C; pretty: C; shadow: Values & Scale & { none: C } }
 type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
@@ -64,6 +65,7 @@ type Snap = C & { start: C; end: C; center: C; none: C; normal: C; always: C; al
 type Touch = C & { auto: C; none: C; manipulation: C; pan: { x: C; left: C; right: C; y: C; up: C; down: C }; pinch: { zoom: C } }
 type Origin = Values & { center: C; top: C & { right: C; left: C }; right: C; bottom: C & { right: C; left: C }; left: C }
 type Size = Length & { auto: C; px: C; full: C; screen: C; dvw: C; dvh: C; lvw: C; lvh: C; svw: C; svh: C; min: C; max: C; fit: C }
+type Block = C & Size
 type Transition = Values & Scale & { all: C; opacity: C; shadow: C; transform: C; none: C; normal: C; discrete: C }
 type Ease = Values & { linear: C; in: C & { out: C }; out: C; initial: C }
 type Transform = Values & Scale & { none: C; '3d': C; flat: C }
@@ -85,7 +87,7 @@ export type U = {
         relative: C
         sticky: C
         static: C
-        block: C
+        block: Block
         contents: C
         hidden: C
         inline: Inline
@@ -240,12 +242,12 @@ export type U = {
         margin: Length
         marker: C
         mask: Mask
-        max: C & { h: Size; w: Size; size: Size }
+        max: C & { h: Size; inline: Size; w: Size; size: Size }
         mb: Length
         mbe: Length
         mbs: Length
         me: Length
-        min: C & { h: Size; w: Size; size: Size }
+        min: C & { h: Size; inline: Size; w: Size; size: Size }
         mix: { blend: Blend }
         ml: Length
         mr: Length
