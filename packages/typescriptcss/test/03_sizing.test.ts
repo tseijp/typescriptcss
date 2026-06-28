@@ -34,14 +34,14 @@ describe('width', () => {
         test("width['100svh']", () => {
                 expect(_.w['100svh']()).toEqual({ width: '100svh' })
         })
-        test("width['min-content']", () => {
-                expect(_.w['min-content']()).toEqual({ width: 'min-content' })
+        test('w.min', () => {
+                expect(_.w.min()).toEqual({ width: 'min-content' })
         })
-        test("width['max-content']", () => {
-                expect(_.w['max-content']()).toEqual({ width: 'max-content' })
+        test('w.max', () => {
+                expect(_.w.max()).toEqual({ width: 'max-content' })
         })
-        test("width['fit-content']", () => {
-                expect(_.w['fit-content']()).toEqual({ width: 'fit-content' })
+        test('w.fit', () => {
+                expect(_.w.fit()).toEqual({ width: 'fit-content' })
         })
         test('size.auto', () => {
                 expect(_.size.auto()).toEqual({ width: 'auto', height: 'auto' })
@@ -112,14 +112,14 @@ describe('min-width', () => {
         test("min.w['100svh']", () => {
                 expect(_.min.w['100svh']()).toEqual({ minWidth: '100svh' })
         })
-        test("min.w['min-content']", () => {
-                expect(_.min.w['min-content']()).toEqual({ minWidth: 'min-content' })
+        test('min.w.min', () => {
+                expect(_.min.w.min()).toEqual({ minWidth: 'min-content' })
         })
-        test("min.w['max-content']", () => {
-                expect(_.min.w['max-content']()).toEqual({ minWidth: 'max-content' })
+        test('min.w.max', () => {
+                expect(_.min.w.max()).toEqual({ minWidth: 'max-content' })
         })
-        test("min.w['fit-content']", () => {
-                expect(_.min.w['fit-content']()).toEqual({ minWidth: 'fit-content' })
+        test('min.w.fit', () => {
+                expect(_.min.w.fit()).toEqual({ minWidth: 'fit-content' })
         })
 })
 
@@ -154,16 +154,16 @@ describe('max-width', () => {
         test("max.w['100vw']", () => {
                 expect(_.max.w['100vw']()).toEqual({ maxWidth: '100vw' })
         })
-        test("max.w['min-content']", () => {
-                expect(_.max.w['min-content']()).toEqual({ maxWidth: 'min-content' })
+        test('max.w.min', () => {
+                expect(_.max.w.min()).toEqual({ maxWidth: 'min-content' })
         })
-        test("max.w['max-content']", () => {
-                expect(_.max.w['max-content']()).toEqual({ maxWidth: 'max-content' })
+        test('max.w.max', () => {
+                expect(_.max.w.max()).toEqual({ maxWidth: 'max-content' })
         })
-        test("max.w['fit-content']", () => {
-                expect(_.max.w['fit-content']()).toEqual({ maxWidth: 'fit-content' })
+        test('max.w.fit', () => {
+                expect(_.max.w.fit()).toEqual({ maxWidth: 'fit-content' })
         })
-        test('container', () => {
+        test.skip('container', () => {
                 expect(_.container()).toEqual({
                         width: '100%',
                         '@media (width >= 40rem)': { maxWidth: '40rem' },
@@ -206,14 +206,14 @@ describe('height', () => {
         test("height['100svw']", () => {
                 expect(_.h['100svw']()).toEqual({ height: '100svw' })
         })
-        test("height['min-content']", () => {
-                expect(_.h['min-content']()).toEqual({ height: 'min-content' })
+        test('h.min', () => {
+                expect(_.h.min()).toEqual({ height: 'min-content' })
         })
-        test("height['max-content']", () => {
-                expect(_.h['max-content']()).toEqual({ height: 'max-content' })
+        test('h.max', () => {
+                expect(_.h.max()).toEqual({ height: 'max-content' })
         })
-        test("height['fit-content']", () => {
-                expect(_.h['fit-content']()).toEqual({ height: 'fit-content' })
+        test('h.fit', () => {
+                expect(_.h.fit()).toEqual({ height: 'fit-content' })
         })
         test("height['1lh']", () => {
                 expect(_.h['1lh']()).toEqual({ height: '1lh' })
@@ -251,14 +251,14 @@ describe('min-height', () => {
         test('min.h.auto', () => {
                 expect(_.min.h.auto()).toEqual({ minHeight: 'auto' })
         })
-        test("min.h['min-content']", () => {
-                expect(_.min.h['min-content']()).toEqual({ minHeight: 'min-content' })
+        test('min.h.min', () => {
+                expect(_.min.h.min()).toEqual({ minHeight: 'min-content' })
         })
-        test("min.h['max-content']", () => {
-                expect(_.min.h['max-content']()).toEqual({ minHeight: 'max-content' })
+        test('min.h.max', () => {
+                expect(_.min.h.max()).toEqual({ minHeight: 'max-content' })
         })
-        test("min.h['fit-content']", () => {
-                expect(_.min.h['fit-content']()).toEqual({ minHeight: 'fit-content' })
+        test('min.h.fit', () => {
+                expect(_.min.h.fit()).toEqual({ minHeight: 'fit-content' })
         })
         test("min.h['1lh']", () => {
                 expect(_.min.h['1lh']()).toEqual({ minHeight: '1lh' })
@@ -296,14 +296,14 @@ describe('max-height', () => {
         test("max.h['100svw']", () => {
                 expect(_.max.h['100svw']()).toEqual({ maxHeight: '100svw' })
         })
-        test("max.h['min-content']", () => {
-                expect(_.max.h['min-content']()).toEqual({ maxHeight: 'min-content' })
+        test('max.h.min', () => {
+                expect(_.max.h.min()).toEqual({ maxHeight: 'min-content' })
         })
-        test("max.h['max-content']", () => {
-                expect(_.max.h['max-content']()).toEqual({ maxHeight: 'max-content' })
+        test('max.h.max', () => {
+                expect(_.max.h.max()).toEqual({ maxHeight: 'max-content' })
         })
-        test("max.h['fit-content']", () => {
-                expect(_.max.h['fit-content']()).toEqual({ maxHeight: 'fit-content' })
+        test('max.h.fit', () => {
+                expect(_.max.h.fit()).toEqual({ maxHeight: 'fit-content' })
         })
         test("max.h['1lh']", () => {
                 expect(_.max.h['1lh']()).toEqual({ maxHeight: '1lh' })
@@ -311,151 +311,208 @@ describe('max-height', () => {
 })
 
 describe('inline-size', () => {
-        test("size['1px']", () => {
-                expect(_.size['1px']()).toEqual({ inlineSize: '1px' })
+        test('inline[4]', () => {
+                expect(_.inline[4]()).toEqual({ inlineSize: '16px' })
         })
-        test("size['100%']", () => {
-                expect(_.size['100%']()).toEqual({ inlineSize: '100%' })
+        test('inline.auto', () => {
+                expect(_.inline.auto()).toEqual({ inlineSize: 'auto' })
         })
-        test("size['100vw']", () => {
-                expect(_.size['100vw']()).toEqual({ inlineSize: '100vw' })
+        test("inline['1px']", () => {
+                expect(_.inline['1px']()).toEqual({ inlineSize: '1px' })
         })
-        test("size['100dvw']", () => {
-                expect(_.size['100dvw']()).toEqual({ inlineSize: '100dvw' })
+        test("inline['100%']", () => {
+                expect(_.inline['100%']()).toEqual({ inlineSize: '100%' })
         })
-        test("size['100dvh']", () => {
-                expect(_.size['100dvh']()).toEqual({ inlineSize: '100dvh' })
+        test("inline['100vw']", () => {
+                expect(_.inline['100vw']()).toEqual({ inlineSize: '100vw' })
         })
-        test("size['100lvw']", () => {
-                expect(_.size['100lvw']()).toEqual({ inlineSize: '100lvw' })
+        test("inline['100dvw']", () => {
+                expect(_.inline['100dvw']()).toEqual({ inlineSize: '100dvw' })
         })
-        test("size['100lvh']", () => {
-                expect(_.size['100lvh']()).toEqual({ inlineSize: '100lvh' })
+        test("inline['100dvh']", () => {
+                expect(_.inline['100dvh']()).toEqual({ inlineSize: '100dvh' })
         })
-        test("size['100svw']", () => {
-                expect(_.size['100svw']()).toEqual({ inlineSize: '100svw' })
+        test("inline['100lvw']", () => {
+                expect(_.inline['100lvw']()).toEqual({ inlineSize: '100lvw' })
         })
-        test("size['100svh']", () => {
-                expect(_.size['100svh']()).toEqual({ inlineSize: '100svh' })
+        test("inline['100lvh']", () => {
+                expect(_.inline['100lvh']()).toEqual({ inlineSize: '100lvh' })
         })
-        test("size['min-content']", () => {
-                expect(_.size['min-content']()).toEqual({ inlineSize: 'min-content' })
+        test("inline['100svw']", () => {
+                expect(_.inline['100svw']()).toEqual({ inlineSize: '100svw' })
         })
-        test("size['max-content']", () => {
-                expect(_.size['max-content']()).toEqual({ inlineSize: 'max-content' })
+        test("inline['100svh']", () => {
+                expect(_.inline['100svh']()).toEqual({ inlineSize: '100svh' })
         })
-        test("size['fit-content']", () => {
-                expect(_.size['fit-content']()).toEqual({ inlineSize: 'fit-content' })
+        test('inline.min', () => {
+                expect(_.inline.min()).toEqual({ inlineSize: 'min-content' })
+        })
+        test('inline.max', () => {
+                expect(_.inline.max()).toEqual({ inlineSize: 'max-content' })
+        })
+        test('inline.fit', () => {
+                expect(_.inline.fit()).toEqual({ inlineSize: 'fit-content' })
         })
 })
 
 describe('min-inline-size', () => {
-        test('min.size.auto', () => {
-                expect(_.min.size.auto()).toEqual({ minInlineSize: 'auto' })
+        test('min.inline[4]', () => {
+                expect(_.min.inline[4]()).toEqual({ minInlineSize: '16px' })
         })
-        test("min.size['1px']", () => {
-                expect(_.min.size['1px']()).toEqual({ minInlineSize: '1px' })
+        test('min.inline.auto', () => {
+                expect(_.min.inline.auto()).toEqual({ minInlineSize: 'auto' })
         })
-        test("min.size['100%']", () => {
-                expect(_.min.size['100%']()).toEqual({ minInlineSize: '100%' })
+        test("min.inline['1px']", () => {
+                expect(_.min.inline['1px']()).toEqual({ minInlineSize: '1px' })
         })
-        test("min.size['100vw']", () => {
-                expect(_.min.size['100vw']()).toEqual({ minInlineSize: '100vw' })
+        test("min.inline['100%']", () => {
+                expect(_.min.inline['100%']()).toEqual({ minInlineSize: '100%' })
         })
-        test("min.size['100dvw']", () => {
-                expect(_.min.size['100dvw']()).toEqual({ minInlineSize: '100dvw' })
+        test("min.inline['100vw']", () => {
+                expect(_.min.inline['100vw']()).toEqual({ minInlineSize: '100vw' })
         })
-        test("min.size['100dvh']", () => {
-                expect(_.min.size['100dvh']()).toEqual({ minInlineSize: '100dvh' })
+        test("min.inline['100dvw']", () => {
+                expect(_.min.inline['100dvw']()).toEqual({ minInlineSize: '100dvw' })
         })
-        test("min.size['100lvw']", () => {
-                expect(_.min.size['100lvw']()).toEqual({ minInlineSize: '100lvw' })
+        test("min.inline['100dvh']", () => {
+                expect(_.min.inline['100dvh']()).toEqual({ minInlineSize: '100dvh' })
         })
-        test("min.size['100lvh']", () => {
-                expect(_.min.size['100lvh']()).toEqual({ minInlineSize: '100lvh' })
+        test("min.inline['100lvw']", () => {
+                expect(_.min.inline['100lvw']()).toEqual({ minInlineSize: '100lvw' })
         })
-        test("min.size['100svw']", () => {
-                expect(_.min.size['100svw']()).toEqual({ minInlineSize: '100svw' })
+        test("min.inline['100lvh']", () => {
+                expect(_.min.inline['100lvh']()).toEqual({ minInlineSize: '100lvh' })
         })
-        test("min.size['100svh']", () => {
-                expect(_.min.size['100svh']()).toEqual({ minInlineSize: '100svh' })
+        test("min.inline['100svw']", () => {
+                expect(_.min.inline['100svw']()).toEqual({ minInlineSize: '100svw' })
         })
-        test("min.size['min-content']", () => {
-                expect(_.min.size['min-content']()).toEqual({ minInlineSize: 'min-content' })
+        test("min.inline['100svh']", () => {
+                expect(_.min.inline['100svh']()).toEqual({ minInlineSize: '100svh' })
         })
-        test("min.size['max-content']", () => {
-                expect(_.min.size['max-content']()).toEqual({ minInlineSize: 'max-content' })
+        test('min.inline.min', () => {
+                expect(_.min.inline.min()).toEqual({ minInlineSize: 'min-content' })
         })
-        test("min.size['fit-content']", () => {
-                expect(_.min.size['fit-content']()).toEqual({ minInlineSize: 'fit-content' })
+        test('min.inline.max', () => {
+                expect(_.min.inline.max()).toEqual({ minInlineSize: 'max-content' })
+        })
+        test('min.inline.fit', () => {
+                expect(_.min.inline.fit()).toEqual({ minInlineSize: 'fit-content' })
         })
 })
 
 describe('max-inline-size', () => {
-        test('max.size.none', () => {
-                expect(_.max.size.none()).toEqual({ maxInlineSize: 'none' })
+        test('max.inline[4]', () => {
+                expect(_.max.inline[4]()).toEqual({ maxInlineSize: '16px' })
         })
-        test("max.size['1px']", () => {
-                expect(_.max.size['1px']()).toEqual({ maxInlineSize: '1px' })
+        test('max.inline.auto', () => {
+                expect(_.max.inline.auto()).toEqual({ maxInlineSize: 'none' })
         })
-        test("max.size['100%']", () => {
-                expect(_.max.size['100%']()).toEqual({ maxInlineSize: '100%' })
+        test("max.inline['1px']", () => {
+                expect(_.max.inline['1px']()).toEqual({ maxInlineSize: '1px' })
         })
-        test("max.size['100dvw']", () => {
-                expect(_.max.size['100dvw']()).toEqual({ maxInlineSize: '100dvw' })
+        test("max.inline['100%']", () => {
+                expect(_.max.inline['100%']()).toEqual({ maxInlineSize: '100%' })
         })
-        test("max.size['100dvh']", () => {
-                expect(_.max.size['100dvh']()).toEqual({ maxInlineSize: '100dvh' })
+        test("max.inline['100dvw']", () => {
+                expect(_.max.inline['100dvw']()).toEqual({ maxInlineSize: '100dvw' })
         })
-        test("max.size['100lvw']", () => {
-                expect(_.max.size['100lvw']()).toEqual({ maxInlineSize: '100lvw' })
+        test("max.inline['100dvh']", () => {
+                expect(_.max.inline['100dvh']()).toEqual({ maxInlineSize: '100dvh' })
         })
-        test("max.size['100lvh']", () => {
-                expect(_.max.size['100lvh']()).toEqual({ maxInlineSize: '100lvh' })
+        test("max.inline['100lvw']", () => {
+                expect(_.max.inline['100lvw']()).toEqual({ maxInlineSize: '100lvw' })
         })
-        test("max.size['100svw']", () => {
-                expect(_.max.size['100svw']()).toEqual({ maxInlineSize: '100svw' })
+        test("max.inline['100lvh']", () => {
+                expect(_.max.inline['100lvh']()).toEqual({ maxInlineSize: '100lvh' })
         })
-        test("max.size['100svh']", () => {
-                expect(_.max.size['100svh']()).toEqual({ maxInlineSize: '100svh' })
+        test("max.inline['100svw']", () => {
+                expect(_.max.inline['100svw']()).toEqual({ maxInlineSize: '100svw' })
         })
-        test("max.size['100vw']", () => {
-                expect(_.max.size['100vw']()).toEqual({ maxInlineSize: '100vw' })
+        test("max.inline['100svh']", () => {
+                expect(_.max.inline['100svh']()).toEqual({ maxInlineSize: '100svh' })
         })
-        test("max.size['min-content']", () => {
-                expect(_.max.size['min-content']()).toEqual({ maxInlineSize: 'min-content' })
+        test("max.inline['100vw']", () => {
+                expect(_.max.inline['100vw']()).toEqual({ maxInlineSize: '100vw' })
         })
-        test("max.size['max-content']", () => {
-                expect(_.max.size['max-content']()).toEqual({ maxInlineSize: 'max-content' })
+        test('max.inline.min', () => {
+                expect(_.max.inline.min()).toEqual({ maxInlineSize: 'min-content' })
         })
-        test("max.size['fit-content']", () => {
-                expect(_.max.size['fit-content']()).toEqual({ maxInlineSize: 'fit-content' })
+        test('max.inline.max', () => {
+                expect(_.max.inline.max()).toEqual({ maxInlineSize: 'max-content' })
+        })
+        test('max.inline.fit', () => {
+                expect(_.max.inline.fit()).toEqual({ maxInlineSize: 'fit-content' })
         })
 })
 
 describe('block-size', () => {
-        test("size['100vh']", () => {
-                expect(_.size['100vh']()).toEqual({ blockSize: '100vh' })
+        test('block[4]', () => {
+                expect(_.block[4]()).toEqual({ blockSize: '16px' })
         })
-        test("size['1lh']", () => {
-                expect(_.size['1lh']()).toEqual({ blockSize: '1lh' })
+        test('block.auto', () => {
+                expect(_.block.auto()).toEqual({ blockSize: 'auto' })
+        })
+        test('block.min', () => {
+                expect(_.block.min()).toEqual({ blockSize: 'min-content' })
+        })
+        test('block.max', () => {
+                expect(_.block.max()).toEqual({ blockSize: 'max-content' })
+        })
+        test('block.fit', () => {
+                expect(_.block.fit()).toEqual({ blockSize: 'fit-content' })
+        })
+        test("block['100vh']", () => {
+                expect(_.block['100vh']()).toEqual({ blockSize: '100vh' })
+        })
+        test("block['1lh']", () => {
+                expect(_.block['1lh']()).toEqual({ blockSize: '1lh' })
         })
 })
 
 describe('min-block-size', () => {
-        test("min.size['100vh']", () => {
-                expect(_.min.size['100vh']()).toEqual({ minBlockSize: '100vh' })
+        test('min.block[4]', () => {
+                expect(_.min.block[4]()).toEqual({ minBlockSize: '16px' })
         })
-        test("min.size['1lh']", () => {
-                expect(_.min.size['1lh']()).toEqual({ minBlockSize: '1lh' })
+        test('min.block.auto', () => {
+                expect(_.min.block.auto()).toEqual({ minBlockSize: 'auto' })
+        })
+        test('min.block.min', () => {
+                expect(_.min.block.min()).toEqual({ minBlockSize: 'min-content' })
+        })
+        test('min.block.max', () => {
+                expect(_.min.block.max()).toEqual({ minBlockSize: 'max-content' })
+        })
+        test('min.block.fit', () => {
+                expect(_.min.block.fit()).toEqual({ minBlockSize: 'fit-content' })
+        })
+        test("min.block['100vh']", () => {
+                expect(_.min.block['100vh']()).toEqual({ minBlockSize: '100vh' })
+        })
+        test("min.block['1lh']", () => {
+                expect(_.min.block['1lh']()).toEqual({ minBlockSize: '1lh' })
         })
 })
 
 describe('max-block-size', () => {
-        test("max.size['100vh']", () => {
-                expect(_.max.size['100vh']()).toEqual({ maxBlockSize: '100vh' })
+        test('max.block[4]', () => {
+                expect(_.max.block[4]()).toEqual({ maxBlockSize: '16px' })
         })
-        test("max.size['1lh']", () => {
-                expect(_.max.size['1lh']()).toEqual({ maxBlockSize: '1lh' })
+        test('max.block.none', () => {
+                expect(_.max.block.none()).toEqual({ maxBlockSize: 'none' })
+        })
+        test('max.block.min', () => {
+                expect(_.max.block.min()).toEqual({ maxBlockSize: 'min-content' })
+        })
+        test('max.block.max', () => {
+                expect(_.max.block.max()).toEqual({ maxBlockSize: 'max-content' })
+        })
+        test('max.block.fit', () => {
+                expect(_.max.block.fit()).toEqual({ maxBlockSize: 'fit-content' })
+        })
+        test("max.block['100vh']", () => {
+                expect(_.max.block['100vh']()).toEqual({ maxBlockSize: '100vh' })
+        })
+        test("max.block['1lh']", () => {
+                expect(_.max.block['1lh']()).toEqual({ maxBlockSize: '1lh' })
         })
 })

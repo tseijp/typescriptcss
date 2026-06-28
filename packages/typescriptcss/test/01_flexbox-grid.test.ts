@@ -5,7 +5,7 @@ import * as _ from '../src'
 
 describe('flex-basis', () => {
         test('basis[4]', () => {
-                expect(_.basis.full()).toEqual({ flexBasis: '16px' })
+                expect(_.basis[4]()).toEqual({ flexBasis: '16px' })
         })
         test('basis.full', () => {
                 expect(_.basis.full()).toEqual({ flexBasis: '100%' })
@@ -17,28 +17,34 @@ describe('flex-basis', () => {
 
 describe('flex-direction', () => {
         test('flex.row', () => {
-                expect(_.flex.row()).toEqual({ flexDirection: 'row' })
+                expect(_.flex.row()).toEqual({ display: 'flex', flexDirection: 'row' })
         })
         test('flex.row.reverse', () => {
-                expect(_.flex.row.reverse()).toEqual({ flexDirection: 'row-reverse' })
+                expect(_.flex.row.reverse()).toEqual({ display: 'flex', flexDirection: 'row-reverse' })
         })
         test('flex.col', () => {
-                expect(_.flex.col()).toEqual({ flexDirection: 'column' })
+                expect(_.flex.col()).toEqual({ display: 'flex', flexDirection: 'column' })
+        })
+        test('flex[1].col', () => {
+                expect(_.flex[1].col()).toEqual({ flex: '1', display: 'flex', flexDirection: 'column' })
+        })
+        test('inline.flex.col', () => {
+                expect(_.inline.flex.col()).toEqual({ display: 'inline-flex', flexDirection: 'column' })
         })
         test('flex.column.reverse', () => {
-                expect(_.flex.col.reverse()).toEqual({ flexDirection: 'column-reverse' })
+                expect(_.flex.col.reverse()).toEqual({ display: 'flex', flexDirection: 'column-reverse' })
         })
 })
 
 describe('flex-wrap', () => {
         test('flex.nowrap', () => {
-                expect(_.flex.nowrap()).toEqual({ flexWrap: 'nowrap' })
+                expect(_.flex.nowrap()).toEqual({ display: 'flex', flexWrap: 'nowrap' })
         })
         test('flex.wrap', () => {
-                expect(_.flex.wrap()).toEqual({ flexWrap: 'wrap' })
+                expect(_.flex.wrap()).toEqual({ display: 'flex', flexWrap: 'wrap' })
         })
         test('flex.wrap.reverse', () => {
-                expect(_.flex.wrap.reverse()).toEqual({ flexWrap: 'wrap-reverse' })
+                expect(_.flex.wrap.reverse()).toEqual({ display: 'flex', flexWrap: 'wrap-reverse' })
         })
 })
 
@@ -92,13 +98,13 @@ describe('order', () => {
 
 describe('grid-template-columns', () => {
         test('grid.cols[4]', () => {
-                expect(_.grid.cols[4]()).toEqual({ gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' })
+                expect(_.grid.cols[4]()).toEqual({ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' })
         })
         test('grid.cols.none', () => {
-                expect(_.grid.cols.none()).toEqual({ gridTemplateColumns: 'none' })
+                expect(_.grid.cols.none()).toEqual({ display: 'grid', gridTemplateColumns: 'none' })
         })
         test('grid.cols.subgrid', () => {
-                expect(_.grid.cols.subgrid()).toEqual({ gridTemplateColumns: 'subgrid' })
+                expect(_.grid.cols.subgrid()).toEqual({ display: 'grid', gridTemplateColumns: 'subgrid' })
         })
 })
 
@@ -125,19 +131,19 @@ describe('grid-column', () => {
                 expect(_.col.auto()).toEqual({ gridColumn: 'auto' })
         })
         test('col[4]', () => {
-                expect(_.col[4]()).toEqual({ gridColumn: '4' })
+                expect(_.col[4]()).toEqual({ gridColumn: 'span 4 / span 4' })
         })
 })
 
 describe('grid-template-rows', () => {
         test('grid.rows[4]', () => {
-                expect(_.grid.rows[4]()).toEqual({ gridTemplateRows: 'repeat(4, minmax(0, 1fr))' })
+                expect(_.grid.rows[4]()).toEqual({ display: 'grid', gridTemplateRows: 'repeat(4, minmax(0, 1fr))' })
         })
         test('grid.rows.none', () => {
-                expect(_.grid.rows.none()).toEqual({ gridTemplateRows: 'none' })
+                expect(_.grid.rows.none()).toEqual({ display: 'grid', gridTemplateRows: 'none' })
         })
         test('grid.rows.subgrid', () => {
-                expect(_.grid.rows.subgrid()).toEqual({ gridTemplateRows: 'subgrid' })
+                expect(_.grid.rows.subgrid()).toEqual({ display: 'grid', gridTemplateRows: 'subgrid' })
         })
 })
 
@@ -164,61 +170,61 @@ describe('grid-row', () => {
                 expect(_.row.auto()).toEqual({ gridRow: 'auto' })
         })
         test('row[4]', () => {
-                expect(_.row[4]()).toEqual({ gridRow: '4' })
+                expect(_.row[4]()).toEqual({ gridRow: 'span 4 / span 4' })
         })
 })
 
 describe('grid-auto-flow', () => {
         test('grid.flow.row', () => {
-                expect(_.grid.flow.row()).toEqual({ gridAutoFlow: 'row' })
+                expect(_.grid.flow.row()).toEqual({ display: 'grid', gridAutoFlow: 'row' })
         })
         test('grid.flow.column', () => {
-                expect(_.grid.flow.column()).toEqual({ gridAutoFlow: 'column' })
+                expect(_.grid.flow.column()).toEqual({ display: 'grid', gridAutoFlow: 'column' })
         })
         test('grid.flow.dense', () => {
-                expect(_.grid.flow.dense()).toEqual({ gridAutoFlow: 'dense' })
+                expect(_.grid.flow.dense()).toEqual({ display: 'grid', gridAutoFlow: 'dense' })
         })
         test('grid.flow.row.dense', () => {
-                expect(_.grid.flow.row.dense()).toEqual({ gridAutoFlow: 'row dense' })
+                expect(_.grid.flow.row.dense()).toEqual({ display: 'grid', gridAutoFlow: 'row dense' })
         })
         test('grid.flow.column.dense', () => {
-                expect(_.grid.flow.column.dense()).toEqual({ gridAutoFlow: 'column dense' })
+                expect(_.grid.flow.column.dense()).toEqual({ display: 'grid', gridAutoFlow: 'column dense' })
         })
 })
 
 describe('grid-auto-columns', () => {
         test('auto.cols.auto', () => {
-                expect(_.auto.cols.auto()).toEqual({ gridAutoColumns: 'auto' })
+                expect(_.auto.cols.auto()).toEqual({ display: 'grid', gridAutoColumns: 'auto' })
         })
         test('auto.cols.min', () => {
-                expect(_.auto.cols.min()).toEqual({ gridAutoColumns: 'min-content' })
+                expect(_.auto.cols.min()).toEqual({ display: 'grid', gridAutoColumns: 'min-content' })
         })
         test('auto.cols.max', () => {
-                expect(_.auto.cols.max()).toEqual({ gridAutoColumns: 'max-content' })
+                expect(_.auto.cols.max()).toEqual({ display: 'grid', gridAutoColumns: 'max-content' })
         })
         test('auto.cols.fr', () => {
-                expect(_.auto.cols.fr()).toEqual({ gridAutoColumns: 'minmax(0, 1fr)' })
+                expect(_.auto.cols.fr()).toEqual({ display: 'grid', gridAutoColumns: 'minmax(0, 1fr)' })
         })
         test('auto.cols[4]', () => {
-                expect(_.auto.cols[4]()).toEqual({ gridAutoColumns: '4' })
+                expect(_.auto.cols[4]()).toEqual({ display: 'grid', gridAutoColumns: '4' })
         })
 })
 
 describe('grid-auto-rows', () => {
         test('auto.rows.auto', () => {
-                expect(_.auto.rows.auto()).toEqual({ gridAutoRows: 'auto' })
+                expect(_.auto.rows.auto()).toEqual({ display: 'grid', gridAutoRows: 'auto' })
         })
         test('auto.rows.min', () => {
-                expect(_.auto.rows.min()).toEqual({ gridAutoRows: 'min-content' })
+                expect(_.auto.rows.min()).toEqual({ display: 'grid', gridAutoRows: 'min-content' })
         })
         test('auto.rows.max', () => {
-                expect(_.auto.rows.max()).toEqual({ gridAutoRows: 'max-content' })
+                expect(_.auto.rows.max()).toEqual({ display: 'grid', gridAutoRows: 'max-content' })
         })
         test('auto.rows.fr', () => {
-                expect(_.auto.rows.fr()).toEqual({ gridAutoRows: 'minmax(0, 1fr)' })
+                expect(_.auto.rows.fr()).toEqual({ display: 'grid', gridAutoRows: 'minmax(0, 1fr)' })
         })
         test('auto.rows[4]', () => {
-                expect(_.auto.rows[4]()).toEqual({ gridAutoRows: '4' })
+                expect(_.auto.rows[4]()).toEqual({ display: 'grid', gridAutoRows: '4' })
         })
 })
 
@@ -385,14 +391,14 @@ describe('align-self', () => {
         test('self.end', () => {
                 expect(_.self.end()).toEqual({ alignSelf: 'flex-end' })
         })
-        test('self.end', () => {
-                expect(_.self.end()).toEqual({ alignSelf: 'safe flex-end' })
+        test('self.end.safe', () => {
+                expect(_.self.end.safe()).toEqual({ alignSelf: 'safe flex-end' })
         })
         test('self.center', () => {
                 expect(_.self.center()).toEqual({ alignSelf: 'center' })
         })
-        test('self.center', () => {
-                expect(_.self.center()).toEqual({ alignSelf: 'safe center' })
+        test('self.center.safe', () => {
+                expect(_.self.center.safe()).toEqual({ alignSelf: 'safe center' })
         })
         test('self.stretch', () => {
                 expect(_.self.stretch()).toEqual({ alignSelf: 'stretch' })

@@ -16,14 +16,14 @@ describe('background-attachment', () => {
 })
 
 describe('background-clip', () => {
-        test("bg.clip['border-box']", () => {
-                expect(_.bg.clip['border-box']()).toEqual({ backgroundClip: 'border-box' })
+        test('bg.clip.border', () => {
+                expect(_.bg.clip.border()).toEqual({ backgroundClip: 'border-box' })
         })
-        test("bg.clip['padding-box']", () => {
-                expect(_.bg.clip['padding-box']()).toEqual({ backgroundClip: 'padding-box' })
+        test('bg.clip.padding', () => {
+                expect(_.bg.clip.padding()).toEqual({ backgroundClip: 'padding-box' })
         })
-        test("bg.clip['content-box']", () => {
-                expect(_.bg.clip['content-box']()).toEqual({ backgroundClip: 'content-box' })
+        test('bg.clip.content', () => {
+                expect(_.bg.clip.content()).toEqual({ backgroundClip: 'content-box' })
         })
         test('bg.clip.text', () => {
                 expect(_.bg.clip.text()).toEqual({ backgroundClip: 'text' })
@@ -34,8 +34,8 @@ describe('background-color', () => {
         test('bg.inherit', () => {
                 expect(_.bg.inherit()).toEqual({ backgroundColor: 'inherit' })
         })
-        test('bg.currentColor', () => {
-                expect(_.bg.currentColor()).toEqual({ backgroundColor: 'currentColor' })
+        test('bg.current', () => {
+                expect(_.bg.current()).toEqual({ backgroundColor: 'currentColor' })
         })
         test('bg.transparent', () => {
                 expect(_.bg.transparent()).toEqual({ backgroundColor: 'transparent' })
@@ -52,26 +52,26 @@ describe('background-image', () => {
 })
 
 describe('background-origin', () => {
-        test("bg.origin['border-box']", () => {
-                expect(_.bg.origin['border-box']()).toEqual({ backgroundOrigin: 'border-box' })
+        test('bg.origin.border', () => {
+                expect(_.bg.origin.border()).toEqual({ backgroundOrigin: 'border-box' })
         })
-        test("bg.origin['padding-box']", () => {
-                expect(_.bg.origin['padding-box']()).toEqual({ backgroundOrigin: 'padding-box' })
+        test('bg.origin.padding', () => {
+                expect(_.bg.origin.padding()).toEqual({ backgroundOrigin: 'padding-box' })
         })
-        test("bg.origin['content-box']", () => {
-                expect(_.bg.origin['content-box']()).toEqual({ backgroundOrigin: 'content-box' })
+        test('bg.origin.content', () => {
+                expect(_.bg.origin.content()).toEqual({ backgroundOrigin: 'content-box' })
         })
 })
 
 describe('background-position', () => {
-        test("bg.position['top left']", () => {
-                expect(_.bg.position['top left']()).toEqual({ backgroundPosition: 'top left' })
+        test('bg.position.top.left', () => {
+                expect(_.bg.position.top.left()).toEqual({ backgroundPosition: 'top left' })
         })
         test('bg.position.top', () => {
                 expect(_.bg.position.top()).toEqual({ backgroundPosition: 'top' })
         })
-        test("bg.position['top right']", () => {
-                expect(_.bg.position['top right']()).toEqual({ backgroundPosition: 'top right' })
+        test('bg.position.top.right', () => {
+                expect(_.bg.position.top.right()).toEqual({ backgroundPosition: 'top right' })
         })
         test('bg.position.left', () => {
                 expect(_.bg.position.left()).toEqual({ backgroundPosition: 'left' })
@@ -82,14 +82,14 @@ describe('background-position', () => {
         test('bg.position.right', () => {
                 expect(_.bg.position.right()).toEqual({ backgroundPosition: 'right' })
         })
-        test("bg.position['bottom left']", () => {
-                expect(_.bg.position['bottom left']()).toEqual({ backgroundPosition: 'bottom left' })
+        test('bg.position.bottom.left', () => {
+                expect(_.bg.position.bottom.left()).toEqual({ backgroundPosition: 'bottom left' })
         })
         test('bg.position.bottom', () => {
                 expect(_.bg.position.bottom()).toEqual({ backgroundPosition: 'bottom' })
         })
-        test("bg.position['bottom right']", () => {
-                expect(_.bg.position['bottom right']()).toEqual({ backgroundPosition: 'bottom right' })
+        test('bg.position.bottom.right', () => {
+                expect(_.bg.position.bottom.right()).toEqual({ backgroundPosition: 'bottom right' })
         })
         test('bg.position[4]', () => {
                 expect(_.bg.position[4]()).toEqual({ backgroundPosition: '4' })
@@ -100,11 +100,11 @@ describe('background-repeat', () => {
         test('bg.repeat.repeat', () => {
                 expect(_.bg.repeat.repeat()).toEqual({ backgroundRepeat: 'repeat' })
         })
-        test("bg.repeat['repeat-x']", () => {
-                expect(_.bg.repeat['repeat-x']()).toEqual({ backgroundRepeat: 'repeat-x' })
+        test('bg.repeat.x', () => {
+                expect(_.bg.repeat.x()).toEqual({ backgroundRepeat: 'repeat-x' })
         })
-        test("bg.repeat['repeat-y']", () => {
-                expect(_.bg.repeat['repeat-y']()).toEqual({ backgroundRepeat: 'repeat-y' })
+        test('bg.repeat.y', () => {
+                expect(_.bg.repeat.y()).toEqual({ backgroundRepeat: 'repeat-y' })
         })
         test('bg.repeat.space', () => {
                 expect(_.bg.repeat.space()).toEqual({ backgroundRepeat: 'space' })

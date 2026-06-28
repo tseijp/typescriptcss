@@ -40,8 +40,8 @@ describe('font-style', () => {
         test('italic', () => {
                 expect(_.italic()).toEqual({ fontStyle: 'italic' })
         })
-        test('normal', () => {
-                expect(_.normal()).toEqual({ fontStyle: 'normal' })
+        test('not.italic', () => {
+                expect(_.not.italic()).toEqual({ fontStyle: 'normal' })
         })
 })
 
@@ -76,32 +76,32 @@ describe('font-weight', () => {
 })
 
 describe('font-stretch', () => {
-        test("font.stretch['ultra-condensed']", () => {
-                expect(_.font.stretch['ultra-condensed']()).toEqual({ fontStretch: 'ultra-condensed' })
+        test('font.stretch.ultra.condensed', () => {
+                expect(_.font.stretch.ultra.condensed()).toEqual({ fontStretch: 'ultra-condensed' })
         })
-        test("font.stretch['extra-condensed']", () => {
-                expect(_.font.stretch['extra-condensed']()).toEqual({ fontStretch: 'extra-condensed' })
+        test('font.stretch.extra.condensed', () => {
+                expect(_.font.stretch.extra.condensed()).toEqual({ fontStretch: 'extra-condensed' })
         })
         test('font.stretch.condensed', () => {
                 expect(_.font.stretch.condensed()).toEqual({ fontStretch: 'condensed' })
         })
-        test("font.stretch['semi-condensed']", () => {
-                expect(_.font.stretch['semi-condensed']()).toEqual({ fontStretch: 'semi-condensed' })
+        test('font.stretch.semi.condensed', () => {
+                expect(_.font.stretch.semi.condensed()).toEqual({ fontStretch: 'semi-condensed' })
         })
         test('font.stretch.normal', () => {
                 expect(_.font.stretch.normal()).toEqual({ fontStretch: 'normal' })
         })
-        test("font.stretch['semi-expanded']", () => {
-                expect(_.font.stretch['semi-expanded']()).toEqual({ fontStretch: 'semi-expanded' })
+        test('font.stretch.semi.expanded', () => {
+                expect(_.font.stretch.semi.expanded()).toEqual({ fontStretch: 'semi-expanded' })
         })
         test('font.stretch.expanded', () => {
                 expect(_.font.stretch.expanded()).toEqual({ fontStretch: 'expanded' })
         })
-        test("font.stretch['extra-expanded']", () => {
-                expect(_.font.stretch['extra-expanded']()).toEqual({ fontStretch: 'extra-expanded' })
+        test('font.stretch.extra.expanded', () => {
+                expect(_.font.stretch.extra.expanded()).toEqual({ fontStretch: 'extra-expanded' })
         })
-        test("font.stretch['ultra-expanded']", () => {
-                expect(_.font.stretch['ultra-expanded']()).toEqual({ fontStretch: 'ultra-expanded' })
+        test('font.stretch.ultra.expanded', () => {
+                expect(_.font.stretch.ultra.expanded()).toEqual({ fontStretch: 'ultra-expanded' })
         })
         test('font.stretch[4]', () => {
                 expect(_.font.stretch[4]()).toEqual({ fontStretch: '50%' })
@@ -109,29 +109,32 @@ describe('font-stretch', () => {
 })
 
 describe('font-variant-numeric', () => {
+        test('normal.nums', () => {
+                expect(_.normal.nums()).toEqual({ fontVariantNumeric: 'normal' })
+        })
         test('ordinal', () => {
                 expect(_.ordinal()).toEqual({ fontVariantNumeric: 'ordinal' })
         })
-        test('slashedZero', () => {
-                expect(_.slashedZero()).toEqual({ fontVariantNumeric: 'slashed-zero' })
+        test('slashed.zero', () => {
+                expect(_.slashed.zero()).toEqual({ fontVariantNumeric: 'slashed-zero' })
         })
-        test('liningNums', () => {
-                expect(_.liningNums()).toEqual({ fontVariantNumeric: 'lining-nums' })
+        test('lining.nums', () => {
+                expect(_.lining.nums()).toEqual({ fontVariantNumeric: 'lining-nums' })
         })
-        test('oldstyleNums', () => {
-                expect(_.oldstyleNums()).toEqual({ fontVariantNumeric: 'oldstyle-nums' })
+        test('oldstyle.nums', () => {
+                expect(_.oldstyle.nums()).toEqual({ fontVariantNumeric: 'oldstyle-nums' })
         })
-        test('proportionalNums', () => {
-                expect(_.proportionalNums()).toEqual({ fontVariantNumeric: 'proportional-nums' })
+        test('proportional.nums', () => {
+                expect(_.proportional.nums()).toEqual({ fontVariantNumeric: 'proportional-nums' })
         })
-        test('tabularNums', () => {
-                expect(_.tabularNums()).toEqual({ fontVariantNumeric: 'tabular-nums' })
+        test('tabular.nums', () => {
+                expect(_.tabular.nums()).toEqual({ fontVariantNumeric: 'tabular-nums' })
         })
-        test('diagonalFractions', () => {
-                expect(_.diagonalFractions()).toEqual({ fontVariantNumeric: 'diagonal-fractions' })
+        test('diagonal.fractions', () => {
+                expect(_.diagonal.fractions()).toEqual({ fontVariantNumeric: 'diagonal-fractions' })
         })
-        test('stackedFractions', () => {
-                expect(_.stackedFractions()).toEqual({ fontVariantNumeric: 'stacked-fractions' })
+        test('stacked.fractions', () => {
+                expect(_.stacked.fractions()).toEqual({ fontVariantNumeric: 'stacked-fractions' })
         })
 })
 
@@ -238,8 +241,8 @@ describe('color', () => {
         test('color.inherit', () => {
                 expect(_.color.inherit()).toEqual({ color: 'inherit' })
         })
-        test('color.currentColor', () => {
-                expect(_.color.currentColor()).toEqual({ color: 'currentColor' })
+        test('color.current', () => {
+                expect(_.color.current()).toEqual({ color: 'currentColor' })
         })
         test('color.transparent', () => {
                 expect(_.color.transparent()).toEqual({ color: 'transparent' })
@@ -253,8 +256,8 @@ describe('text-decoration-line', () => {
         test('overline', () => {
                 expect(_.overline()).toEqual({ textDecorationLine: 'overline' })
         })
-        test('lineThrough', () => {
-                expect(_.lineThrough()).toEqual({ textDecorationLine: 'line-through' })
+        test('line.through', () => {
+                expect(_.line.through()).toEqual({ textDecorationLine: 'line-through' })
         })
         test('none', () => {
                 expect(_.none()).toEqual({ textDecorationLine: 'none' })
@@ -265,8 +268,8 @@ describe('text-decoration-color', () => {
         test('decoration.inherit', () => {
                 expect(_.decoration.inherit()).toEqual({ textDecorationColor: 'inherit' })
         })
-        test('decoration.currentColor', () => {
-                expect(_.decoration.currentColor()).toEqual({ textDecorationColor: 'currentColor' })
+        test('decoration.current', () => {
+                expect(_.decoration.current()).toEqual({ textDecorationColor: 'currentColor' })
         })
         test('decoration.transparent', () => {
                 expect(_.decoration.transparent()).toEqual({ textDecorationColor: 'transparent' })
@@ -379,11 +382,11 @@ describe('vertical-align', () => {
         test('align.bottom', () => {
                 expect(_.align.bottom()).toEqual({ verticalAlign: 'bottom' })
         })
-        test("align['text-top']", () => {
-                expect(_.align['text-top']()).toEqual({ verticalAlign: 'text-top' })
+        test('align.text.top', () => {
+                expect(_.align.text.top()).toEqual({ verticalAlign: 'text-top' })
         })
-        test("align['text-bottom']", () => {
-                expect(_.align['text-bottom']()).toEqual({ verticalAlign: 'text-bottom' })
+        test('align.text.bottom', () => {
+                expect(_.align.text.bottom()).toEqual({ verticalAlign: 'text-bottom' })
         })
         test('align.sub', () => {
                 expect(_.align.sub()).toEqual({ verticalAlign: 'sub' })
@@ -406,14 +409,14 @@ describe('white-space', () => {
         test('whitespace.pre', () => {
                 expect(_.whitespace.pre()).toEqual({ whiteSpace: 'pre' })
         })
-        test("whitespace['pre-line']", () => {
-                expect(_.whitespace['pre-line']()).toEqual({ whiteSpace: 'pre-line' })
+        test('whitespace.pre.line', () => {
+                expect(_.whitespace.pre.line()).toEqual({ whiteSpace: 'pre-line' })
         })
-        test("whitespace['pre-wrap']", () => {
-                expect(_.whitespace['pre-wrap']()).toEqual({ whiteSpace: 'pre-wrap' })
+        test('whitespace.pre.wrap', () => {
+                expect(_.whitespace.pre.wrap()).toEqual({ whiteSpace: 'pre-wrap' })
         })
-        test("whitespace['break-spaces']", () => {
-                expect(_.whitespace['break-spaces']()).toEqual({ whiteSpace: 'break-spaces' })
+        test('whitespace.break.spaces', () => {
+                expect(_.whitespace.break.spaces()).toEqual({ whiteSpace: 'break-spaces' })
         })
 })
 
@@ -421,11 +424,11 @@ describe('word-break', () => {
         test('break.normal', () => {
                 expect(_.break.normal()).toEqual({ wordBreak: 'normal' })
         })
-        test("break['break-all']", () => {
-                expect(_.break['break-all']()).toEqual({ wordBreak: 'break-all' })
+        test('break.all', () => {
+                expect(_.break.all()).toEqual({ wordBreak: 'break-all' })
         })
-        test("break['keep-all']", () => {
-                expect(_.break['keep-all']()).toEqual({ wordBreak: 'keep-all' })
+        test('break.keep', () => {
+                expect(_.break.keep()).toEqual({ wordBreak: 'keep-all' })
         })
 })
 

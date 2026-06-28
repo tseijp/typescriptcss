@@ -223,8 +223,8 @@ describe('scrollbar-color', () => {
         test('scrollbar.thumb.inherit', () => {
                 expect(_.scrollbar.thumb.inherit()).toEqual({ scrollbarColor: 'inherit' })
         })
-        test('scrollbar.thumb.currentColor', () => {
-                expect(_.scrollbar.thumb.currentColor()).toEqual({ scrollbarColor: 'currentColor' })
+        test('scrollbar.thumb.current', () => {
+                expect(_.scrollbar.thumb.current()).toEqual({ scrollbarColor: 'currentColor' })
         })
         test('scrollbar.thumb.transparent', () => {
                 expect(_.scrollbar.thumb.transparent()).toEqual({ scrollbarColor: 'transparent' })
