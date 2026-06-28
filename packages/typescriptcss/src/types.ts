@@ -242,12 +242,12 @@ export type U = {
         margin: Length
         marker: C
         mask: Mask
-        max: C & { h: Size; inline: Size; w: Size; size: Size }
+        max: C & { block: Size; h: Size; inline: Size; w: Size; size: Size }
         mb: Length
         mbe: Length
         mbs: Length
         me: Length
-        min: C & { h: Size; inline: Size; w: Size; size: Size }
+        min: C & { block: Size; h: Size; inline: Size; w: Size; size: Size }
         mix: { blend: Blend }
         ml: Length
         mr: Length

@@ -310,6 +310,12 @@ export const sizeRule = (prop: string, options: SizeValueOptions = {}): Rule =>
                 if (!value) return undefined
                 return { [prop]: value }
         })
+export const sizePropsRule = (props: string[], options: SizeValueOptions = {}): Rule =>
+        readRule((key) => {
+                const value = sizeValue(key, options)
+                if (!value) return undefined
+                return Object.fromEntries(props.map((prop) => [prop, value]))
+        })
 export const defaultSizeRule =
         (css: RuntimeStyle, prop: string, scopeName?: string, options: SizeValueOptions = {}): Rule =>
         (state) => {
@@ -323,7 +329,6 @@ export const defaultSizeRule =
                         },
                 }
         }
-export const sizePropsRule = (prop: string, options?: SizeValueOptions): Rule => sizeRule(prop, options)
 export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: String(Number(key) / 100) }))
 export const translateRule = (axis: 'X' | 'Y'): Rule =>
         appendRule('transform', (key) => {
