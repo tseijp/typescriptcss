@@ -220,8 +220,8 @@ describe('border-color', () => {
         test('border.inherit', () => {
                 expect(_.border.inherit()).toEqual({ borderColor: 'inherit' })
         })
-        test('border.currentColor', () => {
-                expect(_.border.currentColor()).toEqual({ borderColor: 'currentColor' })
+        test('border.current', () => {
+                expect(_.border.current()).toEqual({ borderColor: 'current' })
         })
         test('border.transparent', () => {
                 expect(_.border.transparent()).toEqual({ borderColor: 'transparent' })
@@ -229,8 +229,8 @@ describe('border-color', () => {
         test('border.x.inherit', () => {
                 expect(_.border.x.inherit()).toEqual({ borderInlineColor: 'inherit' })
         })
-        test('border.x.currentColor', () => {
-                expect(_.border.x.currentColor()).toEqual({ borderInlineColor: 'currentColor' })
+        test('border.x.current', () => {
+                expect(_.border.x.current()).toEqual({ borderInlineColor: 'current' })
         })
         test('border.x.transparent', () => {
                 expect(_.border.x.transparent()).toEqual({ borderInlineColor: 'transparent' })
@@ -238,8 +238,8 @@ describe('border-color', () => {
         test('border.y.inherit', () => {
                 expect(_.border.y.inherit()).toEqual({ borderBlockColor: 'inherit' })
         })
-        test('border.y.currentColor', () => {
-                expect(_.border.y.currentColor()).toEqual({ borderBlockColor: 'currentColor' })
+        test('border.y.current', () => {
+                expect(_.border.y.current()).toEqual({ borderBlockColor: 'current' })
         })
         test('border.y.transparent', () => {
                 expect(_.border.y.transparent()).toEqual({ borderBlockColor: 'transparent' })
@@ -247,8 +247,8 @@ describe('border-color', () => {
         test('border.s.inherit', () => {
                 expect(_.border.s.inherit()).toEqual({ borderInlineStartColor: 'inherit' })
         })
-        test('border.s.currentColor', () => {
-                expect(_.border.s.currentColor()).toEqual({ borderInlineStartColor: 'currentColor' })
+        test('border.s.current', () => {
+                expect(_.border.s.current()).toEqual({ borderInlineStartColor: 'current' })
         })
         test('border.s.transparent', () => {
                 expect(_.border.s.transparent()).toEqual({ borderInlineStartColor: 'transparent' })
@@ -256,8 +256,8 @@ describe('border-color', () => {
         test('border.e.inherit', () => {
                 expect(_.border.e.inherit()).toEqual({ borderInlineEndColor: 'inherit' })
         })
-        test('border.e.currentColor', () => {
-                expect(_.border.e.currentColor()).toEqual({ borderInlineEndColor: 'currentColor' })
+        test('border.e.current', () => {
+                expect(_.border.e.current()).toEqual({ borderInlineEndColor: 'current' })
         })
         test('border.e.transparent', () => {
                 expect(_.border.e.transparent()).toEqual({ borderInlineEndColor: 'transparent' })
@@ -265,8 +265,8 @@ describe('border-color', () => {
         test('border.t.inherit', () => {
                 expect(_.border.t.inherit()).toEqual({ borderBlockStartColor: 'inherit' })
         })
-        test('border.t.currentColor', () => {
-                expect(_.border.t.currentColor()).toEqual({ borderBlockStartColor: 'currentColor' })
+        test('border.t.current', () => {
+                expect(_.border.t.current()).toEqual({ borderBlockStartColor: 'current' })
         })
         test('border.t.transparent', () => {
                 expect(_.border.t.transparent()).toEqual({ borderBlockStartColor: 'transparent' })
@@ -274,8 +274,8 @@ describe('border-color', () => {
         test('border.b.inherit', () => {
                 expect(_.border.b.inherit()).toEqual({ borderBlockEndColor: 'inherit' })
         })
-        test('border.b.currentColor', () => {
-                expect(_.border.b.currentColor()).toEqual({ borderBlockEndColor: 'currentColor' })
+        test('border.b.current', () => {
+                expect(_.border.b.current()).toEqual({ borderBlockEndColor: 'current' })
         })
         test('border.b.transparent', () => {
                 expect(_.border.b.transparent()).toEqual({ borderBlockEndColor: 'transparent' })
@@ -283,8 +283,8 @@ describe('border-color', () => {
         test('border.r.inherit', () => {
                 expect(_.border.r.inherit()).toEqual({ borderRightColor: 'inherit' })
         })
-        test('border.r.currentColor', () => {
-                expect(_.border.r.currentColor()).toEqual({ borderRightColor: 'currentColor' })
+        test('border.r.current', () => {
+                expect(_.border.r.current()).toEqual({ borderRightColor: 'current' })
         })
         test('border.r.transparent', () => {
                 expect(_.border.r.transparent()).toEqual({ borderRightColor: 'transparent' })
@@ -292,8 +292,8 @@ describe('border-color', () => {
         test('border.l.inherit', () => {
                 expect(_.border.l.inherit()).toEqual({ borderLeftColor: 'inherit' })
         })
-        test('border.l.currentColor', () => {
-                expect(_.border.l.currentColor()).toEqual({ borderLeftColor: 'currentColor' })
+        test('border.l.current', () => {
+                expect(_.border.l.current()).toEqual({ borderLeftColor: 'current' })
         })
         test('border.l.transparent', () => {
                 expect(_.border.l.transparent()).toEqual({ borderLeftColor: 'transparent' })
@@ -302,7 +302,7 @@ describe('border-color', () => {
                 expect(_.divide.inherit()).toEqual({ '& > :not(:last-child)': { borderColor: 'inherit' } })
         })
         test('divide.current', () => {
-                expect(_.divide.current()).toEqual({ '& > :not(:last-child)': { borderColor: 'currentColor' } })
+                expect(_.divide.current()).toEqual({ '& > :not(:last-child)': { borderColor: 'current' } })
         })
         test('divide.transparent', () => {
                 expect(_.divide.transparent()).toEqual({ '& > :not(:last-child)': { borderColor: 'transparent' } })
@@ -364,8 +364,8 @@ describe('outline-color', () => {
         test('outline.inherit', () => {
                 expect(_.outline.inherit()).toEqual({ outlineColor: 'inherit' })
         })
-        test('outline.currentColor', () => {
-                expect(_.outline.currentColor()).toEqual({ outlineColor: 'currentColor' })
+        test('outline.current', () => {
+                expect(_.outline.current()).toEqual({ outlineColor: 'currentColor' })
         })
         test('outline.transparent', () => {
                 expect(_.outline.transparent()).toEqual({ outlineColor: 'transparent' })

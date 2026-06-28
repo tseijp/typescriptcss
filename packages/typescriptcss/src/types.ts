@@ -14,7 +14,7 @@ type Length = Scale & { [value in LengthValue]: C }
 type SizeLength = Scale & { [value in Exclude<LengthValue, ContentSizeValue>]: C }
 type ColorFunction = 'alpha' | 'color' | 'color-mix' | 'contrast-color' | 'device-cmyk' | 'hsl' | 'hsla' | 'hwb' | 'lab' | 'lch' | 'light-dark' | 'oklab' | 'oklch' | 'rgb' | 'rgba'
 type ColorLiteral = `#${string}` | `${ColorFunction}(${string})` | `var(${string})`
-type ColorName = 'inherit' | 'current' | 'currentColor' | 'transparent' | 'black' | 'white' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'
+type ColorName = 'inherit' | 'current' | 'transparent' | 'black' | 'white' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'
 type Color = C & Values & { [value in ColorLiteral | ColorName]: C }
 type Axis<T = Length> = { x: T; y: T }
 type Sides<T = Length> = { t: T; r: T; b: T; l: T; s: T; e: T; bs: T; be: T; x: T; y: T }
@@ -31,8 +31,10 @@ type PositionValue = Length & { auto: C }
 type ObjectPositionKeyword = 'top left' | 'top right' | 'bottom left' | 'bottom right'
 type ObjectPositionEdge = C & { left: C; right: C }
 type ObjectPosition = C & Values & { contain: C; cover: C; fill: C; none: C; top: ObjectPositionEdge; right: C; bottom: ObjectPositionEdge; left: C; center: C; scale: C & { down: C } } & { [value in ObjectPositionKeyword]: C }
-type Repeat = C & { repeat: C; 'repeat-x': C; 'repeat-y': C; space: C; round: C; 'no-repeat': C }
-type Box = C & { 'border-box': C; 'padding-box': C; 'content-box': C }
+type PlacementEdge = C & { left: C; right: C }
+type Placement = C & { top: PlacementEdge; right: C; bottom: PlacementEdge; left: C; center: C }
+type Repeat = C & { repeat: C; x: C; y: C; space: C; round: C; 'no-repeat': C }
+type Box = C & { border: C; padding: C; content: C }
 type Track = Values & Scale & { auto: C; none: C; subgrid: C; min: C; max: C; fr: C; 'min-content': C; 'max-content': C; 'minmax(0, 1fr)': C }
 type GridLine = Values & Scale & { auto: C }
 type GridSpan = Scale & { full: C }
@@ -47,9 +49,10 @@ type TableGroup = C & { group: C }
 type Table = C & { auto: C; fixed: C; caption: C; cell: C; column: TableGroup; footer: TableGroup; header: TableGroup; row: TableGroup }
 type Grid = C & { cols: Track; rows: Track; flow: Flow }
 type Inline = C & Size & { block: C; flex: Flex; grid: Grid; table: Table }
-type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: Values & { 'ultra-condensed': C; 'extra-condensed': C; condensed: C; 'semi-condensed': C; normal: C; 'semi-expanded': C; expanded: C; 'extra-expanded': C; 'ultra-expanded': C } }
+type FontStretch = Scale & { ultra: { condensed: C; expanded: C }; extra: { condensed: C; expanded: C }; condensed: C; semi: { condensed: C; expanded: C }; normal: C; expanded: C }
+type Font = C & Scale & { sans: C; serif: C; mono: C; bold: C; semibold: C; medium: C; normal: C; features: Values; stretch: FontStretch }
 type Text = Color & Scale & { base: C; xs: C; sm: C; lg: C; xl: C; left: C; center: C; right: C; justify: C; start: C; end: C; ellipsis: C; clip: C; wrap: C; nowrap: C; balance: C; pretty: C; shadow: Values & Scale & { none: C } }
-type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: ObjectPosition; repeat: Repeat; size: Scale }
+type Background = Color & { fixed: C; local: C; scroll: C; auto: C; cover: C; contain: C; blend: Blend; clip: Box & { text: C }; origin: Box; position: Placement; repeat: Repeat; size: Scale }
 type Blend = C & { normal: C; multiply: C; screen: C; overlay: C; darken: C; lighten: C; 'color-dodge': C; 'color-burn': C; 'hard-light': C; 'soft-light': C; difference: C; exclusion: C; hue: C; saturation: C; color: C; luminosity: C; 'plus-darker': C; 'plus-lighter': C }
 type BorderPart = Length & Color
 type Border = Color & Length & Sides<BorderPart> & { collapse: C; separate: C; solid: C; dashed: C; dotted: C; double: C; hidden: C; none: C }
@@ -59,7 +62,7 @@ type Divide = Color & Length & Axis<Length> & { solid: C; dashed: C; dotted: C; 
 type Filter = Values & Scale & { none: C }
 type FilterRoot = Filter & { grayscale: C; invert: C; sepia: C }
 type Backdrop = C & { filter: Filter; blur: Filter; brightness: Filter; contrast: Filter; grayscale: Filter; invert: Filter; opacity: Filter; saturate: Filter; sepia: Filter; hue: { rotate: Filter } }
-type Mask = Values & Scale & { none: C; add: C; subtract: C; intersect: C; exclude: C; alpha: C; luminance: C; 'match-source': C; auto: C; cover: C; contain: C; radial: Scale; clip: Box & { 'fill-box': C; 'stroke-box': C; 'view-box': C; 'no-clip': C }; origin: Box & { 'fill-box': C; 'stroke-box': C; 'view-box': C }; position: ObjectPosition; repeat: Repeat; size: Scale }
+type Mask = Values & Scale & { none: C; add: C; subtract: C; intersect: C; exclude: C; alpha: C; luminance: C; match: C; auto: C; cover: C; contain: C; radial: Scale; clip: Box & { fill: C; stroke: C; view: C; 'no-clip': C }; origin: Box & { fill: C; stroke: C; view: C }; position: Values & Placement; repeat: Repeat; size: Scale }
 type Cursor = Values & { auto: C; default: C; pointer: C; wait: C; text: C; move: C; help: C; none: C; alias: C; copy: C; progress: C; cell: C; crosshair: C; grab: C; grabbing: C; not: { allowed: C }; context: { menu: C }; no: { drop: C }; all: { scroll: C }; col: { resize: C }; row: { resize: C }; vertical: { text: C }; zoom: { in: C; out: C }; n: { resize: C }; e: { resize: C }; s: { resize: C }; w: { resize: C }; ne: { resize: C }; nw: { resize: C }; se: { resize: C }; sw: { resize: C }; ew: { resize: C }; ns: { resize: C }; nesw: { resize: C }; nwse: { resize: C } }
 type Scheme = C & { normal: C; dark: C; light: C & { dark: C }; only: { dark: C; light: C } }
 type Scrollbar = C & { auto: C; thin: C; none: C; thumb: Color; track: Color; gutter: { auto: C; stable: C; both: C } }
@@ -73,9 +76,12 @@ type Ease = Values & { linear: C; in: C & { out: C }; out: C; initial: C }
 type Transform = Values & Scale & { none: C; '3d': C; flat: C }
 type Translate = Transform & { x: Length; y: Length; full: C; px: C }
 type Skew = Transform & { x: Scale; y: Scale }
+type Whitespace = C & { normal: C; nowrap: C; pre: C & { line: C; wrap: C }; break: { spaces: C } }
 type BreakAvoid = C & { page: C; column: C }
 type BreakValues = Values & { auto: C; avoid: BreakAvoid; all: C; page: C; left: C; right: C; column: C; 'avoid-page': C; 'avoid-column': C }
-type Break = C & { after: BreakValues; before: BreakValues; inside: BreakValues; normal: C; 'break-all': C; 'keep-all': C }
+type Break = C & { after: BreakValues; before: BreakValues; inside: BreakValues; normal: C; all: C; keep: C }
+type NumericVariant = { nums: C }
+type FractionVariant = { fractions: C }
 type Native = { [K in Exclude<CSSKey, keyof U>]: Values }
 export type RuntimeStyle = CSS & Record<string, StyleValue>
 export type Argument = RuntimeStyle | string | number | null | undefined | false
@@ -187,7 +193,7 @@ export type U = {
         xl: C
         xl2: C
         accent: Color
-        align: Values
+        align: VerticalAlign
         animate: Values & { spin: C; ping: C; pulse: C; bounce: C; none: C }
         appearance: Values & { none: C; auto: C }
         aspect: Values & Scale & { auto: C; square: C; video: C }
@@ -238,7 +244,7 @@ export type U = {
         justify: JustifyContent & { items: Align; self: Align }
         leading: Scale
         left: PositionValue
-        line: { clamp: Scale & { none: C } }
+        line: { clamp: Scale & { none: C }; through: C }
         list: Values & { image: Values & { none: C }; inside: C; outside: C; disc: C; decimal: C; item: C; none: C }
         m: Length
         margin: Length
@@ -258,8 +264,8 @@ export type U = {
         mx: Length & { auto: C }
         my: Length & { auto: C }
         none: C
-        normal: C
-        not: C & { sr: { only: C } }
+        normal: C & NumericVariant
+        not: C & { italic: C; sr: { only: C } }
         notSr: { only: C }
         object: Values & ObjectPosition
         opacity: Scale
@@ -317,7 +323,7 @@ export type U = {
         translate: Translate
         underline: C & { offset: Length & { auto: C } }
         w: Size
-        whitespace: Values
+        whitespace: Whitespace
         width: Size
         will: { change: Values }
         wrap: Values
@@ -325,17 +331,17 @@ export type U = {
         zoom: Values & Scale
         antialiased: C
         capitalize: C
+        diagonal: FractionVariant
         italic: C
-        lineThrough: C
-        liningNums: C
+        lining: NumericVariant
         lowercase: C
-        oldstyleNums: C
+        oldstyle: NumericVariant
         ordinal: C
         overline: C
-        proportionalNums: C
-        slashedZero: C
-        stackedFractions: C
-        tabularNums: C
+        proportional: NumericVariant
+        slashed: { zero: C }
+        stacked: FractionVariant
+        tabular: NumericVariant
         truncate: C
         uppercase: C
 }

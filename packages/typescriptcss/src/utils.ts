@@ -5,7 +5,7 @@ const rules: Record<string, Rule> = Object.create(null)
 const scoped: Record<string, Record<string, Rule>> = Object.create(null)
 const controlKeys = new Set<string>()
 const childSelector = '& > :not(:last-child)'
-const colorLogicalKeys = new Set(['inherit', 'current', 'currentColor', 'transparent'])
+const colorLogicalKeys = new Set(['inherit', 'current', 'transparent'])
 const toRule = (entry: Entry, scopeName?: string): Rule => {
         if (typeof entry === 'function' && scopeName) return (state) => ({ ...(entry as Rule)(state), scope: scopeName })
         if (typeof entry === 'function') return entry as Rule
@@ -57,12 +57,14 @@ export const spacingValue = (key: string) => `${4 * Number(key)}px`
 export const isNum = (key: string) => Number.isFinite(Number(key))
 export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|%|vw|vh|dvw|dvh|lvw|lvh|svw|svh|lh|rlh|ch|ex|cap|ic|vmin|vmax|cm|mm|in|pt|pc)$/.test(key)
 export const colorValue = (key: string) => {
+        if (key === 'currentColor') return undefined
         if (key === 'current') return 'currentColor'
         if (key === 'black') return 'var(--color-black)'
         if (key === 'white') return 'var(--color-white)'
         if (key.startsWith('--')) return `var(${key})`
         return key
 }
+const borderColorValue = (key: string) => (key === 'current' ? 'current' : colorValue(key))
 export const lengthValue = (key: string, screen = '100vw') => {
         if (isNum(key)) return x4(key)
         if (isLength(key)) return key === '0' ? '0px' : key
@@ -179,6 +181,7 @@ export const sizeLengthRule = (prop: string, screen?: string): Rule =>
 export const colorRule = (prop: string): Rule =>
         readRule((key, state) => {
                 const value = colorValue(key)
+                if (!value) return undefined
                 if (!state.dark) return { [prop]: value } as unknown as Rule
                 const scheme = prop === 'background' ? ({ colorScheme: 'light dark' } as unknown as Rule) : ({} as Rule)
                 return { ...scheme, [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
@@ -230,7 +233,9 @@ export const borderRule: Rule = (state) => {
                 read: (key) => {
                         const width = borderWidthValue(key)
                         if (width) return merge(next, { borderWidth: width })
-                        return merge(next, { borderColor: colorValue(key) })
+                        const color = borderColorValue(key)
+                        if (!color) return undefined
+                        return merge(next, { borderColor: color })
                 },
         }
 }
@@ -243,7 +248,9 @@ export const borderSideRule =
                         read: (key) => {
                                 const width = borderWidthValue(key)
                                 if (width) return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Width`, width])))
-                                return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Color`, colorValue(key)])))
+                                const color = borderColorValue(key)
+                                if (!color) return undefined
+                                return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Color`, color])))
                         },
                 }
         }
@@ -256,7 +263,9 @@ export const splitBorderSideRule =
                         read: (key) => {
                                 const width = borderWidthValue(key)
                                 if (width) return merge(next, Object.fromEntries((isNum(key) ? numericProps : valueProps).map((prop) => [`${prop}Width`, width])))
-                                return merge(next, Object.fromEntries((colorLogicalKeys.has(key) ? valueProps : numericProps).map((prop) => [`${prop}Color`, colorValue(key)])))
+                                const color = borderColorValue(key)
+                                if (!color) return undefined
+                                return merge(next, Object.fromEntries((colorLogicalKeys.has(key) ? valueProps : numericProps).map((prop) => [`${prop}Color`, color])))
                         },
                 }
         }
@@ -267,7 +276,9 @@ export const outlineRule: Rule = (state) => {
                 read: (key) => {
                         const width = borderWidthValue(key)
                         if (width) return merge(next, { outlineWidth: width })
-                        return merge(next, { outlineColor: colorValue(key) })
+                        const color = colorValue(key)
+                        if (!color) return undefined
+                        return merge(next, { outlineColor: color })
                 },
         }
 }
@@ -280,11 +291,17 @@ export const divideRule =
                         read: (key) => {
                                 const width = borderWidthValue(key)
                                 if (width) return merge(next, childStyle({ [zeroProp]: '0px', [widthProp]: width }))
-                                return merge(next, childStyle({ borderColor: colorValue(key) }))
+                                const color = borderColorValue(key)
+                                if (!color) return undefined
+                                return merge(next, childStyle({ borderColor: color }))
                         },
                 }
         }
-export const divideColorRule: Rule = readRule((key) => childStyle({ borderColor: colorValue(key) }), true)
+export const divideColorRule: Rule = readRule((key) => {
+        const color = borderColorValue(key)
+        if (!color) return undefined
+        return childStyle({ borderColor: color })
+}, true)
 export const childStyle = (css: RuntimeStyle): RuntimeStyle => ({ [childSelector]: css })
 export const columnsRule: Rule = readRule((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
 export const rowsRule: Rule = readRule((key) => ({ gridTemplateRows: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
@@ -380,6 +397,7 @@ export const textRule: Rule = (state) => ({
         read: (key) => {
                 if (isNum(key)) return merge(state, { fontSize: x4(key) })
                 const value = colorValue(key)
+                if (!value) return undefined
                 if (!state.dark) return merge(state, { color: value })
                 return merge(state, { color: `light-dark(${state.css.color ?? 'initial'}, ${value})` })
         },

@@ -136,23 +136,23 @@ describe('background-blend-mode', () => {
 })
 
 describe('mask-clip', () => {
-        test("mask.clip['border-box']", () => {
-                expect(_.mask.clip['border-box']()).toEqual({ maskClip: 'border-box' })
+        test('mask.clip.border', () => {
+                expect(_.mask.clip.border()).toEqual({ maskClip: 'border-box' })
         })
-        test("mask.clip['padding-box']", () => {
-                expect(_.mask.clip['padding-box']()).toEqual({ maskClip: 'padding-box' })
+        test('mask.clip.padding', () => {
+                expect(_.mask.clip.padding()).toEqual({ maskClip: 'padding-box' })
         })
-        test("mask.clip['content-box']", () => {
-                expect(_.mask.clip['content-box']()).toEqual({ maskClip: 'content-box' })
+        test('mask.clip.content', () => {
+                expect(_.mask.clip.content()).toEqual({ maskClip: 'content-box' })
         })
-        test("mask.clip['fill-box']", () => {
-                expect(_.mask.clip['fill-box']()).toEqual({ maskClip: 'fill-box' })
+        test('mask.clip.fill', () => {
+                expect(_.mask.clip.fill()).toEqual({ maskClip: 'fill-box' })
         })
-        test("mask.clip['stroke-box']", () => {
-                expect(_.mask.clip['stroke-box']()).toEqual({ maskClip: 'stroke-box' })
+        test('mask.clip.stroke', () => {
+                expect(_.mask.clip.stroke()).toEqual({ maskClip: 'stroke-box' })
         })
-        test("mask.clip['view-box']", () => {
-                expect(_.mask.clip['view-box']()).toEqual({ maskClip: 'view-box' })
+        test('mask.clip.view', () => {
+                expect(_.mask.clip.view()).toEqual({ maskClip: 'view-box' })
         })
         test("mask.clip['no-clip']", () => {
                 expect(_.mask.clip['no-clip']()).toEqual({ maskClip: 'no-clip' })
@@ -193,41 +193,41 @@ describe('mask-mode', () => {
         test('mask.luminance', () => {
                 expect(_.mask.luminance()).toEqual({ maskMode: 'luminance' })
         })
-        test("mask['match-source']", () => {
-                expect(_.mask['match-source']()).toEqual({ maskMode: 'match-source' })
+        test('mask.match', () => {
+                expect(_.mask.match()).toEqual({ maskMode: 'match-source' })
         })
 })
 
 describe('mask-origin', () => {
-        test("mask.origin['border-box']", () => {
-                expect(_.mask.origin['border-box']()).toEqual({ maskOrigin: 'border-box' })
+        test('mask.origin.border', () => {
+                expect(_.mask.origin.border()).toEqual({ maskOrigin: 'border-box' })
         })
-        test("mask.origin['padding-box']", () => {
-                expect(_.mask.origin['padding-box']()).toEqual({ maskOrigin: 'padding-box' })
+        test('mask.origin.padding', () => {
+                expect(_.mask.origin.padding()).toEqual({ maskOrigin: 'padding-box' })
         })
-        test("mask.origin['content-box']", () => {
-                expect(_.mask.origin['content-box']()).toEqual({ maskOrigin: 'content-box' })
+        test('mask.origin.content', () => {
+                expect(_.mask.origin.content()).toEqual({ maskOrigin: 'content-box' })
         })
-        test("mask.origin['fill-box']", () => {
-                expect(_.mask.origin['fill-box']()).toEqual({ maskOrigin: 'fill-box' })
+        test('mask.origin.fill', () => {
+                expect(_.mask.origin.fill()).toEqual({ maskOrigin: 'fill-box' })
         })
-        test("mask.origin['stroke-box']", () => {
-                expect(_.mask.origin['stroke-box']()).toEqual({ maskOrigin: 'stroke-box' })
+        test('mask.origin.stroke', () => {
+                expect(_.mask.origin.stroke()).toEqual({ maskOrigin: 'stroke-box' })
         })
-        test("mask.origin['view-box']", () => {
-                expect(_.mask.origin['view-box']()).toEqual({ maskOrigin: 'view-box' })
+        test('mask.origin.view', () => {
+                expect(_.mask.origin.view()).toEqual({ maskOrigin: 'view-box' })
         })
 })
 
 describe('mask-position', () => {
-        test("mask.position['top left']", () => {
-                expect(_.mask.position['top left']()).toEqual({ maskPosition: 'top left' })
+        test('mask.position.top.left', () => {
+                expect(_.mask.position.top.left()).toEqual({ maskPosition: 'top left' })
         })
         test('mask.position.top', () => {
                 expect(_.mask.position.top()).toEqual({ maskPosition: 'top' })
         })
-        test("mask.position['top right']", () => {
-                expect(_.mask.position['top right']()).toEqual({ maskPosition: 'top right' })
+        test('mask.position.top.right', () => {
+                expect(_.mask.position.top.right()).toEqual({ maskPosition: 'top right' })
         })
         test('mask.position.left', () => {
                 expect(_.mask.position.left()).toEqual({ maskPosition: 'left' })
@@ -238,14 +238,14 @@ describe('mask-position', () => {
         test('mask.position.right', () => {
                 expect(_.mask.position.right()).toEqual({ maskPosition: 'right' })
         })
-        test("mask.position['bottom left']", () => {
-                expect(_.mask.position['bottom left']()).toEqual({ maskPosition: 'bottom left' })
+        test('mask.position.bottom.left', () => {
+                expect(_.mask.position.bottom.left()).toEqual({ maskPosition: 'bottom left' })
         })
         test('mask.position.bottom', () => {
                 expect(_.mask.position.bottom()).toEqual({ maskPosition: 'bottom' })
         })
-        test("mask.position['bottom right']", () => {
-                expect(_.mask.position['bottom right']()).toEqual({ maskPosition: 'bottom right' })
+        test('mask.position.bottom.right', () => {
+                expect(_.mask.position.bottom.right()).toEqual({ maskPosition: 'bottom right' })
         })
         test('mask.position[4]', () => {
                 expect(_.mask.position[4]()).toEqual({ maskPosition: 'var(4)' })
@@ -259,11 +259,11 @@ describe('mask-repeat', () => {
         test("mask.repeat['no-repeat']", () => {
                 expect(_.mask.repeat['no-repeat']()).toEqual({ maskRepeat: 'no-repeat' })
         })
-        test("mask.repeat['repeat-x']", () => {
-                expect(_.mask.repeat['repeat-x']()).toEqual({ maskRepeat: 'repeat-x' })
+        test('mask.repeat.x', () => {
+                expect(_.mask.repeat.x()).toEqual({ maskRepeat: 'repeat-x' })
         })
-        test("mask.repeat['repeat-y']", () => {
-                expect(_.mask.repeat['repeat-y']()).toEqual({ maskRepeat: 'repeat-y' })
+        test('mask.repeat.y', () => {
+                expect(_.mask.repeat.y()).toEqual({ maskRepeat: 'repeat-y' })
         })
         test('mask.repeat.space', () => {
                 expect(_.mask.repeat.space()).toEqual({ maskRepeat: 'space' })
