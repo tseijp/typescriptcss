@@ -247,8 +247,8 @@ describe('mask-position', () => {
         test('mask.position.bottom.right', () => {
                 expect(_.mask.position.bottom.right()).toEqual({ maskPosition: 'bottom right' })
         })
-        test('mask.position[4]', () => {
-                expect(_.mask.position[4]()).toEqual({ maskPosition: 'var(4)' })
+        test("mask.position['--mask-position']", () => {
+                expect(_.mask.position['--mask-position']()).toEqual({ maskPosition: 'var(--mask-position)' })
         })
 })
 

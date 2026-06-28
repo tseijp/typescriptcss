@@ -138,7 +138,11 @@ export const values = (prop: string, entries: Record<string, string | number>): 
 export const scopedRule =
         (scopeName: string, entry: Entry): Rule =>
         (state) => ({ ...toRule(entry)(state), scope: scopeName })
-export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule => readRule((key) => ({ [prop]: fn(key) }), greedy)
+export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule =>
+        readRule((key) => {
+                const value = fn(key)
+                return value === undefined ? undefined : { [prop]: value }
+        }, greedy)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
 export const numericDefaultRule =
         (prop: string, value: string): Rule =>
