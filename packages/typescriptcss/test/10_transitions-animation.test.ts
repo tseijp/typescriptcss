@@ -5,22 +5,22 @@ import * as _ from '../src'
 
 describe('transition-property', () => {
         test('transition.all', () => {
-                expect(_.transition.all()).toEqual({ transitionProperty: 'all' })
+                expect(_.transition.all()).toEqual({ transitionProperty: 'all', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' })
         })
         test('transition.opacity', () => {
-                expect(_.transition.opacity()).toEqual({ transitionProperty: 'opacity' })
+                expect(_.transition.opacity()).toEqual({ transitionProperty: 'opacity', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' })
         })
         test('transition.shadow', () => {
-                expect(_.transition.shadow()).toEqual({ transitionProperty: 'box-shadow' })
+                expect(_.transition.shadow()).toEqual({ transitionProperty: 'box-shadow', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' })
         })
         test('transition.transform', () => {
-                expect(_.transition.transform()).toEqual({ transitionProperty: 'transform' })
+                expect(_.transition.transform()).toEqual({ transitionProperty: 'transform, translate, scale, rotate', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' })
         })
         test('transition.none', () => {
                 expect(_.transition.none()).toEqual({ transitionProperty: 'none' })
         })
         test('transition[4]', () => {
-                expect(_.transition[4]()).toEqual({ transitionProperty: '4' })
+                expect(_.transition[4]()).toEqual({ transitionProperty: '4', transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' })
         })
 })
 

@@ -368,6 +368,7 @@ export const defaultSizeRule =
                 }
         }
 export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: `${key}%` }))
+export const transitionRule: Rule = readRule((key) => ({ transitionProperty: key, transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' }))
 export const standaloneRule =
         (entry: Entry): Rule =>
         (state) =>
