@@ -143,6 +143,15 @@ export const propertyRule = (prop: string, fn: (key: string) => any = (key) => k
                 const value = fn(key)
                 return value === undefined ? undefined : { [prop]: value }
         }, greedy)
+export const arbitraryValue = (key: string) => (isNum(key) || key.startsWith('--') ? `var(${key})` : key)
+export const arbitraryRule = (prop: string): Rule => propertyRule(prop, arbitraryValue)
+export const arbitraryColorRule = (prop: string): Rule =>
+        readRule((key, state) => {
+                const value = isNum(key) ? `var(${key})` : colorValue(key)
+                if (!value) return undefined
+                if (!state.dark) return { [prop]: value } as unknown as Rule
+                return { [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
+        }, true)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
 export const numericDefaultRule =
         (prop: string, value: string): Rule =>
@@ -211,7 +220,7 @@ export const insetRule: Rule = readRule((key) => {
 export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule =>
         readRule((key, state) => {
                 const value = fn(key)
-                if (!value) return undefined
+                if (value === undefined) return undefined
                 const current = state.css[prop]
                 return { [prop]: current && current !== 'none' ? `${current} ${value}` : value }
         })
@@ -358,22 +367,41 @@ export const defaultSizeRule =
                         },
                 }
         }
-export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: String(Number(key) / 100) }))
+export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: `${key}%` }))
+export const standaloneRule =
+        (entry: Entry): Rule =>
+        (state) =>
+                toRule(entry)({ ...state, css: {} })
 export const translateRule = (axis: 'X' | 'Y'): Rule =>
         appendRule('transform', (key) => {
                 const value = lengthValue(key)
                 if (!value) return undefined
                 return `translate${axis}(${value})`
         })
+export const individualTransformRule = (prop: string, unit = ''): Rule =>
+        readRule((key) => {
+                if (key === 'none') return { [prop]: 'none' }
+                if (!isNum(key)) return undefined
+                return { [prop]: `${key}${unit}` }
+        })
+export const scaleTransformRule: Rule = readRule((key) => {
+        if (key === 'none') return { scale: 'none' }
+        if (!isNum(key)) return undefined
+        return { scale: `${key}% ${key}%` }
+})
+export const skewRule: Rule = readRule((key) => {
+        if (!isNum(key)) return undefined
+        return { transform: `skewX(${key}deg) skewY(${key}deg)` }
+})
 export const transformRule = (name: string, unit = ''): Rule =>
         appendRule('transform', (key) => {
                 if (key === 'none') return 'none'
                 if (!isNum(key)) return undefined
                 return `${name}(${key}${unit})`
         })
-export const filterRule = (prop: string, name: string, unit = ''): Rule =>
+export const filterRule = (prop: string, name: string, unit = '', none = 'none'): Rule =>
         appendRule(prop, (key) => {
-                if (key === 'none') return 'none'
+                if (key === 'none') return none
                 if (!isNum(key)) return undefined
                 return `${name}(${key}${unit})`
         })
@@ -399,7 +427,7 @@ export const textRule: Rule = (state) => ({
         dark: state.dark,
         greedy: true,
         read: (key) => {
-                if (isNum(key)) return merge(state, { fontSize: x4(key) })
+                if (isNum(key)) return merge(state, { fontSize: key })
                 const value = colorValue(key)
                 if (!value) return undefined
                 if (!state.dark) return merge(state, { color: value })

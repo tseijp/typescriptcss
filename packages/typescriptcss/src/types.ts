@@ -61,7 +61,7 @@ type Border = Color & Length & Sides<BorderPart> & { collapse: C; separate: C; s
 type Rounded = C & Length & { full: C } & Corner<Length & { full: C; none: C }>
 type Outline = Color & Length & { solid: C; dashed: C; dotted: C; double: C; none: C; hidden: C; offset: Length & { auto: C } }
 type Divide = Color & Length & Axis<C & Length> & { solid: C; dashed: C; dotted: C; double: C; hidden: C; none: C }
-type Filter = Values & Scale & { none: C }
+type Filter = C & Values & Scale & { none: C }
 type FilterRoot = Filter & { grayscale: C; invert: C; sepia: C }
 type Backdrop = C & { filter: Filter; blur: Filter; brightness: Filter; contrast: Filter; grayscale: Filter; invert: Filter; opacity: Filter; saturate: Filter; sepia: Filter; hue: { rotate: Filter } }
 type Mask = Scale & { none: C; add: C; subtract: C; intersect: C; exclude: C; alpha: C; luminance: C; match: C; auto: C; cover: C; contain: C; radial: Scale; clip: Box & { fill: C; stroke: C; view: C; 'no-clip': C }; origin: Box & { fill: C; stroke: C; view: C }; position: Placement & { [value in CustomProperty]: C }; repeat: Repeat; size: Scale }
@@ -82,6 +82,7 @@ type Whitespace = C & { normal: C; nowrap: C; pre: C & { line: C; wrap: C }; bre
 type BreakAvoid = C & { page: C; column: C }
 type BreakValues = Values & { auto: C; avoid: BreakAvoid; all: C; page: C; left: C; right: C; column: C; 'avoid-page': C; 'avoid-column': C }
 type Break = C & { after: BreakValues; before: BreakValues; inside: BreakValues; normal: C; all: C; keep: C }
+type Resize = Func & Values & { none: C; x: C; y: C }
 type NumericVariant = { nums: C }
 type FractionVariant = { fractions: C }
 type Native = { [K in Exclude<CSSKey, keyof U>]: Values }
@@ -196,7 +197,7 @@ export type U = {
         xl2: C
         accent: Color
         align: VerticalAlign
-        animate: Values & { spin: C; ping: C; pulse: C; bounce: C; none: C }
+        animate: C & Values & { spin: C; ping: C; pulse: C; bounce: C; none: C }
         appearance: Values & { none: C; auto: C }
         aspect: Values & Scale & { auto: C; square: C; video: C }
         auto: C & { cols: Track; rows: Track }
@@ -291,7 +292,7 @@ export type U = {
         pt: Length
         px: Length
         py: Length
-        resize: Values
+        resize: Resize
         right: PositionValue
         rotate: Transform
         rounded: Rounded

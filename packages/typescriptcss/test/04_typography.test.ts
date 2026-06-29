@@ -20,7 +20,7 @@ describe('font-family', () => {
 
 describe('font-size', () => {
         test('text.base', () => {
-                expect(_.text.base()).toEqual({ fontSize: '1rem (16px)' })
+                expect(_.text.base()).toEqual({ fontSize: '16px', lineHeight: '24px' })
         })
         test('text[4]', () => {
                 expect(_.text[4]()).toEqual({ fontSize: '4' })

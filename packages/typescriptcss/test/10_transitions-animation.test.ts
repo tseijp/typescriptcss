@@ -5,22 +5,22 @@ import * as _ from '../src'
 
 describe('transition-property', () => {
         test('transition.all', () => {
-                expect(_.transition.all()).toEqual({ transitionProperty: 'cubic-bezier(0.4, 0, 0.2, 1)' })
+                expect(_.transition.all()).toEqual({ transitionProperty: 'all' })
         })
         test('transition.opacity', () => {
-                expect(_.transition.opacity()).toEqual({ transitionProperty: 'cubic-bezier(0.4, 0, 0.2, 1)' })
+                expect(_.transition.opacity()).toEqual({ transitionProperty: 'opacity' })
         })
         test('transition.shadow', () => {
-                expect(_.transition.shadow()).toEqual({ transitionProperty: 'cubic-bezier(0.4, 0, 0.2, 1)' })
+                expect(_.transition.shadow()).toEqual({ transitionProperty: 'box-shadow' })
         })
         test('transition.transform', () => {
-                expect(_.transition.transform()).toEqual({ transitionProperty: 'cubic-bezier(0.4, 0, 0.2, 1)' })
+                expect(_.transition.transform()).toEqual({ transitionProperty: 'transform' })
         })
         test('transition.none', () => {
                 expect(_.transition.none()).toEqual({ transitionProperty: 'none' })
         })
         test('transition[4]', () => {
-                expect(_.transition[4]()).toEqual({ transitionProperty: 'cubic-bezier(0.4, 0, 0.2, 1)' })
+                expect(_.transition[4]()).toEqual({ transitionProperty: '4' })
         })
 })
 
