@@ -59,8 +59,6 @@ export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|
 export const colorValue = (key: string) => {
         if (key === 'currentColor') return undefined
         if (key === 'current') return 'currentColor'
-        if (key === 'black') return 'var(--color-black)'
-        if (key === 'white') return 'var(--color-white)'
         if (key.startsWith('--')) return `var(${key})`
         return key
 }
@@ -149,7 +147,7 @@ export const arbitraryColorRule = (prop: string): Rule =>
         readRule((key, state) => {
                 const value = isNum(key) ? `var(${key})` : colorValue(key)
                 if (!value) return undefined
-                if (!state.dark) return { [prop]: value } as unknown as Rule
+                if (!state.dark) return { [prop]: value }
                 return { [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
         }, true)
 export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
