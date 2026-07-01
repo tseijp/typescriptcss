@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { flex, gap, min, px, py } from 'typescriptcss/src'
+import {  flex, gap, min, px, py } from 'typescriptcss/src'
 import { color } from '@/styles'
 import { docSections } from '@/_utils/docs'
 
@@ -71,10 +71,10 @@ export default function DocsLayout({ children }: Readonly<{ children: React.Reac
                                 </label>
                                 <span style={px[0].text[3.5].text[color.muted]()}>Docs</span>
                         </div>
-                        <aside data-docs-sidebar style={py[8].px[2].gap[6].flex.col.overflowY.auto({ boxSizing: 'border-box' })}>
+                        <aside data-docs-sidebar style={py[8].px[2].gap[6].flex.col.overflow.y.auto({ boxSizing: 'border-box' })}>
                                 <nav style={gap[1].flex.col()}>
                                         {primaryNav.map((item) => (
-                                                <Link key={item.label} href={item.href} style={px[3].py[2].font.medium.text[3.5].text[color.muted].gap[3].flex.items.center.rounded[1.5].textDecoration.none()}>
+                                                <Link key={item.label} href={item.href} style={px[3].py[2].font.medium.text[3.5].text[color.muted].gap[3].flex.items.center.rounded[1.5]()}>
                                                         <img src={item.icon} alt="" width={16} height={16} style={{ borderRadius: '3px', flexShrink: 0 }} />
                                                         <span>{item.label}</span>
                                                 </Link>
@@ -85,7 +85,7 @@ export default function DocsLayout({ children }: Readonly<{ children: React.Reac
                                                 <span style={px[4].py[2].letterSpacing['0.08em'].font.semibold.text[3].text[color.faint].textTransform.uppercase()}>{section.title}</span>
                                                 <div style={flex.col()}>
                                                         {section.items.map((item) => (
-                                                                <Link key={item.href} href={item.href} style={px[4].py[2].text[3.5].flex.items.center.border.l.borderLeftWidth['2px'].textDecoration.none({ fontWeight: 400, color: color.muted, borderLeftColor: color.border })}>
+                                                                <Link key={item.href} href={item.href} style={px[4].py[2].text[3.5].flex.items.center.textDecoration.none.border.l['2px']({ fontWeight: 400, color: color.muted, borderLeftColor: color.border })}>
                                                                         {item.title}
                                                                 </Link>
                                                         ))}

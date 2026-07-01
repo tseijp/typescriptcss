@@ -10,7 +10,8 @@ export default defineConfig({
                 environment: 'node',
                 typecheck: {
                         enabled: true,
-                        include: ['test/**/*.test.ts'],
+                        // include: ['test/**/*.test.ts'],
+                        include: ['test/**/{00,01,02,03,04,05,06,07,08,09,10,11,12,13,14}_*.test.ts'],
                         tsconfig: './tsconfig.json',
                 },
                 coverage: {

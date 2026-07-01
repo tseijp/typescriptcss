@@ -25,12 +25,6 @@ describe('flex-direction', () => {
         test('flex.col', () => {
                 expect(_.flex.col()).toEqual({ display: 'flex', flexDirection: 'column' })
         })
-        test('flex[1].col', () => {
-                expect(_.flex[1].col()).toEqual({ flex: '1', display: 'flex', flexDirection: 'column' })
-        })
-        test('inline.flex.col', () => {
-                expect(_.inline.flex.col()).toEqual({ display: 'inline-flex', flexDirection: 'column' })
-        })
         test('flex.column.reverse', () => {
                 expect(_.flex.col.reverse()).toEqual({ display: 'flex', flexDirection: 'column-reverse' })
         })

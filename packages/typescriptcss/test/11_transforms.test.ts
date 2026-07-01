@@ -92,7 +92,7 @@ describe('skew', () => {
                 expect(_.skew[4]()).toEqual({ transform: 'skewX(4deg) skewY(4deg)' })
         })
         test('skew.x[4]', () => {
-                expect(_.skew.x[4]()).toEqual({ transform: 'skewX(4deg))' })
+                expect(_.skew.x[4]()).toEqual({ transform: 'skewX(4deg)' })
         })
         test('skew.y[4]', () => {
                 expect(_.skew.y[4]()).toEqual({ transform: 'skewY(4deg)' })
