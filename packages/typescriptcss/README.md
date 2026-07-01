@@ -4,8 +4,8 @@ Tailwind-like utilities, authored as inline style chains in TypeScript and colle
 
 <!-- prettier-ignore -->
 ```tsx
-<div style={flex.col.items.center.gap[4].p[6].rounded[4].bg['#0b1120'].dark.bg.black()}>
-  <h2 style={text['#fff'].font.semibold()}>Zero runtime</h2>
+<div style={p[6].gap[4].flex.col.items.center.bg['#0b1120'].rounded[4].dark.bg.black()}>
+  <h2 style={font.semibold.text['#fff']()}>Zero runtime</h2>
 </div>
 ```
 
@@ -31,9 +31,9 @@ Import the utilities you need and combine them. Reading a property narrows the s
 
 <!-- prettier-ignore -->
 ```tsx
-import { flex } from 'typescriptcss'
+import { p } from 'typescriptcss'
 
-<aside style={flex.col.gap[3].max.w[72].p[6].rounded[4].bg['#0b1120']()}>
+<aside style={p[6].max.w[72].gap[3].flex.col.bg['#0b1120'].rounded[4]()}>
   {/* ... */}
 </aside>
 ```
@@ -51,7 +51,7 @@ Insert a breakpoint segment — `sm`, `md`, `lg`, `xl` — and the utilities aft
 
 <!-- prettier-ignore -->
 ```tsx
-<div style={flex.col.sm.flex.row.gap[4]()}>{/* stack on phones, row from sm */}</div>
+<div style={flex.col.sm.gap[4].flex.row()}>{/* stack on phones, row from sm */}</div>
 ```
 
 ### Dark mode
@@ -69,7 +69,7 @@ Insert a state segment such as `hover`, `focus`, `active`, `first`, `disabled`, 
 
 <!-- prettier-ignore -->
 ```tsx
-<button style={bg['#0ea5e9'].hover.bg['#0369a1'].text['#fff']()}>Save changes</button>
+<button style={bg['#0ea5e9'].hover.text['#fff'].bg['#0369a1']()}>Save changes</button>
 ```
 
 🚧 Still working on the implementation!

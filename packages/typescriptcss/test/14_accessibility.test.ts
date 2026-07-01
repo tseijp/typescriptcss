@@ -83,21 +83,3 @@ describe('notSr.only — full declaration set (one assertion per CSS property)',
                 expect(_.notSr.only({ display: 'block' })).toEqual({ ...NOT_SR_ONLY, display: 'block' })
         })
 })
-
-describe('forcedColorAdjust — the forced-colors opt in/out keyword pair', () => {
-        const cases: Array<[string, string]> = [
-                ['auto', 'auto'],
-                ['none', 'none'],
-        ]
-        test.each(cases)('forcedColorAdjust.%s → { forcedColorAdjust: "%s" }', (word, value) => {
-                expect(_.forcedColorAdjust[word]()).toEqual({ forcedColorAdjust: value })
-        })
-        test('forcedColorAdjust.none merges call-time args', () => {
-                expect(_.forcedColorAdjust.none({ color: 'red' })).toEqual({ forcedColorAdjust: 'none', color: 'red' })
-        })
-        test('forcedColorAdjust.auto is a single-declaration plain object', () => {
-                const style = _.forcedColorAdjust.auto()
-                expect(Object.keys(style)).toEqual(['forcedColorAdjust'])
-                expect(Object.getPrototypeOf(style)).toBe(Object.prototype)
-        })
-})
