@@ -93,15 +93,18 @@ const encodeNode = (node: Node) => {
 const walkEnc = (node: Node) => { for (const k in node.ch) walkEnc(node.ch[k]); if ('rule' in node) encodeNode(node) }
 for (const r in trees) walkEnc(trees[r])
 
+let topKeys: string[] = []
 const prefixMap = (keys: string[]) => {
         const out: Record<string, string> = {}
         for (const key of keys) {
                 if (key === '$' || key === '_' || /^-?\d/.test(key)) { out[key] = key; continue }
                 let hit = key
-                for (let i = 1; i < key.length; i++) {
+                for (let i = 1; i <= key.length; i++) {
                         const p = key.slice(0, i)
-                        if (keys.filter((k) => k !== key && k.startsWith(p)).length) continue
-                        hit = p + '?'
+                        const localHit = keys.some((k) => k !== key && k.startsWith(p))
+                        const topHit = topKeys.some((k) => k !== key && k.startsWith(p))
+                        if ((localHit || topHit) && p !== key) continue
+                        hit = p === key ? key : p + '?'
                         break
                 }
                 out[key] = hit
@@ -148,6 +151,7 @@ const typeSrc = fs.readFileSync(path.join(dir, 'src', 'types.ts'), 'utf8')
 const ub = typeSrc.slice(typeSrc.indexOf('export type U = {'))
 const uKeys: string[] = []
 for (const line of ub.split('\n')) { const m = /^\t{2}([A-Za-z_$][\w$]*)\s*:/.exec(line) || /^ {8}([A-Za-z_$][\w$]*)\s*:/.exec(line); if (m) uKeys.push(m[1]); if (/^}/.test(line) && uKeys.length) break }
+topKeys = uKeys.slice()
 const reserved = new Set(['break', 'static'])
 const exportName = (r: string) => (reserved.has(r) ? r + '_' : r)
 const decl = (r: string) => {
