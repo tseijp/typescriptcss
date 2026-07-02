@@ -92,10 +92,21 @@ const encStr = (str: string, p: string[], pos: number, tok: string | null, isVal
         out += s.slice(last)
         return out.split(SENT).join('.')
 }
-const encRule = (css: any, p: string[], pos: number, tok: string | null): string =>
-        Object.entries(css)
-                .map(([k, v]) => (v && typeof v === 'object' ? k + '{' + encRule(v, p, pos, tok) + '}' : encStr(kebab(k), p, pos, null, false) + ':' + encStr(String(v), p, pos, tok, true)))
-                .join('|')
+const encRule = (css: any, p: string[], pos: number, tok: string | null): string => {
+        const out: string[] = []
+        const vals = new Map<string, string[]>()
+        for (const [k, v] of Object.entries(css)) {
+                if (v && typeof v === 'object') {
+                        out.push(k + '{' + encRule(v, p, pos, tok) + '}')
+                        continue
+                }
+                const val = encStr(String(v), p, pos, tok, true)
+                if (!vals.has(val)) vals.set(val, [])
+                ;(vals.get(val) as string[]).push(encStr(kebab(k), p, pos, null, false))
+        }
+        for (const [v, keys] of vals) out.push(keys.join(',') + ':' + v)
+        return out.join('|')
+}
 const resolveDots = (piece: string, p: string[], pos: number, tok: string | null) =>
         piece.replace(/\.+/g, (run, idx) => {
                 if (/[0-9]/.test(piece[idx - 1] || '') || /[0-9]/.test(piece[idx + run.length] || '')) return run
@@ -123,7 +134,8 @@ const decodeCheck = (enc: string, p: string[], pos: number, tok: string | null):
                         continue
                 }
                 const c = item.indexOf(':')
-                o[dcamel(resolveDots(item.slice(0, c), p, pos, tok))] = resolveDots(item.slice(c + 1), p, pos, tok)
+                const v = resolveDots(item.slice(c + 1), p, pos, tok)
+                for (const k of resolveDots(item.slice(0, c), p, pos, tok).split(',')) o[dcamel(k)] = v
         }
         return o
 }
@@ -163,7 +175,7 @@ const walkEnc = (node: Node) => {
 }
 for (const r in trees) walkEnc(trees[r])
 let topKeys: string[] = []
-const prefixMap = (keys: string[]) => {
+const prefixMap = (keys: string[], canBreak: boolean) => {
         const out: Record<string, string> = {}
         for (const key of keys) {
                 if (key === '$' || key === '_' || /^-?\d/.test(key)) {
@@ -174,7 +186,7 @@ const prefixMap = (keys: string[]) => {
                 for (let i = 1; i <= key.length; i++) {
                         const p = key.slice(0, i)
                         const localHit = keys.some((k) => k !== key && k.startsWith(p))
-                        const topHit = topKeys.some((k) => k !== key && k.startsWith(p))
+                        const topHit = canBreak && topKeys.some((k) => k !== key && k.startsWith(p))
                         if ((localHit || topHit) && p !== key) continue
                         hit = p === key ? key : p + '?'
                         break
@@ -187,9 +199,10 @@ const serialize = (root: string) => {
         const lines: string[] = []
         const t = trees[root]
         if ('rule' in t) lines.push('=' + t.enc)
-        const walk = (node: Node, depth: number) => {
+        const emit = (node: Node, depth: number, canBreak: boolean): string[] => {
+                const out: string[] = []
                 const kids = Object.keys(node.ch)
-                const keyOf = prefixMap(kids)
+                const keyOf = prefixMap(kids, canBreak)
                 const leaf = kids.filter((k) => Object.keys(node.ch[k].ch).length === 0 && 'rule' in node.ch[k])
                 const branch = kids.filter((k) => !leaf.includes(k))
                 const grp = new Map<string, { keys: string[]; enc?: string; mult?: number }>()
@@ -199,20 +212,29 @@ const serialize = (root: string) => {
                         if (!grp.has(sig)) grp.set(sig, { keys: [], enc: c.enc, mult: c.mult })
                         ;(grp.get(sig) as any).keys.push(k)
                 }
+                const stringLeaf = leaf.filter((k) => k !== '$' && k !== '_')
+                const wildcard = [...grp.values()].find((g) => stringLeaf.length > 0 && stringLeaf.every((k) => g.keys.includes(k)) && !leaf.includes('_'))
+                if (wildcard) wildcard.keys = [...wildcard.keys.filter((k) => k === '$'), '_']
                 for (const g of grp.values()) {
-                        let head = '.'.repeat(depth) + g.keys.map((k) => keyOf[k]).join('~')
+                        let head = '.'.repeat(depth) + g.keys.map((k) => keyOf[k] ?? k).join('~')
                         if (g.keys.includes('$') && g.mult && g.mult !== 1) head += '*' + g.mult
-                        lines.push(head + '=' + g.enc)
+                        out.push(head + '=' + g.enc)
                 }
+                const bgrp = new Map<string, { keys: string[]; enc?: string; body: string[] }>()
                 for (const k of branch) {
                         const c = node.ch[k]
-                        let head = '.'.repeat(depth) + keyOf[k]
-                        if (k === '$' && c.mult && c.mult !== 1) head += '*' + c.mult
-                        lines.push('rule' in c ? head + '=' + c.enc : head)
-                        walk(c, depth + 1)
+                        const body = emit(c, depth + 1, canBreak || 'rule' in c)
+                        const sig = (('rule' in c ? c.enc : '') || '') + '\n' + body.join('\n')
+                        if (!bgrp.has(sig)) bgrp.set(sig, { keys: [], enc: c.enc, body })
+                        ;(bgrp.get(sig) as any).keys.push(k)
                 }
+                for (const g of bgrp.values()) {
+                        const head = '.'.repeat(depth) + g.keys.map((k) => keyOf[k] ?? k).join('~')
+                        out.push(g.enc ? head + '=' + g.enc : head, ...g.body)
+                }
+                return out
         }
-        walk(t, 0)
+        lines.push(...emit(t, 0, 'rule' in t))
         return lines.join(';')
 }
 trees['forcedColorAdjust'] = { ...N(), ch: { auto: { ...N(), rule: { forcedColorAdjust: 'auto' }, kind: null, path: ['forcedColorAdjust', 'auto'] }, none: { ...N(), rule: { forcedColorAdjust: 'none' }, kind: null, path: ['forcedColorAdjust', 'none'] } } }
@@ -245,6 +267,16 @@ const alias: Record<string, string> = {
         cols: '$=display:grid|grid-template-columns:repeat(., minmax(0, 1fr));none~subgrid=display:grid|grid-template-columns:.',
         rows: '$=display:grid|grid-template-rows:repeat(., minmax(0, 1fr));none~subgrid=display:grid|grid-template-rows:.',
         colStart: '$=grid-column-start:.;auto=grid-column-start:auto',
+        backface: '_=..-visibility:.',
+        caption: '_=..-side:.',
+        clear: 'lef?~ri?~both~non?=..:.;star?~end=..:inline-.',
+        cursor: '_=..:.;$=..:var(.);not;._=...:..-.;context;._=...:..-.;vertical;._=...:..-.;no;._=...:..-.;all;._=...:..-.;zoom;._=...:..-.;col;.resize=...:col-.;row~n~e~s~w~ne~nw~se~sw~ew~ns~nesw~nwse;._=...:..-.',
+        float: 'lef?~ri?~non?=..:.;star?~end=..:inline-.',
+        hyphens: '_=..:.',
+        mix: 'blend;._=...-..-mode:.',
+        scroll: '_=..-behavior:.',
+        select: '_=user-..:.',
+        wrap: '_=overflow-..:.',
 }
 const typeSrc = fs.readFileSync(path.join(dir, 'src', 'types.ts'), 'utf8')
 const ub = typeSrc.slice(typeSrc.indexOf('export type U = {'))
@@ -258,7 +290,8 @@ uKeys.sort()
 topKeys = uKeys.slice()
 const dsls = uKeys.map((k) => alias[k] ?? (trees[k] ? serialize(k) : ''))
 const joined = dsls.join(';;')
-const escaped = joined.replace(/[A-Z]/g, (c) => '!' + c.toLowerCase())
+const source = uKeys.join(',') + '\n' + joined
+const escaped = source.replace(/[A-Z]/g, (c) => '!' + c.toLowerCase())
 const PRE = '^+<[]'
 const occAt = (text: string, sub: string) => {
         const pos: number[] = []
@@ -287,7 +320,7 @@ const compress = (input: string) => {
                 const cl = code(dict.length).length
                 const cand = new Map<string, number>()
                 let prev: Set<string> | null = null
-                for (let L = 2; L <= 80; L++) {
+                for (let L = 2; L <= 140; L++) {
                         if (L - cl < 1) continue
                         const cnt = new Map<string, number>()
                         for (let i = 0; i + L <= text.length; i++) {
@@ -306,7 +339,7 @@ const compress = (input: string) => {
                         }
                         if (!prev.size) break
                 }
-                const top = [...cand.entries()].sort((a, b) => b[1] - a[1]).slice(0, 400)
+                const top = [...cand.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1200)
                 let best = '',
                         bestNet = 1
                 for (const [sub] of top) {
@@ -390,8 +423,8 @@ if (expandFix(dict, packed) !== escaped) {
         process.exit(1)
 }
 const api: Record<string, any> = {}
-const proxy = mk(dict.join('\n'), packed)
-for (const k of uKeys) api[k] = proxy[k]
+const next = mk(dict.join('\n'), packed)
+for (const k of uKeys) api[k] = next()
 const stable = (x: any): string =>
         x && typeof x === 'object'
                 ? '{' +
@@ -420,9 +453,9 @@ if (bad) {
 const reserved: Record<string, string> = { break: 'break_', static: 'static_' }
 const decl = (k: string) => {
         const name = reserved[k] ?? k
-        const line = `export const ${name}: U['${k}'] = $.${k}`
+        const line = `export const ${name}: U['${k}'] = $()`
         return reserved[k] ? line + `\nexport { ${name} as ${k} }` : line
 }
-const out = ["import { mk, u } from './utils.ts'", "import type { C, U } from './types.ts'", 'const $ = mk(', '\t' + JSON.stringify(dict.join('\n')) + ',', '\t' + JSON.stringify(packed) + ',', ') as unknown as U', ...uKeys.map(decl), "export const define = <T = C>(name: string, dsl = ''): T => u(name, dsl) as unknown as T", ''].join('\n')
+const out = ["import { mk, u } from './utils.ts'", "import type { C, U } from './types.ts'", 'const $ = mk(', '\t' + JSON.stringify(dict.join('\n')) + ',', '\t' + JSON.stringify(packed) + ',', ')', ...uKeys.map(decl), "export const define = <T = C>(name: string, dsl = ''): T => u(name, dsl) as unknown as T", ''].join('\n')
 fs.writeFileSync(path.join(dir, 'src', 'index.ts'), out)
 process.stdout.write('keys ' + uKeys.length + ' rows ' + rows.length + ' dict ' + dict.length + ' dsl ' + joined.length + ' -> ' + (packed.length + dict.join(';').length) + ' bytes, index.ts ' + fs.statSync(path.join(dir, 'src', 'index.ts')).size + ' bytes\n')

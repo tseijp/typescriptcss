@@ -1,5 +1,5 @@
 import type { Callback } from './types.ts'
-type Node = { ch: Record<string, Node>; pre?: Record<string, 1>; mult?: number; enc?: string }
+type Node = [Record<string, Node>, number, string?]
 const roots: Record<string, Node | string> = {}
 const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const S2 = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -47,12 +47,13 @@ const decRule = (enc: string, path: string[], pos: number, tok: string | null): 
                         continue
                 }
                 const c = item.indexOf(':')
-                o[dcamel(resolveDots(item.slice(0, c), path, pos, tok))] = resolveDots(item.slice(c + 1), path, pos, tok)
+                const v = resolveDots(item.slice(c + 1), path, pos, tok)
+                for (const k of resolveDots(item.slice(0, c), path, pos, tok).split(',')) o[dcamel(k)] = v
         }
         return o
 }
 const parse = (dsl: string) => {
-        const root: Node = { ch: {} }
+        const root: Node = [{}, 1]
         const stack: Node[] = [root]
         for (const raw of dsl.split(';')) {
                 if (!raw) continue
@@ -62,20 +63,15 @@ const parse = (dsl: string) => {
                 let head = eq < 0 ? body : body.slice(0, eq)
                 const enc = eq < 0 ? undefined : body.slice(eq + 1)
                 if (head === '') {
-                        root.enc = enc
+                        root[2] = enc
                         continue
                 }
                 const mm = /\*(-?[\d.]+)$/.exec(head)
                 if (mm) head = head.slice(0, mm.index)
-                const node: Node = { ch: {}, mult: mm ? Number(mm[1]) : 1, enc }
+                const node: Node = [{}, mm ? Number(mm[1]) : 1, enc]
                 stack[dots + 1] = node
                 stack.length = dots + 2
-                for (const rawKey of head.split('~')) {
-                        const short = rawKey.endsWith('?'),
-                                kk = short ? rawKey.slice(0, -1) : rawKey
-                        stack[dots].ch[kk] = node
-                        if (short) (stack[dots].pre ??= {})[kk] = 1
-                }
+                for (const rawKey of head.split('~')) stack[dots][0][rawKey] = node
         }
         return root
 }
@@ -87,29 +83,31 @@ const merge = (a: Record<string, any>, b: Record<string, any>): Record<string, a
 }
 const read = (root: Node, name: string, path: string[], start: number) => {
         let node = root,
-                last = root.enc != null ? root : undefined,
+                last = root[2] != null ? root : undefined,
                 tok: string | null = null,
                 end = start
         const seg = [name]
         let chosen = [name]
         for (let i = start; i < path.length; i++) {
                 const key = path[i]
-                let next = node.ch[key],
+                let next = node[0][key],
                         mytok: string | null = null,
                         sk = key
-                if (!next) {
-                        const pk = Object.keys(node.pre ?? {}).find((k) => key.startsWith(k))
-                        if (pk) next = node.ch[pk]
-                }
-                if (!next && isNum(key) && node.ch['$']) ((next = node.ch['$']), (mytok = String(Number(key) * (next.mult ?? 1))), (sk = '$'))
-                if (!next && node.ch['_']) ((next = node.ch['_']), (mytok = key), (sk = '_'))
+                if (!next)
+                        for (const k in node[0])
+                                if (k.endsWith('?') && key.startsWith(k.slice(0, -1))) {
+                                        next = node[0][k]
+                                        break
+                                }
+                if (!next && isNum(key) && node[0]['$']) ((next = node[0]['$']), (mytok = String(Number(key) * next[1])), (sk = '$'))
+                if (!next && node[0]['_']) ((next = node[0]['_']), (mytok = key), (sk = '_'))
                 if (!next) break
                 node = next
                 seg.push(sk)
-                if (node.enc != null) ((last = node), (tok = mytok), (end = i + 1), (chosen = seg.slice()))
+                if (node[2] != null) ((last = node), (tok = mytok), (end = i + 1), (chosen = seg.slice()))
                 else if (mytok !== null) tok = mytok
         }
-        return { css: last?.enc != null ? decRule(last.enc, chosen, chosen.length - 1, tok) : {}, end }
+        return [last?.[2] != null ? decRule(last[2], chosen, chosen.length - 1, tok) : {}, end] as const
 }
 const run = (path: string[]) => {
         let css: Record<string, any> = {}
@@ -121,8 +119,8 @@ const run = (path: string[]) => {
                 }
                 const root = typeof r === 'string' ? (roots[path[i]] = parse(r)) : r
                 const nx = read(root, path[i], path, i + 1)
-                css = merge(css, nx.css)
-                i = Math.max(nx.end, i + 1)
+                css = merge(css, nx[0])
+                i = Math.max(nx[1], i + 1)
         }
         return css
 }
@@ -147,7 +145,9 @@ export const u = (name: string, dsl = '', option = 0): any => {
         return createProxy(callback, [name], option)
 }
 export const mk = (dict: string, src: string): any => {
-        const segs = expand(dict, src).split(';;')
+        const [keys, body] = expand(dict, src).split('\n')
+        const names = keys.split(',')
+        const segs = body.split(';;')
         let i = 0
-        return new Proxy({}, { get: (_1, key) => u(key as string, segs[i++]) })
+        return () => u(names[i], segs[i++])
 }
