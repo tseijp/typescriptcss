@@ -189,6 +189,7 @@ const serialize = (root: string) => {
         if ('rule' in t) lines.push('=' + t.enc)
         const walk = (node: Node, depth: number) => {
                 const kids = Object.keys(node.ch)
+                const keyOf = prefixMap(kids)
                 const leaf = kids.filter((k) => Object.keys(node.ch[k].ch).length === 0 && 'rule' in node.ch[k])
                 const branch = kids.filter((k) => !leaf.includes(k))
                 const grp = new Map<string, { keys: string[]; enc?: string; mult?: number }>()
@@ -198,13 +199,8 @@ const serialize = (root: string) => {
                         if (!grp.has(sig)) grp.set(sig, { keys: [], enc: c.enc, mult: c.mult })
                         ;(grp.get(sig) as any).keys.push(k)
                 }
-                const mergeable = (g: { keys: string[] }) => g.keys.every((k) => k !== '$' && k !== '_' && !/^-?\d/.test(k) && norm(k) === k)
-                let picked: { keys: string[] } | null = null
-                if (!('rule' in node) && !kids.includes('_')) for (const g of grp.values()) if (mergeable(g) && (!picked || g.keys.join('~').length > picked.keys.join('~').length)) picked = g
-                const merged = new Set(picked ? picked.keys : [])
-                const keyOf = prefixMap(kids.filter((k) => !merged.has(k)))
                 for (const g of grp.values()) {
-                        let head = '.'.repeat(depth) + (g === picked ? '_' : g.keys.map((k) => keyOf[k]).join('~'))
+                        let head = '.'.repeat(depth) + g.keys.map((k) => keyOf[k]).join('~')
                         if (g.keys.includes('$') && g.mult && g.mult !== 1) head += '*' + g.mult
                         lines.push(head + '=' + g.enc)
                 }
