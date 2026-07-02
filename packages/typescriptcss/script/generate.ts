@@ -289,8 +289,35 @@ for (const line of ub.split('\n')) {
 uKeys.sort()
 topKeys = uKeys.slice()
 const dsls = uKeys.map((k) => alias[k] ?? (trees[k] ? serialize(k) : ''))
+const needsRoot = (dsl: string) => {
+        let pathLen = 1
+        const lens = [1]
+        for (const raw of dsl.split(';')) {
+                if (!raw) continue
+                const dots = (raw.match(/^\.*/) as RegExpMatchArray)[0].length
+                const body = raw.slice(dots)
+                const eq = body.indexOf('=')
+                if (body && (eq < 0 || body.slice(0, eq))) {
+                        pathLen = dots + 2
+                        lens[dots + 1] = pathLen
+                        lens.length = dots + 2
+                } else pathLen = lens[dots] ?? 1
+                if (eq < 0) continue
+                const enc = body.slice(eq + 1)
+                let yes = false
+                enc.replace(/\.+/g, (run, idx) => {
+                        if (/[0-9]/.test(enc[idx - 1] || '') || /[0-9]/.test(enc[idx + run.length] || '')) return run
+                        const pos = pathLen - 1
+                        if ((run.length === 1 ? pos : pos - (run.length - 1)) === 0) yes = true
+                        return run
+                })
+                if (yes) return true
+        }
+        return false
+}
+const sems = dsls.map((dsl, i) => (needsRoot(dsl) ? uKeys[i] : ''))
 const joined = dsls.join(';;')
-const source = uKeys.join(',') + '\n' + joined
+const source = sems.join(',') + '\n' + joined
 const escaped = source.replace(/[A-Z]/g, (c) => '!' + c.toLowerCase())
 const PRE = ']^'
 const occAt = (text: string, sub: string) => {

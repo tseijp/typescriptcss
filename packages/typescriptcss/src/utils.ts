@@ -1,6 +1,7 @@
 import type { Callback } from './types.ts'
 type Node = [Record<string, Node>, number, string?]
 const roots: Record<string, Node | string> = {}
+const sems: Record<string, string> = {}
 const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+<['
 const S2 = '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~'
 const PRE = ']^'
@@ -119,7 +120,7 @@ const run = (path: string[]) => {
                         continue
                 }
                 const root = typeof r === 'string' ? (roots[path[i]] = parse(r)) : r
-                const nx = read(root, path[i], path, i + 1)
+                const nx = read(root, sems[path[i]] ?? path[i], path, i + 1)
                 css = merge(css, nx[0])
                 i = Math.max(nx[1], i + 1)
         }
@@ -136,8 +137,9 @@ const createProxy = (callback: Callback, path: string[], option: number) => {
         })
         return proxy
 }
-export const u = (name: string, dsl = '', option = 0): any => {
+export const u = (name: string, dsl = '', option = 0, sem = name): any => {
         roots[name] = dsl
+        sems[name] = sem
         const callback: Callback = ({ path, args }) => {
                 const merged = args.find((a) => a && typeof a === 'object') ?? {}
                 const tail = args.find((a) => typeof a === 'number' || typeof a === 'string')
@@ -150,5 +152,8 @@ export const mk = (dict: string, src: string): any => {
         const names = keys.split(',')
         const segs = body.split(';;')
         let i = 0
-        return () => u(names[i], segs[i++])
+        return () => {
+                const name = '$' + i
+                return u(name, segs[i], 0, names[i++] || name)
+        }
 }
