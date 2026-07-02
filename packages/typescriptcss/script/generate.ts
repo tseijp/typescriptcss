@@ -223,10 +223,62 @@ const compress = (input: string) => {
 	}
 	return { dict, packed: text }
 }
-const { dict, packed } = compress(escaped)
-let restored = packed
-for (let i = dict.length; i--; ) restored = restored.split(code(i)).join(dict[i])
-if (restored !== escaped) { process.stdout.write('pack roundtrip failed\n'); process.exit(1) }
+const tokenIndex = (s: string, i: number) => {
+	const p = PRE.indexOf(s[i])
+	if (p >= 0) return 26 + p * 62 + S2.indexOf(s[i + 1])
+	const u = S1.indexOf(s[i])
+	return u >= 0 ? u : -1
+}
+const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const S2 = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const relabel = (s: string, remap: number[]) => {
+	let out = ''
+	for (let i = 0; i < s.length; i++) {
+		const k = tokenIndex(s, i)
+		if (k < 0) { out += s[i]; continue }
+		out += code(remap[k])
+		if (PRE.includes(s[i])) i++
+	}
+	return out
+}
+const optimize = (dict0: string[], packed0: string) => {
+	const dict = dict0.slice()
+	let packed = packed0
+	const expLen = dict0.map((e) => expandFix(dict0, e).length)
+	for (let a = 0; a < dict.length; a++) for (let b = 0; b < dict.length; b++) {
+		if (a === b || dict[b].length <= code(b).length || expLen[b] >= expLen[a]) continue
+		if (!dict[a].includes(dict[b])) continue
+		dict[a] = replaceAt(dict[a], dict[b], code(b))
+	}
+	const count = new Array(dict.length).fill(0)
+	const scan = (s: string) => { for (let i = 0; i < s.length; i++) { const k = tokenIndex(s, i); if (k < 0) continue; count[k]++; if (PRE.includes(s[i])) i++ } }
+	scan(packed)
+	for (const e of dict) scan(e)
+	const order = dict.map((_1, k) => k).sort((x, y) => count[y] - count[x])
+	const remap: number[] = []
+	order.forEach((oldIdx, rank) => (remap[oldIdx] = rank))
+	const dict2: string[] = []
+	for (let k = 0; k < dict.length; k++) dict2[remap[k]] = relabel(dict[k], remap)
+	packed = relabel(packed, remap)
+	return { dict: dict2, packed }
+}
+const expandFix = (dict: string[], src: string) => {
+	const defs = dict.slice()
+	const exp = (s: string): string => {
+		let out = ''
+		for (let i = 0; i < s.length; i++) {
+			const p = PRE.indexOf(s[i])
+			const k = p < 0 ? S1.indexOf(s[i]) : 26 + p * 62 + S2.indexOf(s[i + 1])
+			if (p >= 0) i++
+			out += k < 0 || defs[k] == null ? s[i] : (defs[k] = exp(defs[k]))
+		}
+		return out
+	}
+	return exp(src)
+}
+const raw = compress(escaped)
+const { dict, packed } = optimize(raw.dict, raw.packed)
+if (expandFix(dict, packed) !== escaped) { process.stdout.write('pack roundtrip failed\n'); process.exit(1) }
 const api: Record<string, any> = {}
 const proxy = mk(dict.join('\n'), packed)
 for (const k of uKeys) api[k] = proxy[k]

@@ -6,8 +6,17 @@ const S2 = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 export const code = (i: number) => (i < 26 ? S1[i] : '^+<[]'[((i - 26) / 62) | 0] + S2[(i - 26) % 62])
 const expand = (dict: string, src: string) => {
 	const defs = dict ? dict.split('\n') : []
-	for (let i = defs.length; i--; ) src = src.split(code(i)).join(defs[i])
-	return src.replace(/!(.)/g, (_1, c) => c.toUpperCase())
+	const exp = (s: string): string => {
+		let out = ''
+		for (let i = 0; i < s.length; i++) {
+			const p = '^+<[]'.indexOf(s[i])
+			const k = p < 0 ? S1.indexOf(s[i]) : 26 + p * 62 + S2.indexOf(s[i + 1])
+			if (p >= 0) i++
+			out += k < 0 || defs[k] == null ? s[i] : (defs[k] = exp(defs[k]))
+		}
+		return out
+	}
+	return exp(src).replace(/!(.)/g, (_1, c) => c.toUpperCase())
 }
 const norm = (x: string) => (x === 'col' ? 'column' : x === 'cols' ? 'columns' : x)
 const dcamel = (s: string) => s.replace(/-([a-z])/g, (_1, c) => c.toUpperCase())

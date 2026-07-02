@@ -23,7 +23,8 @@
                 "share": "cd packages/@typescriptcss/share && npm run build",
                 "vite": "cd packages/@typescriptcss/vite && npm run build",
                 "prettier": "cd packages/@typescriptcss/prettier && npm run build",
-                "bundle": "npm run tsup && npm run share && npm run next & npm run rollup & npm run vite & npm run prettier"
+                "bundle": "npm run tsup && npm run share && npm run next & npm run rollup & npm run vite & npm run prettier",
+                "generate": "cd packages/typescriptcss/script && node generate.ts"
         },
         "workspaces": [
                 "examples/*",
