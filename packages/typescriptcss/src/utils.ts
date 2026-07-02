@@ -1,16 +1,17 @@
 import type { Callback } from './types.ts'
 type Node = [Record<string, Node>, number, string?]
 const roots: Record<string, Node | string> = {}
-const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-const S2 = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-export const code = (i: number) => (i < 26 ? S1[i] : '^+<[]'[((i - 26) / 62) | 0] + S2[(i - 26) % 62])
+const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+<['
+const S2 = '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~'
+const PRE = ']^'
+export const code = (i: number) => (i < S1.length ? S1[i] : PRE[((i - S1.length) / S2.length) | 0] + S2[(i - S1.length) % S2.length])
 const expand = (dict: string, src: string) => {
         const defs = dict ? dict.split('\n') : []
         const exp = (s: string): string => {
                 let out = ''
                 for (let i = 0; i < s.length; i++) {
-                        const p = '^+<[]'.indexOf(s[i])
-                        const k = p < 0 ? S1.indexOf(s[i]) : 26 + p * 62 + S2.indexOf(s[i + 1])
+                        const p = PRE.indexOf(s[i])
+                        const k = p < 0 ? S1.indexOf(s[i]) : S1.length + p * S2.length + S2.indexOf(s[i + 1])
                         if (p >= 0) i++
                         out += k < 0 || defs[k] == null ? s[i] : (defs[k] = exp(defs[k]))
                 }

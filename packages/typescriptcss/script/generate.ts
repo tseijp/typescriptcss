@@ -292,7 +292,7 @@ const dsls = uKeys.map((k) => alias[k] ?? (trees[k] ? serialize(k) : ''))
 const joined = dsls.join(';;')
 const source = uKeys.join(',') + '\n' + joined
 const escaped = source.replace(/[A-Z]/g, (c) => '!' + c.toLowerCase())
-const PRE = '^+<[]'
+const PRE = ']^'
 const occAt = (text: string, sub: string) => {
         const pos: number[] = []
         let i = 0
@@ -316,7 +316,7 @@ const replaceAt = (text: string, sub: string, tok: string) => {
 const compress = (input: string) => {
         const dict: string[] = []
         let text = input
-        while (dict.length < 336) {
+        while (dict.length < 217) {
                 const cl = code(dict.length).length
                 const cand = new Map<string, number>()
                 let prev: Set<string> | null = null
@@ -354,12 +354,12 @@ const compress = (input: string) => {
 }
 const tokenIndex = (s: string, i: number) => {
         const p = PRE.indexOf(s[i])
-        if (p >= 0) return 26 + p * 62 + S2.indexOf(s[i + 1])
+        if (p >= 0) return S1.length + p * S2.length + S2.indexOf(s[i + 1])
         const u = S1.indexOf(s[i])
         return u >= 0 ? u : -1
 }
-const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-const S2 = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+<['
+const S2 = '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~'
 const relabel = (s: string, remap: number[]) => {
         let out = ''
         for (let i = 0; i < s.length; i++) {
@@ -408,7 +408,7 @@ const expandFix = (dict: string[], src: string) => {
                 let out = ''
                 for (let i = 0; i < s.length; i++) {
                         const p = PRE.indexOf(s[i])
-                        const k = p < 0 ? S1.indexOf(s[i]) : 26 + p * 62 + S2.indexOf(s[i + 1])
+                        const k = p < 0 ? S1.indexOf(s[i]) : S1.length + p * S2.length + S2.indexOf(s[i + 1])
                         if (p >= 0) i++
                         out += k < 0 || defs[k] == null ? s[i] : (defs[k] = exp(defs[k]))
                 }
