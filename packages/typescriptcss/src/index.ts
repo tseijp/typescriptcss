@@ -1,232 +1,236 @@
-import { u } from './utils.ts'
+import { mk, u } from './utils.ts'
 import type { C, U } from './types.ts'
-export const absolute: U['absolute'] = u('absolute', `=position:.`)
-export const accent: U['accent'] = u('accent', `inh?~transp?=..-color:.;curr?=..-color:currentColor;$=..-color:var(.)`)
-export const active: U['active'] = u('active', ``)
-export const after: U['after'] = u('after', ``)
-export const align: U['align'] = u('align', `base?~top~mid?~bot?~sub~supe?=vertical-..:.;$=vertical-..:.;te?;.top~bot?=vertical-...:..-.`)
-export const animate: U['animate'] = u('animate', `sp?=animation:. 1s linear infinite;pi?=animation:. 1s cubic-bezier(0, 0, 0.2, 1) infinite;pu?=animation:. 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;bou?=animation:. 1s infinite;non?=animation:.;$=animation:var(.)`)
-export const antialiased: U['antialiased'] = u('antialiased', `=-webkit-font-smoothing:.|-moz-osx-font-smoothing:grayscale`)
-export const appearance: U['appearance'] = u('appearance', `non?~auto=..:.`)
-export const aria: U['aria'] = u('aria', ``)
-export const aspect: U['aspect'] = u('aspect', `$*4=..-ratio:. / 9;sq?=..-ratio:1 / 1;vid?=..-ratio:16 / 9;auto=..-ratio:.`)
-export const atLg: U['atLg'] = u('atLg', ``)
-export const atMd: U['atMd'] = u('atMd', ``)
-export const atSm: U['atSm'] = u('atSm', ``)
-export const auto: U['auto'] = u('auto', `cols;.auto=display:grid|grid-.-..:.;.min~max=display:grid|grid-...-..:.-content;.fr=display:grid|grid-...-..:minmax(0, 1fr);.$=display:grid|grid-...-..:.;rows;.auto=display:grid|grid-.-..:.;.min~max=display:grid|grid-...-..:.-content;.fr=display:grid|grid-...-..:minmax(0, 1fr);.$=display:grid|grid-...-..:.`)
-export const autofill: U['autofill'] = u('autofill', ``)
-export const backdrop: U['backdrop'] = u('backdrop', `filt?;.non?=...-..:.;.$=...-..:var(.);blu?;.non?=...-filter:;bri?;.$=...-filter:..(.%);contr?;.$=...-filter:..(.%);gra?=..-filter:.(100%);.$=...-filter:..(.%);hu?;.rot?;..$=....-filter:...-..(.deg);inve?=..-filter:.(100%);.$=...-filter:..(.%);opa?;.$=...-filter:..(.%);sa?;.$=...-filter:..(.%);sep?=..-filter:.(100%);.$=...-filter:..(.%)`)
-export const backface: U['backface'] = u('backface', `hi?~visibl?=..-visibility:.`)
-export const basis: U['basis'] = u('basis', `$*4=flex-..:.px;fu?=flex-..:100%;auto=flex-..:.`)
-export const before: U['before'] = u('before', ``)
-export const bg: U['bg'] = u('bg', `fix?~loc?~scroll=background-attachment:.;inh?~transp?=background-color:.;curr?=background-color:currentColor;$=background-color:.;non?=background-image:.;auto~cov?~contain=background-size:.;cli?;.bor?~pa?~content=background-..:.-box;.te?=background-..:.;ori?;.bor?~pa?~content=background-..:.-box;pos?;.lef?~ce?~ri?=background-..:.;.$=background-..:.;.top=background-..:.;..lef?~ri?=background-...:.. .;.bot?=background-..:.;..lef?~ri?=background-...:.. .;rep?;.rep?=background-.:.;.x~y=background-..:..-.;.sp?~round=background-..:.;.no-?=background-..:no-..;si?;.$*4=background-..:.px;ble?;.nor?~mu?~scre?~overla?~darke?~lighte?~dif?~ex?~hu?~saturati?~color~lu?=background-..-mode:.;.color-d?=background-..-mode:color-dodge;.color-b?=background-..-mode:color-burn;.har?=background-..-mode:hard-light;.so?=background-..-mode:soft-light`)
-export const block: U['block'] = u('block', `=display:.;$*4=..-size:.px;auto~_=..-size:.;min~max~fit=..-size:.-content`)
-export const blur: U['blur'] = u('blur', `non?=filter:`)
-export const border: U['border'] = u('border', `_=..-width:.;$=..-width:.px;inh?~curr?~transp?=..-color:.;so?~das?~dot?~dou?~hi?~non?=..-style:.;coll?=..-.:.;sepa?=..-collapse:.;x;._=...-inline-width:.;.$=...-inline-width:.px;.inh?~curr?~transp?=...-inline-color:.;y;._=...-block-width:.;.$=...-block-width:.px;.inh?~curr?~transp?=...-block-color:.;s;._=...-inline-start-width:.;.$=...-inline-start-width:.px;.inh?~curr?~transp?=...-inline-start-color:.;e;._=...-inline-end-width:.;.$=...-inline-end-width:.px;.inh?~curr?~transp?=...-inline-end-color:.;t;._=...-block-start-width:.;.$=...-top-width:.px;.inh?~curr?~transp?=...-block-start-color:.;bs;.$=...-block-start-width:.px;b;._=...-block-end-width:.;.$=...-bottom-width:.px;.inh?~curr?~transp?=...-block-end-color:.;be;.$=...-block-end-width:.px;r;._=...-right-width:.;.$=...-right-width:.px;.inh?~curr?~transp?=...-right-color:.;l;._=...-left-width:.;.$=...-left-width:.px;.inh?~curr?~transp?=...-left-color:.`)
-export const bottom: U['bottom'] = u('bottom', `$*4=inset-block-end:.px;fu?=inset-block-end:100%;auto=inset-block-end:.`)
-export const box: U['box'] = u('box', `bor?~content=..-sizing:.-..;dec?;.clo?~sli?=...-..-break:.`)
-export const break_: U['break'] = u('break', `nor?=word-..:.;all=word-..:..-.;k?=word-..:.-all;af?;.auto~all~pag?~lef?~ri?~column=...-..:.;.av?=...-..:.;..pag?=....-...:..-.;be?;.auto~all~pag?~lef?~ri?~column=...-..:.;.av?=...-..:.;..pag?=....-...:..-.;insi?;.auto=...-..:.;.av?=...-..:.;..pag?~column=....-...:..-.`)
+const $ = mk(
+	"..-\n:.;\n-radius:calc(infinity * 1px)\n..\nborder-\n?=\n:.px;\nauto\ndisplay:\nwidth\nin\nbackground-\ncontent\ncolor\n?~\n;.\night\n-radius\nstart\n|AtimKg-function:cubic-bezier(0.4, 0, 0.2, 1)|Aduration:150ms;\n.A\n$*4=\ntrans\nfont-variant-numeric\nblock\nmargK\nfilter:D(.%);\nUDBDsafFDAD.:. D\n& > :not(:last-child){E\n=Igrid|grid-\nPresFD.:A.;\npaddKg\nEbottom-\n-JG.KhOcurrOWpFU\ntion\nalign-D\nKlKe-\nnonF\nAsize\n:repeat(., mKmax(0, 1fr))\nletter-spacKg\n:current!N\nwhite-space\nend\n=grid-\n:var(.);\nble?PnorOmuOscreOoverlaOdarkeOlQeOdifOexOhuOsaturatiON~luF\n:A.;\n:100\noverflow\nD.:D .\n;;;\ntemplate-\nEtop-left\nflex-\ntext-\nmax~fit=\ncubic-bezier(0\n|@media (J >= \ni^i-timKg-func\n:.-M\n?PH~all~pagOlefOriOcolumn=UDB.avFUDBDpagFDAD.\n00=AweQ:\nH~hiOcliOvisiblOscroll=\nAmode:\n-font-smoothKg:\nstyle\nrem){max-J:\nfilter:.(100%)\nUDB\nEtop-rQ\n=displayB\nR:0pxPfuF\nlef\nP$=U\nWform\nG.fuF\nposi\nKhOWpF\ni?PborOpaOM~fill~strOvieFUD:.-box\n-webkit\n-JB.$=U\nbehavior\n;$=\nstar\nBcurrF\ncolumn\n:H;VZ-\nAproperty\nID.|U\nG_=Z-\nPgrouFIUA.;\nsoOdasOdotOdouO\n?;DcondOexFDAD.\nKset-Y-\nF^j.:. \n|^x:visible|clip-path:none|\n|heQ\nscroll\nvertical\nvisibility\nB.mK~fit=U\nbetOaroOevenlF\n$^sD:span . / span .;sp?P$\nnonO\n^LOri\n^8Pmax=.-\n-DB\n^lDB\n(.deg)\n^w%;H=\ncontaK\nR:.px|\n, 0, 0.2, 1)\nFAfamily:ui-\n !emoji', '!segoe !u!i\n-^r\n^f-\nr^dUD:mKmax(0, 1fr)P$\nstre\nF^H.\n KfKite;\n^LOceOri\n^3decora\ni?PborOpaOM=LD:.-box\n^z;\nlKe\nP_=U\nB;H=Z-\n^x:hidden|\n^iB\n^Lt\nanima\nfilter:\n-J:0px|\nB.mK=.-\npx rgb(0 0 0 / 0.\nnor\nbase\n^grQ\ngrayscale\ns^n;none~subgrid\nH+tDdenFIDD|DAH-\ntop\nbot\nG_=\n|^S-box-orient:\nB^z\nGfuF\nH~_=\nF^jB\n:^2.\n:1px\nspace\nE^r-S\nAratio\n;+u$=D\nY+2B;V\n|^f:0|Z:\n^N:skew!\nD:A.PspOround=\n^CN-dodgePN-bF\n^i:\n^kS\n^r=\n^CN-burnPharF\n^Chard-lQPsoF\n^8;\nFD:\nR:0|\n^w%PH=U\n:+Nmal;\nem;wide\n^y;rep?PrepF\n;;_=AJB$=AJG\n^3Athickness\n<mstatic|J:H\nP^l\n?^M\nY-S\n^WO\nheQ\nU^m\nimage\ndirec\nfont-\nV<6G.\nplus-\nAmodeB.N-dF\nKhOcurrOWpF\nF^b;selfPH~\nno-FUD:no-D\nrow\nK+C\nP$=\n^VDB\nrem}\n, '!\nnuFX\nO^LF\nES-S\n<m. 1s\n<bPsaf\n^2D;ce\n.+t.mK~max\nhorizontal\n|^q:nowrap\n.^v\nD<V\nB;V\nA^E\nJ^w\n00;\nR^O\n^5.4, 0, \n|-moz-osx\n^Csoft-lQ\nfuFgrid-D\ni^i-D:.ms\n+B;\n+UF\n / \n;H=\ncol\n^H.\nall\nH^s\n=<Z\n, !\nUD:\n;H~\nD+rF\nBmK~\nword\nID|A\nmono\n+hD;\n00px\n^o:0\nN^XAN\n+Utom\nbreak\n.revF\nD+wDB\n^bPce\ntypeB\nP+qsubgF",
+	"=^P+G;^QA[1^p^VAN^t[h+OO+T~midO+UOsub~supeF+l+t$=+l+tte?P+T~[i+l-<W;spF+I<P +Car+7piF+I<P ^5+z+7puF+I<m. 2s [c0.6, 1)+7bouF+I<P+7^l+I+G$=+I^i^t;=^S^D.[d^D+Q;;+qH=D+XV<f:.[j9;sqF<f:1[j1;vidF<f:16[j9[k<f+X+B[lsPH^d<S^dUD^8Pf+4^d^H<GsPH^d<S^dUD^8Pf+4^d^H^zfilt?<1[m$=UD^tblu?<1U+J;bri<2^acontr<2^agraFA^G^M^ahu?Prot?;D$=DA+JUD+v;KveFA^G^M^aopa<2^asa<2^asepFA^G^M^a;hiOvisiblFA+m<X^2D+Y^2D+w^2D+XfixOlocO+k=LattachmentB^QLN^XLN^p^VLNB^lL<7BH~covO+x=LsizeBcl+APteFLDBor+A;pos?P+8FLDB.$=LDB.+T=LDB[tL^yP[iLDB[tL<xL.B.x~y=L<kLDB.no-FLD:no-D;si?PVLDG^uL<CL<lL<pL<qL[e;;^JV^mG+Z^m[u^4^m<r;^l+J<y<DANB+ehiO^l<YB[llFA.BsepaFA[llapseBx+D^kJB.$=U<H^h^kNBy+DY^TY^hY-NBs+D<n^T<n^h<n-NBe+D^k^r^T^k^r^h^k^r-NBt+D<3^T+T^h<3-NBbs^M<3-JGb+DY+2^T[2^hY+2-NBbe^MY+2-JGr+DrQ^TrQ^hrQ-NBl+D+H^T+H^h+H-N<X+g^r+Y+g^r+w+g^rB;borOM=AsizKg:.-D;dec?PcloOsliFUA[3B;+NF[v+t[n=[v-D^vkF[v-D:.-[n;af^9^vbe^9^vKsi?PH=[mavF^HDpagO^Y=DA<W^V^a;=^3^NB;+T~[iAsideB;^QA[1^p^VANB[h+rO+Uh~+u<4<oD:^k.;;[oDB+p^s^y[jD .P[f.:1[j-1;^W?P$^s[m[o^H^rP$^s[m[o^H;$^s^Y-SB[o^Y-S:H;;=+mB;^QD^XD^p;;$^d^0^Y+R^d^0^YsB<JH=DB;[p%^640^F40<K^648^F48<K^664^F64<K^680^F80<K^696^F96<K;;+NOceO+OO+5<a<4<o^j<b;+o^j:<d-.<J+u;^J^V^a^zH~defOpoiOwaOteOmoOhelO+qprogOceOcrOaliaOcopOgrab~grabbFDB$=D^tnotP[nF<Wcontex?PmenF<Wve?PteF<WnoPdrF<W[nP+k=<W[lPresFD.:[l-.;<G^en^ee^es^ew^ene^enw^ese^esw^eew^ens^enes?^enws?^ezo?PK~out=<W[h^Q^3AN^X^3AN^p^V^3ANBsoOdouOdotOdasOwaF^3<YBfrom-F<z:from-font[k<zB^VW[g+BfraFX^v[h<D^cN:.}^V^cN:.};+ehiO^l^c^E:.};x=^c<n+KE^k^r-J<c}<I^c<n+KE^k^r-J:.px};y=^c+T+K^gJ<c}<I^c+T+K^gJ:.px};^VW[g;KiFWi^i+t;+CaOKiFW^7+Gout=W^7<m^5+z^VW^7^i^tK=W^7<m[c1, 1)Pout=W^7<m^5.4+z^z^z+Bsizi?PfixOM=^H^z+q^QD^XD^p<J<g^tdr<sdrop-shadow(0 0 #0000);+Q(<s+Q(100%);Kvert(<sKvert(100%)+B=^P+G;^JnowF[wwrapB$=DBH~+uKi<s0 H;<G=[w<8+G[4+b<8^i^v[l=[w<8+G[4+b<8^i^vwrF[w.B[4+bD^v;riO^LO+u<4<oD:^k.;;rooFIA.+B100=AweQ^w;2^A2[a3^A3[a4^A4[a5^A5[a6^A6[a7^A7[a8^A8[a9^A9[asan+0.-serif, system-ui, .-serif<Lapple !N+1+1 !symbol'<Lnoto !N !emoji';ser+0.[qgeorgia[qcambria<Ltimes !new !roman'[qtimes, .;mo+0[x<d[qs!f![x-!regular[qmenlo[qmonaco[qconsolas<Llibera^i ![x'<Lcourier !new', [x<d^VAfamilyB+5?PcondO+NOexp+6$*12.5=[r.%Pul+f:A.Pext+f:A.Psem+f^vfe<2feature-settKgsB[s^lforced-N-adjust+XVDGxPV^Y-D.GyPV<G-D.G^V^a;^J[ls<I+b^0D^n[8+b^0DB<Gs<I+b^0D^n[8+b^0DBflowPdenF+bH+t.<G=+b+S^yP^Y=+b+S^y+B=^2.:1^V^2DB;+Z<5[u^4<5^8^z^z=Inone+Brot?<I+JUD+v;;+qmanOH=DB;_=^3D+X^JbloOfleOgriOtablFIA.;V^mG+Z^m[u^4^m<r^VD+Y[5xPVU<H^OU<H<u<HByPVUY^OUY<uYBsPVU<n^OU<n^w%;ePVU^k^r^OU^k^r<u^k^r+X$=^a;=+m:hidden;;=isola+G[kDB;=<9^EB;^WF^j<b;+5<a<o^j<Q+h<R<a.saf[y+O<a.las[y;^WFAM<b;+oAM:<d-.;+5O+OO+NFAMB<oAM<QFUM:. <RFAMB.safFUM:. D;ite?P<4+5O+N+6<o[6<E<4+5+6ceF^bP<o^b^z^z1=+C-<5:1;;VD+Y[5[hthF+9^i-D^vcla?<I+FI^S-box+W+l|^S-[m^l^x:visible|IY+W<T|^S-[runset;;<M^v;item=IA.;KsiOoutsF<Y-^P+Gdisc~deciO^l<Y-[7$=<Y-[7im<2^E+t.^lU^E+t;=^3^N+XH=Z:H;VZ+VZB[kZ:H;VZ+VZ+XadOsubtOKtOexFAcom^PteB$=A<7B^lA<7BalpOluFAmodeBmatF^C.-source[scovO+x=^mBcl^RP<F;ra<2<7:Agradient(.);or^R;pos?P+8+6-F[rvar(--UD)P+T=^H[tDA^yP[i^H[tDA<xU.B.<FPx~y=U<k^Hsi<2D^t;wP+q_=UJ+nJ+sJ<rhP+q_=U<5+n<5+s<5<rKl?P<AH=<6:none+D^m+n^m+s^m<rblo?P<A+q_=<6+n^m+s^m^8^z^zH=Z-Y+2^Z[2+c<hZ-Y+2+c<hZ-<3+c<3+XH=Z-^k^r^Z^k^r+c^k^rB;wP+ZUJ+LJ^8P^4UJ<rhP_~H=U<5+L<5^8P^4U<5<rKl?P<A+Z<6+L^m^8P^4<6<rblo?P<A+Z<6+L^m^8P^4<6<r;^uU<CU<lU<pU<qU[eP<BdFU^C<BdarkerP<BlFU^C<BlQer;[kZ-+H^Z+H+c+H+ErQ^ZrQ+crQ+E<n^Z<n+c<n+E<3^Z+T+c<3+E<H^Z<H+c<H+EY^ZY+cYB;=+9^i-+CB;<M:D;;itaF<9^E<vsrPonF^P<0+j:H<i0+i^q<v;onF^P<0+j:H<i0+i^q<v;+x~covOfill~^lAfitB+8FA^P+G$=A^P+Gsca?PdoFUfit^v+T=A^P+G.+rFU^P<mD .;[iA^P+G.+rFU^P<mD .+B<M^v^z$=D:.%^z<Jfir<s-9999;las<s9999;^lD:0;;=XB;ceOri<N^N+t$=^N-D^t+T=^N+t.ri<N^N-^y;[i^N+t.ri<N^N-^y<y^QA[1^p;+e^l<YBhi<s2px solid Wparent|Aoffset:2px;of<2DG;^BDBxP^B^HyP^B^H;=+9^i-+CB[s+x~^lA^UBxPH~+x~^lU^U+tyPH~+x~^lU^U+t;V^f+V^f<X^f+V^f<X+3[2+V+3<h+3Y+2+V+3<h+3<3+V+3<3<X+3^k^r+V+3^k^r+XdrFD^wpx;ne<s3[z;+N<s5[z;mid<s8[z;dist<s12[z<g^tori?PceOriO^L+6$=[rvar(.)P+T=^HDri<NDA^yP[i^HDri<NDA^y;;V+3+H+V+3+HB;MP<4+OO+5+6+o[r<d-.PceF^bP<o^b;ite?P<4+OO+5+6<o[6<E<4+5+6<o[6F^b+Bevent?PH~^l^H[hV+3rQ+V+3rQ+X<M^v;V+3<n+V+3<n<X+3+T+V+3<3<X+3<H+V+3<H<X+3Y+V+3YB;=^P+G^z=.:+Uh;+uy=D:+l;x=D:<T;;VD+Y[5<g:.deg;;VEradius+YborderC;s<1<O<t<e^K<OC|<eCPV<O+y<eRGe<1ES+2<tE^r+2^KES+2C|E^r+2CPVES+2+yE^r+2RGt<1^1<t^I^K^1C|^ICPV^1+y^IRGr<1^I<t+P^K^IC|+PCPV^I+y+PRGb<1+P<t^g+H^K+PC|^g+HCPV+P+y^g+HRGl<1^1<t^g+H^K^1C|^g+HCPV^1+y^g+HRGssPV<O[b<OC;sePVES+2[bES+2C;eePVE^r+2[bE^r+2C;esPV<e[b<eC;tlPV^1[b^1C;trPV^I[b^IC;brPV+P[b+PC;blPV^g+H[b^g+HC;;[f:1[j-1;[oDB+p^s^y[jD .;^W?P$^s[m[o^H^rP$^s[m[o^H;$^d^0<G+R^d^0<Gs+X$=^a<g:.% .%;;+NOdarFN+tligFN+t.darFN-^y;on?PdarOligFN-^y;[ssmoFA^UB[sthiO^lAJBthu?P^QUNB.currFUN^p^MNBtrack^MNBgu?PH~stab+6+Uh=[rstable .-edges;;+qteO[n~H=user+t^zH~+5<a^WF^j<b;<o^j<Q+h<R<a.saf[y+O<a.las[y;=^G^V^a^Vbox-D:0 1+M05);_=box+t;=^2.:1^V^2DB[kJ:.+jBpx=J<c+j<c;fuF<Z%+j^w%;dvw[pdvw+j^wdvw;dvh[pdvh+j^wdvh;lvw[plvw+j^wlvw;lvh[plvh+j^wlvh;svw[psvw+j^wsvw;svh[psvh+j^wsvh;mK~^4J^8+j<r^V<jx+v skew!y+v;x<I<jx+v;y<I<jy+v;;zeFX^v^z<4^r~ceF+k-AalignB+NOalwF+k-As+TB^l+k-A[7ali?<1+k-^H;onF^P<mabsolute|J<c+j<c<i-1px|+Fclip-path:Kset(50%)<U|EJ:0;;fraFX^v[kKset-^kDB;=^P+G;=^P+G;+q^QD^XD^p<J;antF^S^DH[d^DH^z^V^mB;^JcaptOceFIA.[sfixFAlayoutB^Y=IA.+dfoo?+dhea?+d<G=IA.+d;<M^v^z+O=<9size:16px|+C-<5:24px^V<9sizeB+8OjO<4<oAalignBelOcliFA^xBwrFA.BnowObalOpreFAwrapBsha<2D:0px 1px 0+M15)<1^H^zV+gS+Y+gS+w+gSB[s+qmanFAac+GpanPx~+rOy~up~doFUac^i^vpi?PzoFUac^i^v;tQeF^o:-0.05em;tQ=^o:-0.025em;+NF[0<w=[0.025<wr=[0.05<wsF[0.1em^V^oB^VD^t+u_=<Y:preserve-.;flaF<YB;[n~opaF+a:.TshaF+a:box-.TWfF+a:., Wlate, scale, rotateT^l+aB$=+a:4T+NFA^UBdiscFA^U:[now-.;;fuFD^w% 100%;px=D<c 1px;+u;=+F^3^x:ellipsis<U;;=+9^i-+CBof?<I^3UDG.H=^3^H;=^3^NB[h=+m+X+ZJ[u^4J<r;+NOnowF^qBpre=^qB.+C~wrF^q^vbre?PspF^q^v^zcha?PH~Ms~Wf+6+k=[r.-^P^i^MD^t;[3-F^x-D:[3-[v;anyO+NF^x+t+B^VAKdexBH=AKdexB^VD:.%",
+) as unknown as U
+export const absolute: U['absolute'] = $.absolute
+export const accent: U['accent'] = $.accent
+export const active: U['active'] = $.active
+export const after: U['after'] = $.after
+export const align: U['align'] = $.align
+export const animate: U['animate'] = $.animate
+export const antialiased: U['antialiased'] = $.antialiased
+export const appearance: U['appearance'] = $.appearance
+export const aria: U['aria'] = $.aria
+export const aspect: U['aspect'] = $.aspect
+export const atLg: U['atLg'] = $.atLg
+export const atMd: U['atMd'] = $.atMd
+export const atSm: U['atSm'] = $.atSm
+export const auto: U['auto'] = $.auto
+export const autofill: U['autofill'] = $.autofill
+export const backdrop: U['backdrop'] = $.backdrop
+export const backface: U['backface'] = $.backface
+export const basis: U['basis'] = $.basis
+export const before: U['before'] = $.before
+export const bg: U['bg'] = $.bg
+export const block: U['block'] = $.block
+export const blur: U['blur'] = $.blur
+export const border: U['border'] = $.border
+export const bottom: U['bottom'] = $.bottom
+export const box: U['box'] = $.box
+export const break_: U['break'] = $.break
 export { break_ as break }
-export const brightness: U['brightness'] = u('brightness', `$=filter:..(.%)`)
-export const capitalize: U['capitalize'] = u('capitalize', `=text-transform:.`)
-export const caption: U['caption'] = u('caption', `top~bot?=..-side:.`)
-export const caret: U['caret'] = u('caret', `inh?~transp?=..-color:.;curr?=..-color:currentColor;$=..-color:.`)
-export const checked: U['checked'] = u('checked', ``)
-export const child: U['child'] = u('child', ``)
-export const clear: U['clear'] = u('clear', `lef?~ri?~both~non?=..:.;star?~end=..:inline-.`)
-export const col: U['col'] = u('col', `auto=grid-..:.;$=grid-..:span . / span .;sp?;.$=grid-...:.. . / .. .;.fu?=grid-...:1 / -1;star?;.$=grid-...-..:.;.auto=grid-...-..:.;end;.$=grid-...-..:.;.auto=grid-...-..:.`)
-export const colStart: U['colStart'] = u('colStart', `$=grid-column-start:.;auto=grid-column-start:auto`)
-export const collapse: U['collapse'] = u('collapse', `=visibility:.`)
-export const color: U['color'] = u('color', `inh?~transp?=..:.;curr?=..:currentColor`)
-export const cols: U['cols'] = u('cols', `$=display:grid|grid-template-columns:repeat(., minmax(0, 1fr));none~subgrid=display:grid|grid-template-columns:.`)
-export const columns: U['columns'] = u('columns', `$=..:.;auto=..:.`)
-export const container: U['container'] = u('container', `={{"width":"100%","@media (width >= 40rem)":{"maxWidth":"40rem"},"@media (width >= 48rem)":{"maxWidth":"48rem"},"@media (width >= 64rem)":{"maxWidth":"64rem"},"@media (width >= 80rem)":{"maxWidth":"80rem"},"@media (width >= 96rem)":{"maxWidth":"96rem"}}`)
-export const content: U['content'] = u('content', `nor?~ce?~base?~stre?=align-..:.;star?~end=align-..:flex-.;bet?~aro?~evenl?=align-..:space-.;$=..:.;non?=..:.`)
-export const contents: U['contents'] = u('contents', `=display:.`)
-export const contrast: U['contrast'] = u('contrast', `$=filter:..(.%)`)
-export const css: U['css'] = u('css', ``)
-export const cursor: U['cursor'] = u('cursor', `auto~def?~poi?~wa?~te?~mo?~hel?~non?~prog?~ce?~cr?~alia?~cop?~grab~grabb?=..:.;$=..:var(.);not;.all?=...:..-.;contex?;.men?=...:..-.;ve?;.te?=...:..-.;no;.dr?=...:..-.;all;.scroll=...:..-.;col;.res?=...:col-.;row;.res?=...:..-.;n;.res?=...:..-.;e;.res?=...:..-.;s;.res?=...:..-.;w;.res?=...:..-.;ne;.res?=...:..-.;nw;.res?=...:..-.;se;.res?=...:..-.;sw;.res?=...:..-.;ew;.res?=...:..-.;ns;.res?=...:..-.;nes?;.res?=...:..-.;nws?;.res?=...:..-.;zo?;.in~out=...:..-.`)
-export const dark: U['dark'] = u('dark', ``)
-export const data: U['data'] = u('data', ``)
-export const decoration: U['decoration'] = u('decoration', `inh?~transp?=text-..-color:.;curr?=text-..-color:currentColor;$=text-..-color:.;so?~dou?~dot?~das?~wa?=text-..-style:.;from-?=text-..-thickness:from-font;auto=text-..-thickness:.`)
-export const delay: U['delay'] = u('delay', `$=transition-..:.ms`)
-export const descendant: U['descendant'] = u('descendant', ``)
-export const diagonal: U['diagonal'] = u('diagonal', `fra?=font-variant-numeric:..-.`)
-export const disabled: U['disabled'] = u('disabled', ``)
-export const display: U['display'] = u('display', ``)
-export const divide: U['divide'] = u('divide', `inh?={{"& > :not(:last-child)":{"borderColor":"inherit"}};curr?={{"& > :not(:last-child)":{"borderColor":"current"}};transp?={{"& > :not(:last-child)":{"borderColor":"transparent"}};$={{"& > :not(:last-child)":{"borderColor":"4"}};so?={{"& > :not(:last-child)":{"borderStyle":"solid"}};das?={{"& > :not(:last-child)":{"borderStyle":"dashed"}};dot?={{"& > :not(:last-child)":{"borderStyle":"dotted"}};dou?={{"& > :not(:last-child)":{"borderStyle":"double"}};hi?={{"& > :not(:last-child)":{"borderStyle":"hidden"}};non?={{"& > :not(:last-child)":{"borderStyle":"none"}};x={{"& > :not(:last-child)":{"borderInlineStartWidth":"0px","borderInlineEndWidth":"1px"}};.$={{"& > :not(:last-child)":{"borderInlineStartWidth":"0px","borderInlineEndWidth":"4px"}};y={{"& > :not(:last-child)":{"borderTopWidth":"0px","borderBottomWidth":"1px"}};.$={{"& > :not(:last-child)":{"borderTopWidth":"0px","borderBottomWidth":"4px"}}`)
-export const duration: U['duration'] = u('duration', `$=transition-..:.ms;ini?=transition-..:.`)
-export const ease: U['ease'] = u('ease', `linea?~ini?=transition-timing-function:.;out=transition-timing-function:cubic-bezier(0, 0, 0.2, 1);$=transition-timing-function:var(.);in=transition-timing-function:cubic-bezier(0.4, 0, 1, 1);.out=transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1)`)
-export const empty: U['empty'] = u('empty', ``)
-export const enabled: U['enabled'] = u('enabled', ``)
-export const end: U['end'] = u('end', ``)
-export const even: U['even'] = u('even', ``)
-export const field: U['field'] = u('field', `sizi?;.fix?~content=...-..:.`)
-export const file: U['file'] = u('file', ``)
-export const fill: U['fill'] = u('fill', `non?~inh?~transp?=..:.;curr?=..:currentColor;$=..:.`)
-export const filter: U['filter'] = u('filter', `non?=..:.;$=..:var(.);dr?=..:drop-shadow(0 0 #0000);grayscale(?=..:grayscale(100%);invert(?=..:invert(100%)`)
-export const first: U['first'] = u('first', ``)
-export const fixed: U['fixed'] = u('fixed', `=position:.`)
-export const flex: U['flex'] = u('flex', `=display:.;now?=display:..|..-wrap:.;$=..:.;auto~non?=..:.;ini?=..:0 auto;row=display:..|..-direction:.;.rev?=display:...|...-direction:..-.;col=display:..|..-direction:.;.rev?=display:...|...-direction:..-.;wr?=display:..|..-.:.;.rev?=display:...|...-..:..-.`)
-export const float: U['float'] = u('float', `ri?~lef?~non?=..:.;star?~end=..:inline-.`)
-export const flow: U['flow'] = u('flow', `roo?=display:..-.`)
-export const focus: U['focus'] = u('focus', ``)
-export const font: U['font'] = u('font', `100=..-weight:100;200=..-weight:200;300=..-weight:300;400=..-weight:400;500=..-weight:500;600=..-weight:600;700=..-weight:700;800=..-weight:800;900=..-weight:900;san?=..-family:ui-.-serif, system-ui, .-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';ser?=..-family:ui-., Georgia, Cambria, 'Times New Roman', Times, .;mo?=..-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;$=..-family:.;stre?;.cond?~nor?~exp?=...-..:.;.$*12.5=...-..:.%;.ul?;..cond?~ex?=....-...:..-.;.ext?;..cond?~ex?=....-...:..-.;.sem?;..cond?~ex?=....-...:..-.;fe?;.$=...-feature-settings:.`)
-export const forcedColorAdjust: U['forcedColorAdjust'] = u('forcedColorAdjust', `auto~non?=forced-color-adjust:.`)
-export const from: U['from'] = u('from', ``)
-export const gap: U['gap'] = u('gap', `$*4=..:.px;x;.$*4=column-...:.px;y;.$*4=row-...:.px`)
-export const grayscale: U['grayscale'] = u('grayscale', `$=filter:..(.%)`)
-export const grid: U['grid'] = u('grid', `=display:.;cols;.$=display:...|...-template-..:repeat(., minmax(0, 1fr));.non?~subg?=display:...|...-template-..:.;rows;.$=display:...|...-template-..:repeat(., minmax(0, 1fr));.non?~subg?=display:...|...-template-..:.;flow;.den?=display:...|...-auto-..:.;.row=display:...|...-auto-..:.;..den?=display:....|....-auto-...:.. .;.column=display:...|...-auto-..:.;..den?=display:....|....-auto-...:.. .`)
-export const group: U['group'] = u('group', ``)
-export const grow: U['grow'] = u('grow', `=flex-.:1;$=flex-..:.`)
-export const h: U['h'] = u('h', `auto~_=height:.;min~max~fit=height:.-content`)
-export const has: U['has'] = u('has', ``)
-export const height: U['height'] = u('height', ``)
-export const hidden: U['hidden'] = u('hidden', `=display:none`)
-export const hover: U['hover'] = u('hover', ``)
-export const hue: U['hue'] = u('hue', `rot?;.$=filter:...-..(.deg)`)
-export const hyphens: U['hyphens'] = u('hyphens', `non?~man?~auto=..:.`)
-export const indent: U['indent'] = u('indent', `_=text-..:.`)
-export const indeterminate: U['indeterminate'] = u('indeterminate', ``)
-export const inline: U['inline'] = u('inline', `=display:.;blo?~fle?~gri?~tabl?=display:..-.;$*4=..-size:.px;auto~_=..-size:.;min~max~fit=..-size:.-content`)
-export const inset: U['inset'] = u('inset', `$=..:.px;fu?=..:100%;auto=..:.;x;.$*4=...-inline:.px;.fu?=...-inline:100%;.auto=...-inline:.;y;.$*4=...-block:.px;.fu?=...-block:100%;.auto=...-block:.;s;.$*4=...-inline-start:.px;.fu?=...-inline-start:100%;e;.$*4=...-inline-end:.px;.fu?=...-inline-end:100%;.auto=...-inline-end:.`)
-export const invalid: U['invalid'] = u('invalid', ``)
-export const invert: U['invert'] = u('invert', `$=filter:..(.%)`)
-export const invisible: U['invisible'] = u('invisible', `=visibility:hidden`)
-export const isolate: U['isolate'] = u('isolate', `=isolation:.`)
-export const isolation: U['isolation'] = u('isolation', `auto=..:.`)
-export const italic: U['italic'] = u('italic', `=font-style:.`)
-export const items: U['items'] = u('items', `star?=align-..:flex-.;stre?=align-..:.;end=align-..:flex-.;.saf?=align-...:. flex-..;ce?=align-..:.;.saf?=align-...:. ..;base?=align-..:.;.las?=align-...:. ..`)
-export const justify: U['justify'] = u('justify', `star?=..-content:flex-.;bet?~aro?~evenl?=..-content:space-.;stre?~base?~nor?=..-content:.;end=..-content:flex-.;.saf?=...-content:. flex-..;ce?=..-content:.;.saf?=...-content:. ..;ite?;.star?~stre?~nor?=...-..:.;.end=...-..:.;..saf?=....-...:. ..;.ce?=...-..:.;..saf?=....-...:. ..;self;.auto~star?~stre?=...-..:.;.ce?=...-..:.;..saf?=....-...:. ..;.end=...-..:.;..saf?=....-...:. ..`)
-export const landscape: U['landscape'] = u('landscape', ``)
-export const last: U['last'] = u('last', ``)
-export const leading: U['leading'] = u('leading', `1=line-height:1`)
-export const left: U['left'] = u('left', `$*4=..:.px;fu?=..:100%;auto=..:.`)
-export const lg: U['lg'] = u('lg', ``)
-export const light: U['light'] = u('light', ``)
-export const line: U['line'] = u('line', `th?=text-decoration-..:..-.;cla?;.$=overflow:hidden|display:-webkit-box|-webkit-box-orient:vertical|-webkit-...-..:.;.non?=overflow:visible|display:block|-webkit-box-orient:horizontal|-webkit-...-..:unset`)
-export const lining: U['lining'] = u('lining', `nu?=font-variant-numeric:..-.`)
-export const list: U['list'] = u('list', `item=display:..-.;insi?~outs?=..-style-position:.;disc~deci?~non?=..-style-type:.;$=..-style-type:.;im?;.$=...-style-..:.;.non?=...-style-..:.`)
-export const lowercase: U['lowercase'] = u('lowercase', `=text-transform:.`)
-export const ltr: U['ltr'] = u('ltr', ``)
-export const m: U['m'] = u('m', `auto=margin:auto;$*4=margin:.px;_=margin:.`)
-export const margin: U['margin'] = u('margin', `auto=margin:auto;$*4=margin:.px;_=margin:.`)
-export const marker: U['marker'] = u('marker', ``)
-export const mask: U['mask'] = u('mask', `ad?~subt?~int?~ex?=..-composite:.;$=..-image:.;non?=..-image:.;alp?~lu?=..-mode:.;mat?=..-mode:.-source;auto~cov?~contain=..-size:.;cli?;.bor?~pa?~content~fill~str?~vie?=...-..:.-box;.no-?=...-..:no-..;ra?;.$=...-image:..-gradient(.);ori?;.bor?~pa?~content~fill~str?~vie?=...-..:.-box;pos?;.lef?~ce?~ri?=...-..:.;.-?=...-..:var(--...-..);.top=...-..:.;..lef?~ri?=....-...:.. .;.bot?=...-..:.;..lef?~ri?=....-...:.. .;rep?;.rep?=...-.:.;.no-?=...-..:no-..;.x~y=...-..:..-.;.sp?~round=...-..:.;si?;.$=...-..:var(.)`)
-export const max: U['max'] = u('max', `w;.non?~_=...-width:.;.min~fit=...-width:.-content;.max=.-width:.-content;h;.non?~_=...-height:.;.min~fit=...-height:.-content;.max=.-height:.-content;inl?;.$*4=...-..-size:.px;.auto=...-..-size:none;._=...-..-size:.;.min~fit=...-..-size:.-content;.max=.-..-size:.-content;blo?;.$*4=...-..-size:.px;.non?~_=...-..-size:.;.min~fit=...-..-size:.-content;.max=.-..-size:.-content`)
-export const maxMd: U['maxMd'] = u('maxMd', ``)
-export const maxSm: U['maxSm'] = u('maxSm', ``)
-export const mb: U['mb'] = u('mb', `auto=margin-block-end:auto;$*4=margin-bottom:.px;_=margin-block-end:.`)
-export const mbe: U['mbe'] = u('mbe', `$*4=margin-block-end:.px;_=margin-block-end:.`)
-export const mbs: U['mbs'] = u('mbs', `$*4=margin-block-start:.px;_=margin-block-start:.`)
-export const md: U['md'] = u('md', ``)
-export const me: U['me'] = u('me', `auto=margin-inline-end:auto;$*4=margin-inline-end:.px;_=margin-inline-end:.`)
-export const min: U['min'] = u('min', `w;.auto~_=...-width:.;.min=.-width:.-content;.max~fit=...-width:.-content;h;._~auto=...-height:.;.min=.-height:.-content;.max~fit=...-height:.-content;inl?;.$*4=...-..-size:.px;.auto~_=...-..-size:.;.min=.-..-size:.-content;.max~fit=...-..-size:.-content;blo?;.$*4=...-..-size:.px;.auto~_=...-..-size:.;.min=.-..-size:.-content;.max~fit=...-..-size:.-content`)
-export const mix: U['mix'] = u('mix', `ble?;.nor?~mu?~scre?~overla?~darke?~lighte?~dif?~ex?~hu?~saturati?~color~lu?=...-..-mode:.;.color-d?=...-..-mode:color-dodge;.color-b?=...-..-mode:color-burn;.har?=...-..-mode:hard-light;.so?=...-..-mode:soft-light;.plus-d?=...-..-mode:plus-darker;.plus-l?=...-..-mode:plus-lighter`)
-export const ml: U['ml'] = u('ml', `auto=margin-left:auto;$*4=margin-left:.px;_=margin-left:.`)
-export const mr: U['mr'] = u('mr', `auto=margin-right:auto;$*4=margin-right:.px;_=margin-right:.`)
-export const ms: U['ms'] = u('ms', `auto=margin-inline-start:auto;$*4=margin-inline-start:.px;_=margin-inline-start:.`)
-export const mt: U['mt'] = u('mt', `auto=margin-block-start:auto;$*4=margin-top:.px;_=margin-block-start:.`)
-export const mx: U['mx'] = u('mx', `auto=margin-inline:auto;$*4=margin-inline:.px;_=margin-inline:.`)
-export const my: U['my'] = u('my', `auto=margin-block:auto;$*4=margin-block:.px;_=margin-block:.`)
-export const none: U['none'] = u('none', `=text-decoration-line:.`)
-export const normal: U['normal'] = u('normal', `nu?=font-variant-numeric:..`)
-export const not: U['not'] = u('not', `ita?=font-style:normal;sr;.on?=position:static|width:auto|height:auto|padding:0|margin:0|overflow:visible|clip-path:none|white-space:normal`)
-export const notSr: U['notSr'] = u('notSr', `on?=position:static|width:auto|height:auto|padding:0|margin:0|overflow:visible|clip-path:none|white-space:normal`)
-export const object: U['object'] = u('object', `contain~cov?~fill~non?=..-fit:.;lef?~ce?~ri?=..-position:.;$=..-position:.;sca?;.do?=...-fit:..-.;top=..-position:.;.lef?~ri?=...-position:.. .;bot?=..-position:.;.lef?~ri?=...-position:.. .`)
-export const odd: U['odd'] = u('odd', ``)
-export const oldstyle: U['oldstyle'] = u('oldstyle', `nu?=font-variant-numeric:..-.`)
-export const only: U['only'] = u('only', ``)
-export const opacity: U['opacity'] = u('opacity', `$=..:.%`)
-export const optional: U['optional'] = u('optional', ``)
-export const order: U['order'] = u('order', `$=..:.;fir?=..:-9999;las?=..:9999;non?=..:0`)
-export const ordinal: U['ordinal'] = u('ordinal', `=font-variant-numeric:.`)
-export const origin: U['origin'] = u('origin', `ce?~ri?~lef?=transform-..:.;$=transform-..:var(.);top=transform-..:.;.ri?~lef?=transform-...:.. .;bot?=transform-..:.;.ri?~lef?=transform-...:.. .`)
-export const outline: U['outline'] = u('outline', `_=..-width:.;$=..-width:.px;inh?~transp?=..-color:.;curr?=..-color:currentColor;so?~das?~dot?~dou?~non?=..-style:.;hi?=..:2px solid transparent|..-offset:2px;of?;.$=...-..:.px`)
-export const overflow: U['overflow'] = u('overflow', `auto~hi?~cli?~visibl?~scroll=..:.;x;.auto~hi?~cli?~visibl?~scroll=...-..:.;y;.auto~hi?~cli?~visibl?~scroll=...-..:.`)
-export const overline: U['overline'] = u('overline', `=text-decoration-line:.`)
-export const overscroll: U['overscroll'] = u('overscroll', `auto~contain~non?=..-behavior:.;x;.auto~contain~non?=...-behavior-..:.;y;.auto~contain~non?=...-behavior-..:.`)
-export const p: U['p'] = u('p', `$*4=padding:.px;_=padding:.`)
-export const padding: U['padding'] = u('padding', `$*4=padding:.px;_=padding:.`)
-export const pb: U['pb'] = u('pb', `$*4=padding-bottom:.px;_=padding-block-end:.`)
-export const pbe: U['pbe'] = u('pbe', `$*4=padding-block-end:.px;_=padding-block-end:.`)
-export const pbs: U['pbs'] = u('pbs', `$*4=padding-block-start:.px;_=padding-block-start:.`)
-export const pe: U['pe'] = u('pe', `$*4=padding-inline-end:.px;_=padding-inline-end:.`)
-export const peer: U['peer'] = u('peer', ``)
-export const perspective: U['perspective'] = u('perspective', `dr?=..:100px;ne?=..:300px;nor?=..:500px;mid?=..:800px;dist?=..:1200px;non?=..:.;$=..:var(.);ori?;.ce?~ri?~lef?=...-..:.;.$=...-..:var(.);.top=...-..:.;..ri?~lef?=....-...:.. .;.bot?=...-..:.;..ri?~lef?=....-...:.. .`)
-export const pl: U['pl'] = u('pl', `$*4=padding-left:.px;_=padding-left:.`)
-export const place: U['place'] = u('place', `content;.star?~base?~stre?=...-..:.;.bet?~aro?~evenl?=...-..:space-.;.ce?=...-..:.;..saf?=....-...:. ..;.end=...-..:.;..saf?=....-...:. ..;ite?;.star?~base?~stre?=...-..:.;.end=...-..:.;..saf?=....-...:. ..;.ce?=...-..:.;..saf?=....-...:. ..;self;.auto~star?~stre?=...-..:.;.end=...-..:.;..saf?=....-...:. ..;.ce?=...-..:.;..saf?=....-...:. ..`)
-export const placeholder: U['placeholder'] = u('placeholder', ``)
-export const pointer: U['pointer'] = u('pointer', `event?;.auto~non?=...-..:.`)
-export const portrait: U['portrait'] = u('portrait', ``)
-export const position: U['position'] = u('position', ``)
-export const pr: U['pr'] = u('pr', `$*4=padding-right:.px;_=padding-right:.`)
-export const print: U['print'] = u('print', ``)
-export const proportional: U['proportional'] = u('proportional', `nu?=font-variant-numeric:..-.`)
-export const ps: U['ps'] = u('ps', `$*4=padding-inline-start:.px;_=padding-inline-start:.`)
-export const pt: U['pt'] = u('pt', `$*4=padding-top:.px;_=padding-block-start:.`)
-export const px: U['px'] = u('px', `$*4=padding-inline:.px;_=padding-inline:.`)
-export const py: U['py'] = u('py', `$*4=padding-block:.px;_=padding-block:.`)
-export const relative: U['relative'] = u('relative', `=position:.`)
-export const required: U['required'] = u('required', ``)
-export const resize: U['resize'] = u('resize', `=.:both;non?=..:.;y=..:vertical;x=..:horizontal`)
-export const right: U['right'] = u('right', `$*4=..:.px;fu?=..:100%;auto=..:.`)
-export const rotate: U['rotate'] = u('rotate', `non?=..:.;$=..:.deg`)
-export const rounded: U['rounded'] = u('rounded', `$*4=border-radius:.px;fu?=border-radius:calc(infinity * 1px);s;.non?=border-start-start-radius:0|border-end-start-radius:0px;.fu?=border-start-start-radius:calc(infinity * 1px)|border-end-start-radius:calc(infinity * 1px);.$*4=border-start-start-radius:.px|border-end-start-radius:.px;e;.non?=border-start-end-radius:0|border-end-end-radius:0px;.fu?=border-start-end-radius:calc(infinity * 1px)|border-end-end-radius:calc(infinity * 1px);.$*4=border-start-end-radius:.px|border-end-end-radius:.px;t;.non?=border-top-left-radius:0|border-top-right-radius:0px;.fu?=border-top-left-radius:calc(infinity * 1px)|border-top-right-radius:calc(infinity * 1px);.$*4=border-top-left-radius:.px|border-top-right-radius:.px;r;.non?=border-top-right-radius:0|border-bottom-right-radius:0px;.fu?=border-top-right-radius:calc(infinity * 1px)|border-bottom-right-radius:calc(infinity * 1px);.$*4=border-top-right-radius:.px|border-bottom-right-radius:.px;b;.non?=border-bottom-right-radius:0|border-bottom-left-radius:0px;.fu?=border-bottom-right-radius:calc(infinity * 1px)|border-bottom-left-radius:calc(infinity * 1px);.$*4=border-bottom-right-radius:.px|border-bottom-left-radius:.px;l;.non?=border-top-left-radius:0|border-bottom-left-radius:0px;.fu?=border-top-left-radius:calc(infinity * 1px)|border-bottom-left-radius:calc(infinity * 1px);.$*4=border-top-left-radius:.px|border-bottom-left-radius:.px;ss;.$*4=border-start-start-radius:.px;.fu?=border-start-start-radius:calc(infinity * 1px);se;.$*4=border-start-end-radius:.px;.fu?=border-start-end-radius:calc(infinity * 1px);ee;.$*4=border-end-end-radius:.px;.fu?=border-end-end-radius:calc(infinity * 1px);es;.$*4=border-end-start-radius:.px;.fu?=border-end-start-radius:calc(infinity * 1px);tl;.$*4=border-top-left-radius:.px;.fu?=border-top-left-radius:calc(infinity * 1px);tr;.$*4=border-top-right-radius:.px;.fu?=border-top-right-radius:calc(infinity * 1px);br;.$*4=border-bottom-right-radius:.px;.fu?=border-bottom-right-radius:calc(infinity * 1px);bl;.$*4=border-bottom-left-radius:.px;.fu?=border-bottom-left-radius:calc(infinity * 1px)`)
-export const row: U['row'] = u('row', `fu?=grid-..:1 / -1;auto=grid-..:.;$=grid-..:span . / span .;sp?;.$=grid-...:.. . / .. .;star?;.$=grid-...-..:.;.auto=grid-...-..:.;end;.$=grid-...-..:.;.auto=grid-...-..:.`)
-export const rows: U['rows'] = u('rows', `$=display:grid|grid-template-rows:repeat(., minmax(0, 1fr));none~subgrid=display:grid|grid-template-rows:.`)
-export const rtl: U['rtl'] = u('rtl', ``)
-export const saturate: U['saturate'] = u('saturate', `$=filter:..(.%)`)
-export const scale: U['scale'] = u('scale', `non?=..:.;$=..:.% .%`)
-export const scheme: U['scheme'] = u('scheme', `nor?~dar?=color-..:.;lig?=color-..:.;.dar?=color-...:.. .;on?;.dar?~lig?=color-...:.. .`)
-export const scroll: U['scroll'] = u('scroll', `auto~smo?=..-behavior:.`)
-export const scrollbar: U['scrollbar'] = u('scrollbar', `auto~thi?~non?=..-width:.;thu?;.inh?~transp?=...-color:.;.curr?=...-color:currentColor;.$=...-color:.;track;.$=...-color:.;gu?;.auto~stab?=...-..:.;.both=...-..:stable .-edges`)
-export const select: U['select'] = u('select', `non?~te?~all~auto=user-..:.`)
-export const selection: U['selection'] = u('selection', ``)
-export const self: U['self'] = u('self', `auto~stre?=align-..:.;star?=align-..:flex-.;end=align-..:flex-.;.saf?=align-...:. flex-..;ce?=align-..:.;.saf?=align-...:. ..;base?=align-..:.;.las?=align-...:. ..`)
-export const sepia: U['sepia'] = u('sepia', `=filter:.(100%);$=filter:..(.%)`)
-export const shadow: U['shadow'] = u('shadow', `$=box-..:0 1px rgb(0 0 0 / 0.05);_=box-..:.`)
-export const shrink: U['shrink'] = u('shrink', `=flex-.:1;$=flex-..:.`)
-export const size: U['size'] = u('size', `auto=width:.|height:.;px=width:1px|height:1px;fu?=width:100%|height:100%;dvw=width:100dvw|height:100dvw;dvh=width:100dvh|height:100dvh;lvw=width:100lvw|height:100lvw;lvh=width:100lvh|height:100lvh;svw=width:100svw|height:100svw;svh=width:100svh|height:100svh;min~max~fit=width:.-content|height:.-content`)
-export const skew: U['skew'] = u('skew', `$=transform:skewX(.deg) skewY(.deg);x;.$=transform:skewX(.deg);y;.$=transform:skewY(.deg)`)
-export const slashed: U['slashed'] = u('slashed', `ze?=font-variant-numeric:..-.`)
-export const sm: U['sm'] = u('sm', ``)
-export const snap: U['snap'] = u('snap', `star?~end~ce?=scroll-..-align:.;nor?~alw?=scroll-..-stop:.;non?=scroll-..-type:.;ali?;.non?=scroll-...-..:.`)
-export const sr: U['sr'] = u('sr', `on?=position:absolute|width:1px|height:1px|padding:0|margin:-1px|overflow:hidden|clip-path:inset(50%)|white-space:nowrap|border-width:0`)
-export const stacked: U['stacked'] = u('stacked', `fra?=font-variant-numeric:..-.`)
-export const start: U['start'] = u('start', `auto=inset-inline-..:.`)
-export const static_: U['static'] = u('static', `=position:.`)
+export const brightness: U['brightness'] = $.brightness
+export const capitalize: U['capitalize'] = $.capitalize
+export const caption: U['caption'] = $.caption
+export const caret: U['caret'] = $.caret
+export const checked: U['checked'] = $.checked
+export const child: U['child'] = $.child
+export const clear: U['clear'] = $.clear
+export const col: U['col'] = $.col
+export const colStart: U['colStart'] = $.colStart
+export const collapse: U['collapse'] = $.collapse
+export const color: U['color'] = $.color
+export const cols: U['cols'] = $.cols
+export const columns: U['columns'] = $.columns
+export const container: U['container'] = $.container
+export const content: U['content'] = $.content
+export const contents: U['contents'] = $.contents
+export const contrast: U['contrast'] = $.contrast
+export const css: U['css'] = $.css
+export const cursor: U['cursor'] = $.cursor
+export const dark: U['dark'] = $.dark
+export const data: U['data'] = $.data
+export const decoration: U['decoration'] = $.decoration
+export const delay: U['delay'] = $.delay
+export const descendant: U['descendant'] = $.descendant
+export const diagonal: U['diagonal'] = $.diagonal
+export const disabled: U['disabled'] = $.disabled
+export const display: U['display'] = $.display
+export const divide: U['divide'] = $.divide
+export const duration: U['duration'] = $.duration
+export const ease: U['ease'] = $.ease
+export const empty: U['empty'] = $.empty
+export const enabled: U['enabled'] = $.enabled
+export const end: U['end'] = $.end
+export const even: U['even'] = $.even
+export const field: U['field'] = $.field
+export const file: U['file'] = $.file
+export const fill: U['fill'] = $.fill
+export const filter: U['filter'] = $.filter
+export const first: U['first'] = $.first
+export const fixed: U['fixed'] = $.fixed
+export const flex: U['flex'] = $.flex
+export const float: U['float'] = $.float
+export const flow: U['flow'] = $.flow
+export const focus: U['focus'] = $.focus
+export const font: U['font'] = $.font
+export const forcedColorAdjust: U['forcedColorAdjust'] = $.forcedColorAdjust
+export const from: U['from'] = $.from
+export const gap: U['gap'] = $.gap
+export const grayscale: U['grayscale'] = $.grayscale
+export const grid: U['grid'] = $.grid
+export const group: U['group'] = $.group
+export const grow: U['grow'] = $.grow
+export const h: U['h'] = $.h
+export const has: U['has'] = $.has
+export const height: U['height'] = $.height
+export const hidden: U['hidden'] = $.hidden
+export const hover: U['hover'] = $.hover
+export const hue: U['hue'] = $.hue
+export const hyphens: U['hyphens'] = $.hyphens
+export const indent: U['indent'] = $.indent
+export const indeterminate: U['indeterminate'] = $.indeterminate
+export const inline: U['inline'] = $.inline
+export const inset: U['inset'] = $.inset
+export const invalid: U['invalid'] = $.invalid
+export const invert: U['invert'] = $.invert
+export const invisible: U['invisible'] = $.invisible
+export const isolate: U['isolate'] = $.isolate
+export const isolation: U['isolation'] = $.isolation
+export const italic: U['italic'] = $.italic
+export const items: U['items'] = $.items
+export const justify: U['justify'] = $.justify
+export const landscape: U['landscape'] = $.landscape
+export const last: U['last'] = $.last
+export const leading: U['leading'] = $.leading
+export const left: U['left'] = $.left
+export const lg: U['lg'] = $.lg
+export const light: U['light'] = $.light
+export const line: U['line'] = $.line
+export const lining: U['lining'] = $.lining
+export const list: U['list'] = $.list
+export const lowercase: U['lowercase'] = $.lowercase
+export const ltr: U['ltr'] = $.ltr
+export const m: U['m'] = $.m
+export const margin: U['margin'] = $.margin
+export const marker: U['marker'] = $.marker
+export const mask: U['mask'] = $.mask
+export const max: U['max'] = $.max
+export const maxMd: U['maxMd'] = $.maxMd
+export const maxSm: U['maxSm'] = $.maxSm
+export const mb: U['mb'] = $.mb
+export const mbe: U['mbe'] = $.mbe
+export const mbs: U['mbs'] = $.mbs
+export const md: U['md'] = $.md
+export const me: U['me'] = $.me
+export const min: U['min'] = $.min
+export const mix: U['mix'] = $.mix
+export const ml: U['ml'] = $.ml
+export const mr: U['mr'] = $.mr
+export const ms: U['ms'] = $.ms
+export const mt: U['mt'] = $.mt
+export const mx: U['mx'] = $.mx
+export const my: U['my'] = $.my
+export const none: U['none'] = $.none
+export const normal: U['normal'] = $.normal
+export const not: U['not'] = $.not
+export const notSr: U['notSr'] = $.notSr
+export const object: U['object'] = $.object
+export const odd: U['odd'] = $.odd
+export const oldstyle: U['oldstyle'] = $.oldstyle
+export const only: U['only'] = $.only
+export const opacity: U['opacity'] = $.opacity
+export const optional: U['optional'] = $.optional
+export const order: U['order'] = $.order
+export const ordinal: U['ordinal'] = $.ordinal
+export const origin: U['origin'] = $.origin
+export const outline: U['outline'] = $.outline
+export const overflow: U['overflow'] = $.overflow
+export const overline: U['overline'] = $.overline
+export const overscroll: U['overscroll'] = $.overscroll
+export const p: U['p'] = $.p
+export const padding: U['padding'] = $.padding
+export const pb: U['pb'] = $.pb
+export const pbe: U['pbe'] = $.pbe
+export const pbs: U['pbs'] = $.pbs
+export const pe: U['pe'] = $.pe
+export const peer: U['peer'] = $.peer
+export const perspective: U['perspective'] = $.perspective
+export const pl: U['pl'] = $.pl
+export const place: U['place'] = $.place
+export const placeholder: U['placeholder'] = $.placeholder
+export const pointer: U['pointer'] = $.pointer
+export const portrait: U['portrait'] = $.portrait
+export const position: U['position'] = $.position
+export const pr: U['pr'] = $.pr
+export const print: U['print'] = $.print
+export const proportional: U['proportional'] = $.proportional
+export const ps: U['ps'] = $.ps
+export const pt: U['pt'] = $.pt
+export const px: U['px'] = $.px
+export const py: U['py'] = $.py
+export const relative: U['relative'] = $.relative
+export const required: U['required'] = $.required
+export const resize: U['resize'] = $.resize
+export const right: U['right'] = $.right
+export const rotate: U['rotate'] = $.rotate
+export const rounded: U['rounded'] = $.rounded
+export const row: U['row'] = $.row
+export const rows: U['rows'] = $.rows
+export const rtl: U['rtl'] = $.rtl
+export const saturate: U['saturate'] = $.saturate
+export const scale: U['scale'] = $.scale
+export const scheme: U['scheme'] = $.scheme
+export const scroll: U['scroll'] = $.scroll
+export const scrollbar: U['scrollbar'] = $.scrollbar
+export const select: U['select'] = $.select
+export const selection: U['selection'] = $.selection
+export const self: U['self'] = $.self
+export const sepia: U['sepia'] = $.sepia
+export const shadow: U['shadow'] = $.shadow
+export const shrink: U['shrink'] = $.shrink
+export const size: U['size'] = $.size
+export const skew: U['skew'] = $.skew
+export const slashed: U['slashed'] = $.slashed
+export const sm: U['sm'] = $.sm
+export const snap: U['snap'] = $.snap
+export const sr: U['sr'] = $.sr
+export const stacked: U['stacked'] = $.stacked
+export const start: U['start'] = $.start
+export const static_: U['static'] = $.static
 export { static_ as static }
-export const sticky: U['sticky'] = u('sticky', `=position:.`)
-export const stroke: U['stroke'] = u('stroke', `non?~inh?~transp?=..:.;curr?=..:currentColor;$=..:.`)
-export const subpixel: U['subpixel'] = u('subpixel', `ant?=-webkit-font-smoothing:auto|-moz-osx-font-smoothing:auto`)
-export const supports: U['supports'] = u('supports', ``)
-export const tab: U['tab'] = u('tab', `$=..-size:.`)
-export const table: U['table'] = u('table', `=display:.;capt?~ce?=display:..-.;auto~fix?=..-layout:.;column=display:..-.;.grou?=display:...-..-.;foo?;.grou?=display:...-..-.;hea?;.grou?=display:...-..-.;row=display:..-.;.grou?=display:...-..-.`)
-export const tabular: U['tabular'] = u('tabular', `nu?=font-variant-numeric:..-.`)
-export const target: U['target'] = u('target', ``)
-export const text: U['text'] = u('text', `base=font-size:16px|line-height:24px;$=font-size:.;lef?~ce?~ri?~j?~star?~end=..-align:.;el?~cli?=..-overflow:.;wr?=..-.:.;now?~bal?~pre?=..-wrap:.;sha?;.$=...-..:0px 1px 0px rgb(0 0 0 / 0.15);.non?=...-..:.`)
-export const to: U['to'] = u('to', ``)
-export const top: U['top'] = u('top', `$*4=inset-block-start:.px;fu?=inset-block-start:100%;auto=inset-block-start:.`)
-export const touch: U['touch'] = u('touch', `auto~non?~man?=..-action:.;pan;.x~lef?~ri?~y~up~do?=...-action:..-.;pi?;.zo?=...-action:..-.`)
-export const tracking: U['tracking'] = u('tracking', `tighte?=letter-spacing:-0.05em;tight=letter-spacing:-0.025em;nor?=letter-spacing:0em;wide=letter-spacing:0.025em;wider=letter-spacing:0.05em;wides?=letter-spacing:0.1em;$=letter-spacing:.`)
-export const transform: U['transform'] = u('transform', `$=..:var(.);non?=..:.;_=..-style:preserve-.;fla?=..-style:.`)
-export const transition: U['transition'] = u('transition', `all~opa?=..-property:.|..-timing-function:cubic-bezier(0.4, 0, 0.2, 1)|..-duration:150ms;sha?=..-property:box-.|..-timing-function:cubic-bezier(0.4, 0, 0.2, 1)|..-duration:150ms;transf?=..-property:., translate, scale, rotate|..-timing-function:cubic-bezier(0.4, 0, 0.2, 1)|..-duration:150ms;non?=..-property:.;$=..-property:4|..-timing-function:cubic-bezier(0.4, 0, 0.2, 1)|..-duration:150ms;nor?=..-behavior:.;disc?=..-behavior:allow-.`)
-export const translate: U['translate'] = u('translate', `fu?=..:100% 100%;px=..:1px 1px;non?=..:.`)
-export const truncate: U['truncate'] = u('truncate', `=overflow:hidden|text-overflow:ellipsis|white-space:nowrap`)
-export const underline: U['underline'] = u('underline', `=text-decoration-line:.;of?;.$=text-...-..:.px;.auto=text-...-..:.`)
-export const uppercase: U['uppercase'] = u('uppercase', `=text-transform:.`)
-export const valid: U['valid'] = u('valid', ``)
-export const visibility: U['visibility'] = u('visibility', ``)
-export const visible: U['visible'] = u('visible', `=visibility:.`)
-export const visited: U['visited'] = u('visited', ``)
-export const w: U['w'] = u('w', `auto~_=width:.;min~max~fit=width:.-content`)
-export const whitespace: U['whitespace'] = u('whitespace', `nor?~now?=white-space:.;pre=white-space:.;.line~wr?=white-space:..-.;bre?;.sp?=white-space:..-.`)
-export const width: U['width'] = u('width', ``)
-export const will: U['will'] = u('will', `cha?;.auto~contents~transf?=...-..:.;.scroll=...-..:.-position;.$=...-..:var(.)`)
-export const wrap: U['wrap'] = u('wrap', `break-?=overflow-..:break-word;any?~nor?=overflow-..:.`)
-export const xl: U['xl'] = u('xl', ``)
-export const xl2: U['xl2'] = u('xl2', ``)
-export const z: U['z'] = u('z', `$=..-index:.;auto=..-index:.`)
-export const zoom: U['zoom'] = u('zoom', `$=..:.%`)
+export const sticky: U['sticky'] = $.sticky
+export const stroke: U['stroke'] = $.stroke
+export const subpixel: U['subpixel'] = $.subpixel
+export const supports: U['supports'] = $.supports
+export const tab: U['tab'] = $.tab
+export const table: U['table'] = $.table
+export const tabular: U['tabular'] = $.tabular
+export const target: U['target'] = $.target
+export const text: U['text'] = $.text
+export const to: U['to'] = $.to
+export const top: U['top'] = $.top
+export const touch: U['touch'] = $.touch
+export const tracking: U['tracking'] = $.tracking
+export const transform: U['transform'] = $.transform
+export const transition: U['transition'] = $.transition
+export const translate: U['translate'] = $.translate
+export const truncate: U['truncate'] = $.truncate
+export const underline: U['underline'] = $.underline
+export const uppercase: U['uppercase'] = $.uppercase
+export const valid: U['valid'] = $.valid
+export const visibility: U['visibility'] = $.visibility
+export const visible: U['visible'] = $.visible
+export const visited: U['visited'] = $.visited
+export const w: U['w'] = $.w
+export const whitespace: U['whitespace'] = $.whitespace
+export const width: U['width'] = $.width
+export const will: U['will'] = $.will
+export const wrap: U['wrap'] = $.wrap
+export const xl: U['xl'] = $.xl
+export const xl2: U['xl2'] = $.xl2
+export const z: U['z'] = $.z
+export const zoom: U['zoom'] = $.zoom
 export const define = <T = C>(name: string, dsl = ''): T => u(name, dsl) as unknown as T
