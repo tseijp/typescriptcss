@@ -1,437 +1,159 @@
-import type { Argument, C, Rule, RuntimeStyle, State } from './types.ts'
-type Entry = RuntimeStyle | Rule
-const root: State = { css: {} }
-const rules: Record<string, Rule> = Object.create(null)
-const scoped: Record<string, Record<string, Rule>> = Object.create(null)
-const controlKeys = new Set<string>()
-const childSelector = '& > :not(:last-child)'
-const colorLogicalKeys = new Set(['inherit', 'current', 'transparent'])
-const toRule = (entry: Entry, scopeName?: string): Rule => {
-        if (typeof entry === 'function' && scopeName) return (state) => ({ ...(entry as Rule)(state), scope: scopeName })
-        if (typeof entry === 'function') return entry as Rule
-        return styleRule(entry, scopeName)
+import type { Callback } from './types.ts'
+type Node = [Record<string, Node>, number, string?]
+const roots: Record<string, Node | string> = {}
+const sems: Record<string, string> = {}
+const S1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+<['
+const S2 = '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~'
+const PRE = ']^'
+export const code = (i: number) => (i < S1.length ? S1[i] : PRE[((i - S1.length) / S2.length) | 0] + S2[(i - S1.length) % S2.length])
+const expand = (dict: string, src: string) => {
+        const defs = dict ? dict.split('\n') : []
+        const exp = (s: string): string => {
+                let out = ''
+                for (let i = 0; i < s.length; i++) {
+                        const p = PRE.indexOf(s[i])
+                        const k = p < 0 ? S1.indexOf(s[i]) : S1.length + p * S2.length + S2.indexOf(s[i + 1])
+                        if (p >= 0) i++
+                        out += k < 0 || defs[k] == null ? s[i] : (defs[k] = exp(defs[k]))
+                }
+                return out
+        }
+        return exp(src).replace(/!(.)/g, (_1, c) => c.toUpperCase())
 }
-const wrapValue = (state: State, key: string, value: any) => (state.wraps ?? []).reduceRight((next, wrap) => `if(${wrap}: ${next}; else: ${state.css[key] ?? 'unset'})`, value)
-const wrapped = (state: State, css: RuntimeStyle) => Object.fromEntries(Object.entries(css).map(([key, value]) => [key, wrapValue(state, key, value)]))
-const isRecord = (value: any): value is Record<string, any> => value && typeof value === 'object' && !Array.isArray(value)
-const assignCss = (...items: RuntimeStyle[]) => {
-        const css: RuntimeStyle = {}
-        for (const item of items) for (const [key, value] of Object.entries(item)) css[key] = isRecord(css[key]) && isRecord(value) ? { ...css[key], ...value } : value
+const norm = (x: string) => (x === 'col' ? 'column' : x === 'cols' ? 'columns' : x)
+const dcamel = (s: string) => s.replace(/-([a-z])/g, (_1, c) => c.toUpperCase())
+const resolveDots = (piece: string, path: string[], pos: number, tok: string | null) =>
+        piece.replace(/\.+/g, (run, idx) => {
+                if (/[0-9]/.test(piece[idx - 1] || '') || /[0-9]/.test(piece[idx + run.length] || '')) return run
+                if (run.length === 1) return tok != null ? tok : norm(path[pos])
+                const seg = path[pos - (run.length - 1)]
+                return seg === '$' || seg === '_' ? (tok as string) : norm(seg)
+        })
+const splitTop = (s: string) => {
+        const out: string[] = []
+        let depth = 0,
+                last = 0
+        for (let i = 0; i < s.length; i++) {
+                if (s[i] === '{') depth++
+                if (s[i] === '}') depth--
+                if (s[i] === '|' && !depth) (out.push(s.slice(last, i)), (last = i + 1))
+        }
+        return [...out, s.slice(last)]
+}
+const decRule = (enc: string, path: string[], pos: number, tok: string | null): Record<string, any> => {
+        const o: Record<string, any> = {}
+        for (const item of splitTop(enc)) {
+                const b = item.indexOf('{')
+                if (b >= 0 && item.endsWith('}')) {
+                        o[item.slice(0, b)] = decRule(item.slice(b + 1, -1), path, pos, tok)
+                        continue
+                }
+                const c = item.indexOf(':')
+                const v = resolveDots(item.slice(c + 1), path, pos, tok)
+                for (const k of resolveDots(item.slice(0, c), path, pos, tok).split(',')) o[dcamel(k)] = v
+        }
+        return o
+}
+const parse = (dsl: string) => {
+        const root: Node = [{}, 1]
+        const stack: Node[] = [root]
+        for (const raw of dsl.split(';')) {
+                if (!raw) continue
+                const dots = (raw.match(/^\.*/) as RegExpMatchArray)[0].length,
+                        body = raw.slice(dots),
+                        eq = body.indexOf('=')
+                let head = eq < 0 ? body : body.slice(0, eq)
+                const enc = eq < 0 ? undefined : body.slice(eq + 1)
+                if (head === '') {
+                        root[2] = enc
+                        continue
+                }
+                const mm = /\*(-?[\d.]+)$/.exec(head)
+                if (mm) head = head.slice(0, mm.index)
+                const node: Node = [{}, mm ? Number(mm[1]) : 1, enc]
+                stack[dots + 1] = node
+                stack.length = dots + 2
+                for (const rawKey of head.split('~')) stack[dots][0][rawKey] = node
+        }
+        return root
+}
+const isNum = (s: string) => /^-?\d*\.?\d+$/.test(s)
+const merge = (a: Record<string, any>, b: Record<string, any>): Record<string, any> => {
+        const o = { ...a }
+        for (const k in b) o[k] = b[k] && typeof b[k] === 'object' && a[k] && typeof a[k] === 'object' ? merge(a[k], b[k]) : b[k]
+        return o
+}
+const read = (root: Node, name: string, path: string[], start: number) => {
+        let node = root,
+                last = root[2] != null ? root : undefined,
+                tok: string | null = null,
+                end = start
+        const seg = [name]
+        let chosen = [name]
+        for (let i = start; i < path.length; i++) {
+                const key = path[i]
+                let next = node[0][key],
+                        mytok: string | null = null,
+                        sk = key
+                if (!next)
+                        for (const k in node[0])
+                                if (k.endsWith('?') && key.startsWith(k.slice(0, -1))) {
+                                        next = node[0][k]
+                                        break
+                                }
+                if (!next && isNum(key) && node[0]['$']) ((next = node[0]['$']), (mytok = String(Number(key) * next[1])), (sk = '$'))
+                if (!next && node[0]['_']) ((next = node[0]['_']), (mytok = key), (sk = '_'))
+                if (!next) break
+                node = next
+                seg.push(sk)
+                if (node[2] != null) ((last = node), (tok = mytok), (end = i + 1), (chosen = seg.slice()))
+                else if (mytok !== null) tok = mytok
+        }
+        return [last?.[2] != null ? decRule(last[2], chosen, chosen.length - 1, tok) : {}, end] as const
+}
+const run = (path: string[]) => {
+        let css: Record<string, any> = {}
+        for (let i = 0; i < path.length; ) {
+                const r = roots[path[i]]
+                if (r == null) {
+                        i++
+                        continue
+                }
+                const root = typeof r === 'string' ? (roots[path[i]] = parse(r)) : r
+                const nx = read(root, sems[path[i]] ?? path[i], path, i + 1)
+                css = merge(css, nx[0])
+                i = Math.max(nx[1], i + 1)
+        }
         return css
 }
-const merge = (state: State, css: RuntimeStyle, scopeName?: string): State => {
-        const keepWraps = scopeName || !Object.keys(css).length ? state.wraps : undefined
-        return { css: assignCss(state.css, wrapped(state, css)), dark: state.dark, scope: scopeName, wraps: keepWraps }
-}
-const finalize = (state: State, styles: Argument[]) => {
-        const [first, ...rest] = styles
-        const applied = typeof first === 'number' || typeof first === 'string' ? state.call?.(String(first)) : undefined
-        const css = applied ? applied.css : state.css
-        const args = applied ? rest : styles
-        return assignCss(css, ...(args.filter(isRecord) as RuntimeStyle[]))
-}
-const chain = (state: State): C =>
-        new Proxy((...styles: Argument[]) => finalize(state, styles), {
-                apply: (_target, _this, styles: Argument[]) => finalize(state, styles),
-                get: (_target, prop) => resolve(state, prop),
-        }) as C
-const resolve = (state: State, prop: string | symbol) => {
-        const key = typeof prop === 'symbol' ? '' : prop
-        if (!key || key === 'then') return undefined
-        const local = state.scope ? scoped[state.scope]?.[key] : undefined
-        if (local) return chain(local(state))
-        const rule = rules[key]
-        if (rule && controlKeys.has(key)) return chain(rule(state))
-        const greedy = state.greedy ? state.read?.(key) : undefined
-        if (greedy) return chain(greedy)
-        const next = state.read?.(key)
-        if (next) return chain(next)
-        if (rule) return chain(rule(state))
-        return chain(readRule((value) => ({ [key]: value }), true)(state))
-}
-export const controls = (...keys: string[]) => {
-        for (const key of keys) controlKeys.add(key)
-}
-export const x4 = (key: string) => `${Number(key) * 4}px`
-export const spacingValue = (key: string) => `${4 * Number(key)}px`
-export const isNum = (key: string) => Number.isFinite(Number(key))
-export const isLength = (key: string) => key === '0' || /^-?\d*\.?\d+(px|rem|em|%|vw|vh|dvw|dvh|lvw|lvh|svw|svh|lh|rlh|ch|ex|cap|ic|vmin|vmax|cm|mm|in|pt|pc)$/.test(key)
-export const colorValue = (key: string) => {
-        if (key === 'currentColor') return undefined
-        if (key === 'current') return 'currentColor'
-        if (key.startsWith('--')) return `var(${key})`
-        return key
-}
-const borderColorValue = (key: string) => (key === 'current' ? 'current' : colorValue(key))
-export const lengthValue = (key: string, screen = '100vw') => {
-        if (isNum(key)) return x4(key)
-        if (isLength(key)) return key === '0' ? '0px' : key
-        if (key === 'px') return '1px'
-        if (key === 'full') return '100%'
-        if (key === 'screen') return screen
-        if (key === 'dvw') return '100dvw'
-        if (key === 'dvh') return '100dvh'
-        if (key === 'lvw') return '100lvw'
-        if (key === 'lvh') return '100lvh'
-        if (key === 'svw') return '100svw'
-        if (key === 'svh') return '100svh'
-        if (key === 'min') return 'min-content'
-        if (key === 'max') return 'max-content'
-        if (key === 'fit') return 'fit-content'
-        if (key === 'min-content' || key === 'max-content' || key === 'fit-content' || key === 'auto' || key === 'none') return key
-        return undefined
-}
-const isContentSizeValue = (key: string) => key === 'min-content' || key === 'max-content' || key === 'fit-content'
-type SizeValueOptions = { auto?: boolean; none?: boolean; screen?: string }
-export const sizeValue = (key: string, options: SizeValueOptions = {}) => {
-        if (isContentSizeValue(key)) return undefined
-        const value = lengthValue(key, options.screen)
-        if (value === 'auto' && options.auto === false) return undefined
-        if (value === 'none' && !options.none) return undefined
-        return value
-}
-export const styleRule =
-        (css: RuntimeStyle, scopeName?: string): Rule =>
-        (state) =>
-                merge(state, css, scopeName)
-export const displayRule =
-        (display: string, entry: Entry): Rule =>
-        (state) =>
-                toRule(entry)(merge(state, { display }))
-export const defaultDisplayRule =
-        (display: string, entry: Entry): Rule =>
-        (state) =>
-                toRule(entry)(state.css.display === undefined ? merge(state, { display }) : state)
-export const withoutDisplayRule =
-        (entry: Entry): Rule =>
-        (state) => {
-                const { display: _display, ...css } = state.css
-                return toRule(entry)({ ...state, css })
-        }
-export const readRule =
-        (fn: (key: string, state: State) => RuntimeStyle | undefined, greedy = false): Rule =>
-        (state) => ({
-                css: state.css,
-                dark: state.dark,
-                greedy,
-                read: (key) => {
-                        const css = fn(key, state)
-                        if (!css) return undefined
-                        return merge(state, css)
+const createProxy = (callback: Callback, path: string[], option: number) => {
+        const proxy: unknown = new Proxy(() => {}, {
+                get(_1, key) {
+                        return createProxy(callback, [...path, key as string], option)
                 },
-                scope: state.scope,
-                wraps: state.wraps,
-        })
-export const utility = <T>(name: string, entry: Entry, scopeName?: string): T => {
-        const rule = toRule(entry, scopeName)
-        rules[name] = rule
-        return chain(rule(root)) as T
-}
-export const group = (name: string, entries: Record<string, Entry>) => {
-        const current = scoped[name] ?? Object.create(null)
-        for (const [key, entry] of Object.entries(entries)) current[key] = toRule(entry)
-        scoped[name] = current
-}
-export const values = (prop: string, entries: Record<string, string | number>): Record<string, RuntimeStyle> => Object.fromEntries(Object.entries(entries).map(([key, value]) => [key, { [prop]: value }]))
-export const scopedRule =
-        (scopeName: string, entry: Entry): Rule =>
-        (state) => ({ ...toRule(entry)(state), scope: scopeName })
-export const propertyRule = (prop: string, fn: (key: string) => any = (key) => key, greedy = false): Rule =>
-        readRule((key) => {
-                const value = fn(key)
-                return value === undefined ? undefined : { [prop]: value }
-        }, greedy)
-export const arbitraryValue = (key: string) => (isNum(key) || key.startsWith('--') ? `var(${key})` : key)
-export const arbitraryRule = (prop: string): Rule => propertyRule(prop, arbitraryValue)
-export const arbitraryColorRule = (prop: string): Rule =>
-        readRule((key, state) => {
-                const value = isNum(key) ? `var(${key})` : colorValue(key)
-                if (!value) return undefined
-                if (!state.dark) return { [prop]: value }
-                return { [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
-        }, true)
-export const numericRule = (fn: (key: string) => RuntimeStyle): Rule => readRule((key) => (isNum(key) ? fn(key) : undefined))
-export const numericDefaultRule =
-        (prop: string, value: string): Rule =>
-        (state) => {
-                const next = merge(state, { [prop]: value })
-                return { ...next, read: (key) => (isNum(key) ? merge(next, { [prop]: key }) : undefined) }
-        }
-export const scaleRule = (...props: string[]): Rule => numericRule((key) => Object.fromEntries(props.map((prop) => [prop, x4(key)])))
-export const callableScaleRule =
-        (...props: string[]): Rule =>
-        (state) => {
-                const read = (key: string) => (isNum(key) ? merge(state, Object.fromEntries(props.map((prop) => [prop, x4(key)]))) : undefined)
-                return { css: state.css, call: read, dark: state.dark, read, scope: state.scope, wraps: state.wraps }
-        }
-export const spacingRule = (...props: string[]): Rule =>
-        readRule((key) => {
-                const value = isNum(key) ? spacingValue(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
-                if (!value) return undefined
-                return Object.fromEntries(props.map((prop) => [prop, value]))
-        })
-export const splitSpacingRule = (numericProps: string[], valueProps: string[]): Rule =>
-        readRule((key) => {
-                const value = isNum(key) ? spacingValue(key) : isLength(key) ? key : key === 'auto' ? 'auto' : undefined
-                if (!value) return undefined
-                const props = isNum(key) ? numericProps : valueProps
-                return Object.fromEntries(props.map((prop) => [prop, value]))
-        })
-export const lengthRule = (prop: string, screen?: string): Rule =>
-        readRule((key) => {
-                const value = lengthValue(key, screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw'))
-                if (!value) return undefined
-                return { [prop]: value }
-        })
-export const sizeLengthRule = (prop: string, screen?: string): Rule =>
-        readRule((key) => {
-                const value = sizeValue(key, { none: true, screen: screen ?? (/height|Height|blockSize|BlockSize/.test(prop) ? '100vh' : '100vw') })
-                if (!value) return undefined
-                return { [prop]: value }
-        })
-export const colorRule = (prop: string): Rule =>
-        readRule((key, state) => {
-                const value = colorValue(key)
-                if (!value) return undefined
-                if (!state.dark) return { [prop]: value } as unknown as Rule
-                const scheme = prop === 'background' ? ({ colorScheme: 'light dark' } as unknown as Rule) : ({} as Rule)
-                return { ...scheme, [prop]: `light-dark(${state.css[prop] ?? 'initial'}, ${value})` }
-        }, true)
-export const positionRule = (...props: string[]): Rule =>
-        readRule((key) => {
-                const value = lengthValue(key)
-                if (!value) return undefined
-                return Object.fromEntries(props.map((prop) => [prop, value]))
-        })
-export const splitPositionRule = (numericProps: string[], valueProps: string[]): Rule =>
-        readRule((key) => {
-                const value = lengthValue(key)
-                if (!value) return undefined
-                const props = isNum(key) ? numericProps : valueProps
-                return Object.fromEntries(props.map((prop) => [prop, value]))
-        })
-export const insetRule: Rule = readRule((key) => {
-        const value = isNum(key) ? `${Number(key)}px` : lengthValue(key)
-        if (!value) return undefined
-        return { inset: value }
-})
-export const appendRule = (prop: string, fn: (key: string) => string | undefined): Rule =>
-        readRule((key, state) => {
-                const value = fn(key)
-                if (value === undefined) return undefined
-                const current = state.css[prop]
-                return { [prop]: current && current !== 'none' ? `${current} ${value}` : value }
-        })
-export const mediaRule = (value: string): Rule => variantRule(`media(width >= ${value})`)
-export const variantRule =
-        (value: string): Rule =>
-        (state) => ({ ...state, wraps: [...(state.wraps ?? []), value] })
-export const darkRule: Rule = (state) => ({ ...state, dark: true })
-export const splitRule: Rule = (state) => state
-export const flexRule: Rule = (state) => {
-        const next = merge(state, { display: 'flex' }, 'flex')
-        return { ...next, read: (key) => (isNum(key) ? merge(state, { flex: key }, 'flex') : undefined) }
-}
-export const borderWidthValue = (key: string) => {
-        if (isNum(key)) return `${Number(key)}px`
-        if (isLength(key)) return key === '0' ? '0px' : key
-        return undefined
-}
-export const borderRule: Rule = (state) => {
-        const next = merge(state, {}, 'border')
-        return {
-                ...next,
-                read: (key) => {
-                        const width = borderWidthValue(key)
-                        if (width) return merge(next, { borderWidth: width })
-                        const color = borderColorValue(key)
-                        if (!color) return undefined
-                        return merge(next, { borderColor: color })
+                apply(_1, _2, args) {
+                        return callback({ path, args, option })
                 },
+        })
+        return proxy
+}
+export const u = (name: string, dsl = '', option = 0, sem = name): any => {
+        roots[name] = dsl
+        sems[name] = sem
+        const callback: Callback = ({ path, args }) => {
+                const merged = args.find((a) => a && typeof a === 'object') ?? {}
+                const tail = args.find((a) => typeof a === 'number' || typeof a === 'string')
+                return merge(run(tail === undefined ? path : [...path, String(tail)]), merged)
+        }
+        return createProxy(callback, [name], option)
+}
+export const mk = (dict: string, src: string): any => {
+        const [keys, body] = expand(dict, src).split('\n')
+        const names = keys.split(',')
+        const segs = body.split(';;')
+        let i = 0
+        return () => {
+                const name = '$' + i
+                return u(name, segs[i], 0, names[i++] || name)
         }
 }
-export const borderSideRule =
-        (...props: string[]): Rule =>
-        (state) => {
-                const next = merge(state, {})
-                return {
-                        ...next,
-                        read: (key) => {
-                                const width = borderWidthValue(key)
-                                if (width) return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Width`, width])))
-                                const color = borderColorValue(key)
-                                if (!color) return undefined
-                                return merge(next, Object.fromEntries(props.map((prop) => [`${prop}Color`, color])))
-                        },
-                }
-        }
-export const splitBorderSideRule =
-        (numericProps: string[], valueProps: string[]): Rule =>
-        (state) => {
-                const next = merge(state, {})
-                return {
-                        ...next,
-                        read: (key) => {
-                                const width = borderWidthValue(key)
-                                if (width) return merge(next, Object.fromEntries((isNum(key) ? numericProps : valueProps).map((prop) => [`${prop}Width`, width])))
-                                const color = borderColorValue(key)
-                                if (!color) return undefined
-                                return merge(next, Object.fromEntries((colorLogicalKeys.has(key) ? valueProps : numericProps).map((prop) => [`${prop}Color`, color])))
-                        },
-                }
-        }
-export const outlineRule: Rule = (state) => {
-        const next = merge(state, {}, 'outline')
-        return {
-                ...next,
-                read: (key) => {
-                        const width = borderWidthValue(key)
-                        if (width) return merge(next, { outlineWidth: width })
-                        const color = colorValue(key)
-                        if (!color) return undefined
-                        return merge(next, { outlineColor: color })
-                },
-        }
-}
-export const divideRule =
-        (zeroProp: string, widthProp: string): Rule =>
-        (state) => {
-                const next = merge(state, childStyle({ [zeroProp]: '0px', [widthProp]: '1px' }), 'divide')
-                return {
-                        ...next,
-                        read: (key) => {
-                                const width = borderWidthValue(key)
-                                if (width) return merge(next, childStyle({ [zeroProp]: '0px', [widthProp]: width }))
-                                const color = borderColorValue(key)
-                                if (!color) return undefined
-                                return merge(next, childStyle({ borderColor: color }))
-                        },
-                }
-        }
-export const divideColorRule: Rule = readRule((key) => {
-        const color = borderColorValue(key)
-        if (!color) return undefined
-        return childStyle({ borderColor: color })
-}, true)
-export const childStyle = (css: RuntimeStyle): RuntimeStyle => ({ [childSelector]: css })
-export const columnsRule: Rule = readRule((key) => ({ gridTemplateColumns: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
-export const rowsRule: Rule = readRule((key) => ({ gridTemplateRows: isNum(key) ? `repeat(${Number(key)}, minmax(0, 1fr))` : key }))
-export const columnRule: Rule = readRule((key) => ({ gridColumn: isNum(key) ? `span ${key} / span ${key}` : key }))
-export const rowRule: Rule = readRule((key) => ({ gridRow: isNum(key) ? `span ${key} / span ${key}` : key }))
-export const roundedValue = (key: string) => {
-        if (key === 'full') return 'calc(infinity * 1px)'
-        if (key === 'none') return '0px'
-        if (isNum(key)) return x4(key)
-        if (isLength(key)) return key === '0' ? '0px' : key
-        return key
-}
-export const roundedRule =
-        (...props: string[]): Rule =>
-        (state) => {
-                const keys = props.length ? props : ['borderRadius']
-                const next = { ...state, scope: props.length ? undefined : 'rounded' }
-                return {
-                        ...next,
-                        read: (key) => {
-                                if (key === 'none' && keys.length > 1) return merge(next, Object.fromEntries(keys.map((prop, index) => [prop, index ? '0px' : '0'])))
-                                const value = roundedValue(key)
-                                if (!value) return undefined
-                                return merge(next, Object.fromEntries(keys.map((prop) => [prop, value])))
-                        },
-                }
-        }
-export const sizeRule = (prop: string, options: SizeValueOptions = {}): Rule =>
-        readRule((key) => {
-                const value = sizeValue(key, options)
-                if (!value) return undefined
-                return { [prop]: value }
-        })
-export const sizePropsRule = (props: string[], options: SizeValueOptions = {}): Rule =>
-        readRule((key) => {
-                const value = sizeValue(key, options)
-                if (!value) return undefined
-                return Object.fromEntries(props.map((prop) => [prop, value]))
-        })
-export const defaultSizeRule =
-        (css: RuntimeStyle, prop: string, scopeName?: string, options: SizeValueOptions = {}): Rule =>
-        (state) => {
-                const next = merge(state, css, scopeName)
-                return {
-                        ...next,
-                        read: (key) => {
-                                const value = sizeValue(key, options)
-                                if (!value) return undefined
-                                return merge(state, { [prop]: value }, scopeName)
-                        },
-                }
-        }
-export const opacityRule = (prop: string): Rule => numericRule((key) => ({ [prop]: `${key}%` }))
-export const transitionRule: Rule = readRule((key) => ({ transitionProperty: key, transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)', transitionDuration: '150ms' }))
-export const standaloneRule =
-        (entry: Entry): Rule =>
-        (state) =>
-                toRule(entry)({ ...state, css: {} })
-export const translateRule = (axis: 'X' | 'Y'): Rule =>
-        appendRule('transform', (key) => {
-                const value = lengthValue(key)
-                if (!value) return undefined
-                return `translate${axis}(${value})`
-        })
-export const individualTransformRule = (prop: string, unit = ''): Rule =>
-        readRule((key) => {
-                if (key === 'none') return { [prop]: 'none' }
-                if (!isNum(key)) return undefined
-                return { [prop]: `${key}${unit}` }
-        })
-export const scaleTransformRule: Rule = readRule((key) => {
-        if (key === 'none') return { scale: 'none' }
-        if (!isNum(key)) return undefined
-        return { scale: `${key}% ${key}%` }
-})
-export const skewRule: Rule = readRule((key) => {
-        if (!isNum(key)) return undefined
-        return { transform: `skewX(${key}deg) skewY(${key}deg)` }
-})
-export const transformRule = (name: string, unit = ''): Rule =>
-        appendRule('transform', (key) => {
-                if (key === 'none') return 'none'
-                if (!isNum(key)) return undefined
-                return `${name}(${key}${unit})`
-        })
-export const filterRule = (prop: string, name: string, unit = '', none = 'none'): Rule =>
-        appendRule(prop, (key) => {
-                if (key === 'none') return none
-                if (!isNum(key)) return undefined
-                return `${name}(${key}${unit})`
-        })
-export const defaultFilterRule =
-        (prop: string, name: string, value: string, unit = ''): Rule =>
-        (state) => {
-                const current = state.css[prop]
-                const nextValue = current && current !== 'none' ? `${current} ${name}(${value})` : `${name}(${value})`
-                const next = merge(state, { [prop]: nextValue })
-                return {
-                        ...next,
-                        read: (key) => {
-                                if (key === 'none') return merge(state, { [prop]: 'none' })
-                                if (!isNum(key)) return undefined
-                                const currentValue = state.css[prop]
-                                const keyedValue = `${name}(${key}${unit})`
-                                return merge(state, { [prop]: currentValue && currentValue !== 'none' ? `${currentValue} ${keyedValue}` : keyedValue })
-                        },
-                }
-        }
-export const textRule: Rule = (state) => ({
-        css: state.css,
-        dark: state.dark,
-        greedy: true,
-        read: (key) => {
-                if (isNum(key)) return merge(state, { fontSize: key })
-                const value = colorValue(key)
-                if (!value) return undefined
-                if (!state.dark) return merge(state, { color: value })
-                return merge(state, { color: `light-dark(${state.css.color ?? 'initial'}, ${value})` })
-        },
-        scope: 'text',
-        wraps: state.wraps,
-})

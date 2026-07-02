@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 
+export const dynamic = 'force-static'
+
 /**
  * ref:
  * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap

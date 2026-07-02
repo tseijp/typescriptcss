@@ -91,6 +91,8 @@ export type Argument = RuntimeStyle | string | number | null | undefined | false
 export type Rule = (state: State) => State
 export type State = { call?: (key: string) => State | undefined; css: RuntimeStyle; dark?: boolean; greedy?: boolean; read?: (key: string) => State | undefined; scope?: string; wraps?: string[] }
 export type C = Func & U & Native
+export type Chain = C
+export type Callback = (input: { path: string[]; args: any[]; option: number }) => any
 export type U = {
         absolute: C
         blur: C
@@ -102,8 +104,6 @@ export type U = {
         contents: C
         hidden: C
         inline: Inline
-        inlineBlock: C
-        inlineFlex: C
         grid: Grid
         flex: Flex
         table: Table
@@ -114,6 +114,7 @@ export type U = {
         isolation: Values
         isolate: C
         visibility: Values
+        forcedColorAdjust: Values
         visible: C
         invisible: C
         collapse: C
@@ -121,10 +122,6 @@ export type U = {
         active: C
         after: C
         aria: C
-        ariaChecked: C
-        ariaDisabled: C
-        ariaExpanded: C
-        ariaSelected: C
         atLg: C
         atMd: C
         atSm: C
@@ -132,12 +129,9 @@ export type U = {
         before: C
         checked: C
         child: C
-        contrastLess: C
-        contrastMore: C
         css: C
         dark: C
         data: C
-        dataActive: C
         descendant: C
         disabled: C
         empty: C
@@ -145,46 +139,27 @@ export type U = {
         even: C
         file: C
         first: C
-        firstLetter: C
-        firstLine: C
-        firstOfType: C
         focus: C
-        focusVisible: C
-        focusWithin: C
-        forcedColors: C
         group: C
-        groupFocus: C
-        groupHover: C
         has: C
         hover: C
         indeterminate: C
         invalid: C
         landscape: C
         last: C
-        lastOfType: C
         lg: C
         light: C
         ltr: C
         maxMd: C
         maxSm: C
         md: C
-        motionReduce: C
-        motionSafe: C
         odd: C
         only: C
-        onlyOfType: C
         optional: C
         peer: C
-        peerFocus: C
-        peerHover: C
         placeholder: C
-        placeholderShown: C
-        pointerCoarse: C
-        pointerFine: C
         portrait: C
-        prefersDark: C
         print: C
-        readOnly: C
         required: C
         rtl: C
         selection: C
@@ -231,7 +206,6 @@ export type U = {
         filter: FilterRoot
         flow: Flow
         font: Font
-        forcedColorAdjust: Values
         from: Color
         gap: Scale & ValueFunc & Axis<Scale & ValueFunc>
         grayscale: Filter
