@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { bg, flex, font, gap, inline, inlineBlock, leading, max, min, ml, p, px, py, text, w } from 'typescriptcss/src'
+import { bg, flex, font, gap, inline, leading, max, min, ml, p, px, py, text, w } from 'typescriptcss/src'
 import { cardSheen, color, fontMono } from '@/styles'
 import AnimatedIcon from '@/_atoms/animated-icon'
 
@@ -30,8 +30,8 @@ export default function Home() {
                         <section style={py[20].w.full.max.w[240].gap[6].flex.col.items.center.backgroundImage['radial-gradient(60% 50% at 50% 0%, rgba(34,211,238,0.12) 0%, transparent 70%)']()}>
                                 <span style={px[3].py[1].text[3].text[color.cyan].gap[2].flex.items.center.fontFamily[fontMono].rounded.full.border[color.border]()}>v0.1 — TypeScript-authored styles</span>
                                 <h1 style={max.w[208].lineHeight['1.05'].letterSpacing['-0.03em'].font.semibold.text[14].text[color.text].text.center()}>
-                                        <span style={inlineBlock()}>Write your styles in TypeScript.</span>
-                                        <span style={inlineBlock()}>Ship them as CSS.</span>
+                                        <span style={inline.block()}>Write your styles in TypeScript.</span>
+                                        <span style={inline.block()}>Ship them as CSS.</span>
                                 </h1>
                                 <p style={max.w[160].leading[8].fontSize['19px'].text[color.muted].text.center()}>typescriptcss turns Tailwind-like utility chains into a real stylesheet at build time — type-checked, deduplicated, and rendered on the server with no runtime.</p>
                                 <div style={py[2].gap[3].flex()}>
